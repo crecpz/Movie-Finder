@@ -2,7 +2,11 @@
 https://developers.themoviedb.org/3/movies/get-popular-movies
 
 #### 影片 
+01:
 https://youtu.be/KveKdXSEV7A?t=621
+
+02:
+https://www.youtube.com/watch?v=1eO_hNYzaSc
 
 #### URL
 API_URL="https://api.themoviedb.org/3/movie/550?api_key=e86818f56e7d92f357708ecb03052800"
