@@ -1,0 +1,23 @@
+// color 
+$color:(
+  primary: #fff,
+  secondary: #000,
+);
+
+
+// text
+$text: (
+  size: (
+    xs: .875rem,
+    normal: 1rem,
+    base: 1.125rem,
+    sm: 1.25rem,
+    md: 1.5rem,
+    lg: 1.75rem,
+    xl: 2rem,
+    xxl: 2.25rem
+  ),
+  // spacing:(
+  //   base:  0.15em,
+  // ),
+);

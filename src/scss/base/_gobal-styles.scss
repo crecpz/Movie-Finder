@@ -1,0 +1,24 @@
+@use "../abstracts" as *;
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+    box-sizing: inherit;
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+body {
+    color: deep-map-get($color, primary);
+    background-color: black;
+    font-family: "Roboto", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: deep-map-get($color, primary);
+}

@@ -1,0 +1,25 @@
+@use "./function" as *;
+@use "./break-point" as *;
+@use "./map" as *;
+
+@mixin flex($dir: row, $jc: flex-start, $ai: stretch, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $jc;
+  align-items: $ai;
+  flex-wrap: $wrap;
+}
+
+@mixin rounded-full{
+  border-radius: 50%;
+}
+
+@mixin button-reset {
+  background-color: transparent;
+  border: 0;
+}
+
+// 用於設定文字大小
+@mixin text($size) {
+  font-size: deep-map-get($text, size, $size);
+}

@@ -1,0 +1,34 @@
+@use "../abstracts" as *;
+
+.header {
+  @include flex($ai: center);
+  flex: 1 0 auto;
+  padding: 1.5rem 2rem;
+  background-color: black;
+
+  &__logo {
+    @include text(xl);
+    font-weight: bold;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+
+}
+
+.nav {
+  @include flex($ai: center);
+  flex: 1 0 auto;
+  margin-left: 1rem;
+
+  &__link {
+    @include text(base);
+    margin-left: 1rem;
+
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+}

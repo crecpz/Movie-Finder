@@ -1,0 +1,45 @@
+@use "../abstracts" as *;
+
+// @ 
+
+.carousel {
+  position: relative;
+  display: block;
+  text-align: left;
+
+  &__img {
+    position: relative;
+    display: block;
+    width: 100%;
+    background-color: red;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+      width: 100%;
+      height: 50%;
+      z-index: 5;
+    }
+  }
+
+  &__info {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+  }
+
+  &__title {
+    @include text(xxl);
+  }
+
+  &__release {
+  }
+  &__vote {
+  }
+  &__overview {
+  }
+}

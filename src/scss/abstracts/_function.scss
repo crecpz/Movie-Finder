@@ -1,0 +1,34 @@
+// ---------------------------------------------------------
+// deep-map-get
+// Get a value from nested map by the keys
+//
+// Required arguments:
+// `$map` Map
+// `$keys` String(s)
+//
+// Example of use:
+// $myMap:(
+//  layer1:(
+//   layer2:(
+//    layer3:(
+//     #fff
+//    ),
+//   ),
+//  ),
+// );
+//
+// deep-map-get($myMap, layer1, layer2, layer3) // #fff
+//
+// @return Unspecified (it may return anything as a result)
+// ---------------------------------------------------------
+@function deep-map-get ($map, $keys...) {
+  @if type-of($map) != 'map' {
+    @error 'The argument $map: `#{$map}` is of incorrect type: `#{type-of($map)}`. Type of `Map` is required!';
+  }
+
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+
+  @return $map;
+}
