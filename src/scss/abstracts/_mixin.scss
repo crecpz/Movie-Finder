@@ -17,6 +17,7 @@
 @mixin button-reset {
   background-color: transparent;
   border: 0;
+  padding: 0;
 }
 
 // 用於設定文字大小

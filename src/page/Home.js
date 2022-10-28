@@ -13,7 +13,6 @@ const Home = () => {
       .then((res) => res.json())
       .then((data) => setMovies(data.results));
   }, []);
-  // console.log(movies);
 
   const carouselElements = movies.map(
     ({
@@ -33,13 +32,15 @@ const Home = () => {
               alt="movie-backdrop"
             />
           </div>
-          <div className="carousel__info">
+          <div className="carousel__text">
             <h2 className="carousel__title">{original_title}</h2>
-            <p className="carousel__release-date">{release_date}</p>
-            <p className="carousel__vote">
-              {vote_average}
-              <i class="fa-solid fa-star"></i>
-            </p>
+            <div className="carousel__info">
+              <p className="carousel__release-date">{release_date}</p>
+              <p className="carousel__vote">
+                {vote_average}
+                <i class="fa-solid fa-star"></i>
+              </p>
+            </div>
             <p className="carousel__overview">{overview}</p>
           </div>
         </Link>
@@ -47,12 +48,20 @@ const Home = () => {
     }
   );
 
-  console.log(carouselElements);
-
   return (
-    <>
-      <Carousel showThumbs={false}>{carouselElements}</Carousel>
-    </>
+    <section className="banner">
+      <Carousel
+        showThumbs={false}
+        autoPlay={true}
+        transitionTime={3}
+        infiniteLoop={true}
+        showStatus={false}
+        // centerMode={true}
+        // centerSlidePercentage={100}
+      >
+        {carouselElements}
+      </Carousel>
+    </section>
   );
 };
 
