@@ -22,3 +22,20 @@ a {
     text-decoration: none;
     color: deep-map-get($color, primary);
 }
+
+img {
+    vertical-align: middle;
+}
+
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: map-get($spacing, lg);
+    padding-right: map-get($spacing, lg);
+
+    @include sm {
+        padding-left: map-get($spacing, sm);
+        padding-right: map-get($spacing, sm);
+    }
+}

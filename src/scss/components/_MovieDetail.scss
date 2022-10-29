@@ -1,0 +1,86 @@
+@use "../abstracts" as *;
+
+.movie-detail {
+  @include flex($ai: center);
+  position: relative;
+  // height: 80vh;
+
+  &__backdrop {
+    position: absolute;
+    // position: relative;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+    width: 100%;
+    // height: 80vh;
+    max-height: 80vh;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.033), rgb(0, 0, 0));
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+    }
+  }
+
+  &__intro {
+    @include flex($ai: start);
+    max-width: 1000px;
+    margin-left: 6rem;
+
+    @include lg {
+      margin-left: 5rem;
+    }
+    @include md {
+      margin-left: map-get($spacing, lg);
+    }
+    @include sm {
+      padding-left: map-get($spacing, sm);
+    }
+  }
+
+  &__poster {
+    border-radius: 15px;
+    width: 100%;
+    max-width: 250px;
+    border-radius: map-get($border-radius, base);
+  }
+
+  &__texts {
+    margin-left: 4rem;
+  }
+
+  &__title {
+    @include text(6xl);
+
+    @include lg {
+      @include text(5xl);
+    }
+
+    @include sm {
+      @include text(4xl);
+    }
+  }
+
+  &__info {
+  }
+  &__release-date {
+  }
+  &__vote {
+  }
+  &__overview {
+  }
+  &__genres {
+  }
+  &__trailer {
+  }
+}

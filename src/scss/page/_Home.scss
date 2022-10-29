@@ -25,11 +25,19 @@
     width: 100%;
     height: calc(100vh - 90px);
 
-    > img{
+    .carousel__backdrop{
       @include sm {
+        display: none;
         height: calc(100vh - 90px);
         object-fit: cover;
         object-position: left;
+      }
+    }
+
+    .carousel__poster{
+      display: none;
+      @include sm {
+        display: inline-block;
       }
     }
 
@@ -60,7 +68,6 @@
     height: 100%;
     max-width: 50rem;
     margin-left: 6rem;
-    // margin-bottom: 80px;
     padding-bottom: 6rem;
 
     @include lg {
@@ -78,6 +85,7 @@
       margin-left: 0;
       padding-left: map-get($spacing, sm);
       padding-right: map-get($spacing, sm);
+      padding-bottom: 3rem;
     }
   }
 
@@ -87,6 +95,10 @@
         
     @include lg {
       @include text(5xl);
+    }
+
+    @include sm {
+      @include text(4xl);
     }
   }
 

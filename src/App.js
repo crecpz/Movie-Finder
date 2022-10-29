@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FilmCard from "./components/FilmCard";
 import Header from "./components/Header";
+import MovieList from "./components/MovieCards";
+import MovieDetail from "./components/MovieDetail";
 import Home from "./page/Home"
 
 
@@ -16,6 +18,7 @@ function App() {
   // const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800";
   const API_URL =
     "https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc";
+
   // const [movies, setMovies] = useState([]);
 
   // useEffect(() => {
@@ -27,15 +30,14 @@ function App() {
   // const movieCardElements = movies.map((movieData) => {
   //   return <FilmCard key={movieData.id} {...movieData} />;
   // });
-
   return (
     <div className="App">
       <Router>
         <Header />
         <Routes>
           <Route index element={<Home />}></Route>
-          <Route path="movie/:id" element={<h1>單頁電影細節葉面</h1>}></Route>
-          <Route path="movies/:type" element={<h1>3</h1>}></Route>
+          <Route path="movie/:id" element={<MovieDetail />}></Route>
+          <Route path="movies/:type" element={<MovieList />}></Route>
           <Route path="/watchlist" element={<h1>watchlist</h1>}></Route>
           <Route path="/*" element={<h1>not found</h1>}></Route>
         </Routes>
