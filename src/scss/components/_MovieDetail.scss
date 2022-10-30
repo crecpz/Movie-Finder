@@ -37,6 +37,7 @@
     max-width: 1000px;
     margin-left: 6rem;
 
+
     @include lg {
       margin-left: 5rem;
     }
@@ -56,6 +57,8 @@
   }
 
   &__texts {
+    @include flex($dir: column);
+    row-gap: 1rem;
     margin-left: 4rem;
   }
 
@@ -72,15 +75,39 @@
   }
 
   &__info {
+    @include flex();
   }
+
   &__release-date {
   }
+
   &__vote {
+    margin-left: 1.5rem;
+
+    i {
+      margin-left: .5rem;
+    }
   }
+
   &__overview {
+    @include text(xl);
+
+    @include sm {
+      @include text(lg);
+    }
   }
+
   &__genres {
   }
+  
   &__trailer {
+  }
+
+  &__add-btn{
+    align-self: flex-start;
+
+    i {
+      margin-right: 1rem;
+    }
   }
 }

@@ -1,7 +1,9 @@
 // color
 $color: (
   primary: #fff,
+
   secondary: #000,
+  secondary-hover:#3d3d3d,
 );
 
 // text
@@ -33,4 +35,12 @@ $spacing: (
 // border-radius
 $border-radius:(
   base: 10px,
+);
+
+
+$transition:(
+  150: 150ms ease-in-out,
+  300: 300ms ease-in-out,
+  500: 500ms ease-in-out,
+  800: 800ms ease-in-out,
 );

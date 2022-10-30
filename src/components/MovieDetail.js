@@ -55,6 +55,9 @@ const MovieDetail = () => {
           </p>
           <span className="movie-detail__genres"></span>
           <div className="movie-detail__trailer"></div>
+          <button className="movie-detail__add-btn btn btn--black btn--lg ">
+            <i className="fa-solid fa-plus"></i>Add Watchlist
+          </button>
         </div>
       </div>
     </div>
