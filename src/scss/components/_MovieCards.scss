@@ -20,7 +20,8 @@
 
 .movie-card-link{
   display: inline-block;
-  max-width: 18%;
+  // max-width: 18%;
+  max-width: 14%;
   flex: 1 0 100%;
 
   @include xl {

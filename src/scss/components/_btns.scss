@@ -3,23 +3,31 @@
 .btn {
   @include button-reset();
   cursor: pointer;
+  font-weight: bold;
+  transition: map-get($transition, 150);
+  transition-property: color, background-color;
 
   &--lg {
+    @include text(xl);
     padding: 1rem 2rem;
+    border-radius: map-get($border-radius, base);
   }
 
   &--black {
-    @include text(xl);
-    font-weight: bold;
     background-color: map-get($color, secondary);
     color: map-get($color, primary);
-    border-radius: map-get($border-radius, base);
-    transition: map-get($transition, 150);
-    // transition: 250ms ease-in-out;
-    transition-property: color, background-color;
 
     &:hover {
-      background-color: map-get($color, secondary-hover);
+      @include hover-bg-color(map-get($color, secondary));
+    }
+  }
+
+  &--red {
+    background-color: map-get($color, tertiary);
+    color: map-get($color, primary);
+
+    &:hover {
+      @include hover-bg-color(map-get($color, tertiary))
     }
   }
 }

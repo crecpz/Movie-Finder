@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import MovieDetail from "./MovieDetail";
+
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 const MovieCard = ({ movie }) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-  return (
-    <Link to={`/movie/${movie && movie.id}`} className="movie-card-link">
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    // console.log(containerRef.current)
+  }, []);
+  // console.log(cardRef && cardRef.current.clientWidth)
+
+  // console.log(cardRef.current.clientWidth)
+
+  return isLoading ? (
+    <div className="movie-card-link">
+      <SkeletonTheme baseColor="#202020" highlightColor="#444">
+        <Skeleton />
+      </SkeletonTheme>
+    </div>
+  ) : (
+    <Link to={`/movie/${movie && movie.id}`} className="movie-card-link" >
       <div className="movie-card">
         <img
           className="movie-card__img"
@@ -23,7 +46,6 @@ const MovieCard = ({ movie }) => {
               <i className="fa-solid fa-star"></i>
             </p>
           </div>
-          {/* <p className="movie-card__overview">{movie && movie.overview}</p> */}
         </div>
       </div>
     </Link>

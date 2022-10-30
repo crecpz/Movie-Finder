@@ -17,7 +17,7 @@
   }
 }
 
-@mixin rounded-full{
+@mixin rounded-full {
   border-radius: 50%;
 }
 
@@ -30,4 +30,13 @@
 // 用於設定文字大小
 @mixin text($size) {
   font-size: deep-map-get($text, size, $size);
+}
+
+// 放入基本顏色，並以該顏色為基礎，將其暗化 20%，若其已經是最暗，則亮化 20%
+@mixin hover-bg-color($current-bg-color) {
+  @if (darken($current-bg-color, 20) == $current-bg-color) {
+    background-color: lighten($current-bg-color, 20);
+  } @else {
+    background-color: darken($current-bg-color, 20);
+  }
 }

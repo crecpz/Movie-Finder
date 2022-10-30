@@ -1,14 +1,35 @@
 @use "../abstracts" as *;
 
+.t {
+  position: fixed;
+  inset: 0;
+  width: 500px;
+  height: 500px;
+  background-color: rebeccapurple;
+  display: none;
+
+  &--open {
+    display: block;
+  }
+}
+
 .movie-detail {
-  @include flex($ai: center);
+  // @include flex($ai: center);
   position: relative;
   // height: 80vh;
 
+  &__intro{
+    display: grid;
+    align-items: center;
+  }
+
   &__backdrop {
-    position: absolute;
+    grid-row: 1/2;
+    grid-column: 1/2;
+    // position: absolute;
     // position: relative;
-    top: 0;
+    // top: 0;
+    position: relative;
     z-index: -1;
     overflow: hidden;
     width: 100%;
@@ -17,7 +38,7 @@
 
     img {
       width: 100%;
-      height: 100%;
+      // height: 100%;
     }
 
     &::before {
@@ -32,11 +53,12 @@
     }
   }
 
-  &__intro {
-    @include flex($ai: start);
+  &__content {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    @include flex($ai: center);
     max-width: 1000px;
     margin-left: 6rem;
-
 
     @include lg {
       margin-left: 5rem;
@@ -52,7 +74,7 @@
   &__poster {
     border-radius: 15px;
     width: 100%;
-    max-width: 250px;
+    max-width: 300px;
     border-radius: map-get($border-radius, base);
   }
 
@@ -60,6 +82,7 @@
     @include flex($dir: column);
     row-gap: 1rem;
     margin-left: 4rem;
+    height: 100%;
   }
 
   &__title {
@@ -85,7 +108,7 @@
     margin-left: 1.5rem;
 
     i {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
   }
 
@@ -99,15 +122,34 @@
 
   &__genres {
   }
-  
+
   &__trailer {
   }
 
-  &__add-btn{
+  &__btns {
+    @include flex;
+    justify-self: flex-end;
+  }
+
+  &__btn {
+    &:not(:first-child) {
+      margin-left: 1rem;
+    }
+
     align-self: flex-start;
 
     i {
       margin-right: 1rem;
     }
+  }
+
+  &__iframe{
+    // width: 100%;
+    // height: 100%;
+  }
+
+
+  &__similar{
+    padding-bottom: 2rem;
   }
 }

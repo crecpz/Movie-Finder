@@ -1,9 +1,10 @@
+@use "./break-point" as *;
+
 // color
 $color: (
   primary: #fff,
-
   secondary: #000,
-  secondary-hover:#3d3d3d,
+  tertiary: red,
 );
 
 // text
@@ -43,4 +44,11 @@ $transition:(
   300: 300ms ease-in-out,
   500: 500ms ease-in-out,
   800: 800ms ease-in-out,
+);
+
+$max-width:(
+  default: 1600px,
+  xl: $lg,
+  lg: $md,
+  md: $sm
 );

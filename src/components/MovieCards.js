@@ -5,7 +5,6 @@ import MovieCard from "./MovieCard";
 const MovieCards = () => {
   const [movies, setMovies] = useState([]);
   const { type } = useParams();
-
   let API_URL = "";
 
   useEffect(() => getMovieData(), []);
@@ -45,7 +44,9 @@ const MovieCards = () => {
 
   return (
     <div className="movie-cards">
-      <div className="container">{movieCardElements}</div>
+      <div className="container">
+        {movieCardElements}
+      </div>
     </div>
   );
 };

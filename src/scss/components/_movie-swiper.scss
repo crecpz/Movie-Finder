@@ -1,0 +1,58 @@
+@use "../abstracts" as *;
+
+.swiper {
+  user-select: none;
+  
+  // 蓋過權重
+  .swiper-pagination{
+    bottom: -8px;
+  }
+
+  &-pagination-bullet{
+    background-color: map-get($color, primary);
+  }
+
+  &-button{
+    &-prev,&-next {
+      color: map-get($color, primary);
+      top: 40%;
+    }
+  }
+}
+
+
+.movie-swiper {
+  width: 100%;
+  max-width: map-get($max-width, default);
+  margin: 0 auto;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  margin-top: .5rem;
+
+  &__title {
+    @include text(4xl);
+  }
+}
+
+.sm-swiper {
+  width: 100%;
+
+  &__img-link {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: map-get($border-radius, base);
+  }
+
+  &__title-link {
+    display: inline-block;
+    margin-top: .5rem;
+  }
+
+  &__backdrop {
+    width: 100%;
+    // width: 300px;
+  }
+  &__name {
+    @include text(xl);
+  }
+}
