@@ -8,17 +8,25 @@
   padding-top: 3rem;
   padding-bottom: 3rem;
 
-  .container {
+  &__wrapper {
     @include flex($jc: start, $wrap: wrap);
+    margin-top: 4rem;
     gap: 1.5rem;
 
     @include md {
       justify-content: center;
     }
   }
+
+  &__title{
+
+  }
+
+  .container {
+  }
 }
 
-.movie-card-link{
+.movie-card-link {
   display: inline-block;
   // max-width: 18%;
   max-width: 14%;
@@ -43,7 +51,7 @@
 
 .movie-card {
   $block: &;
-  position: relative;;
+  position: relative;
   border-radius: map-get($border-radius, base);
   cursor: pointer;
   overflow: hidden;
@@ -62,7 +70,7 @@
     transition: all 300ms ease-in-out;
   }
 
-  @include hover-query(){
+  @include hover-query() {
     &:hover {
       z-index: 20;
       transform: scale(1.25);

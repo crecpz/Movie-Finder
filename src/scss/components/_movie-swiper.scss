@@ -15,7 +15,7 @@
   &-button{
     &-prev,&-next {
       color: map-get($color, primary);
-      top: 40%;
+      top: 4.6875rem;
     }
   }
 }
@@ -24,14 +24,8 @@
 .movie-swiper {
   width: 100%;
   max-width: map-get($max-width, default);
-  margin: 0 auto;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  margin-top: .5rem;
-
-  &__title {
-    @include text(4xl);
-  }
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .sm-swiper {

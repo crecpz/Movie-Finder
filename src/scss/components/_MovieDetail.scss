@@ -1,24 +1,10 @@
 @use "../abstracts" as *;
 
-.t {
-  position: fixed;
-  inset: 0;
-  width: 500px;
-  height: 500px;
-  background-color: rebeccapurple;
-  display: none;
-
-  &--open {
-    display: block;
-  }
-}
-
 .movie-detail {
   // @include flex($ai: center);
   position: relative;
-  // height: 80vh;
 
-  &__intro{
+  &__intro {
     display: grid;
     align-items: center;
   }
@@ -26,19 +12,18 @@
   &__backdrop {
     grid-row: 1/2;
     grid-column: 1/2;
-    // position: absolute;
-    // position: relative;
-    // top: 0;
     position: relative;
     z-index: -1;
     overflow: hidden;
     width: 100%;
-    // height: 80vh;
     max-height: 80vh;
+
+    @include lg {
+      align-self: start;
+    }
 
     img {
       width: 100%;
-      // height: 100%;
     }
 
     &::before {
@@ -54,20 +39,32 @@
   }
 
   &__content {
+    @include flex();
     grid-column: 1/2;
     grid-row: 1/2;
-    @include flex($ai: center);
-    max-width: 1000px;
-    margin-left: 6rem;
+    // height: 100%;
 
     @include lg {
-      margin-left: 5rem;
+      margin-top: 8rem;
     }
+
     @include md {
-      margin-left: map-get($spacing, lg);
+      // margin-left: map-get($spacing, lg);
     }
     @include sm {
-      padding-left: map-get($spacing, sm);
+      // padding-left: map-get($spacing, sm);
+    }
+
+    .container {
+      @include flex($ai: center);
+
+      @include xxl {
+        // padding-left: map-get($spacing, lg);
+      }
+
+      @include lg {
+        flex-direction: column;
+      }
     }
   }
 
@@ -76,19 +73,28 @@
     width: 100%;
     max-width: 300px;
     border-radius: map-get($border-radius, base);
+
+    @include lg {
+    }
   }
 
   &__texts {
-    @include flex($dir: column);
+    @include flex($dir: column, $jc: center);
     row-gap: 1rem;
     margin-left: 4rem;
     height: 100%;
+    max-width: 56.25rem;
+
+    @include lg {
+      margin-left: 0rem;
+      margin-top: 3rem;
+    }
   }
 
   &__title {
     @include text(6xl);
 
-    @include lg {
+    @include xxl {
       @include text(5xl);
     }
 
@@ -97,23 +103,55 @@
     }
   }
 
+  &__genres-wrapper {
+    @include flex($wrap: wrap);
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+  }
+
+  &__genres {
+    @include text(sm);
+    white-space: nowrap;
+    border-radius: 30px;
+    padding: 0.25rem 0.8rem;
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    border: 1px solid map-get($color, primary);
+
+    @include sm {
+      // padding: 0.25rem 0.8rem;
+    }
+  }
+
   &__info {
     @include flex();
+    column-gap: 1.5rem;
+    margin-top: 1rem;
   }
 
   &__release-date {
   }
 
   &__vote {
-    margin-left: 1.5rem;
-
     i {
       margin-left: 0.5rem;
     }
   }
 
+  &__runtime {
+  }
+
   &__overview {
     @include text(xl);
+
+    // @ 如果需要限制行數，解除註解
+    // overflow: hidden;
+    // display: -webkit-box;
+    // -webkit-line-clamp: 3; /* 行數 */
+    // -webkit-box-orient: vertical;
+    // white-space: normal;
+    // text-overflow: ellipsis;
 
     @include sm {
       @include text(lg);
@@ -123,17 +161,21 @@
   &__genres {
   }
 
-  &__trailer {
-  }
-
+  // * 按鈕 (Watch Trailer & Add Watchlist)
   &__btns {
     @include flex;
-    justify-self: flex-end;
+    margin-top: 1rem;
   }
 
   &__btn {
     &:not(:first-child) {
       margin-left: 1rem;
+    }
+
+    @include lg {
+      &.btn--black {
+        border: 1px solid map-get($color, primary);
+      }
     }
 
     align-self: flex-start;
@@ -143,13 +185,29 @@
     }
   }
 
-  &__iframe{
-    // width: 100%;
-    // height: 100%;
+  // * Trailer (預告)
+  &__trailer {
+    margin-top: 4rem;
   }
 
+  &__video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+  }
 
-  &__similar{
+  &__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  // * Similar Movies (相似電影)
+  &__similar {
+    margin-top: 4rem;
     padding-bottom: 2rem;
   }
 }

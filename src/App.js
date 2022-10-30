@@ -14,22 +14,9 @@ import Home from "./page/Home"
 */
 
 function App() {
-  // 前 20 個熱門電影
-  // const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800";
   const API_URL =
     "https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc";
 
-  // const [movies, setMovies] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(API_URL)
-  //     .then((res) => res.json())
-  //     .then((data) => setMovies(data.results));
-  // }, []);
-
-  // const movieCardElements = movies.map((movieData) => {
-  //   return <FilmCard key={movieData.id} {...movieData} />;
-  // });
   return (
     <div className="App">
       <Router>

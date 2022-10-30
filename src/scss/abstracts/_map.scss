@@ -1,4 +1,3 @@
-@use "./break-point" as *;
 
 // color
 $color: (
@@ -47,8 +46,8 @@ $transition:(
 );
 
 $max-width:(
-  default: 1600px,
-  xl: $lg,
-  lg: $md,
-  md: $sm
+  default: 1700px,
+  xl: 1200px,
+  lg: 960px,
+  md: 740px,
 );

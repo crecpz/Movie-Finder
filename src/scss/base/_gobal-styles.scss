@@ -26,31 +26,3 @@ a {
 img {
     vertical-align: middle;
 }
-
-.container {
-    width: 100%;
-    max-width: map-get($max-width, default);
-    margin: 0 auto;
-    padding-left: map-get($spacing, lg);
-    padding-right: map-get($spacing, lg);
-
-    @include xl{
-        max-width: map-get($max-width, default);
-    }
-
-    @include lg{
-        max-width: map-get($max-width, lg);
-    }
-    
-    @include md{
-    max-width: map-get($max-width, md);
-
-    }
-
-    @include sm {
-        max-width: map-get($max-width, sm);
-
-        padding-left: map-get($spacing, sm);
-        padding-right: map-get($spacing, sm);
-    }
-}

@@ -32,8 +32,8 @@ const Header = () => {
         <i className="fa-solid fa-bars"></i>
       </button>
       <nav ref={navRef} className={`nav${navIsOpen ? " nav--open" : ""}`}>
-        <Link to="/movies/in_theaters" className="nav__link">
-          In theaters
+        <Link to="/movies/this-month" className="nav__link">
+        This Month
         </Link>
         <Link to="/movies/popular" className="nav__link">
           Popular

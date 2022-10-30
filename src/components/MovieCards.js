@@ -10,7 +10,7 @@ const MovieCards = () => {
   useEffect(() => getMovieData(), []);
 
   switch (type) {
-    case "in_theaters":
+    case "this-month":
       const firstDate = getFirstDayAndLastDayOfMonth()[0];
       const lastDate = getFirstDayAndLastDayOfMonth()[1];
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=${firstDate}&primary_release_date.lte=${lastDate}`;
@@ -45,7 +45,8 @@ const MovieCards = () => {
   return (
     <div className="movie-cards">
       <div className="container">
-        {movieCardElements}
+        <h3 className="layout-title">This Month</h3>
+        <div className="movie-cards__wrapper">{movieCardElements}</div>
       </div>
     </div>
   );
