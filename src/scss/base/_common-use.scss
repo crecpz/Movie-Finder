@@ -7,17 +7,16 @@
     padding-left: map-get($spacing, lg);
     padding-right: map-get($spacing, lg);
 
-    @include xl{
+    @include xl {
         max-width: map-get($max-width, default);
     }
 
-    @include lg{
+    @include lg {
         max-width: map-get($max-width, lg);
     }
-    
-    @include md{
-    max-width: map-get($max-width, md);
 
+    @include md {
+        max-width: map-get($max-width, md);
     }
 
     @include sm {
@@ -28,10 +27,14 @@
     }
 }
 
-
 .layout-title {
-  @include text(4xl);
-  margin-bottom: 1rem;
+    @include text(3xl);
+    margin-bottom: 1rem;
 
-  // @include 
+    // @include
+}
+
+.placeholder-text{
+    @include text(2xl);
+    margin-top: 2rem;
 }

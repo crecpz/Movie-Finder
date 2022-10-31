@@ -6,6 +6,7 @@ import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { getData } from "../functions/function";
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -16,11 +17,6 @@ const MovieDetail = () => {
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const TRAILER_URL = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
-
-  const trailerKey =
-    trailer.results &&
-    trailer.results.find(({ type }) => type === "Trailer" || type === "Teaser")
-      .key;
 
   useEffect(() => {
     getData(CURRENT_DETAIL_URL, setCurrentMovie);
@@ -34,6 +30,14 @@ const MovieDetail = () => {
     getData(TRAILER_URL, setTrailer);
     window.scrollTo(0, 0);
   }, [id]);
+
+  const trailerKey =
+    trailer.results &&
+    trailer.results.find(({ type }) => type === "Trailer" || type === "Teaser")
+      ? trailer.results.find(
+          ({ type }) => type === "Trailer" || type === "Teaser"
+        ).key
+      : "";
 
   const similarMovieElements =
     similarMovies.results &&
@@ -63,12 +67,6 @@ const MovieDetail = () => {
         </SwiperSlide>
       );
     });
-
-  function getData(url, setState) {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setState(data));
-  }
 
   // fetch(CURRENT_DETAIL_URL)
   // .then((res) => res.json())
@@ -139,14 +137,21 @@ const MovieDetail = () => {
       <div className="movie-detail__trailer">
         <div className="container">
           <h3 className="layout-title">Trailer</h3>
-          <div className="movie-detail__video-container">
-            <iframe
-              className="movie-detail__video"
-              src={`https://www.youtube.com/embed/${trailerKey}`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen></iframe>
+          <div
+            className={`movie-detail__video-container ${
+              trailerKey ? "" : "movie-detail__video-container--no-video"
+            }`}>
+            {trailerKey ? (
+              <iframe
+                className="movie-detail__video"
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen></iframe>
+            ) : (
+              <p className="placeholder-text">No Trailer!</p>
+            )}
           </div>
         </div>
       </div>

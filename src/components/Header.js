@@ -24,7 +24,9 @@ const Header = () => {
   return (
     <header className="header">
       <Link to="/" className="header__logo">
-        <h1><i className="fa-solid fa-film"></i>Movie Finder</h1>
+        <h1>
+          <i className="fa-solid fa-film"></i>Movie Finder
+        </h1>
       </Link>
       <button
         className="header__menu-btn"
@@ -32,8 +34,11 @@ const Header = () => {
         <i className="fa-solid fa-bars"></i>
       </button>
       <nav ref={navRef} className={`nav${navIsOpen ? " nav--open" : ""}`}>
-        <Link to="/movies/this-month" className="nav__link">
-        This Month
+        <Link to="/" className="nav__link">
+          Home
+        </Link>
+        <Link to="/movies/new" className="nav__link">
+          New
         </Link>
         <Link to="/movies/popular" className="nav__link">
           Popular

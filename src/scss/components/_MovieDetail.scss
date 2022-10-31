@@ -19,7 +19,7 @@
     max-height: 80vh;
 
     @include lg {
-      align-self: start;
+      align-self: flex-start;
     }
 
     img {
@@ -194,6 +194,10 @@
     position: relative;
     width: 100%;
     padding-bottom: 56.25%;
+
+    &--no-video{
+      padding-bottom: 0;
+    }
   }
 
   &__video {

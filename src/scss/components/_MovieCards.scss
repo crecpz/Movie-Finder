@@ -9,7 +9,7 @@
   padding-bottom: 3rem;
 
   &__wrapper {
-    @include flex($jc: start, $wrap: wrap);
+    @include flex($jc: flex-start, $wrap: wrap);
     margin-top: 4rem;
     gap: 1.5rem;
 

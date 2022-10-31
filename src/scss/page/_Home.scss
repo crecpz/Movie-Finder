@@ -103,7 +103,7 @@
   }
 
   &__info{
-    @include flex($jc: start);
+    @include flex($jc: flex-start);
     @include text(3xl);
     font-weight: bold;
     

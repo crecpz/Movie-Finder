@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import FilmCard from "./components/FilmCard";
 import Header from "./components/Header";
 import MovieList from "./components/MovieCards";
-import MovieDetail from "./components/MovieDetail";
 import Home from "./page/Home"
+import MovieDetail from "./page/MovieDetail";
 
-
-/*
-他把範例網址特定的搜尋 id 拿掉(550?) 換成 popular (可以上去搜尋 popular 就可以得到這個方法)
-他應該打算將此渲染出來
-
-*/
+// ! 記得處理 not-found
 
 function App() {
   const API_URL =

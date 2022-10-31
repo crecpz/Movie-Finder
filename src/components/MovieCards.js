@@ -10,7 +10,7 @@ const MovieCards = () => {
   useEffect(() => getMovieData(), []);
 
   switch (type) {
-    case "this-month":
+    case "new":
       const firstDate = getFirstDayAndLastDayOfMonth()[0];
       const lastDate = getFirstDayAndLastDayOfMonth()[1];
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=${firstDate}&primary_release_date.lte=${lastDate}`;
@@ -42,10 +42,19 @@ const MovieCards = () => {
     return <MovieCard movie={movie} />;
   });
 
+  function capitalize(str) {
+    return str
+      .split("-")
+      .map((str) => str[0].toUpperCase() + str.substring(1))
+      .join(" ");
+  }
+
   return (
     <div className="movie-cards">
       <div className="container">
-        <h3 className="layout-title">This Month</h3>
+        <h3 className="layout-title">
+          {capitalize(type)}
+        </h3>
         <div className="movie-cards__wrapper">{movieCardElements}</div>
       </div>
     </div>
