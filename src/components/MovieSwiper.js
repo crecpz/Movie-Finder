@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import { getData } from "../functions/function";
 import { Link } from "react-router-dom";
 
-const MovieSwiper = ({ id, name: genresName }) => {
+const MovieSwiper = ({ id, name: genresName, show }) => {
   const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${id}`;
   const [genresContent, setGenresContent] = useState([]);
 
@@ -45,9 +45,8 @@ const MovieSwiper = ({ id, name: genresName }) => {
       })
     : "loading...";
 
-  return (
-    <div className="movie-swiper category-element">
-      <div className="container">
+  return show ? (
+    <div className="movie-swiper genres__item">
         <h3 className="layout-title">{genresName}</h3>
         <Swiper
           slidesPerView={5}
@@ -88,8 +87,9 @@ const MovieSwiper = ({ id, name: genresName }) => {
           }}>
           {slideElements}
         </Swiper>
-      </div>
     </div>
+  ) : (
+    ""
   );
 };
 

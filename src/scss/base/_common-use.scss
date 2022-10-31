@@ -28,12 +28,11 @@
 }
 
 .layout-title {
-    @include text(3xl);
+    @include text(4xl);
     margin-bottom: 1rem;
-
-    // @include
 }
 
+// 目前用於無預告片時
 .placeholder-text{
     @include text(2xl);
     margin-top: 2rem;

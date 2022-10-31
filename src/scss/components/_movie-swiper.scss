@@ -15,7 +15,7 @@
   &-button{
     &-prev,&-next {
       color: map-get($color, primary);
-      top: 4.6875rem;
+      top: calc(50% - 2rem); // @ 因為有底部的電影名稱，所以將 handler 做些調整，將其再往上調一點
     }
   }
 }

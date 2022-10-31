@@ -131,3 +131,17 @@
     }
   }
 }
+
+.genres{
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+
+  &__item{
+    margin-top: 2rem;
+  }
+
+  .layout-title {
+    // color: brown;
+    margin-bottom: 1.25rem;
+  }
+}

@@ -1,12 +1,15 @@
 @use "../abstracts" as *;
 
 .movie-detail {
-  // @include flex($ai: center);
   position: relative;
 
   &__intro {
     display: grid;
-    align-items: center;
+    height: calc(100vh - 90px);
+
+    @include lg {
+      height: auto;
+    }
   }
 
   &__backdrop {
@@ -168,17 +171,21 @@
   }
 
   &__btn {
-    &:not(:first-child) {
-      margin-left: 1rem;
-    }
+    align-self: flex-start;
 
     @include lg {
       &.btn--black {
         border: 1px solid map-get($color, primary);
       }
     }
+    
+    &:not(:first-child) {
+      margin-left: 2.5rem;
 
-    align-self: flex-start;
+      @include lg {
+        margin-left: 1rem;
+      }
+    }
 
     i {
       margin-right: 1rem;
@@ -195,7 +202,7 @@
     width: 100%;
     padding-bottom: 56.25%;
 
-    &--no-video{
+    &--no-video {
       padding-bottom: 0;
     }
   }

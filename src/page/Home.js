@@ -13,67 +13,33 @@ import MovieSwiper from "../components/MovieSwiper";
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState([]);
-  const API_URL =
-    "https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=2022-10&primary_release_date.lte=2022-10-31";
-  const [genresData, setGenresData] = useState([
-    {
-      id: 28,
-      name: "Action",
-    },
-    {
-      id: 16,
-      name: "Animation",
-    },
-    {
-      id: 35,
-      name: "Comedy",
-    },
-    {
-      id: 80,
-      name: "Crime",
-    },
-  ]);
-  const [genresContent, setGenresContent] = useState([]);
-
+  // 取得趨勢 movie, 24hr 更新一次
+  const TRENDING_URL =
+    "https://api.themoviedb.org/3/trending/movie/day?api_key=e86818f56e7d92f357708ecb03052800";
+  // 取得類別 id 與對應的名稱
   const GENRES_URL =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
-
-  const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=16`;
-  // const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genresId}`;
+  // 類別資料
+  const [genresData, setGenresData] = useState([]);
+  // 類別顯示的最大數量，除非滾到底，否則先不顯示
+  const [showAmount, setShowAmount] = useState(5);
 
   useEffect(() => {
-    getData(API_URL, setPopularMovies);
+    getData(TRENDING_URL, setPopularMovies);
     getData(GENRES_URL, setGenresData);
 
-    // getData(DISCOVER_GENRES_URL, setGenresContent);
-
-    if (genresData) {
-      genresData.map((i) => {
-        fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${i.id}`
-        )
-          .then((res) => res.json())
-          .then((data) =>
-            setGenresContent({ name: i.name, result: data.results })
-          );
-        // .then((data) => console.log({name: i.name, result: data.results}));
-      });
-    }
-
-    /*
-    [
-      {
-        name: 'action',
-        content: [],
-      },
-      {
-        name: 'action',
-        content: [],
-      },
-    ]
-
-    */
+    window.addEventListener("scroll", scrollHandler);
   }, []);
+
+  function scrollHandler() {
+    if (
+      document.documentElement.scrollTop + window.innerHeight + 1 >=
+        document.documentElement.scrollHeight &&
+      showAmount < MovieSwiperElements.length
+    ) {
+      setShowAmount((prev) => prev + 3);
+    }
+  }
 
   const carouselElements = popularMovies.results
     ? popularMovies.results.map((movie) => {
@@ -118,15 +84,13 @@ const Home = () => {
       })
     : "";
 
-  // https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=%2028
-
   const MovieSwiperElements = genresData.genres
-    ? genresData.genres.map((genres) => {
-        return <MovieSwiper key={genres.id} {...genres} />;
+    ? genresData.genres.map((genres, index) => {
+        return (
+          <MovieSwiper key={genres.id} {...genres} show={index < showAmount} />
+        );
       })
     : "loading...";
-
-  // console.log(MovieSwiperElements)
 
   return (
     <section className="home">
@@ -138,7 +102,9 @@ const Home = () => {
         showStatus={false}>
         {carouselElements}
       </Carousel>
-      {MovieSwiperElements}
+      <div className="genres">
+        <div className="container">{MovieSwiperElements}</div>
+      </div>
     </section>
   );
 };
