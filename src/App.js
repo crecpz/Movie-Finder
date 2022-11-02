@@ -3,6 +3,8 @@ import Header from "./components/Header";
 import MovieList from "./components/MovieCards";
 import Home from "./page/Home"
 import MovieDetail from "./page/MovieDetail";
+import Search from "./page/Search";
+import Watchlist from "./page/Watchlist";
 
 // ! 記得處理 not-found
 
@@ -18,7 +20,8 @@ function App() {
           <Route index element={<Home />}></Route>
           <Route path="movie/:id" element={<MovieDetail />}></Route>
           <Route path="movies/:type" element={<MovieList />}></Route>
-          <Route path="/watchlist" element={<h1>watchlist</h1>}></Route>
+          <Route path="/watchlist" element={<Watchlist />}></Route>
+          <Route path="search" element={<Search />}></Route>
           <Route path="/*" element={<h1>not found</h1>}></Route>
         </Routes>
       </Router>

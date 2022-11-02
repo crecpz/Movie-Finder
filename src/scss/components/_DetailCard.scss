@@ -1,0 +1,88 @@
+@use "../abstracts" as *;
+
+.detail-cards {
+  margin-top: 4rem;
+}
+
+.detail-card {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #333;
+
+
+  // &:not(:)
+
+  &__link {
+    @include flex;
+    height: 100%;
+  }
+
+  &__poster {
+    width: 100%;
+    max-width: 9.375rem;
+    border-radius: map-get($border-radius, base);
+    align-self: start;
+
+    @include sm {
+      max-width: 8.4375rem;
+    }
+  }
+
+  &__texts {
+    @include flex($dir: column);
+    margin-left: 2rem;
+
+    @include sm {
+      margin-left: 1.5rem;
+    }
+  }
+
+  &__title {
+    @include text(3xl);
+
+    @include sm {
+      @include text(2xl);
+    }
+  }
+
+  &__genres-tag-wrapper {
+    margin-top: 1rem;
+
+    @include sm {
+      display: none;
+    }
+  }
+
+  &__genres-tag {
+  }
+
+  &__info {
+    @include flex;
+    margin-top: 0.5rem;
+    
+    @include sm {
+      flex-direction: column;
+      row-gap: 0.5rem;
+    }
+  }
+
+  &__release-date {
+
+  }
+
+  &__vote, &__runtime {
+    @include sm {
+      display: none;
+    }
+  }
+
+  &__btn {
+    margin-top: 2rem;
+    align-self: flex-start;
+
+    @include sm {
+      // margin-top: 1rem;
+      margin-top: auto;
+    }
+  }
+}

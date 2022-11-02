@@ -1,21 +1,15 @@
 @use "../abstracts" as *;
 
 .movie-cards {
-  // background-size: cover;
-  // background-repeat: no-repeat;
-  // filter: drop-shadow(50px);
-  // background-image: url("https://images.unsplash.com/photo-1514306191717-452ec28c7814?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80");
+  @include x-spacing;
   padding-top: 3rem;
   padding-bottom: 3rem;
+
 
   &__wrapper {
     @include flex($jc: flex-start, $wrap: wrap);
     margin-top: 4rem;
     gap: 1.5rem;
-
-    @include md {
-      justify-content: center;
-    }
   }
 
   &__title{
@@ -28,24 +22,23 @@
 
 .movie-card-link {
   display: inline-block;
-  // max-width: 18%;
-  max-width: 14%;
+  max-width: calc(16.6% - 20px);
   flex: 1 0 100%;
 
   @include xl {
-    max-width: 23%;
+    max-width: calc(20% - 19.2px);
   }
 
   @include lg {
-    max-width: 30%;
+    max-width: calc(25% - 18px);
   }
 
   @include md {
-    max-width: 45%;
+    max-width: calc(33% - 16px);
   }
 
   @include sm {
-    max-width: 100%;
+    max-width: calc(50% - 12px);
   }
 }
 
@@ -123,14 +116,4 @@
   &__vote {
     margin-left: 1rem;
   }
-
-  // ? 暫時用不到了(不打算在小卡片上面呈現 overview)
-  // &__overview {
-  //   width: 100%;
-  //   overflow: hidden;
-  //   display: -webkit-box;
-  //   -webkit-line-clamp: 2; // 行數
-  //   -webkit-box-orient: vertical;
-  //   white-space: normal;
-  // }
 }

@@ -2,10 +2,8 @@
 
 .container {
     width: 100%;
-    max-width: map-get($max-width, default);
     margin: 0 auto;
-    padding-left: map-get($spacing, lg);
-    padding-right: map-get($spacing, lg);
+    max-width: map-get($max-width, default);
 
     @include xl {
         max-width: map-get($max-width, default);
@@ -21,19 +19,46 @@
 
     @include sm {
         max-width: map-get($max-width, sm);
+    }
 
-        padding-left: map-get($spacing, sm);
-        padding-right: map-get($spacing, sm);
+    &--lg {
+        max-width: none;
     }
 }
 
 .layout-title {
     @include text(4xl);
-    margin-bottom: 1rem;
 }
 
 // 目前用於無預告片時
-.placeholder-text{
+.placeholder-text {
     @include text(2xl);
     margin-top: 2rem;
+}
+
+.genres-tag {
+    @include text(sm);
+    padding: 0.25em 0.8em;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #000;
+    background-color: #fff;
+    border-radius: 30px;
+
+    &-wrapper {
+        @include flex($wrap: wrap);
+        row-gap: 0.75rem;
+        column-gap: 0.75rem;
+    }
+}
+
+.info {
+    @include flex();
+    column-gap: 1.5rem;
+}
+
+.vote {
+    i {
+        margin-left: 0.5rem;
+    }
 }

@@ -10,9 +10,12 @@
   // padding: deep-map-get($spacing, sm) deep-map-get($spacing, lg);
   background-color: black;
 
-  @include sm {
+  @include md {
     position: relative;
     justify-content: space-between;
+  }
+
+  @include sm {
     padding: deep-map-get($spacing, sm) deep-map-get($spacing, sm);
   }
 
@@ -34,7 +37,7 @@
       pointer-events: none;
     }
 
-    @include sm {
+    @include md {
       @include text(2xl);
       display: block;
       cursor: pointer;
@@ -46,10 +49,10 @@
 .nav {
   @include flex($ai: center);
   flex: 1 0 auto;
-  column-gap: 1rem;
-  margin-left: 2rem;
+  column-gap: 1.5rem;
+  margin-left: 3.5rem;
 
-  @include sm {
+  @include md {
     position: absolute;
     top: 5.625rem;
     z-index: 5;
@@ -79,15 +82,10 @@
     @include text(lg);
     font-weight: bold;
 
-
-    @include sm {
-      // padding: 1rem 0;
-    }
-
-    &:last-child {
+    &:nth-last-child(2) {
       margin-left: auto;
 
-      @include sm {
+      @include md {
         margin-left: 0;
       }
     }

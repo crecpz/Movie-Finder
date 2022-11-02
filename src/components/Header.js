@@ -46,6 +46,7 @@ const Header = () => {
         <Link to="/watchlist" className="nav__link">
           Watchlist
         </Link>
+        <Link to="/search" className="nav__link"><i className="fa-solid fa-magnifying-glass"></i></Link>
       </nav>
     </header>
   );

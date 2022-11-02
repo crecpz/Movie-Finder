@@ -2,33 +2,37 @@
 
 .swiper {
   user-select: none;
-  
+  margin-top: 1.5rem;
+
+  &__wrapper {
+    margin-top: 2rem;
+  }
+
   // 蓋過權重
-  .swiper-pagination{
+  .swiper-pagination {
     bottom: -8px;
   }
 
-  &-pagination-bullet{
+  &-pagination-bullet {
     background-color: map-get($color, primary);
   }
 
-  &-button{
-    &-prev,&-next {
+  &-button {
+    &-prev,
+    &-next {
       color: map-get($color, primary);
       top: calc(50% - 2rem); // @ 因為有底部的電影名稱，所以將 handler 做些調整，將其再往上調一點
     }
   }
 }
 
-
 .movie-swiper {
   width: 100%;
-  max-width: map-get($max-width, default);
   margin-left: auto;
   margin-right: auto;
 }
 
-.sm-swiper {
+.movie-slide {
   width: 100%;
 
   &__img-link {
@@ -39,13 +43,13 @@
 
   &__title-link {
     display: inline-block;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 
   &__backdrop {
     width: 100%;
-    // width: 300px;
   }
+
   &__name {
     @include text(xl);
   }

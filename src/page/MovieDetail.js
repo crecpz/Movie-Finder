@@ -44,33 +44,29 @@ const MovieDetail = () => {
     similarMovies.results.map((movie) => {
       return (
         <SwiperSlide>
-          <div className="sm-swiper">
+          <div className="movie-slide">
             <Link
               to={`/movie/${movie && movie.id}`}
-              className="sm-swiper__img-link">
+              className="movie-slide__img-link">
               <img
                 src={`https://image.tmdb.org/t/p/original/${
                   movie && movie.backdrop_path
                 }`}
-                className="sm-swiper__backdrop"
+                className="movie-slide__backdrop"
                 alt="movie-backdrop"
               />
             </Link>
             <Link
               to={`/movie/${movie && movie.id}`}
-              className="sm-swiper__title-link">
-              <h3 className="sm-swiper__name">
+              className="movie-slide__title-link">
+              <h2 className="movie-slide__name">
                 {movie && movie.original_title}
-              </h3>
+              </h2>
             </Link>
           </div>
         </SwiperSlide>
       );
     });
-
-  // fetch(CURRENT_DETAIL_URL)
-  // .then((res) => res.json())
-  // .then((data) => console.log(data));
 
   return (
     <div className="movie-detail">
@@ -84,7 +80,7 @@ const MovieDetail = () => {
           />
         </div>
         <div className="movie-detail__content">
-          <div className="container">
+          <div className="container container--lg">
             <img
               className="movie-detail__poster"
               src={`https://image.tmdb.org/t/p/original/${
@@ -93,25 +89,25 @@ const MovieDetail = () => {
               alt="movie-poster"
             />
             <div className="movie-detail__texts">
-              <h2 className="movie-detail__title">
+              <h3 className="movie-detail__title">
                 {currentMovie ? currentMovie.original_title : ""}
-              </h2>
-              <div className="movie-detail__genres-wrapper">
+              </h3>
+              <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
                 {currentMovie && currentMovie.genres
                   ? currentMovie.genres.map((genres) => {
                       return (
-                        <div className="movie-detail__genres">
+                        <div className="movie-detail__genres-tag genres-tag">
                           {genres.name}
                         </div>
                       );
                     })
                   : ""}
               </div>
-              <div className="movie-detail__info">
+              <div className="info movie-detail__info">
                 <p className="movie-detail__release-date">
                   {currentMovie ? currentMovie.release_date : ""}
                 </p>
-                <p className="movie-detail__vote">
+                <p className="vote movie-detail__vote">
                   {currentMovie ? currentMovie.vote_average : ""}
                   <i className="fa-solid fa-star"></i>
                 </p>
@@ -136,7 +132,7 @@ const MovieDetail = () => {
       </div>
       <div className="movie-detail__trailer">
         <div className="container">
-          <h3 className="layout-title">Trailer</h3>
+          <h2 className="layout-title">Trailer</h2>
           <div
             className={`movie-detail__video-container ${
               trailerKey ? "" : "movie-detail__video-container--no-video"
@@ -157,7 +153,7 @@ const MovieDetail = () => {
       </div>
       <div className="movie-swiper movie-detail__similar">
         <div className="container">
-          <h3 className="layout-title">Similar Movies</h3>
+          <h2 className="layout-title">Similar Movies</h2>
           <Swiper
             effect="coverflow"
             slidesPerView={5}

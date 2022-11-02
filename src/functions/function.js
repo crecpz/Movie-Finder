@@ -20,3 +20,31 @@ export const getData = async (url, setState) => {
     console.error(err);
   }
 }
+
+/**
+ * 取得當月首日~當月最後一天的日期
+ * @returns 
+ */
+export function getFirstDayAndLastDayOfMonth() {
+  const now = new Date();
+  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  return [firstDayOfMonth, lastDayOfMonth].map((date) =>
+    date
+      .toLocaleString()
+      .split(" ")[0]
+      .split("/")
+      .map((str) => (Number(str) < 10 ? "0" + str : str))
+      .join("-")
+  );
+}
+
+
+  // 將字母首字變大寫
+  export function capitalize(str) {
+    return str
+      .split("-")
+      .map((str) => str[0].toUpperCase() + str.substring(1))
+      .join(" ");
+  }

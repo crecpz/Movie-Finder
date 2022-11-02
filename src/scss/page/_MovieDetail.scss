@@ -42,20 +42,13 @@
   }
 
   &__content {
-    @include flex();
+    @include flex;
+    @include x-spacing;
     grid-column: 1/2;
     grid-row: 1/2;
-    // height: 100%;
 
     @include lg {
       margin-top: 8rem;
-    }
-
-    @include md {
-      // margin-left: map-get($spacing, lg);
-    }
-    @include sm {
-      // padding-left: map-get($spacing, sm);
     }
 
     .container {
@@ -83,8 +76,8 @@
 
   &__texts {
     @include flex($dir: column, $jc: center);
-    row-gap: 1rem;
     margin-left: 4rem;
+    row-gap: 1rem;
     height: 100%;
     max-width: 56.25rem;
 
@@ -97,52 +90,13 @@
   &__title {
     @include text(6xl);
 
-    @include xxl {
+    @include lg {
       @include text(5xl);
     }
 
     @include sm {
       @include text(4xl);
     }
-  }
-
-  &__genres-wrapper {
-    @include flex($wrap: wrap);
-    row-gap: 0.5rem;
-    column-gap: 1rem;
-  }
-
-  &__genres {
-    @include text(sm);
-    white-space: nowrap;
-    border-radius: 30px;
-    padding: 0.25rem 0.8rem;
-    background-color: #fff;
-    color: #000;
-    font-weight: bold;
-    border: 1px solid map-get($color, primary);
-
-    @include sm {
-      // padding: 0.25rem 0.8rem;
-    }
-  }
-
-  &__info {
-    @include flex();
-    column-gap: 1.5rem;
-    margin-top: 1rem;
-  }
-
-  &__release-date {
-  }
-
-  &__vote {
-    i {
-      margin-left: 0.5rem;
-    }
-  }
-
-  &__runtime {
   }
 
   &__overview {
@@ -161,9 +115,6 @@
     }
   }
 
-  &__genres {
-  }
-
   // * 按鈕 (Watch Trailer & Add Watchlist)
   &__btns {
     @include flex;
@@ -178,7 +129,7 @@
         border: 1px solid map-get($color, primary);
       }
     }
-    
+
     &:not(:first-child) {
       margin-left: 2.5rem;
 
@@ -186,14 +137,11 @@
         margin-left: 1rem;
       }
     }
-
-    i {
-      margin-right: 1rem;
-    }
   }
 
   // * Trailer (預告)
   &__trailer {
+    @include x-spacing;
     margin-top: 4rem;
   }
 
@@ -201,6 +149,7 @@
     position: relative;
     width: 100%;
     padding-bottom: 56.25%;
+    margin-top: 1.5rem;
 
     &--no-video {
       padding-bottom: 0;
@@ -216,8 +165,9 @@
     border: 0;
   }
 
-  // * Similar Movies (相似電影)
+  // * Similar Movies swiper (相似電影 swiper)
   &__similar {
+    @include x-spacing;
     margin-top: 4rem;
     padding-bottom: 2rem;
   }

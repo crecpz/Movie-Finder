@@ -20,24 +20,24 @@ const MovieSwiper = ({ id, name: genresName, show }) => {
     ? genresContent.results.map((movie) => {
         return (
           <SwiperSlide key={movie && movie.id}>
-            <div className="sm-swiper">
+            <div className="movie-slide">
               <Link
                 to={`/movie/${movie && movie.id}`}
-                className="sm-swiper__img-link">
+                className="movie-slide__img-link">
                 <img
                   src={`https://image.tmdb.org/t/p/original/${
                     movie && movie.backdrop_path
                   }`}
-                  className="sm-swiper__backdrop"
+                  className="movie-slide__backdrop"
                   alt="movie-backdrop"
                 />
               </Link>
               <Link
                 to={`/movie/${movie && movie.id}`}
-                className="sm-swiper__title-link">
-                <h3 className="sm-swiper__name">
+                className="movie-slide__title-link">
+                <h2 className="movie-slide__name">
                   {movie && movie.original_title}
-                </h3>
+                </h2>
               </Link>
             </div>
           </SwiperSlide>
@@ -47,7 +47,7 @@ const MovieSwiper = ({ id, name: genresName, show }) => {
 
   return show ? (
     <div className="movie-swiper genres__item">
-        <h3 className="layout-title">{genresName}</h3>
+        <h2 className="layout-title">{genresName}</h2>
         <Swiper
           slidesPerView={5}
           spaceBetween={20}

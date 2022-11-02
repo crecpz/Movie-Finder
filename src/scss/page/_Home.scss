@@ -2,15 +2,15 @@
 
 // @ carousel 套件相關組件
 // 左右箭頭
-.control-arrow{
+.control-arrow {
   @include sm {
-    display:none;
+    display: none;
   }
 }
 // 底部控制點
-.control-dots{
+.control-dots {
   @include sm {
-    display:none;
+    display: none;
   }
 }
 
@@ -19,13 +19,14 @@
   display: block;
   text-align: left;
 
+  // * carousel 圖片部分
   &__img {
     position: relative;
     display: block;
     width: 100%;
     height: calc(100vh - 90px);
 
-    .carousel__backdrop{
+    .carousel__backdrop {
       @include sm {
         display: none;
         height: calc(100vh - 90px);
@@ -34,7 +35,7 @@
       }
     }
 
-    .carousel__poster{
+    .carousel__poster {
       display: none;
       @include sm {
         display: inline-block;
@@ -57,8 +58,10 @@
     }
   }
 
+  // * carousel 文字部分
   &__text {
     @include flex($dir: column, $jc: end);
+    @include x-spacing;
     row-gap: 1rem;
     column-gap: 1rem;
     position: absolute;
@@ -66,8 +69,7 @@
     top: 0;
     z-index: 10;
     height: 100%;
-    max-width: 50rem;
-    margin-left: 6rem;
+    max-width: 1000px;
     padding-bottom: 6rem;
 
     @include lg {
@@ -89,10 +91,9 @@
     }
   }
 
-
   &__title {
     @include text(6xl);
-        
+
     @include lg {
       @include text(5xl);
     }
@@ -102,24 +103,21 @@
     }
   }
 
-  &__info{
+  &__info {
     @include flex($jc: flex-start);
     @include text(3xl);
     font-weight: bold;
-    
+
     @include sm {
       @include text(xl);
     }
-  }
-
-  &__release-date {
   }
 
   &__vote {
     margin-left: 1.5rem;
 
     i {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
   }
 
@@ -132,16 +130,20 @@
   }
 }
 
-.genres{
-  padding-top: 3rem;
+.genres {
   padding-bottom: 3rem;
+  padding-top: 3rem;
+  padding-left: map-get($spacing, lg);
+  padding-right: map-get($spacing, lg);
 
-  &__item{
-    margin-top: 2rem;
+  @include sm {
+    padding-left: map-get($spacing, sm);
+    padding-right: map-get($spacing, sm);
   }
 
-  .layout-title {
-    // color: brown;
-    margin-bottom: 1.25rem;
+  &__item {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #333;
   }
 }

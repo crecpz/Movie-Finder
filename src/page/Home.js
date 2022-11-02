@@ -65,9 +65,9 @@ const Home = () => {
               />
             </div>
             <div className="carousel__text">
-              <h2 className="carousel__title">
+              <h3 className="carousel__title">
                 {movie && movie.original_title}
-              </h2>
+              </h3>
               <div className="carousel__info">
                 <p className="carousel__release-date">
                   {movie && movie.release_date}
@@ -102,9 +102,7 @@ const Home = () => {
         showStatus={false}>
         {carouselElements}
       </Carousel>
-      <div className="genres">
-        <div className="container">{MovieSwiperElements}</div>
-      </div>
+      <div className="genres">{MovieSwiperElements}</div>
     </section>
   );
 };

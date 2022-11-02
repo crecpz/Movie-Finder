@@ -1,0 +1,28 @@
+@use "../abstracts" as *;
+.watchlist {
+  .container {
+  }
+
+  &__btns {
+  }
+
+  &__btn {
+    border: 1px solid;
+    color: map-get($color, primary);
+
+    &:nth-child(2) {
+      margin-left: 1rem;
+    }
+  }
+
+  &__content {
+    @include flex();
+    gap: 1rem;
+  }
+
+  &__content--watched {
+  }
+
+  &__content--unwatched {
+  }
+}

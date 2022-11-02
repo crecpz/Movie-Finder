@@ -40,3 +40,14 @@
     background-color: darken($current-bg-color, 20);
   }
 }
+
+
+@mixin x-spacing {
+  padding-left: map-get($spacing, lg);
+  padding-right: map-get($spacing, lg);
+
+  @include sm {
+    padding-left: map-get($spacing, sm);
+    padding-right: map-get($spacing, sm);
+  }
+}
