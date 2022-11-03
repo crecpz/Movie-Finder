@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   capitalize,
+  getData,
   getFirstDayAndLastDayOfMonth,
 } from "../functions/function";
 import MovieCard from "./MovieCard";
 
 const MovieCards = () => {
+  //! 暫時沒有使用下拉獲取更多資料的功能，因為之後會用 interSection API 寫
+
   // 存放取得的電影資料
   const [movies, setMovies] = useState([]);
   // 存放頁面，會隨著頁面的滾動而增加
@@ -17,33 +20,34 @@ const MovieCards = () => {
   let API_URL = "";
 
   // page 拉到底時再次獲取
-  useEffect(() => {
-    getMovieData();
-    setPage(1);
-  }, [page]);
+  // useEffect(() => {
+  //   getData(API_URL, setMovies);
+  // }, [page]);
 
   useEffect(() => {
-    getMovieData();
+    // getMovieData();
+    getData(API_URL, setMovies);
   }, []);
 
   useEffect(() => {
     setMovies([]);
-    getMovieData();
+    // getMovieData();
+    getData(API_URL, setMovies);
   }, [type]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", scrollHandler);
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", scrollHandler);
+  // }, []);
 
-  function scrollHandler() {
-    if (
-      document.documentElement.scrollTop + window.innerHeight + 1 >=
-      document.documentElement.scrollHeight
-    ) {
-      console.log(2);
-      setPage((prev) => prev + 1);
-    }
-  }
+  // function scrollHandler() {
+  //   if (
+  //     document.documentElement.scrollTop + window.innerHeight + 1 >=
+  //     document.documentElement.scrollHeight
+  //   ) {
+  //     console.log(2);
+  //     setPage((prev) => prev + 1);
+  //   }
+  // }
 
   switch (type) {
     case "new":
@@ -58,15 +62,11 @@ const MovieCards = () => {
       break;
   }
 
-  function getMovieData() {
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => setMovies((prev) => [...prev, ...data.results]));
-  }
-
-  const movieCardElements = movies.map((movie) => {
-    return <MovieCard movie={movie} />;
-  });
+  const movieCardElements = movies.results
+    ? movies.results.map((movie) => {
+        return <MovieCard movie={movie} />;
+      })
+    : "";
 
   return (
     <div className="movie-cards">

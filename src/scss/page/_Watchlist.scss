@@ -1,5 +1,7 @@
 @use "../abstracts" as *;
 .watchlist {
+  @include x-spacing;
+
   .container {
   }
 

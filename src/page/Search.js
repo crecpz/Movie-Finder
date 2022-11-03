@@ -37,13 +37,6 @@ const Search = () => {
       })
       : "";
 
-  // "No Result"
-  // .length !== 0
-
-  function a() {
-    console.log("a");
-  }
-
   return (
     <div className="search">
       <div className="container">
@@ -53,7 +46,6 @@ const Search = () => {
           placeholder="Search for a movie"
           onChange={changeInput}
           value={searchText}
-          onCompositionEnd={a}
         />
         <ul className="detail-cards">{searchResultElements}</ul>
       </div>

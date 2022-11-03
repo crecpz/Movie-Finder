@@ -2,32 +2,75 @@ import { useEffect } from "react";
 import { useState } from "react";
 import WatchCard from "../components/WatchCard";
 
-const Watchlist = () => {
-  // @ API: 輸入 ID 取得單一電影細節 "https://api.themoviedb.org/3/movie/{movie_id}?api_key=e86818f56e7d92f357708ecb03052800"
-  // 記得替換 {movie_id}
+const Watchlist = ({ watchlist, setWatchlist }) => {
 
-  const [currentList, setCurrentList] = useState("");
-  const [watchlist, setWatchlist] = useState({ unwatched: [1,2], watched: [] });
-
-  useEffect(() => {}, []);
-
-  const unwatchedElements = (
-    <div className="watchlist__content watchlist__content--unwatched">
-      {watchlist.unwatched.map((movie) => {
-        return <WatchCard />;
-      })}
-    </div>
+  const [currentList, setCurrentList] = useState("unwatched");
+  const [currentListData, setCurrentListData] = useState(
+    currentList === "unwatched"
+      ? watchlist.filter((movie) => !movie.watched)
+      : watchlist.filter((movie) => movie.watched)
   );
+
+  useEffect(() => {
+    setCurrentListData(
+      currentList === "unwatched"
+        ? watchlist.filter((movie) => !movie.watched)
+        : watchlist.filter((movie) => movie.watched)
+    );
+  }, [currentList, watchlist]);
+
+  useEffect(() => {
+    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
+
+  // const currentListData =
+  //   currentList === "unwatched"
+  //     ? watchlist.filter((movie) => movie.unwatched)
+  //     : watchlist.filter((movie) => !movie.unwatched);
+
+  const watchCardsElements = currentListData.map((movie) => {
+    return (
+      <WatchCard
+        {...movie}
+        setWatchlist={setWatchlist}
+        currentList={currentList}
+        changeStatus={changeStatus}
+      />
+    );
+  });
+
+  function changeStatus(id) {
+    // console.log(id)
+    setWatchlist((prev) => {
+      return prev.map((movie) => {
+        if (movie.id === id) {
+          return {
+            ...movie,
+            watched: !movie.watched,
+          };
+        } else {
+          return movie;
+        }
+      });
+    });
+  }
 
   return (
     <div className="watchlist">
       <div className="container">
         <div className="watchlist__btns">
-          <button className="btn watchlist__btn">Unwatched</button>
-          <button className="btn watchlist__btn">Watched</button>
+          <button
+            className="btn watchlist__btn"
+            onClick={() => setCurrentList("unwatched")}>
+            Unwatched
+          </button>
+          <button
+            className="btn watchlist__btn"
+            onClick={() => setCurrentList("watched")}>
+            Watched
+          </button>
         </div>
-        {unwatchedElements}
-        <div className="watchlist__content watchlist__content--watched"></div>
+        <div className="watchlist__content">{watchCardsElements}</div>
       </div>
     </div>
   );

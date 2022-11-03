@@ -8,11 +8,21 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { getData } from "../functions/function";
 
-const MovieDetail = () => {
+const MovieDetail = ({ watchlist, setWatchlist }) => {
   const { id } = useParams();
   const [currentMovie, setCurrentMovie] = useState({});
   const [similarMovies, setSimilarMovies] = useState({});
   const [trailer, setTrailer] = useState({});
+
+  // 表示當前頁面的電影是否已經加進 watchlist
+  const [inWatchlist, setInWatchlist] = useState(
+    watchlist.find((movie) => movie.id === id) !== undefined
+  );
+  console.log(inWatchlist);
+
+  //! 接下來要在結構做出樣式(+到watchlist or 沒+ 的樣式)，
+  //! 嚴防重複增加，根據目前是否 isInWatchlist 來決定按下之後是要做移除還是增加
+  // console.log(watchlist.unwatched.includes(id))
 
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const TRAILER_URL = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
@@ -31,6 +41,38 @@ const MovieDetail = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
+  useEffect(() => {
+    setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
+    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
+
+  
+  function changeWatchlist(id) {
+    setWatchlist((prev) => {
+      if (inWatchlist) {
+        return prev.filter((movie) => movie.id !== id);
+      } else {
+        return [...prev, { id: id, watched: false }];
+      }
+    });
+
+    // setWatchlist((prev) => {
+    //   if (inWatchlist) {
+    //     const newWatchlist = prev.unwatched.filter((movieId) => movieId !== id);
+    //     return {
+    //       ...prev,
+    //       unwatched: newWatchlist,
+    //     };
+    //   } else {
+    //     return {
+    //       ...prev,
+    //       unwatched: [...prev.unwatched, id],
+    //     };
+    //   }
+    // });
+  }
+
+  // * 預告片 key
   const trailerKey =
     trailer.results &&
     trailer.results.find(({ type }) => type === "Trailer" || type === "Teaser")
@@ -122,8 +164,19 @@ const MovieDetail = () => {
                 <button className="movie-detail__btn btn btn--red btn--lg">
                   <i className="fa-solid fa-play"></i>Watch Trailer
                 </button>
-                <button className="movie-detail__btn btn btn--transparent btn--lg">
-                  <i className="fa-solid fa-plus"></i>Add Watchlist
+                <button
+                  className="movie-detail__btn btn btn--transparent btn--lg"
+                  onClick={() => changeWatchlist(id)}>
+                  <i
+                    className={`fa-solid ${
+                      inWatchlist ? "fa-check" : "fa-plus"
+                    }`}></i>
+                  {inWatchlist ? "In Watchlist" : "Add Watchlist"}
+
+                  {/* <i className="fa-solid fa-check"></i>Add Watchlist */}
+
+                  {/* <i className="fa-solid fa-bookmark"></i>Add Watchlist */}
+                  {/* <i className="fa-regular fa-bookmark"></i>Add Watchlist */}
                 </button>
               </div>
             </div>

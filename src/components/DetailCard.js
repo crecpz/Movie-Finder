@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getData } from "../functions/function";
+import { getData, noImage } from "../functions/function";
 
 const DetailCard = ({ movie }) => {
   const id = movie.id;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const [currentMovie, setCurrentMovie] = useState({});
 
-  // console.log(movie);
-
   useEffect(() => {
     getData(CURRENT_DETAIL_URL, setCurrentMovie);
   }, []);
-
-  console.log(currentMovie);
 
   return (
     <li className="detail-card">
@@ -21,13 +17,10 @@ const DetailCard = ({ movie }) => {
         <img
           src={`https://image.tmdb.org/t/p/w300/${movie && movie.poster_path}`}
           className="detail-card__poster"
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null; // prevents looping
-            currentTarget.src =
-              "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
-          }}
+          onError={noImage}
           alt="detail-card-img"
         />
+       
         <div className="detail-card__texts">
           <h3 className="detail-card__title">
             {movie ? movie.original_title : ""}

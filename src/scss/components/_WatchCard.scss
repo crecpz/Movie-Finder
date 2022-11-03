@@ -2,7 +2,7 @@
 
 .watchcard {
   border-radius: map-get($border-radius, base);
-  padding: 1rem 0.5rem;
+  padding: .75rem;
   background-color: map-get($color, primary);
 
   &__movie-backdrop {
@@ -13,6 +13,10 @@
   &__content {
     @include flex($dir: column);
     row-gap: 1rem;
+  }
+
+  &__title{
+    color: map-get($color, secondary);
   }
 
   &__btn {
