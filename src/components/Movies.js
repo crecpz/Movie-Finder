@@ -6,9 +6,9 @@ import {
   getData,
   getFirstDayAndLastDayOfMonth,
 } from "../utils/function";
-import MovieCard from "./MovieCard";
+import MoviesCards from "./MoviesCards";
 
-const MovieCards = ({id}) => {
+const Movies = () => {
   //! 暫時沒有使用下拉獲取更多資料的功能，因為之後會用 interSection API 寫
 
   // 存放取得的電影資料
@@ -19,6 +19,8 @@ const MovieCards = ({id}) => {
   const { type } = useParams();
   // 根據目前頁面參數來決定 URL 內容(下面使用 switch 判斷)
   let API_URL = "";
+
+  const { genresId } = useParams();
 
   // page 拉到底時再次獲取
   // useEffect(() => {
@@ -61,23 +63,20 @@ const MovieCards = ({id}) => {
       API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800&page=${page}`;
       // ? 嘗試獲取後面一點的頁數，一樣有重複的情形
       break;
+
+    case "genres":
+      API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genresId}`;
   }
 
-  const movieCardElements = movies.results
-    ? movies.results.map((movie) => {
-        return <MovieCard movie={movie} />;
-      })
-    : "";
-
   return (
-    <div className="movie-cards">
+    <div className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
         {type === "genres" && <Genres />}
-        <div className="movie-cards__wrapper">{movieCardElements}</div>
+        <MoviesCards movies={movies} />
       </div>
     </div>
   );
 };
 
-export default MovieCards;
+export default Movies;

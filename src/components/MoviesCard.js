@@ -4,7 +4,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect } from "react";
 
-const MovieCard = ({ movie }) => {
+const MoviesCard = ({ movie }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,24 +24,24 @@ const MovieCard = ({ movie }) => {
   } else {
     // 不存在圖片的就不顯示在此
     return movie.poster_path ? (
-      <Link to={`/movie/${movie ? movie.id : ""}`} className="movie-card-link">
-        <div className="movie-card">
+      <Link to={`/movie/${movie ? movie.id : ""}`} className="movies-card-link">
+        <div className="movies-card">
           <img
-            className="movie-card__img"
+            className="movies-card__img"
             src={`https://image.tmdb.org/t/p/w300/${
               movie && movie.poster_path
             }`}
-            alt="move-card-img"
+            alt="movie-card-img"
           />
-          <div className="movie-card__text">
-            <h3 className="movie-card__title">
+          <div className="movies-card__text">
+            <h3 className="movies-card__title">
               {movie ? movie.original_title : ""}
             </h3>
-            <div className="movie-card__info">
-              <p className="movie-card__release-date">
+            <div className="movies-card__info">
+              <p className="movies-card__release-date">
                 {movie ? movie.release_date : ""}
               </p>
-              <p className="movie-card__vote">
+              <p className="movies-card__vote">
                 {movie ? movie.vote_average : ""}
                 <i className="fa-solid fa-star"></i>
               </p>
@@ -55,4 +55,4 @@ const MovieCard = ({ movie }) => {
   }
 };
 
-export default MovieCard;
+export default MoviesCard;

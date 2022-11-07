@@ -2,14 +2,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import MovieCards from "./components/MovieCards";
-import MovieList from "./components/MovieCards";
+import Movies from "./components/Movies";
+import MovieList from "./components/Movies";
 import Genres from "./page/Genres";
 import Home from "./page/Home";
 import MovieDetail from "./page/MovieDetail";
 import Search from "./page/Search";
 import Watchlist from "./page/Watchlist";
-
 
 // ! 記得處理 not-found
 function App() {
@@ -18,9 +17,7 @@ function App() {
 
   useEffect(() => {
     console.log(JSON.parse(window.localStorage.getItem("watchlist")));
-    setWatchlist(
-      JSON.parse(window.localStorage.getItem("watchlist")) || []
-    );
+    setWatchlist(JSON.parse(window.localStorage.getItem("watchlist")) || []);
   }, []);
 
   // @ watchlist 需要傳入 search、moviedetail 等有 add to watchlist 的地方
@@ -47,30 +44,38 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <Routes>
-          <Route index element={<Home />}></Route>
-          <Route
-            path="movie/:id"
-            element={
-              <MovieDetail watchlist={watchlist} setWatchlist={setWatchlist} />
-            }
-          ></Route>
-          <Route path="movies/:type" element={<MovieList />}></Route>
-          {/* <Route path="movies/:type" element={<Genres />}>
-            <Route path=":genresId" element={<MovieCards />}></Route>
+        <main>
+          <Routes>
+            <Route index element={<Home />}></Route>
+
+            <Route
+              path="movie/:id"
+              element={
+                <MovieDetail
+                  watchlist={watchlist}
+                  setWatchlist={setWatchlist}
+                />
+              }></Route>
+
+            <Route path="movies/:type" element={<Movies />}>
+              <Route path=":genresId" element={<Movies />}></Route>
+            </Route>
+
+            {/* <Route path="movies/:type" element={<Genres />}>
+            <Route path=":genresId" element={<Movies />}></Route>
           </Route> */}
 
-          <Route
-            path="/watchlist"
-            element={
-              <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
-            }></Route>
-          <Route path="/search" element={<Search />}></Route>
+            <Route
+              path="/watchlist"
+              element={
+                <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
+              }></Route>
 
- 
+            <Route path="/search" element={<Search />}></Route>
 
-          <Route path="/*" element={<h1>not found</h1>}></Route>
-        </Routes>
+            <Route path="/*" element={<h1>not found</h1>}></Route>
+          </Routes>
+        </main>
       </Router>
     </div>
   );

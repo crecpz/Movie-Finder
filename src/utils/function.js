@@ -9,7 +9,7 @@ export const getData = async (url, setState) => {
     const data = await res.json();
     return setState(data);
   } catch (err) {
-    console.error(err);
+    // console.log(err);
   }
 };
 

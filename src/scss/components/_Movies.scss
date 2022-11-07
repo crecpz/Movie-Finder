@@ -1,26 +1,18 @@
 @use "../abstracts" as *;
 
-.movie-cards {
+.movies {
   @include x-spacing;
   padding-top: 3rem;
   padding-bottom: 3rem;
-
-
-  &__wrapper {
-    @include flex($jc: flex-start, $wrap: wrap);
-    margin-top: 4rem;
-    gap: 1.5rem;
-  }
-
-  &__title{
-
-  }
-
-  .container {
-  }
 }
 
-.movie-card-link {
+.movies-cards {
+  @include flex($jc: flex-start, $wrap: wrap);
+  margin-top: 4rem;
+  gap: 1.5rem;
+}
+
+.movies-card-link {
   display: inline-block;
   max-width: calc(16.6% - 20px);
   flex: 1 0 100%;
@@ -42,7 +34,7 @@
   }
 }
 
-.movie-card {
+.movies-card {
   $block: &;
   position: relative;
   border-radius: map-get($border-radius, base);

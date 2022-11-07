@@ -9,9 +9,9 @@ import "swiper/css/pagination";
 import { FreeMode, Navigation, Pagination, Scrollbar } from "swiper";
 import { getData } from "../utils/function";
 import genresIconsData from "../utils/genresIconsData";
-import { Link, useParams } from "react-router-dom";
-import MovieCard from "../components/MovieCard";
-import MovieCards from "../components/MovieCards";
+import { NavLink, useParams } from "react-router-dom";
+import MoviesCard from "../components/MoviesCard";
+import Movies from "../components/Movies";
 
 const Genres = () => {
   // const { genresId } = useParams();
@@ -30,7 +30,11 @@ const Genres = () => {
     ? genresData.genres.map((genres) => {
         return (
           <SwiperSlide>
-            <Link to={`${genres ? genres.id : ""}`} className="slide-link">
+            <NavLink
+              to={`${genres ? genres.id : ""}`}
+              className={(isActive) => {
+                return `slide-link ${isActive ? "slide-link--active" : ""}`;
+              }}>
               <i
                 className={`slide-link__icon ${
                   genresIconsData[genres.id]
@@ -38,7 +42,7 @@ const Genres = () => {
               <span className="slide-link__name">{`${
                 genres.name === "Science Fiction" ? "Sci-Fi" : genres.name
               }`}</span>
-            </Link>
+            </NavLink>
           </SwiperSlide>
         );
       })
@@ -83,7 +87,6 @@ const Genres = () => {
           }}>
           {slideElements}
         </Swiper>
-        {/* <MovieCards /> */}
       </div>
     </div>
   );

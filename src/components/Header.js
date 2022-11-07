@@ -43,7 +43,7 @@ const Header = () => {
         <Link to="/movies/popular" className="nav__link">
           Popular
         </Link>
-        <Link to="/movies/genres" className="nav__link">
+        <Link to="/movies/genres/28" className="nav__link">
           Genres
         </Link>
         <Link to="/watchlist" className="nav__link">

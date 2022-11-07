@@ -52,8 +52,12 @@
   &:hover {
     #{$bolck}__icon,
     #{$bolck}__name {
-      color: map-get($color, hover);
+      color: map-get($color, active);
     }
+  }
+
+  &--active{
+    color: map-get($color, active);
   }
 
   &__icon {
