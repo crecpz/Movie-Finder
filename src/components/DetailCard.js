@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getData, noImage } from "../functions/function";
+import { getData, noImage } from "../utils/function";
+
 
 const DetailCard = ({ movie }) => {
   const id = movie.id;

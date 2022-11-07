@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import DetailCard from "../components/DetailCard";
-import { getData } from "../functions/function";
+import { getData } from "../utils/function";
+
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");

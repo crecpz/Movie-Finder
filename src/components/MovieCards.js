@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Genres from "../page/Genres";
 import {
   capitalize,
   getData,
   getFirstDayAndLastDayOfMonth,
-} from "../functions/function";
+} from "../utils/function";
 import MovieCard from "./MovieCard";
 
-const MovieCards = () => {
+const MovieCards = ({id}) => {
   //! 暫時沒有使用下拉獲取更多資料的功能，因為之後會用 interSection API 寫
 
   // 存放取得的電影資料
@@ -72,6 +73,7 @@ const MovieCards = () => {
     <div className="movie-cards">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
+        {type === "genres" && <Genres />}
         <div className="movie-cards__wrapper">{movieCardElements}</div>
       </div>
     </div>

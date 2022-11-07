@@ -6,7 +6,7 @@ import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { getData } from "../functions/function";
+import { getData } from "../utils/function";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
   const { id } = useParams();
@@ -18,7 +18,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === id) !== undefined
   );
-  console.log(inWatchlist);
+  // console.log(inWatchlist);
 
   //! 接下來要在結構做出樣式(+到watchlist or 沒+ 的樣式)，
   //! 嚴防重複增加，根據目前是否 isInWatchlist 來決定按下之後是要做移除還是增加

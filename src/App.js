@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
+import MovieCards from "./components/MovieCards";
 import MovieList from "./components/MovieCards";
 import Genres from "./page/Genres";
 import Home from "./page/Home";
@@ -19,10 +20,6 @@ function App() {
     console.log(JSON.parse(window.localStorage.getItem("watchlist")));
     setWatchlist(
       JSON.parse(window.localStorage.getItem("watchlist")) || []
-      // JSON.parse(window.localStorage.getItem("watchlist")) || {
-      //   unwatched: [],
-      //   watched: [],
-      // }
     );
   }, []);
 
@@ -59,13 +56,19 @@ function App() {
             }
           ></Route>
           <Route path="movies/:type" element={<MovieList />}></Route>
+          {/* <Route path="movies/:type" element={<Genres />}>
+            <Route path=":genresId" element={<MovieCards />}></Route>
+          </Route> */}
+
           <Route
             path="/watchlist"
             element={
               <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
             }></Route>
           <Route path="/search" element={<Search />}></Route>
-          <Route path="/genres" element={<Genres />}></Route>
+
+ 
+
           <Route path="/*" element={<h1>not found</h1>}></Route>
         </Routes>
       </Router>

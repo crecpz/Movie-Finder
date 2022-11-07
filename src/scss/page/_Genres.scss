@@ -1,12 +1,48 @@
 @use "../abstracts" as *;
-.swiper-scrollbar-drag{
-  background-color:  map-get($color, hover);
+
+.genres {
+  // @include x-spacing;
+
+  .container{
+    &:hover{
+      .swiper-button-prev,
+      .swiper-button-next {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    opacity: 0;
+    visibility: hidden;
+    top: 50%;
+    transition-property: oopacity, visibility;
+    transition: map-get($transition, 300);
+
+    &::after {
+      @include flex($ai: center, $jc: center);
+      @include text(xs);
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      background-color: #fcfcfc;
+      border-radius: 50%;
+      color: map-get($color, secondary);
+      font-weight: bold;
+    }
+  }
+}
+
+.swiper-scrollbar-drag {
+  background-color: map-get($color, hover);
   height: 1px;
 }
+
 .slide-link {
   $bolck: &;
   @include flex($dir: column, $ai: center);
-  // background-color: #333;
   border-radius: map-get($border-radius, base);
   width: 100%;
   max-width: 80px;

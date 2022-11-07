@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getData } from "../functions/function";
+import { getData } from "../utils/function";
 
 const WatchCard = ({
   // currentMovieId,

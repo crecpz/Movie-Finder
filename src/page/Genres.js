@@ -9,10 +9,12 @@ import "swiper/css/pagination";
 import { FreeMode, Navigation, Pagination, Scrollbar } from "swiper";
 import { getData } from "../utils/function";
 import genresIconsData from "../utils/genresIconsData";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import MovieCard from "../components/MovieCard";
+import MovieCards from "../components/MovieCards";
 
 const Genres = () => {
-  console.log(genresIconsData);
+  // const { genresId } = useParams();
 
   // 取得類別 id 與對應的名稱
   const GENRES_URL =
@@ -23,14 +25,12 @@ const Genres = () => {
     getData(GENRES_URL, setGenresData);
   }, []);
 
-  console.log(genresData.genres);
-
   // getData(GENRES_URL)
   const slideElements = genresData.genres
     ? genresData.genres.map((genres) => {
         return (
           <SwiperSlide>
-            <Link className="slide-link">
+            <Link to={`${genres ? genres.id : ""}`} className="slide-link">
               <i
                 className={`slide-link__icon ${
                   genresIconsData[genres.id]
@@ -47,15 +47,43 @@ const Genres = () => {
     <div className="genres">
       <div className="container">
         <Swiper
+          className="mySwiper"
           scrollbar={{
             hide: true,
           }}
-          slidesPerView="12"
-          freeMode={true}
-          modules={[Scrollbar]}
-          className="mySwiper">
+          navigation={true}
+          slidesPerView={3}
+          freeMode={false}
+          modules={[Scrollbar, Navigation]}
+          breakpoints={{
+            0: {
+              slidesPerView: 4,
+              spaceBetween: 0,
+            },
+            576: {
+              slidesPerView: 6,
+              spaceBetween: 10,
+            },
+            768: {
+              slidesPerView: 8,
+              spaceBetween: 10,
+            },
+            1024: {
+              slidesPerView: 10,
+              spaceBetween: 10,
+            },
+            1300: {
+              slidesPerView: 12,
+              spaceBetween: 10,
+            },
+            1400: {
+              slidesPerView: 14,
+              spaceBetween: 10,
+            },
+          }}>
           {slideElements}
         </Swiper>
+        {/* <MovieCards /> */}
       </div>
     </div>
   );
