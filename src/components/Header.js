@@ -43,10 +43,15 @@ const Header = () => {
         <Link to="/movies/popular" className="nav__link">
           Popular
         </Link>
+        <Link to="/genres" className="nav__link">
+          Genres
+        </Link>
         <Link to="/watchlist" className="nav__link">
           Watchlist
         </Link>
-        <Link to="/search" className="nav__link"><i className="fa-solid fa-magnifying-glass"></i></Link>
+        <Link to="/search" className="nav__link">
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </Link>
       </nav>
     </header>
   );

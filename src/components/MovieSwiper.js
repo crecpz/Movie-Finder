@@ -5,7 +5,7 @@ import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { getData } from "../functions/function";
+import { getData } from "../utils/function";
 import { Link } from "react-router-dom";
 
 const MovieSwiper = ({ id, name: genresName, show }) => {
@@ -51,7 +51,7 @@ const MovieSwiper = ({ id, name: genresName, show }) => {
         <Swiper
           slidesPerView={5}
           spaceBetween={20}
-          slidesPerGroup={5}
+          slidesPerGroup={3}
           loop={true}
           loopFillGroupWithBlank={false}
           pagination={{

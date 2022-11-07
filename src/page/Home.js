@@ -8,7 +8,7 @@ import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { getData } from "../functions/function";
+import { getData } from "../utils/function";
 import MovieSwiper from "../components/MovieSwiper";
 
 const Home = () => {
@@ -102,7 +102,7 @@ const Home = () => {
         showStatus={false}>
         {carouselElements}
       </Carousel>
-      <div className="genres">{MovieSwiperElements}</div>
+      <div className="home__genres">{MovieSwiperElements}</div>
     </section>
   );
 };

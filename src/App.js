@@ -3,19 +3,20 @@ import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import MovieList from "./components/MovieCards";
+import Genres from "./page/Genres";
 import Home from "./page/Home";
 import MovieDetail from "./page/MovieDetail";
 import Search from "./page/Search";
 import Watchlist from "./page/Watchlist";
 
-// ! 記得處理 not-found
 
+// ! 記得處理 not-found
 function App() {
   const API_URL =
     "https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc";
 
   useEffect(() => {
-    console.log(JSON.parse(window.localStorage.getItem("watchlist")))
+    console.log(JSON.parse(window.localStorage.getItem("watchlist")));
     setWatchlist(
       JSON.parse(window.localStorage.getItem("watchlist")) || []
       // JSON.parse(window.localStorage.getItem("watchlist")) || {
@@ -34,13 +35,13 @@ function App() {
   // @ 所以我想到的方式是不要使用兩種指標，而是使用 array 內包著電影物件
   /**
    * const [watchlist, setWatchlist] = useState([])
-   * 
+   *
    * 像這樣:
    * [{},{},{}]
-   * 
+   *
    * 單一的長這樣:
    * [{id: 2654, watched: false}]
-   * 
+   *
    * 後續再使用過濾的方式過濾出是否觀看即可
    */
   const [watchlist, setWatchlist] = useState([]);
@@ -55,14 +56,16 @@ function App() {
             path="movie/:id"
             element={
               <MovieDetail watchlist={watchlist} setWatchlist={setWatchlist} />
-            }></Route>
+            }
+          ></Route>
           <Route path="movies/:type" element={<MovieList />}></Route>
           <Route
             path="/watchlist"
             element={
               <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
             }></Route>
-          <Route path="search" element={<Search />}></Route>
+          <Route path="/search" element={<Search />}></Route>
+          <Route path="/genres" element={<Genres />}></Route>
           <Route path="/*" element={<h1>not found</h1>}></Route>
         </Routes>
       </Router>

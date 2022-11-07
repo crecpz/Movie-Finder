@@ -1,0 +1,33 @@
+@use "../abstracts" as *;
+.swiper-scrollbar-drag{
+  background-color:  map-get($color, hover);
+  height: 1px;
+}
+.slide-link {
+  $bolck: &;
+  @include flex($dir: column, $ai: center);
+  // background-color: #333;
+  border-radius: map-get($border-radius, base);
+  width: 100%;
+  max-width: 80px;
+  padding: 0.5rem 0;
+  text-align: center;
+
+  &:hover {
+    #{$bolck}__icon,
+    #{$bolck}__name {
+      color: map-get($color, hover);
+    }
+  }
+
+  &__icon {
+    @include text(2xl);
+    transition: color map-get($transition, 200);
+  }
+
+  &__name {
+    @include text(base);
+    margin-top: 0.5rem;
+    transition: color map-get($transition, 200);
+  }
+}
