@@ -1,25 +1,2 @@
 @use "../abstracts" as *;
 
-.watchcard {
-  border-radius: map-get($border-radius, base);
-  padding: .75rem;
-  background-color: map-get($color, primary);
-
-  &__movie-backdrop {
-    width: 250px;
-    border-radius: map-get($border-radius, base);
-  }
-
-  &__content {
-    @include flex($dir: column);
-    row-gap: 1rem;
-  }
-
-  &__title{
-    color: map-get($color, secondary);
-  }
-
-  &__btn {
-    border: 1px solid #000; //! 示意用
-  }
-}

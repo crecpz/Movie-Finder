@@ -14,17 +14,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [similarMovies, setSimilarMovies] = useState({});
   const [trailer, setTrailer] = useState({});
 
-  console.log(currentMovie);
-
   // 表示當前頁面的電影是否已經加進 watchlist
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === id) !== undefined
   );
-  // console.log(inWatchlist);
 
   //! 接下來要在結構做出樣式(+到watchlist or 沒+ 的樣式)，
   //! 嚴防重複增加，根據目前是否 isInWatchlist 來決定按下之後是要做移除還是增加
-  // console.log(watchlist.unwatched.includes(id))
 
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const TRAILER_URL = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
@@ -45,6 +41,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
   useEffect(() => {
     setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
+    console.log(watchlist)
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
@@ -83,34 +80,32 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       : "";
 
   // * 相似電影
-  const similarMovieElements =
-    similarMovies.results &&
-    similarMovies.results.map((movie) => {
-      return (
-        <SwiperSlide>
-          <div className="movie-slide">
-            <Link
-              to={`/movie/${movie && movie.id}`}
-              className="movie-slide__img-link">
-              <img
-                src={`https://image.tmdb.org/t/p/original/${
-                  movie && movie.backdrop_path
-                }`}
-                className="movie-slide__backdrop"
-                alt="movie-backdrop"
-              />
-            </Link>
-            <Link
-              to={`/movie/${movie && movie.id}`}
-              className="movie-slide__title-link">
-              <h2 className="movie-slide__name">
-                {movie && movie.original_title}
-              </h2>
-            </Link>
-          </div>
-        </SwiperSlide>
-      );
-    });
+  const similarMovieElements = similarMovies.results
+    ? similarMovies.results.map((movie) => {
+        return (
+          <SwiperSlide>
+            <div className="movie-slide">
+              <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
+                <img
+                  src={`https://image.tmdb.org/t/p/original/${
+                    movie && movie.backdrop_path
+                  }`}
+                  className="movie-slide__backdrop"
+                  alt="movie-backdrop"
+                />
+              </Link>
+              <Link
+                to={`/movie/${movie && movie.id}`}
+                className="movie-slide__title-link">
+                <h2 className="movie-slide__name">
+                  {movie && movie.original_title}
+                </h2>
+              </Link>
+            </div>
+          </SwiperSlide>
+        );
+      })
+    : "";
 
   return (
     <div className="movie-detail">
@@ -138,10 +133,11 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               </h3>
               <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
                 {currentMovie && currentMovie.genres
-                  ? currentMovie.genres.map((genres, index) => {
+                  ? currentMovie.genres.map((genres) => {
                       return (
                         <Link
                           to={`/movies/genres/${genres.id}`}
+                          key={genres.id}
                           className="movie-detail__genres-tag genres-tag">
                           {genres.name}
                         </Link>
@@ -203,6 +199,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           </div>
         </div>
       </div>
+
       <div className="movie-swiper movie-detail__similar">
         <div className="container">
           <h2 className="layout-title">Similar Movies</h2>

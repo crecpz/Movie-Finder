@@ -3,29 +3,43 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getData } from "../utils/function";
 
-const WatchCard = ({
-  // currentMovieId,
-  id,
-  currentList,
-  changeStatus,
-  watchlist,
-}) => {
-
-  // ! 現在大的問題在於所有跟 fetch 有關的內容在改變 watchlist 狀態後，都不會立即更新
-  // ! 也就是說卡片雖然換成正確的了，但 title 與圖片等都沒變!
-
+const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
   const [currentMovie, setCurrentMovie] = useState({});
   const API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
 
   useEffect(() => {
     getData(API_URL, setCurrentMovie);
-  }, []);
+  }, [watchStatus]);
 
-  // useEffect(() => {
-  //   getData(API_URL, setCurrentMovie);
-  // }, [watchlist]);
+  useEffect(() => {
+    getData(API_URL, setCurrentMovie);
+    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
 
 
+
+  // * 改變觀看狀態
+  function changeStatus() {
+    setWatchlist((prevWatchlist) => {
+      return prevWatchlist.map((i) => {
+        if (i.id === id) {
+          return {
+            ...i,
+            watched: !i.watched,
+          };
+        } else {
+          return i;
+        }
+      });
+    });
+  }
+
+  // * 刪除 watchcard
+  function removeWatchcard(id) {
+    setWatchlist((prevWatchlist) => {
+      return prevWatchlist.filter((i) => i.id !== id);
+    });
+  }
 
   return (
     <div className="watchcard">
@@ -41,18 +55,23 @@ const WatchCard = ({
         <h3 className="watchcard__title">
           {currentMovie ? currentMovie.title : ""}
           <br />
-          {id}
         </h3>
         <button
           className="btn btn-transparent watchcard__btn"
           onClick={() => changeStatus(id)}>
-          {`Mark as ${currentList === "unwatched" ? "watched" : "unwatched"}`}
+          {`Mark as ${watched ? "unwatched" : "watched"}`}
         </button>
-        <button className="btn btn-transparent watchcard__btn">Remove</button>
-        <button className="btn btn-transparent watchcard__btn">
+        <button
+          className="btn btn-transparent watchcard__btn"
+          onClick={() => removeWatchcard(id)}>
+          Remove
+        </button>
+        {/* <button className="btn btn-transparent watchcard__btn">
           More Details
-        </button>
-        <Link to={`/movie/${currentMovie && currentMovie.id}`} className="btn">
+        </button> */}
+        <Link
+          to={`/movie/${currentMovie.id}`}
+          className="btn btn-transparent watchcard__btn">
           More Details
         </Link>
       </div>

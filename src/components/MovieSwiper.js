@@ -8,8 +8,8 @@ import "swiper/css/navigation";
 import { getData } from "../utils/function";
 import { Link } from "react-router-dom";
 
-const MovieSwiper = ({ id: genersId, name: genresName, show }) => {
-  const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genersId}`;
+const MovieSwiper = ({ id, name, show }) => {
+  const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${id}`;
   const [genresContent, setGenresContent] = useState([]);
 
   useEffect(() => {
@@ -20,15 +20,11 @@ const MovieSwiper = ({ id: genersId, name: genresName, show }) => {
   const slideElements = genresContent.results
     ? genresContent.results.map((movie) => {
         return (
-          <SwiperSlide key={movie && movie.id}>
+          <SwiperSlide key={movie.id}>
             <div className="movie-slide">
-              <Link
-                to={`/movie/${movie && movie.id}`}
-                className="movie-slide__img-link">
+              <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
                 <img
-                  src={`https://image.tmdb.org/t/p/original/${
-                    movie && movie.backdrop_path
-                  }`}
+                  src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
                   className="movie-slide__backdrop"
                   alt="movie-backdrop"
                 />
@@ -36,9 +32,7 @@ const MovieSwiper = ({ id: genersId, name: genresName, show }) => {
               <Link
                 to={`/movie/${movie && movie.id}`}
                 className="movie-slide__title-link">
-                <h2 className="movie-slide__name">
-                  {movie && movie.original_title}
-                </h2>
+                <h2 className="movie-slide__name">{movie.original_title}</h2>
               </Link>
             </div>
           </SwiperSlide>
@@ -46,11 +40,10 @@ const MovieSwiper = ({ id: genersId, name: genresName, show }) => {
       })
     : "loading...";
 
-
   return show ? (
     <div className="movie-swiper home__genres-item">
-      <Link to={`movies/genres/${genersId}`} className="home__genres-link">
-        <h2 className="layout-title">{genresName}</h2>
+      <Link to={`movies/genres/${id}`} className="home__genres-link">
+        <h2 className="layout-title">{name}</h2>
         <i className="fa-solid fa-angle-right"></i>
       </Link>
       <Swiper

@@ -1,14 +1,22 @@
 @use "../abstracts" as *;
+
 .watchlist {
   @include x-spacing;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 
   .container {
   }
 
-  &__btns {
+  &__header {
+    @include flex($ai: center, $jc: space-between);
   }
 
-  &__btn {
+  // 頂部切換連結
+  &__links {
+  }
+
+  &__link {
     border: 1px solid;
     color: map-get($color, primary);
 
@@ -21,10 +29,38 @@
     @include flex();
     gap: 1rem;
   }
+}
 
-  &__content--watched {
+.watchcards {
+  @include flex($wrap: wrap);
+  margin-top: 4rem;
+  gap: 2rem;
+}
+
+.watchcard {
+  border-radius: map-get($border-radius, base);
+  padding: 0.75rem;
+  background-color: map-get($color, primary);
+
+  &__movie-backdrop {
+    width: 250px;
+    border-radius: map-get($border-radius, base);
   }
 
-  &__content--unwatched {
+  &__content {
+    @include flex($dir: column);
+    row-gap: 1rem;
+
+    a {
+      color: map-get($color, secondary);
+    }
+  }
+
+  &__title {
+    color: map-get($color, secondary);
+  }
+
+  &__btn {
+    border: 1px solid #000; //! 示意用
   }
 }
