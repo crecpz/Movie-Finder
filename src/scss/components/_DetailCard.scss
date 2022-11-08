@@ -5,17 +5,13 @@
 }
 
 .detail-card {
+  $block: &;
+  @include flex;
   padding-top: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid #333;
 
 
-  // &:not(:)
-
-  &__link {
-    @include flex;
-    height: 100%;
-  }
 
   &__poster {
     width: 100%;
@@ -34,6 +30,10 @@
 
     @include sm {
       margin-left: 1.5rem;
+    }
+
+    #{$block}__link {
+      align-self: flex-start;
     }
   }
 

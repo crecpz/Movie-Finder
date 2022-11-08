@@ -87,7 +87,7 @@ const Home = () => {
   const MovieSwiperElements = genresData.genres
     ? genresData.genres.map((genres, index) => {
         return (
-          <MovieSwiper key={genres.id} {...genres} show={index < showAmount} />
+          <MovieSwiper key={genres.id} id={genres.id} {...genres} show={index < showAmount} />
         );
       })
     : "loading...";

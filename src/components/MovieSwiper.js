@@ -8,14 +8,15 @@ import "swiper/css/navigation";
 import { getData } from "../utils/function";
 import { Link } from "react-router-dom";
 
-const MovieSwiper = ({ id, name: genresName, show }) => {
-  const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${id}`;
+const MovieSwiper = ({ id: genersId, name: genresName, show }) => {
+  const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genersId}`;
   const [genresContent, setGenresContent] = useState([]);
 
   useEffect(() => {
     getData(DISCOVER_GENRES_URL, setGenresContent);
   }, []);
 
+  // * swiper 內的 slide
   const slideElements = genresContent.results
     ? genresContent.results.map((movie) => {
         return (
@@ -45,48 +46,52 @@ const MovieSwiper = ({ id, name: genresName, show }) => {
       })
     : "loading...";
 
+
   return show ? (
-    <div className="movie-swiper genres__item">
+    <div className="movie-swiper home__genres-item">
+      <Link to={`movies/genres/${genersId}`} className="home__genres-link">
         <h2 className="layout-title">{genresName}</h2>
-        <Swiper
-          slidesPerView={5}
-          spaceBetween={20}
-          slidesPerGroup={3}
-          loop={true}
-          loopFillGroupWithBlank={false}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          breakpoints={{
-            0: {
-              slidesPerView: 1,
-              spaceBetween: 0,
-            },
-            576: {
-              slidesPerView: 2,
-              spaceBetween: 20,
-            },
-            768: {
-              slidesPerView: 3,
-              spaceBetween: 20,
-            },
-            1024: {
-              slidesPerView: 4,
-              spaceBetween: 20,
-            },
-            1300: {
-              slidesPerView: 4,
-              spaceBetween: 20,
-            },
-            1400: {
-              slidesPerView: 5,
-              spaceBetween: 20,
-            },
-          }}>
-          {slideElements}
-        </Swiper>
+        <i className="fa-solid fa-angle-right"></i>
+      </Link>
+      <Swiper
+        slidesPerView={5}
+        spaceBetween={20}
+        slidesPerGroup={3}
+        loop={true}
+        loopFillGroupWithBlank={false}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 0,
+          },
+          576: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
+          1300: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
+          1400: {
+            slidesPerView: 5,
+            spaceBetween: 20,
+          },
+        }}>
+        {slideElements}
+      </Swiper>
     </div>
   ) : (
     ""

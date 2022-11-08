@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Genres from "../page/Genres";
 import {
   capitalize,
   getData,
   getFirstDayAndLastDayOfMonth,
 } from "../utils/function";
+import GenresSwiper from "./GenresSwiper";
 import MoviesCards from "./MoviesCards";
 
 const Movies = () => {
@@ -19,7 +19,7 @@ const Movies = () => {
   const { type } = useParams();
   // 根據目前頁面參數來決定 URL 內容(下面使用 switch 判斷)
   let API_URL = "";
-
+  // 在網址中取得 genresId
   const { genresId } = useParams();
 
   // page 拉到底時再次獲取
@@ -36,7 +36,8 @@ const Movies = () => {
     setMovies([]);
     // getMovieData();
     getData(API_URL, setMovies);
-  }, [type]);
+  }, [type,genresId]);
+
 
   // useEffect(() => {
   //   window.addEventListener("scroll", scrollHandler);
@@ -66,13 +67,14 @@ const Movies = () => {
 
     case "genres":
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genresId}`;
+      break;
   }
 
   return (
     <div className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
-        {type === "genres" && <Genres />}
+        {type === "genres" && <GenresSwiper />}
         <MoviesCards movies={movies} />
       </div>
     </div>

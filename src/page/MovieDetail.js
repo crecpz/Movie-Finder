@@ -14,6 +14,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [similarMovies, setSimilarMovies] = useState({});
   const [trailer, setTrailer] = useState({});
 
+  console.log(currentMovie);
+
   // 表示當前頁面的電影是否已經加進 watchlist
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === id) !== undefined
@@ -46,7 +48,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  
   function changeWatchlist(id) {
     setWatchlist((prev) => {
       if (inWatchlist) {
@@ -81,6 +82,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         ).key
       : "";
 
+  // * 相似電影
   const similarMovieElements =
     similarMovies.results &&
     similarMovies.results.map((movie) => {
@@ -136,11 +138,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               </h3>
               <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
                 {currentMovie && currentMovie.genres
-                  ? currentMovie.genres.map((genres) => {
+                  ? currentMovie.genres.map((genres, index) => {
                       return (
-                        <div className="movie-detail__genres-tag genres-tag">
+                        <Link
+                          to={`/movies/genres/${genres.id}`}
+                          className="movie-detail__genres-tag genres-tag">
                           {genres.name}
-                        </div>
+                        </Link>
                       );
                     })
                   : ""}
@@ -172,11 +176,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                       inWatchlist ? "fa-check" : "fa-plus"
                     }`}></i>
                   {inWatchlist ? "In Watchlist" : "Add Watchlist"}
-
-                  {/* <i className="fa-solid fa-check"></i>Add Watchlist */}
-
-                  {/* <i className="fa-solid fa-bookmark"></i>Add Watchlist */}
-                  {/* <i className="fa-regular fa-bookmark"></i>Add Watchlist */}
                 </button>
               </div>
             </div>

@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 import DetailCard from "../components/DetailCard";
 import { getData } from "../utils/function";
 
-
 const Search = () => {
   const [searchText, setSearchText] = useState("");
   const [searchResult, setSearchResult] = useState({});
   // const searchResult
-
 
   // ! 注意，這樣的寫法只會讓使用者在輸入第二個字的時候開始搜尋，第一個字不搜尋
   // ! 所以關於檢查目前是否有內容應該是要看 keyup
@@ -31,11 +29,11 @@ const Search = () => {
 
   const searchResultElements =
     searchResult && searchResult.results
-  ? searchResult.results.length === 0
-    ? "no result"
-    : searchResult.results.map((movie) => {
-        return <DetailCard movie={movie} />;
-      })
+      ? searchResult.results.length === 0
+        ? "no result"
+        : searchResult.results.map((movie) => {
+            return <DetailCard movie={movie} />;
+          })
       : "";
 
   return (

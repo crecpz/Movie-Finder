@@ -9,32 +9,28 @@ import "swiper/css/pagination";
 import { FreeMode, Navigation, Pagination, Scrollbar } from "swiper";
 import { getData } from "../utils/function";
 import genresIconsData from "../utils/genresIconsData";
-import { NavLink, useParams } from "react-router-dom";
-import MoviesCard from "../components/MoviesCard";
-import Movies from "../components/Movies";
+import { NavLink } from "react-router-dom";
 
-const Genres = () => {
-  // const { genresId } = useParams();
-
+const GenresSwiper = () => {
   // 取得類別 id 與對應的名稱
   const GENRES_URL =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 類別資料
   const [genresData, setGenresData] = useState([]);
+
   useEffect(() => {
     getData(GENRES_URL, setGenresData);
   }, []);
 
-  // getData(GENRES_URL)
   const slideElements = genresData.genres
     ? genresData.genres.map((genres) => {
         return (
-          <SwiperSlide>
+          <SwiperSlide key={genres.id}>
             <NavLink
               to={`${genres ? genres.id : ""}`}
-              className={(isActive) => {
-                return `slide-link ${isActive ? "slide-link--active" : ""}`;
-              }}>
+              className={({ isActive }) =>
+                isActive ? "slide-link slide-link--active" : "slide-link"
+              }>
               <i
                 className={`slide-link__icon ${
                   genresIconsData[genres.id]
@@ -47,8 +43,9 @@ const Genres = () => {
         );
       })
     : "";
+
   return (
-    <div className="genres">
+    <div className="genres-swiper">
       <div className="container">
         <Swiper
           className="mySwiper"
@@ -56,8 +53,9 @@ const Genres = () => {
             hide: true,
           }}
           navigation={true}
+          slidesPerGroup={3}
           slidesPerView={3}
-          freeMode={false}
+          freeMode={true}
           modules={[Scrollbar, Navigation]}
           breakpoints={{
             0: {
@@ -92,4 +90,4 @@ const Genres = () => {
   );
 };
 
-export default Genres;
+export default GenresSwiper;

@@ -28,6 +28,10 @@
 
 .layout-title {
     @include text(4xl);
+
+    @include sm {
+        @include text(3xl);
+    }
 }
 
 // 目前用於無預告片時

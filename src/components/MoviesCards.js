@@ -5,7 +5,7 @@ const MoviesCards = ({ movies }) => {
     <div className="movies-cards">
       {movies.results
         ? movies.results.map((movie) => {
-            return <MoviesCard movie={movie} />;
+            return <MoviesCard key={movie.id} movie={movie} />;
           })
         : ""}
     </div>

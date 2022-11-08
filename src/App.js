@@ -3,8 +3,6 @@ import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Movies from "./components/Movies";
-import MovieList from "./components/Movies";
-import Genres from "./page/Genres";
 import Home from "./page/Home";
 import MovieDetail from "./page/MovieDetail";
 import Search from "./page/Search";
@@ -16,7 +14,6 @@ function App() {
     "https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc";
 
   useEffect(() => {
-    console.log(JSON.parse(window.localStorage.getItem("watchlist")));
     setWatchlist(JSON.parse(window.localStorage.getItem("watchlist")) || []);
   }, []);
 

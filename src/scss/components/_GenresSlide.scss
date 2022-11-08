@@ -1,8 +1,6 @@
 @use "../abstracts" as *;
 
-.genres {
-  // @include x-spacing;
-
+.genres-swiper {
   .container{
     &:hover{
       .swiper-button-prev,
@@ -11,6 +9,11 @@
         visibility: visible;
       }
     }
+  }
+
+  .swiper-scrollbar-drag {
+    background-color: map-get($color, active);
+    height: 1px;
   }
 
   .swiper-button-prev,
@@ -27,7 +30,7 @@
       flex-shrink: 0;
       width: 1.75rem;
       height: 1.75rem;
-      background-color: #fcfcfc;
+      background-color: #fcfcfcbf;
       border-radius: 50%;
       color: map-get($color, secondary);
       font-weight: bold;
@@ -35,10 +38,7 @@
   }
 }
 
-.swiper-scrollbar-drag {
-  background-color: map-get($color, hover);
-  height: 1px;
-}
+
 
 .slide-link {
   $bolck: &;

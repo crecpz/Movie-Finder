@@ -141,9 +141,30 @@
     padding-right: map-get($spacing, sm);
   }
 
-  &__item {
+  &-item {
+    @include flex($dir: column);
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid #333;
+  }
+
+  .swiper{
+    width: 100%;
+  }
+
+
+  &-link {
+    @include flex($ai: center);
+    align-self: start;
+
+    &:hover i {
+      animation: move-x infinite 300ms alternate;
+    }
+
+    i {
+      @include text(xl);
+      margin-left: 0.75rem;
+      margin-top: 0.75rem;
+    }
   }
 }
