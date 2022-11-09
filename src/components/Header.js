@@ -46,7 +46,7 @@ const Header = () => {
         <Link to="/movies/genres/28" className="nav__link">
           Genres
         </Link>
-        <Link to="/watchlist" className="nav__link">
+        <Link to="/watchlist/unwatched" className="nav__link">
           Watchlist
         </Link>
         <Link to="/search" className="nav__link">

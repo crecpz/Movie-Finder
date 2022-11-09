@@ -52,7 +52,11 @@ function App() {
                   />
                 }></Route>
             </Route>
-            <Route path="/search" element={<Search />}></Route>
+            <Route
+              path="/search"
+              element={
+                <Search watchlist={watchlist} setWatchlist={setWatchlist} />
+              }></Route>
             <Route path="/*" element={<h1>not found</h1>}></Route>
           </Routes>
         </main>

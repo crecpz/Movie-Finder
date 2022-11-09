@@ -8,22 +8,25 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
     watchStatus === "unwatched"
       ? watchlist.filter((watchlistData) => !watchlistData.watched)
       : watchlist.filter((watchlistData) => watchlistData.watched);
-
-  console.log(listContent);
-
+  // ! No movies in your list, add some!
   return (
     <div className="watchcards">
-      {listContent.map((watchlistData) => {
-        return (
-          <WatchCard
-          watchStatus={watchStatus}
-            id={watchlistData.id}
-            watched={watchlistData.watched}
-            watchlist={watchlist}
-            setWatchlist={setWatchlist}
-          />
-        );
-      })}
+      {console.log(listContent)}
+      {listContent.length !== 0 ? (
+        listContent.map((watchlistData) => {
+          return (
+            <WatchCard
+              watchStatus={watchStatus}
+              id={watchlistData.id}
+              watched={watchlistData.watched}
+              watchlist={watchlist}
+              setWatchlist={setWatchlist}
+            />
+          );
+        })
+      ) : (
+        <p className="empty-msg">No movies in your list, add some!</p>
+      )}
     </div>
   );
 };

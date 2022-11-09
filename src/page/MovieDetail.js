@@ -12,12 +12,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const { id } = useParams();
   const [currentMovie, setCurrentMovie] = useState({});
   const [similarMovies, setSimilarMovies] = useState({});
+  // 儲存預告片資料
   const [trailer, setTrailer] = useState({});
-
   // 表示當前頁面的電影是否已經加進 watchlist
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === id) !== undefined
   );
+
 
   //! 接下來要在結構做出樣式(+到watchlist or 沒+ 的樣式)，
   //! 嚴防重複增加，根據目前是否 isInWatchlist 來決定按下之後是要做移除還是增加
@@ -36,12 +37,12 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     getData(CURRENT_DETAIL_URL, setCurrentMovie);
     getData(SIMILAR_URL, setSimilarMovies);
     getData(TRAILER_URL, setTrailer);
+    setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
     window.scrollTo(0, 0);
   }, [id]);
 
   useEffect(() => {
     setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
-    console.log(watchlist)
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
@@ -53,22 +54,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         return [...prev, { id: id, watched: false }];
       }
     });
-
-    // setWatchlist((prev) => {
-    //   if (inWatchlist) {
-    //     const newWatchlist = prev.unwatched.filter((movieId) => movieId !== id);
-    //     return {
-    //       ...prev,
-    //       unwatched: newWatchlist,
-    //     };
-    //   } else {
-    //     return {
-    //       ...prev,
-    //       unwatched: [...prev.unwatched, id],
-    //     };
-    //   }
-    // });
   }
+
 
   // * 預告片 key
   const trailerKey =

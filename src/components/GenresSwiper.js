@@ -30,7 +30,8 @@ const GenresSwiper = () => {
               to={`${genres ? genres.id : ""}`}
               className={({ isActive }) =>
                 isActive ? "slide-link slide-link--active" : "slide-link"
-              }>
+              }
+              >
               <i
                 className={`slide-link__icon ${
                   genresIconsData[genres.id]

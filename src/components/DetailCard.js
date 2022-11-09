@@ -2,14 +2,23 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getData, noImage } from "../utils/function";
 
-const DetailCard = ({ movie }) => {
+const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
   const id = movie.id;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const [currentMovie, setCurrentMovie] = useState({});
-
   useEffect(() => {
     getData(CURRENT_DETAIL_URL, setCurrentMovie);
   }, []);
+
+  function changeWatchlist(id) {
+    setWatchlist((prev) => {
+      if (inWatchlist) {
+        return prev.filter((watchlistData) => watchlistData.id !== String(id));
+      } else {
+        return [...prev, { id: String(id), watched: false }];
+      }
+    });
+  }
 
   return (
     <li className="detail-card">
@@ -57,16 +66,24 @@ const DetailCard = ({ movie }) => {
           {currentMovie && currentMovie.genres
             ? currentMovie.genres.map((genres) => {
                 return (
-                  <Link to={`/movies/genres/${genres.id}`} className="detail-card__genres-tag genres-tag">
+                  <Link
+                    to={`/movies/genres/${genres.id}`}
+                    className="detail-card__genres-tag genres-tag">
                     {genres.name}
                   </Link>
                 );
               })
             : ""}
         </div>
-        <button className="detail-card__btn btn btn--transparent btn--sm">
-          <i className="fa-solid fa-plus"></i>Add Watchlist
+        <button
+          className="detail-card__btn btn btn--transparent btn--sm"
+          onClick={() => changeWatchlist(id)}>
+          <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
+          {inWatchlist ? "In Watchlist" : "Add Watchlist"}
         </button>
+        {/* <button className="detail-card__btn btn btn--transparent btn--sm">
+          <i className="fa-solid fa-plus"></i>Add Watchlist
+        </button> */}
       </div>
     </li>
   );

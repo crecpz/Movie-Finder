@@ -1,9 +1,16 @@
 @use "../abstracts" as *;
 
+// * 每一列要容納幾張卡片
+$perRowAmount: 5;
+// * 卡片的父層所設定的 gap (指的是 column-gap)
+$gap: 24px;
+// 單張卡片:
+// @ max-width: calc((100% / $perRowAmount) - $gap * ($perRowAmount - 1) / $perRowAmount);
+
 .watchlist {
   @include x-spacing;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 48px;
+  padding-bottom: 48px;
 
   .container {
   }
@@ -17,39 +24,111 @@
   }
 
   &__link {
-    border: 1px solid;
+    border: 0.0625rem solid;
+    padding: 0.825em 1.2em;
     color: map-get($color, primary);
 
+    &--active {
+      background-color: map-get($color, active);
+    }
+
     &:nth-child(2) {
-      margin-left: 1rem;
+      border-left: 0;
     }
   }
 
   &__content {
     @include flex();
-    gap: 1rem;
+    gap: $gap;
   }
 }
 
 .watchcards {
   @include flex($wrap: wrap);
-  margin-top: 4rem;
-  gap: 2rem;
+  margin-top: 64px;
+  gap: 24px;
 }
 
 .watchcard {
+  $block: &;
+  @include flex($dir: column);
+  position: relative;
+  overflow: hidden;
   border-radius: map-get($border-radius, base);
-  padding: 0.75rem;
   background-color: map-get($color, primary);
+  background-color: map-get($color, secondary);
+  max-width: calc((100% / $perRowAmount) - $gap * ($perRowAmount - 1) / $perRowAmount);
 
-  &__movie-backdrop {
-    width: 250px;
-    border-radius: map-get($border-radius, base);
+  @include xl {
+    max-width: calc((100% / 4) - $gap * (4 - 1) / 4);
+  }
+
+  @include lg {
+    max-width: calc((100% / 3) - $gap * (3 - 1) / 3);
+  }
+
+  @include md {
+    max-width: calc((100% / 2) - $gap * (2 - 1) / 2);
+  }
+
+  @include sm {
+    max-width: 18.75rem;
+    margin: 0 auto;
+  }
+
+  @include hover-query() {
+    &:hover {
+      &::before {
+        opacity: 1;
+      }
+
+      #{$block} {
+        &__title,
+        &__btns {
+          transform: translateY(0%);
+        }
+      }
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+
+    @include sm {
+      display: none;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__movie-poster {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
   }
 
   &__content {
-    @include flex($dir: column);
-    row-gap: 1rem;
+    @include flex($dir: column, $jc: space-between);
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+
+    @include sm {
+      position: static;
+    }
 
     a {
       color: map-get($color, secondary);
@@ -57,10 +136,70 @@
   }
 
   &__title {
-    color: map-get($color, secondary);
+    @include text(4xl);
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: map-get($color, primary);
+    transform: translateY(-200%);
+    transition: map-get($transition, 300);
+    transition-property: transform;
+
+    @include lg {
+      @include text(3xl);
+    }
+
+    @include md {
+      @include text(2xl);
+    }
+
+    @include sm {
+      @include text(2xl);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      transform: none;
+      transition: none;
+      color: map-get($color, secondary);
+      background-color: map-get($color, primary);
+    }
+  }
+
+  &__btns {
+    @include flex;
+    width: 100%;
+    margin-top: auto;
+    background-color: #ffffffc9;
+    transform: translateY(100%);
+    transition: map-get($transition, 300);
+    transition-property: transform;
+
+    @include sm {
+      transform: none;
+      transition: none;
+      background-color: map-get($color, primary);
+      border-top: 1px solid map-get($color, secondary);
+    }
   }
 
   &__btn {
-    border: 1px solid #000; //! 示意用
+    @include flex($dir: column, $ai: center);
+    @include text(xs);
+    padding: 8px;
+    flex: 1 0 auto;
+    width: 33.3%;
+    transition: color map-get($transition, 300);
+
+    &:not(:first-child) {
+      border-left: 0.0625rem solid;
+    }
+
+    &:hover {
+      color: map-get($color, active);
+    }
+
+    i {
+      @include text(xl);
+    }
   }
 }

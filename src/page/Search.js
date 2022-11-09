@@ -1,23 +1,24 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import DetailCard from "../components/DetailCard";
 import { getData } from "../utils/function";
 
-const Search = () => {
+const Search = ({ watchlist, setWatchlist }) => {
   const [searchText, setSearchText] = useState("");
   const [searchResult, setSearchResult] = useState({});
-  // const searchResult
 
-  // ! 注意，這樣的寫法只會讓使用者在輸入第二個字的時候開始搜尋，第一個字不搜尋
-  // ! 所以關於檢查目前是否有內容應該是要看 keyup
+  useEffect(() => {
+    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
+
+  // ! - 注意，這樣的寫法只會讓使用者在輸入第二個字的時候開始搜尋，第一個字不搜尋
+  // !    所以關於檢查目前是否有內容應該是要看 keyup
+  // ! - 關於複製貼上也必須注意
   function changeInput(e) {
     e.preventDefault();
     setSearchText(e.target.value);
-
     const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}`;
-
     // 只要 input 內有內容就嘗試進行搜尋
     if (e.target.value !== "") {
       getData(API_URL, setSearchResult);
@@ -27,12 +28,21 @@ const Search = () => {
     }
   }
 
+  // ! 留意 inWatchlist
   const searchResultElements =
     searchResult && searchResult.results
       ? searchResult.results.length === 0
-        ? "no result"
+        ? "Sorry, no result!"
         : searchResult.results.map((movie) => {
-            return <DetailCard movie={movie} />;
+            return (
+              <DetailCard
+                movie={movie}
+                inWatchlist={watchlist.some(
+                  (watchlistData) => String(movie.id) === watchlistData.id
+                )}
+                setWatchlist={setWatchlist}
+              />
+            );
           })
       : "";
 
@@ -55,11 +65,6 @@ const Search = () => {
 export default Search;
 
 /*
-
-
-
-
-
 movie.poster_path ? (
       <Link to={`/movie/${movie ? movie.id : ""}`} className="detail-card-link">
         <div className="detail-card">
@@ -86,18 +91,4 @@ movie.poster_path ? (
           </div>
         </div>
       </Link>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 */

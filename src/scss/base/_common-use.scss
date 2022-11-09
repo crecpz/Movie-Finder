@@ -34,6 +34,10 @@
     }
 }
 
+.empty-msg{
+    @include text(xl);
+}
+
 // 目前用於無預告片時
 .placeholder-text {
     @include text(2xl);

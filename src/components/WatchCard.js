@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getData } from "../utils/function";
+import { getData, noImage } from "../utils/function";
 
 const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
   const [currentMovie, setCurrentMovie] = useState({});
@@ -17,6 +17,7 @@ const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
   }, [watchlist]);
 
 
+  // ! No movies in your list, add some!
 
   // * 改變觀看狀態
   function changeStatus() {
@@ -43,38 +44,53 @@ const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
 
   return (
     <div className="watchcard">
-      <img
-        className="watchcard__movie-backdrop"
-        src={`https://image.tmdb.org/t/p/original/${
-          currentMovie ? currentMovie.backdrop_path : ""
-        }`}
-        alt="watchcard-backdrop"
-      />
-      {/* <img className="watchcard__movie-backdrop" src={`https://image.tmdb.org/t/p/original/${currentMovie.poster_path}`} alt="" /> */}
+      <div className="watchcard__img">
+        <img
+          className="watchcard__movie-poster"
+          src={`https://image.tmdb.org/t/p/original/${currentMovie.poster_path}`}
+          onError={noImage}
+          alt="watchcard-poster"
+        />
+      </div>
+
       <div className="watchcard__content">
         <h3 className="watchcard__title">
           {currentMovie ? currentMovie.title : ""}
           <br />
         </h3>
-        <button
-          className="btn btn-transparent watchcard__btn"
-          onClick={() => changeStatus(id)}>
-          {`Mark as ${watched ? "unwatched" : "watched"}`}
-        </button>
-        <button
-          className="btn btn-transparent watchcard__btn"
-          onClick={() => removeWatchcard(id)}>
-          Remove
-        </button>
-        {/* <button className="btn btn-transparent watchcard__btn">
-          More Details
-        </button> */}
-        <Link
-          to={`/movie/${currentMovie.id}`}
-          className="btn btn-transparent watchcard__btn">
-          More Details
-        </Link>
+        <div className="watchcard__btns">
+          <button
+            className="btn btn-transparent watchcard__btn"
+            onClick={() => changeStatus(id)}>
+            {watched ? (
+              <i className="fa-solid fa-eye-slash"></i>
+            ) : (
+              <i className="fa-regular fa-eye"></i>
+            )}
+            {`${watched ? "Unwatched" : "Watched"}`}
+          </button>
+          <Link
+            to={`/movie/${currentMovie.id}`}
+            className="btn btn-transparent watchcard__btn">
+            <i className="fa-solid fa-info"></i>
+            More
+          </Link>
+          <button
+            className="btn btn-transparent watchcard__btn"
+            onClick={() => removeWatchcard(id)}>
+            <i className="fa-regular fa-trash-can"></i>
+            Remove
+          </button>
+        </div>
       </div>
+      {/* <img
+        className="watchcard__movie-backdrop"
+        src={`https://image.tmdb.org/t/p/original/${
+          currentMovie ? currentMovie.backdrop_path : ""
+        }`}
+        onError={noImage}
+        alt="watchcard-backdrop"
+      /> */}
     </div>
   );
 };
