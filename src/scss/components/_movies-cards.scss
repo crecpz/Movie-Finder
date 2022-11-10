@@ -48,8 +48,8 @@ $gap: 1.5rem;
   position: relative;
   border-radius: map-get($border-radius, base);
   overflow: hidden;
-  transition-property: transform, box-shadow;
   transition: 200ms ease-in-out;
+  transition-property: transform, box-shadow;
   cursor: pointer;
 
   &::before {

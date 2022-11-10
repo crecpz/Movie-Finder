@@ -16,7 +16,6 @@ const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-
   // ! No movies in your list, add some!
 
   // * 改變觀看狀態

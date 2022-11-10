@@ -9,9 +9,9 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
       ? watchlist.filter((watchlistData) => !watchlistData.watched)
       : watchlist.filter((watchlistData) => watchlistData.watched);
   // ! No movies in your list, add some!
+
   return (
     <div className="watchcards">
-      {console.log(listContent)}
       {listContent.length !== 0 ? (
         listContent.map((watchlistData) => {
           return (

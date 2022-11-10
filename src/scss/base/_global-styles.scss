@@ -17,6 +17,7 @@ body {
     color: deep-map-get($color, primary);
     background-color: black;
     font-family: "Roboto", sans-serif;
+    overflow-y: scroll;
 }
 
 a {

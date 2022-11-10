@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
 import { useParams } from "react-router-dom";
 import {
   capitalize,
@@ -6,7 +7,7 @@ import {
   getFirstDayAndLastDayOfMonth,
 } from "../utils/function";
 import GenresSwiper from "./GenresSwiper";
-import MoviesCards from "./MoviesCards";
+import MoviesCard from "./MoviesCard";
 
 const Movies = () => {
   //! 暫時沒有使用下拉獲取更多資料的功能，因為之後會用 interSection API 寫
@@ -27,17 +28,19 @@ const Movies = () => {
   //   getData(API_URL, setMovies);
   // }, [page]);
 
+  // useEffect(() => {
+  //     setLoading(true);
+  // }, [type, genresId]);
+
   useEffect(() => {
-    // getMovieData();
     getData(API_URL, setMovies);
   }, []);
+  // console.log()
 
   useEffect(() => {
     setMovies([]);
-    // getMovieData();
     getData(API_URL, setMovies);
-  }, [type,genresId]);
-
+  }, [type, genresId]);
 
   // useEffect(() => {
   //   window.addEventListener("scroll", scrollHandler);
@@ -70,12 +73,26 @@ const Movies = () => {
       break;
   }
 
+  const override = {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+  };
+
   return (
     <div className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
         {type === "genres" && <GenresSwiper />}
-        <MoviesCards movies={movies} />
+        <div className="movies-cards">
+          {movies.results ? (
+            movies.results.map((movie) => {
+              return <MoviesCard key={movie.id} movie={movie} />;
+            })
+          ) : (
+            <PulseLoader color="#fff" cssOverride={override} />
+          )}
+        </div>
       </div>
     </div>
   );

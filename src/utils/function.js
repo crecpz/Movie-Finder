@@ -1,15 +1,14 @@
+// export const getData = async (url, setState, setLoading) => {
 export const getData = async (url, setState) => {
   try {
     const res = await fetch(url);
-
     if (!res.ok) {
       throw new Error("Error");
     }
-
     const data = await res.json();
     return setState(data);
   } catch (err) {
-    // console.log(err);
+    console.log(err);
   }
 };
 
