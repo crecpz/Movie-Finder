@@ -38,6 +38,12 @@ function App() {
                   setWatchlist={setWatchlist}
                 />
               }></Route>
+
+            {/* <Route path="movies" >
+              <Route index path=":type" element={<Movies />}></Route>
+              <Route path=":type/:genresId" element={<Movies />}></Route>
+            </Route> */}
+
             <Route path="movies/:type" element={<Movies />}>
               <Route path=":genresId" element={<Movies />}></Route>
             </Route>
