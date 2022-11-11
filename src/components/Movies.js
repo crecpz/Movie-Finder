@@ -12,13 +12,13 @@ import MoviesCard from "./MoviesCard";
 import { useRef } from "react";
 
 const Movies = () => {
-
   // ! 留意嚴格模式 (index.js)
   const { ref: loadMore, inView: isIntersecting } = useInView();
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // 存放取得的電影資料
   const [movies, setMovies] = useState([]);
+  // const [movies, setMovies] = useState([]);
   // 存放使用者目前點擊到的頁面參數
   const { type } = useParams();
   // 根據目前頁面參數來決定 URL 內容(下面使用 switch 判斷)
@@ -47,60 +47,37 @@ const Movies = () => {
       break;
   }
 
-  // const getMoreData = async (API_URL, setState) => {
-  //   try {
-  //     const res = await fetch(API_URL);
+  const getMoreData = async (API_URL, setState) => {
+    try {
+      const res = await fetch(API_URL);
 
-  //     if (!res.ok) {
-  //       throw new Error("Error");
-  //     }
+      if (!res.ok) {
+        throw new Error("Error");
+      }
 
-  //     const data = await res.json();
-      
+      const data = await res.json();
 
-  //     return setState((prevState) => {
-  //       return [prevState, data.results];
-  //     });
+      setState((prev) => {
+        return [...prev, ...data.results];
+      });
 
-  //     // @ ---
-  //     // return setState((prevState) => (
-  //     //   {
-  //     //     ...prevState,
-  //     //     results: [
-  //     //       ...prevState.results,
-  //     //       ...data.results
-  //     //     ]
-  //     //   }
-  //     // ));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+      setPageNum(prev => prev+1)
 
-  // console.log(movies)
-
-
-  // console.log(movies);
-  
-
-  useEffect(() => {
-    getData(API_URL, setMovies);
-//    getMoreData(API_URL, setMovies);
-  }, []);
-
-  useEffect(() => {
-    // if (isIntersecting) {
-    //   setPageNum((prevNum) => prevNum + 1);
-    //   getMoreData(API_URL, setMovies);
-    // }
-  }, [isIntersecting]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     setMovies([]);
-    getData(API_URL, setMovies);
-    // getMoreData(API_URL, setMovies);
+    getMoreData(API_URL, setMovies);
   }, [type, genresId]);
 
+  useEffect(() => {
+    if (isIntersecting) {
+      getMoreData(API_URL, setMovies);
+    }
+  }, [isIntersecting]);
 
   const override = {
     display: "flex",
@@ -114,18 +91,20 @@ const Movies = () => {
         <h2 className="layout-title">{capitalize(type)}</h2>
         {type === "genres" && <GenresSwiper />}
         <div className="movies-cards">
-          {movies.results ? (
-            movies.results.map((movie) => {
+          {movies ? (
+            movies.map((movie) => {
               return <MoviesCard key={movie.id} movie={movie} />;
             })
           ) : (
             <PulseLoader color="#fff" cssOverride={override} />
           )}
         </div>
-        <div ref={loadMore} className="load-more">
-          {/* {isIntersecting ? "Y" : "N"} */}
-          <PulseLoader color="#fff" cssOverride={override} />
-        </div>
+
+        {movies.length !== 0 && (
+          <div ref={loadMore} className="load-more">
+            <PulseLoader color="#fff" cssOverride={override} />
+          </div>
+        )}
       </div>
     </div>
   );

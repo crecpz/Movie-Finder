@@ -1,4 +1,4 @@
-// export const getData = async (url, setState, setLoading) => {
+// @ 加上版 page 版
 export const getData = async (url, setState) => {
   try {
     const res = await fetch(url);
@@ -11,6 +11,20 @@ export const getData = async (url, setState) => {
     console.log(err);
   }
 };
+
+// // @ 原版
+// export const getData = async (url, setState) => {
+//   try {
+//     const res = await fetch(url);
+//     if (!res.ok) {
+//       throw new Error("Error");
+//     }
+//     const data = await res.json();
+//     return setState(data);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 /**
  * 取得當月首日~當月最後一天的日期

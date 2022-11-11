@@ -15,7 +15,7 @@ const GenresSwiper = () => {
   // 取得類別 id 與對應的名稱
   const GENRES_URL =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
-  // 類別資料
+  // 存放類別資料(TMDB 提供的 19 個類別)
   const [genresData, setGenresData] = useState([]);
 
   useEffect(() => {
