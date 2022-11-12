@@ -1,4 +1,18 @@
-// @ 加上版 page 版
+// // @ 在下面原版的基礎上做點小改， 原本 return setState(data); -----> 變成 return setState(data.results)
+// export const getData = async (url, setState) => {
+//   try {
+//     const res = await fetch(url);
+//     if (!res.ok) {
+//       throw new Error("Error");
+//     }
+//     const data = await res.json();
+//     return setState(data.results);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+// @ 原版
 export const getData = async (url, setState) => {
   try {
     const res = await fetch(url);
@@ -12,19 +26,21 @@ export const getData = async (url, setState) => {
   }
 };
 
-// // @ 原版
-// export const getData = async (url, setState) => {
-//   try {
-//     const res = await fetch(url);
-//     if (!res.ok) {
-//       throw new Error("Error");
-//     }
-//     const data = await res.json();
-//     return setState(data);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+/**
+ * * 防止獲取到重複的電影(因資料庫內有發現重複的電影)
+ * @param {*} originMovies 本來的電影
+ * @param {*} inCommingMovies 新獲取的電影
+ * @returns 返回去除重複後的結果(Array)
+ */
+export function removeDuplicate(originMovies, inCommingMovies) {
+  return [...originMovies, ...inCommingMovies].reduce((acc, cur) => {
+    if (!acc.some((i) => i.id === cur.id)) {
+      acc.push(cur);
+    }
+    return acc;
+  }, []);
+}
+
 
 /**
  * 取得當月首日~當月最後一天的日期

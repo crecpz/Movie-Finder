@@ -5,16 +5,16 @@ import { useInView } from "react-intersection-observer";
 import {
   capitalize,
   getData,
+  removeDuplicate,
   getFirstDayAndLastDayOfMonth,
 } from "../utils/function";
 import GenresSwiper from "./GenresSwiper";
 import MoviesCard from "./MoviesCard";
-import { useRef } from "react";
 
 const Movies = () => {
   // ! 留意嚴格模式 (index.js)
   const { ref: loadMore, inView: isIntersecting } = useInView();
-  const [loading, setLoading] = useState(false);
+  // const [isloaded, setisLoaded] = useState(false);
 
   // 存放取得的電影資料
   const [movies, setMovies] = useState([]);
@@ -38,14 +38,45 @@ const Movies = () => {
 
     case "popular":
       API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800&page=${pageNum}`;
-      // ? 嘗試獲取後面一點的頁數，一樣有重複的情形
-      // console.log("page: ", pageNum);
       break;
 
     case "genres":
-      API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genresId}`;
+      API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genresId}&page=${pageNum}`;
       break;
   }
+
+ 
+
+  useEffect(() => {
+    getMoreData(API_URL, setMovies);
+    }, [pageNum]);
+    
+    
+  useEffect(() => {
+    setMovies([]);
+    setPageNum(1);
+    // 按下切換類別(type)之後，等到 pageNum 確實變成 1 之後才獲取該頁資料
+    if(pageNum === 1) getMoreData(API_URL, setMovies);
+  }, [type, genresId]);
+
+  // 原版
+  // useEffect(() => {
+  //   setMovies([]);
+  //   setPageNum(1);
+  // }, [type, genresId]);
+
+
+  // * 當指定的 Ref 進入畫面中
+  useEffect(() => {
+    if (isIntersecting) setPageNum((prev) => prev + 1);
+  }, [isIntersecting]);
+
+  // * 此為 loader 標誌的樣式
+  const override = {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+  };
 
   const getMoreData = async (API_URL, setState) => {
     try {
@@ -58,31 +89,11 @@ const Movies = () => {
       const data = await res.json();
 
       setState((prev) => {
-        return [...prev, ...data.results];
+        return removeDuplicate(prev, data.results);
       });
-
-      setPageNum(prev => prev+1)
-
     } catch (err) {
       console.log(err);
     }
-  };
-
-  useEffect(() => {
-    setMovies([]);
-    getMoreData(API_URL, setMovies);
-  }, [type, genresId]);
-
-  useEffect(() => {
-    if (isIntersecting) {
-      getMoreData(API_URL, setMovies);
-    }
-  }, [isIntersecting]);
-
-  const override = {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
   };
 
   return (

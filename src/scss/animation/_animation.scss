@@ -5,3 +5,13 @@
     transform: translateX(75%);
   }
 }
+
+@keyframes scale {
+  // 0%{
+  //   transform: scale(0.5);
+  // }
+
+  100%{
+    transform: scale(1);
+  }
+}
