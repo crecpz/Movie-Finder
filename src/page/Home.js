@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
+import { useInView } from "react-intersection-observer";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
-import { Swiper } from "swiper/react";
-import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -21,26 +21,37 @@ const Home = () => {
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 類別資料
   const [genresData, setGenresData] = useState([]);
-  // 類別顯示的最大數量，除非滾到底，否則先不顯示
-  const [showAmount, setShowAmount] = useState(5);
+
+  const { ref: loadMore, inView: isIntersecting } = useInView();
+  const [showAmount, setShowAmount] = useState(3);
+  console.log(genresData.genres);
+  useEffect(() => {
+    // console.log(showAmount <= genresData.genres.length);
+    if (isIntersecting) {
+      console.log(isIntersecting);
+      setShowAmount((prev) => prev + 4);
+      console.log(MovieSwiperElements);
+    }
+    // if (isIntersecting && showAmount <= genresData.length) {
+    //   console.log(isIntersecting);
+    //   setShowAmount((prev) => prev + 4);
+    //   console.log(MovieSwiperElements)
+    // }
+  }, [isIntersecting]);
 
   useEffect(() => {
     getData(TRENDING_URL, setPopularMovies);
     getData(GENRES_URL, setGenresData);
-
-    window.addEventListener("scroll", scrollHandler);
   }, []);
 
-  function scrollHandler() {
-    if (
-      document.documentElement.scrollTop + window.innerHeight + 1 >=
-        document.documentElement.scrollHeight &&
-      showAmount < MovieSwiperElements.length
-    ) {
-      setShowAmount((prev) => prev + 3);
-    }
-  }
+  // * 此為 loader 標誌的樣式
+  const override = {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+  };
 
+  // * 輪播
   const carouselElements = popularMovies.results
     ? popularMovies.results.map((movie) => {
         return (
@@ -84,6 +95,7 @@ const Home = () => {
       })
     : "";
 
+  // * genres swiper
   const MovieSwiperElements = genresData.genres
     ? genresData.genres.map((genres, index) => {
         return (
@@ -91,7 +103,7 @@ const Home = () => {
             key={genres.id}
             id={genres.id}
             {...genres}
-            show={index < showAmount}
+            show={index <= showAmount}
           />
         );
       })
@@ -107,7 +119,14 @@ const Home = () => {
         showStatus={false}>
         {carouselElements}
       </Carousel>
-      <div className="home__genres">{MovieSwiperElements}</div>
+      <div className="home__genres">
+        {MovieSwiperElements}
+        {genresData.genres && showAmount <= genresData.genres.length && (
+          <div ref={loadMore} className="load-more">
+            <PulseLoader color="#fff" cssOverride={override} />
+          </div>
+        )}
+      </div>
     </section>
   );
 };

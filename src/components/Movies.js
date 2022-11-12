@@ -4,18 +4,16 @@ import { useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import {
   capitalize,
-  getData,
-  removeDuplicate,
   getFirstDayAndLastDayOfMonth,
+  getMoreData,
 } from "../utils/function";
 import GenresSwiper from "./GenresSwiper";
 import MoviesCard from "./MoviesCard";
 
+// ! 注意: 目前沒看到 loader
 const Movies = () => {
-  // ! 留意嚴格模式 (index.js)
+  // intersection
   const { ref: loadMore, inView: isIntersecting } = useInView();
-  // const [isloaded, setisLoaded] = useState(false);
-
   // 存放取得的電影資料
   const [movies, setMovies] = useState([]);
   // const [movies, setMovies] = useState([]);
@@ -76,24 +74,6 @@ const Movies = () => {
     display: "flex",
     justifyContent: "center",
     width: "100%",
-  };
-
-  const getMoreData = async (API_URL, setState) => {
-    try {
-      const res = await fetch(API_URL);
-
-      if (!res.ok) {
-        throw new Error("Error");
-      }
-
-      const data = await res.json();
-
-      setState((prev) => {
-        return removeDuplicate(prev, data.results);
-      });
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (

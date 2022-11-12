@@ -12,7 +12,11 @@
 //   }
 // };
 
-// @ 原版
+/**
+ * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
+ * @param {*} url fetch url
+ * @param {*} setState 資料儲存的 state
+ */
 export const getData = async (url, setState) => {
   try {
     const res = await fetch(url);
@@ -20,7 +24,31 @@ export const getData = async (url, setState) => {
       throw new Error("Error");
     }
     const data = await res.json();
-    return setState(data);
+    setState(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/**
+ * 獲取更多的資料(在原來的基礎上獲取更多)
+ * ! 注意: 
+ * @param {*} API_URL url fetch url
+ * @param {*} setState setState 資料儲存的 state
+ */
+export const getMoreData = async (API_URL, setState) => {
+  try {
+    const res = await fetch(API_URL);
+
+    if (!res.ok) {
+      throw new Error("Error");
+    }
+
+    const data = await res.json();
+
+    setState((prev) => {
+      return removeDuplicate(prev, data.results);
+    });
   } catch (err) {
     console.log(err);
   }
