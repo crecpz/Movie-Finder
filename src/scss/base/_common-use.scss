@@ -34,8 +34,8 @@
     }
 }
 
-.empty-msg{
-    @include text(xl);
+.empty-msg {
+    @include text(2xl);
 }
 
 // 目前用於無預告片時
@@ -71,6 +71,7 @@
     }
 }
 
-.load-more{
+.spinner {
     margin-top: 5rem;
+    margin-bottom: 3rem;
 }

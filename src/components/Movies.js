@@ -9,6 +9,7 @@ import {
 } from "../utils/function";
 import GenresSwiper from "./GenresSwiper";
 import MoviesCard from "./MoviesCard";
+import { spinnerStyle } from "../utils/components-styles";
 
 // ! 注意: 目前沒看到 loader
 const Movies = () => {
@@ -43,38 +44,21 @@ const Movies = () => {
       break;
   }
 
- 
-
   useEffect(() => {
     getMoreData(API_URL, setMovies);
-    }, [pageNum]);
-    
-    
+  }, [pageNum]);
+
   useEffect(() => {
     setMovies([]);
     setPageNum(1);
     // 按下切換類別(type)之後，等到 pageNum 確實變成 1 之後才獲取該頁資料
-    if(pageNum === 1) getMoreData(API_URL, setMovies);
+    if (pageNum === 1) getMoreData(API_URL, setMovies);
   }, [type, genresId]);
-
-  // 原版
-  // useEffect(() => {
-  //   setMovies([]);
-  //   setPageNum(1);
-  // }, [type, genresId]);
-
 
   // * 當指定的 Ref 進入畫面中
   useEffect(() => {
     if (isIntersecting) setPageNum((prev) => prev + 1);
   }, [isIntersecting]);
-
-  // * 此為 loader 標誌的樣式
-  const override = {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-  };
 
   return (
     <div className="movies">
@@ -87,13 +71,13 @@ const Movies = () => {
               return <MoviesCard key={movie.id} movie={movie} />;
             })
           ) : (
-            <PulseLoader color="#fff" cssOverride={override} />
+            <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           )}
         </div>
 
         {movies.length !== 0 && (
-          <div ref={loadMore} className="load-more">
-            <PulseLoader color="#fff" cssOverride={override} />
+          <div ref={loadMore} className="spinner">
+            <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>
         )}
       </div>

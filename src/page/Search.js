@@ -1,50 +1,88 @@
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import DetailCard from "../components/DetailCard";
-import { getData } from "../utils/function";
-
+import { getData, getMoreData, removeDuplicate } from "../utils/function";
+import { useInView } from "react-intersection-observer";
+import PulseLoader from "react-spinners/PulseLoader";
+import { spinnerStyle } from "../utils/components-styles";
 const Search = ({ watchlist, setWatchlist }) => {
+  const { ref: loadMore, inView: isIntersecting } = useInView();
   const [searchText, setSearchText] = useState("");
   const [searchResult, setSearchResult] = useState({});
+  const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
+  const getMoreData = async (API_URL, setState) => {
+    try {
+      const res = await fetch(API_URL);
+
+      if (!res.ok) {
+        throw new Error("Error");
+      }
+
+      const data = await res.json();
+
+      setState((prev) => {
+        return {
+          ...prev,
+          results: removeDuplicate(prev.results, data.results),
+        };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
   // ! - 注意，這樣的寫法只會讓使用者在輸入第二個字的時候開始搜尋，第一個字不搜尋
-  // !    所以關於檢查目前是否有內容應該是要看 keyup
   // ! - 關於複製貼上也必須注意
-  function changeInput(e) {
-    e.preventDefault();
+  const handleSearchChange = (e) => {
     setSearchText(e.target.value);
-    const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}`;
-    // 只要 input 內有內容就嘗試進行搜尋
-    if (e.target.value !== "") {
+  };
+
+  useEffect(() => {
+    if (searchText !== "") {
       getData(API_URL, setSearchResult);
     } else {
-      // 否則不進行搜尋
       setSearchResult({});
     }
-  }
+  }, [searchText]);
+
+  useEffect(() => {
+    if (isIntersecting && searchResult) {
+      setPageNum((prev) => prev + 1);
+      getMoreData(API_URL, setSearchResult);
+      console.log(searchResult);
+    }
+  }, [isIntersecting]);
+
+  // useEffect(() => {
+  // }, [pageNum]);
 
   // ! 留意 inWatchlist
-  const searchResultElements =
-    searchResult && searchResult.results
-      ? searchResult.results.length === 0
-        ? "Sorry, no result!"
-        : searchResult.results.map((movie) => {
-            return (
-              <DetailCard
-                movie={movie}
-                inWatchlist={watchlist.some(
-                  (watchlistData) => String(movie.id) === watchlistData.id
-                )}
-                setWatchlist={setWatchlist}
-              />
-            );
-          })
-      : "";
+  const searchResultElements = searchResult.results ? (
+    searchResult.results.length === 0 ? (
+      <span className="empty-msg">Sorry, no search result. Can't find what you're looking for.</span>
+    ) : (
+      searchResult.results.map((movie) => {
+        return (
+          <DetailCard
+            key={movie.id}
+            movie={movie}
+            inWatchlist={watchlist.some(
+              (watchlistData) => String(movie.id) === watchlistData.id
+            )}
+            setWatchlist={setWatchlist}
+          />
+        );
+      })
+    )
+  ) : (
+    ""
+  );
 
   return (
     <div className="search">
@@ -53,10 +91,24 @@ const Search = ({ watchlist, setWatchlist }) => {
           type="text"
           className="search__input"
           placeholder="Search for a movie"
-          onChange={changeInput}
+          onChange={handleSearchChange}
           value={searchText}
         />
-        <ul className="detail-cards">{searchResultElements}</ul>
+        <ul className="detail-cards">
+          {searchResultElements}
+
+          {searchText && !searchResult.results && (
+            <div className="spinner">
+              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+            </div>
+          )}
+
+          {searchResult.results && pageNum <= searchResult.total_results && (
+            <div ref={loadMore} className="spinner">
+              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+            </div>
+          )}
+        </ul>
       </div>
     </div>
   );

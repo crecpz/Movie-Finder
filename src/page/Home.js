@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { getData } from "../utils/function";
 import MovieSwiper from "../components/MovieSwiper";
+import { spinnerStyle } from "../utils/components-styles";
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -43,13 +44,6 @@ const Home = () => {
     getData(TRENDING_URL, setPopularMovies);
     getData(GENRES_URL, setGenresData);
   }, []);
-
-  // * 此為 loader 標誌的樣式
-  const override = {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-  };
 
   // * 輪播
   const carouselElements = popularMovies.results
@@ -122,8 +116,8 @@ const Home = () => {
       <div className="home__genres">
         {MovieSwiperElements}
         {genresData.genres && showAmount <= genresData.genres.length && (
-          <div ref={loadMore} className="load-more">
-            <PulseLoader color="#fff" cssOverride={override} />
+          <div ref={loadMore} className="spinner">
+            <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>
         )}
       </div>

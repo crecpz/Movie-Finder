@@ -2,10 +2,12 @@
 
 // * 每一列要容納幾張卡片
 $perRowAmount: 5;
+
 // * 卡片的父層所設定的 gap (指的是 column-gap)
 $gap: 24px;
-// 單張卡片:
-// @ max-width: calc((100% / $perRowAmount) - $gap * ($perRowAmount - 1) / $perRowAmount);
+
+// @ 單張卡片如何計算 ?
+//  max-width: calc((100% / $perRowAmount) - $gap * ($perRowAmount - 1) / $perRowAmount);
 
 .watchlist {
   @include x-spacing;
@@ -170,7 +172,7 @@ $gap: 24px;
     width: 100%;
     margin-top: auto;
     background-color: #ffffffc9;
-    transform: translateY(100%);
+    transform: translateY(101%);
     transition: map-get($transition, 300);
     transition-property: transform;
 
@@ -185,7 +187,7 @@ $gap: 24px;
   &__btn {
     @include flex($dir: column, $ai: center);
     @include text(xs);
-    padding: 8px;
+    padding: .5rem;
     flex: 1 0 auto;
     width: 33.3%;
     transition: color map-get($transition, 300);
@@ -195,7 +197,7 @@ $gap: 24px;
     }
 
     &:hover {
-      color: map-get($color, active);
+      background-color: map-get($color, tertiary);
     }
 
     i {

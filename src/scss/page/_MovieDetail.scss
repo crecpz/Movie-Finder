@@ -54,10 +54,6 @@
     .container {
       @include flex($ai: center);
 
-      @include xxl {
-        // padding-left: map-get($spacing, lg);
-      }
-
       @include lg {
         flex-direction: column;
       }
@@ -124,11 +120,11 @@
   &__btn {
     align-self: flex-start;
 
-    @include lg {
-      &.btn--black {
-        border: 1px solid map-get($color, primary);
-      }
-    }
+    // @include lg {
+      // &.btn--black {
+      //   border: 1px solid map-get($color, primary);
+      // }
+    // }
 
     &:not(:first-child) {
       margin-left: 2.5rem;

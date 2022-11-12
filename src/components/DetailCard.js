@@ -22,8 +22,6 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
 
   return (
     <li className="detail-card">
-      {/* <Link to={`/movie/${movie && movie.id}`} className="detail-card__link"></Link> */}
-
       <Link to={`/movie/${movie && movie.id}`} className="detail-card__link">
         <img
           src={`https://image.tmdb.org/t/p/w300/${movie && movie.poster_path}`}
@@ -32,7 +30,6 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
           alt="detail-card-img"
         />
       </Link>
-
       <div className="detail-card__texts">
         <Link to={`/movie/${movie && movie.id}`} className="detail-card__link">
           <h3 className="detail-card__title">
