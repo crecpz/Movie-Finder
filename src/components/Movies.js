@@ -11,7 +11,8 @@ import GenresSwiper from "./GenresSwiper";
 import MoviesCard from "./MoviesCard";
 import { spinnerStyle } from "../utils/components-styles";
 
-// ! 注意: 目前沒看到 loader
+
+
 const Movies = () => {
   // intersection
   const { ref: loadMore, inView: isIntersecting } = useInView();
@@ -28,6 +29,7 @@ const Movies = () => {
   // 存放頁面數字
   const [pageNum, setPageNum] = useState(1);
 
+  // 根據目前的網址參數，來決定 API_URL
   switch (type) {
     case "new":
       const firstDate = getFirstDayAndLastDayOfMonth()[0];
@@ -45,20 +47,30 @@ const Movies = () => {
   }
 
   useEffect(() => {
-    getMoreData(API_URL, setMovies);
-  }, [pageNum]);
-
-  useEffect(() => {
+    let subscribed = true;
     setMovies([]);
     setPageNum(1);
     // 按下切換類別(type)之後，等到 pageNum 確實變成 1 之後才獲取該頁資料
-    if (pageNum === 1) getMoreData(API_URL, setMovies);
+    if (pageNum === 1 && subscribed) getMoreData(API_URL, setMovies);
+    return () => {
+      subscribed = false;
+    };
   }, [type, genresId]);
 
   // * 當指定的 Ref 進入畫面中
   useEffect(() => {
+    // 將 pageNum + 1
     if (isIntersecting) setPageNum((prev) => prev + 1);
   }, [isIntersecting]);
+
+  // * 偵測 pageNum 變化
+  useEffect(() => {
+    let subscribed = true;
+    if (subscribed) getMoreData(API_URL, setMovies);
+    return () => {
+      subscribed = false;
+    };
+  }, [pageNum]);
 
   return (
     <div className="movies">
@@ -66,7 +78,7 @@ const Movies = () => {
         <h2 className="layout-title">{capitalize(type)}</h2>
         {type === "genres" && <GenresSwiper />}
         <div className="movies-cards">
-          {movies ? (
+          {movies.length !== 0 ? (
             movies.map((movie) => {
               return <MoviesCard key={movie.id} movie={movie} />;
             })
@@ -76,7 +88,7 @@ const Movies = () => {
         </div>
 
         {movies.length !== 0 && (
-          <div ref={loadMore} className="spinner">
+          <div ref={loadMore} className="spinner" >
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>
         )}

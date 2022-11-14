@@ -4,3 +4,8 @@
     justifyContent: "center",
     width: "100%",
   };
+
+  // * 全螢幕版的 spinner
+  export const spinnerFullScreenStyle = {
+    // spinner
+  };

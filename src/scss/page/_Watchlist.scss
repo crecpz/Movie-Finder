@@ -26,11 +26,12 @@ $gap: 24px;
   }
 
   &__link {
-    border: 0.0625rem solid;
+    border: 0.0625rem solid map-get($color, primary);
     padding: 0.825em 1.2em;
-    color: map-get($color, primary);
-
+    font-weight: bold;
+    
     &--active {
+      // color: map-get($color, secondary);
       background-color: map-get($color, active);
     }
 

@@ -6,24 +6,20 @@
   padding-right: 2.25rem;
 
   .container {
-
   }
 
   &__input {
     @include text(xl);
+    @include flex();
     width: 100%;
-    padding: .5rem .75rem;
+    padding: 0.5rem 0.75rem;
     border: 1px solid;
     border-radius: map-get($border-radius, base);
     color: map-get($color, primary);
     background-color: map-get($color, secondary);
-
-    display: flex;
     margin: 0 auto;
-    max-width: 1000px;
   }
 
   &__result {
-    
   }
 }

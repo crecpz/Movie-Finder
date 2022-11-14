@@ -13,7 +13,11 @@ const MovieSwiper = ({ id, name, show }) => {
   const [genresContent, setGenresContent] = useState([]);
 
   useEffect(() => {
-    getData(DISCOVER_GENRES_URL, setGenresContent);
+    let subscribed = true;
+    if (subscribed) getData(DISCOVER_GENRES_URL, setGenresContent);
+    return () => {
+      subscribed = false;
+    };
   }, []);
 
   // * swiper 內的 slide

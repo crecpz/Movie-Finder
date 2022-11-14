@@ -22,27 +22,24 @@ const Home = () => {
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 類別資料
   const [genresData, setGenresData] = useState([]);
-
   const { ref: loadMore, inView: isIntersecting } = useInView();
   const [showAmount, setShowAmount] = useState(3);
-  console.log(genresData.genres);
+
   useEffect(() => {
-    // console.log(showAmount <= genresData.genres.length);
     if (isIntersecting) {
-      console.log(isIntersecting);
       setShowAmount((prev) => prev + 4);
-      console.log(MovieSwiperElements);
     }
-    // if (isIntersecting && showAmount <= genresData.length) {
-    //   console.log(isIntersecting);
-    //   setShowAmount((prev) => prev + 4);
-    //   console.log(MovieSwiperElements)
-    // }
   }, [isIntersecting]);
 
   useEffect(() => {
-    getData(TRENDING_URL, setPopularMovies);
-    getData(GENRES_URL, setGenresData);
+    let subscribed = true;
+    if (subscribed) {
+      getData(TRENDING_URL, setPopularMovies);
+      getData(GENRES_URL, setGenresData);
+    }
+    return () => {
+      subscribed = false;
+    };
   }, []);
 
   // * 輪播

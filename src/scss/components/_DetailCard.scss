@@ -11,6 +11,13 @@
   padding-bottom: 2rem;
   border-bottom: 1px solid #333;
 
+  @include sm {
+    flex-direction: column;
+    width: 100%;
+    max-width: 20.625rem;
+    margin: 0 auto;
+  }
+
   &__poster {
     width: 100%;
     max-width: 9.375rem;
@@ -18,7 +25,9 @@
     align-self: start;
 
     @include sm {
-      max-width: 8.4375rem;
+      // max-width: 10.9375rem;
+      max-width: none;
+  
     }
   }
 
@@ -27,12 +36,18 @@
     margin-left: 2rem;
 
     @include sm {
-      margin-left: 1.5rem;
+      row-gap: .75rem;
+      margin-left: 0;
+      margin-top: 1.5rem;
     }
 
     #{$block}__link {
       align-self: flex-start;
     }
+  }
+  
+  &__link{
+    flex-shrink: 0;
   }
 
   &__title {

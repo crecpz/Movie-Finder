@@ -1,19 +1,27 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getData, noImage } from "../utils/function";
+import { getData, noPoster } from "../utils/function";
 
 const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
   const [currentMovie, setCurrentMovie] = useState({});
   const API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
 
   useEffect(() => {
-    getData(API_URL, setCurrentMovie);
+    let subscribed = true;
+    if (subscribed) getData(API_URL, setCurrentMovie);
+    return () => {
+      subscribed = false;
+    };
   }, [watchStatus]);
 
   useEffect(() => {
-    getData(API_URL, setCurrentMovie);
+    let subscribed = true;
+    if (subscribed) getData(API_URL, setCurrentMovie);
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    return () => {
+      subscribed = false;
+    };
   }, [watchlist]);
 
   // ! No movies in your list, add some!
@@ -47,7 +55,7 @@ const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
         <img
           className="watchcard__movie-poster"
           src={`https://image.tmdb.org/t/p/original/${currentMovie.poster_path}`}
-          onError={noImage}
+          onError={noPoster}
           alt="watchcard-poster"
         />
       </div>

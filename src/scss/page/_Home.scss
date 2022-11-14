@@ -60,7 +60,7 @@
 
   // * carousel 文字部分
   &__text {
-    @include flex($dir: column, $jc: end);
+    @include flex($dir: column, $jc: flex-end);
     @include x-spacing;
     row-gap: 1rem;
     column-gap: 1rem;

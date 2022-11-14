@@ -8,7 +8,7 @@ import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { getData } from "../utils/function";
+import { getData, noBackdrop, noPoster } from "../utils/function";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
   const { id } = useParams();
@@ -23,30 +23,49 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
   //! 接下來要在結構做出樣式(+到watchlist or 沒+ 的樣式)，
   //! 嚴防重複增加，根據目前是否 isInWatchlist 來決定按下之後是要做移除還是增加
-
+  let similarPageNum = 1;
+  const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=${similarPageNum}`;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const TRAILER_URL = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
-  const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
 
   useEffect(() => {
-    getData(CURRENT_DETAIL_URL, setCurrentMovie);
-    getData(SIMILAR_URL, setSimilarMovies);
-    getData(TRAILER_URL, setTrailer);
+    let subscribed = true;
+    if (subscribed) {
+      getData(CURRENT_DETAIL_URL, setCurrentMovie);
+      getData(TRAILER_URL, setTrailer);
+      getData(SIMILAR_URL, setSimilarMovies);
+    }
+    return () => {
+      subscribed = false;
+    };
   }, []);
 
   useEffect(() => {
-    getData(CURRENT_DETAIL_URL, setCurrentMovie);
-    getData(SIMILAR_URL, setSimilarMovies);
-    getData(TRAILER_URL, setTrailer);
+    let subscribed = true;
+    if (subscribed) {
+      getData(CURRENT_DETAIL_URL, setCurrentMovie);
+      getData(SIMILAR_URL, setSimilarMovies);
+      getData(TRAILER_URL, setTrailer);
+    }
+    // 更新目前的 watchlist 狀態
     setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
     window.scrollTo(0, 0);
+    return () => {
+      subscribed = false;
+    };
   }, [id]);
 
   useEffect(() => {
+    // 更新目前的 watchlist 狀態
     setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
+    // 存至 localStorage
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
+  /**
+   * * 接收一個 id 作為參數，更新 watchlist 清單內的資料
+   * @param {*} id 目前頁面電影的 Id
+   */
   function changeWatchlist(id) {
     setWatchlist((prev) => {
       if (inWatchlist) {
@@ -69,8 +88,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   // * 相似電影
   const similarMovieElements = similarMovies.results
     ? similarMovies.results.map((movie) => {
-        return (
-          <SwiperSlide>
+        return movie.backdrop_path ? (
+          <SwiperSlide key={movie.id}>
             <div className="movie-slide">
               <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
                 <img
@@ -90,9 +109,14 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               </Link>
             </div>
           </SwiperSlide>
+        ) : (
+          ""
         );
       })
     : "";
+
+  // 檢查 currentMovie 物件內是否為空，若為空則代表現在正在 loading
+  const isLoading = currentMovie && Object.keys(currentMovie).length === 0;
 
   return (
     <SkeletonTheme baseColor="#202020" highlightColor="#444">
@@ -103,46 +127,32 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               src={`https://image.tmdb.org/t/p/original/${
                 currentMovie && currentMovie.backdrop_path
               }`}
+              onError={noBackdrop}
               alt="movie-detail-backdrop"
             />
           </div>
 
-          {/* {currentMovie.backdrop_path ? (
-            
-          ) : (
-            <Skeleton className="movie-detail__backdrop" />
-          )} */}
-
           <div className="movie-detail__content">
             <div className="container container--lg">
-              {currentMovie.poster_path ? (
-                <img
-                  className="movie-detail__poster"
-                  src={`https://image.tmdb.org/t/p/original/${
-                    currentMovie ? currentMovie.poster_path : ""
-                  }`}
-                  alt="movie-poster"
-                />
-              ) : (
+
+              {isLoading ? (
                 <Skeleton
                   width={300}
                   height={450}
                   className="movie-detail__poster"
                 />
+              ) : (
+                <img
+                  className="movie-detail__poster"
+                  src={`https://image.tmdb.org/t/p/original/${
+                    currentMovie ? currentMovie.poster_path : ""
+                  }`}
+                  onError={noPoster}
+                  alt="movie-poster"
+                />
               )}
 
               <div className="movie-detail__texts">
-                {/* <h3 className="movie-detail__title">
-                  {currentMovie ? currentMovie.original_title : ""}
-                </h3> */}
-
-                {/* <h3 className="movie-detail__title">
-                  {currentMovie.original_title ? (
-                    currentMovie.original_title
-                  ) : (
-                    <Skeleton />
-                  )}
-                </h3> */}
                 <h3 className="movie-detail__title">
                   {currentMovie.original_title ? (
                     currentMovie.original_title
@@ -150,14 +160,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                     <Skeleton />
                   )}
                 </h3>
-
                 <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
                   {currentMovie && currentMovie.genres
                     ? currentMovie.genres.map((genres) => {
                         return (
                           <Link
-                            to={`/movies/genres/${genres.id}`}
                             key={genres.id}
+                            to={`/movies/genres/${genres.id}`}
                             className="movie-detail__genres-tag genres-tag">
                             {genres.name}
                           </Link>
@@ -238,26 +247,32 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               breakpoints={{
                 0: {
                   slidesPerView: 1,
+                  slidesPerGroup: 1,
                   spaceBetween: 0,
                 },
                 576: {
                   slidesPerView: 2,
+                  slidesPerGroup: 2,
                   spaceBetween: 20,
                 },
                 768: {
                   slidesPerView: 3,
+                  slidesPerGroup: 3,
                   spaceBetween: 20,
                 },
                 1024: {
                   slidesPerView: 4,
+                  slidesPerGroup: 4,
                   spaceBetween: 20,
                 },
                 1300: {
                   slidesPerView: 4,
+                  slidesPerGroup: 4,
                   spaceBetween: 20,
                 },
                 1400: {
                   slidesPerView: 5,
+                  slidesPerGroup: 5,
                   spaceBetween: 20,
                 },
               }}>

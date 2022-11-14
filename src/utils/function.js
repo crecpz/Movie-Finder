@@ -32,7 +32,7 @@ export const getData = async (url, setState) => {
 
 /**
  * 獲取更多的資料(在原來的基礎上獲取更多)
- * ! 注意: 
+ * ! 注意:
  * @param {*} API_URL url fetch url
  * @param {*} setState setState 資料儲存的 state
  */
@@ -69,7 +69,6 @@ export function removeDuplicate(originMovies, inCommingMovies) {
   }, []);
 }
 
-
 /**
  * 取得當月首日~當月最後一天的日期
  * @returns
@@ -97,15 +96,22 @@ export function capitalize(str) {
     .join(" ");
 }
 
-export function noImage({ currentTarget }) {
+export function noPoster({ currentTarget }) {
   currentTarget.onerror = null; // prevents looping
-  currentTarget.src =
-    "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
-    
+  // currentTarget.src =
+  //   "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
+  currentTarget.src = "https://via.placeholder.com/300X450.png?text=No+Poster";
+
   // * 原版
   // onError={({ currentTarget }) => {
   //   currentTarget.onerror = null; // prevents looping
   //   currentTarget.src =
   //     "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
   // }}
+}
+
+export function noBackdrop({ currentTarget }) {
+  currentTarget.onerror = null; // prevents looping
+  currentTarget.src =
+    "https://cdn.pixabay.com/photo/2019/11/07/20/48/cinema-4609877_960_720.jpg";
 }

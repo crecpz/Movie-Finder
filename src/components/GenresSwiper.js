@@ -19,7 +19,11 @@ const GenresSwiper = () => {
   const [genresData, setGenresData] = useState([]);
 
   useEffect(() => {
-    getData(GENRES_URL, setGenresData);
+    let subscribed = true;
+    if(subscribed) getData(GENRES_URL, setGenresData);
+    return ()=> {
+      subscribed = false;
+    }
   }, []);
 
   const slideElements = genresData.genres

@@ -18,10 +18,6 @@ function App() {
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
 
-  // useEffect(() => {
-  //   // const watchlist = JSON.parse(window.localStorage.getItem("watchlist")) || [];
-  //   // setWatchlist(watchlist);
-  // }, []);
 
   return (
     <div className="App">
@@ -38,11 +34,6 @@ function App() {
                   setWatchlist={setWatchlist}
                 />
               }></Route>
-
-            {/* <Route path="movies" >
-              <Route index path=":type" element={<Movies />}></Route>
-              <Route path=":type/:genresId" element={<Movies />}></Route>
-            </Route> */}
 
             <Route path="movies/:type" element={<Movies />}>
               <Route path=":genresId" element={<Movies />}></Route>

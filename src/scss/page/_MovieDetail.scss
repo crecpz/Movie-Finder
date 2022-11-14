@@ -97,14 +97,23 @@
 
   &__overview {
     @include text(xl);
+      // @ 限制行數
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* 行數 */
+      -webkit-box-orient: vertical;
+      white-space: normal;
+      text-overflow: ellipsis;
 
-    // @ 如果需要限制行數，解除註解
-    // overflow: hidden;
-    // display: -webkit-box;
-    // -webkit-line-clamp: 3; /* 行數 */
-    // -webkit-box-orient: vertical;
-    // white-space: normal;
-    // text-overflow: ellipsis;
+    @include lg {
+      // lg 以下，解除限制
+      overflow: visible ;
+      display: inline;
+      -webkit-line-clamp: none ; /* 行數 */
+      -webkit-box-orient: vertical;
+      white-space: normal;
+      text-overflow: clip ;
+    }
 
     @include sm {
       @include text(lg);
