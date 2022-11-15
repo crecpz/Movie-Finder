@@ -4,7 +4,34 @@ import { useEffect, useRef, useState } from "react";
 
 const Header = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
+  const headerRef = useRef();
   const navRef = useRef(null);
+  const [headerHide, setHeaderHide] = useState(false);
+
+  useEffect(() => {
+    let lastScrollY = 0;
+    const handleScroll = (e) => {
+      let currentScrollY = window.scrollY;
+      if(currentScrollY > lastScrollY){
+        console.log('現在在往下滑')
+        headerRef.current.classList.add('header--hide');
+      }
+      
+      if(currentScrollY < lastScrollY){
+        headerRef.current.classList.remove('header--hide');
+        console.log('現在在往上滑')
+      }
+
+      lastScrollY = currentScrollY;
+      console.log(currentScrollY, lastScrollY)
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -16,13 +43,12 @@ const Header = () => {
         setNavIsOpen(false);
       }
     }
-
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
   }, [navRef]);
 
   return (
-    <header className="header">
+    <header ref={headerRef} className="header">
       <Link to="/" className="header__logo">
         <h1>
           {/* <i className="fa-solid fa-film"></i>Movie Finder */}

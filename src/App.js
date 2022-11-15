@@ -11,12 +11,10 @@ import Watchlist from "./page/Watchlist";
 
 // ! 記得處理 not-found
 function App() {
-  const API_URL =
-    "https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc";
-
   const [watchlist, setWatchlist] = useState(
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
+
 
   return (
     <div className="App">
@@ -25,7 +23,7 @@ function App() {
         <main>
           <Routes>
             <Route index path="/" element={<Home />}></Route>
-            <Route 
+            <Route
               path="movie/:id"
               element={
                 <MovieDetail
