@@ -97,22 +97,22 @@
 
   &__overview {
     @include text(xl);
-      // @ 限制行數
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3; /* 行數 */
-      -webkit-box-orient: vertical;
-      white-space: normal;
-      text-overflow: ellipsis;
+    // @ 限制行數
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 行數 */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    text-overflow: ellipsis;
 
     @include lg {
       // lg 以下，解除限制
-      overflow: visible ;
+      overflow: visible;
       display: inline;
-      -webkit-line-clamp: none ; /* 行數 */
+      -webkit-line-clamp: none; /* 行數 */
       -webkit-box-orient: vertical;
       white-space: normal;
-      text-overflow: clip ;
+      text-overflow: clip;
     }
 
     @include sm {
@@ -130,9 +130,9 @@
     align-self: flex-start;
 
     // @include lg {
-      // &.btn--black {
-      //   border: 1px solid map-get($color, primary);
-      // }
+    // &.btn--black {
+    //   border: 1px solid map-get($color, primary);
+    // }
     // }
 
     &:not(:first-child) {
@@ -144,15 +144,23 @@
     }
 
     // @ 統一設定 Add Watchlist 的 icon 大小(因為打勾與加號的 icon 大小不一)
-    i{
+    i {
       width: 1.125rem;
+    }
+  }
+
+  &__trailer,
+  &__similar {
+    .container {
+      border-top: 1px solid #333;
+      padding-top: 2rem;
     }
   }
 
   // * Trailer (預告)
   &__trailer {
     @include x-spacing;
-    margin-top: 4rem;
+    margin-top: 2rem;
   }
 
   &__video-container {
@@ -178,7 +186,7 @@
   // * Similar Movies swiper (相似電影 swiper)
   &__similar {
     @include x-spacing;
-    margin-top: 4rem;
+    margin-top: 2rem;
     padding-bottom: 2rem;
   }
 }

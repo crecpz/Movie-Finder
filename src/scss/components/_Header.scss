@@ -8,7 +8,14 @@
   padding-right: deep-map-get($spacing, lg);
   // padding: 1.5rem 2.25rem;
   // padding: deep-map-get($spacing, sm) deep-map-get($spacing, lg);
-  background-color: black;
+  // background-color: rgb(192, 80, 80);
+
+  background-color: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+
 
   @include md {
     position: relative;
@@ -71,7 +78,7 @@
     transition-property: all;
     transition: 200ms ease-in-out;
   }
-  
+
   &--open {
     transform: scaleY(1);
     visibility: visible;

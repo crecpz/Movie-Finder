@@ -1,18 +1,20 @@
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
+import PulseLoader from "react-spinners/PulseLoader";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { getData, noBackdrop, noPoster } from "../utils/function";
+import { spinnerStyle } from "../utils/components-styles";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
   const { id } = useParams();
+  // 儲存當前電影資料
   const [currentMovie, setCurrentMovie] = useState({});
+  // 存放與當前電影相似的其他電影
   const [similarMovies, setSimilarMovies] = useState({});
   // 儲存預告片資料
   const [trailer, setTrailer] = useState({});
@@ -20,6 +22,18 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === id) !== undefined
   );
+
+  // 目前已經載入
+  const currentMovieObjLoaded =
+    currentMovie && Object.keys(currentMovie).length !== 0;
+
+  // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
+  const [imgIsLoaded, setImgIsLoaded] = useState(false);
+  // 存放目前電影 poster 與 backdrop 載入狀態
+  const [imgLoadStatus, setImgLoadStatus] = useState([
+    { type: "backdrop", isLoaded: false },
+    { type: "poster", isLoaded: false },
+  ]);
 
   //! 接下來要在結構做出樣式(+到watchlist or 沒+ 的樣式)，
   //! 嚴防重複增加，根據目前是否 isInWatchlist 來決定按下之後是要做移除還是增加
@@ -41,6 +55,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   }, []);
 
   useEffect(() => {
+    // 換頁後，恢復 poster & backdrop 的狀態
+    setImgIsLoaded(false);
+    setImgLoadStatus([
+      { type: "backdrop", isLoaded: false },
+      { type: "poster", isLoaded: false },
+    ]);
+
     let subscribed = true;
     if (subscribed) {
       getData(CURRENT_DETAIL_URL, setCurrentMovie);
@@ -115,53 +136,89 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       })
     : "";
 
-  // 檢查 currentMovie 物件內是否為空，若為空則代表現在正在 loading
-  const isLoading = currentMovie && Object.keys(currentMovie).length === 0;
+  /**
+   * * 改變目前 poster & backdrop 的載入狀態，並更新至 imgLoadStatus state
+   * @param {*} e
+   */
+  function changeImgStatus(e) {
+    const { alt } = e.target;
+    console.log(e);
+
+    setImgLoadStatus((prev) => {
+      return prev.map((i) => {
+        if (i.type === alt) {
+          return { ...i, isLoaded: true };
+        } else {
+          return i;
+        }
+      });
+    });
+  }
+
+  useEffect(() => {
+    // 當 imgLoadStatus 內所有的元素的 isLoaded 屬性皆為 true 時
+    // 代表 poster 與 backdrop 都已載入完畢
+    if (imgLoadStatus.every(({ isLoaded }) => isLoaded)) {
+      // 將 imgIsLoaded state 設為 true(所以 spinner 就會消失)
+      setImgIsLoaded(true);
+    }
+  }, [imgLoadStatus]);
+
+  useEffect(() => {
+    // 檢查當前電影的 poster_path 是否為 null
+    // 如果為 null，則表示 API 為提供該張圖片
+    if (currentMovie.poster_path === null) {
+      // 手動設定 poster 的載入狀態為 true
+      // (至於 poster 海報則是直接不顯示)
+      setImgLoadStatus((prev) => {
+        return prev.map((i) => {
+          if (i.type === "poster") {
+            return { ...i, isLoaded: true };
+          } else {
+            return i;
+          }
+        });
+      });
+    }
+  }, [currentMovie]);
 
   return (
-    <SkeletonTheme baseColor="#202020" highlightColor="#444">
+    <>
+      <div className={`spinner-full-screen ${!imgIsLoaded && "active"}`}>
+        <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+      </div>
+
       <div className="movie-detail">
         <div className="movie-detail__intro">
           <div className="movie-detail__backdrop">
             <img
-              src={`https://image.tmdb.org/t/p/original/${
-                currentMovie && currentMovie.backdrop_path
-              }`}
+              src={`https://image.tmdb.org/t/p/original/${currentMovie.backdrop_path}`}
               onError={noBackdrop}
-              alt="movie-detail-backdrop"
+              onLoad={(e) => changeImgStatus(e)}
+              alt="backdrop"
             />
           </div>
-
           <div className="movie-detail__content">
             <div className="container container--lg">
-
-              {isLoading ? (
-                <Skeleton
-                  width={300}
-                  height={450}
-                  className="movie-detail__poster"
-                />
-              ) : (
+              {currentMovie.poster_path !== null && (
                 <img
                   className="movie-detail__poster"
                   src={`https://image.tmdb.org/t/p/original/${
                     currentMovie ? currentMovie.poster_path : ""
                   }`}
-                  onError={noPoster}
-                  alt="movie-poster"
+                  onLoad={(e) => changeImgStatus(e)}
+                  alt="poster"
                 />
               )}
 
               <div className="movie-detail__texts">
                 <h3 className="movie-detail__title">
-                  {currentMovie.original_title ? (
-                    currentMovie.original_title
-                  ) : (
-                    <Skeleton />
-                  )}
+                  {currentMovie.original_title
+                    ? currentMovie.original_title
+                    : ""}
                 </h3>
                 <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
-                  {currentMovie && currentMovie.genres
+                  {currentMovie.genres
                     ? currentMovie.genres.map((genres) => {
                         return (
                           <Link
@@ -176,18 +233,18 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 </div>
                 <div className="info movie-detail__info">
                   <p className="movie-detail__release-date">
-                    {currentMovie ? currentMovie.release_date : ""}
+                    {currentMovie.release_date || ""}
                   </p>
                   <p className="vote movie-detail__vote">
-                    {currentMovie ? currentMovie.vote_average : ""}
+                    {currentMovie.vote_average || ""}
                     <i className="fa-solid fa-star"></i>
                   </p>
                   <p className="movie-detail__runtime">
-                    {currentMovie ? currentMovie.runtime : ""} Minutes
+                    {currentMovie.runtime || ""} Minutes
                   </p>
                 </div>
                 <p className="movie-detail__overview">
-                  {currentMovie ? currentMovie.overview : ""}
+                  {currentMovie.overview || ""}
                 </p>
                 <div className="movie-detail__btns">
                   <button className="movie-detail__btn btn btn--red btn--lg">
@@ -232,56 +289,60 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         <div className="movie-swiper movie-detail__similar">
           <div className="container">
             <h2 className="layout-title">Similar Movies</h2>
-            <Swiper
-              effect="coverflow"
-              slidesPerView={5}
-              spaceBetween={20}
-              slidesPerGroup={5}
-              loop={true}
-              loopFillGroupWithBlank={false}
-              pagination={{
-                clickable: true,
-              }}
-              navigation={true}
-              modules={[Pagination, Navigation]}
-              breakpoints={{
-                0: {
-                  slidesPerView: 1,
-                  slidesPerGroup: 1,
-                  spaceBetween: 0,
-                },
-                576: {
-                  slidesPerView: 2,
-                  slidesPerGroup: 2,
-                  spaceBetween: 20,
-                },
-                768: {
-                  slidesPerView: 3,
-                  slidesPerGroup: 3,
-                  spaceBetween: 20,
-                },
-                1024: {
-                  slidesPerView: 4,
-                  slidesPerGroup: 4,
-                  spaceBetween: 20,
-                },
-                1300: {
-                  slidesPerView: 4,
-                  slidesPerGroup: 4,
-                  spaceBetween: 20,
-                },
-                1400: {
-                  slidesPerView: 5,
-                  slidesPerGroup: 5,
-                  spaceBetween: 20,
-                },
-              }}>
-              {similarMovieElements}
-            </Swiper>
+            {similarMovies.results && similarMovies.results.length === 0 ? (
+              <p class="placeholder-text">No similar movies!</p>
+            ) : (
+              <Swiper
+                effect="coverflow"
+                slidesPerView={5}
+                spaceBetween={20}
+                slidesPerGroup={5}
+                loop={true}
+                loopFillGroupWithBlank={false}
+                pagination={{
+                  clickable: true,
+                }}
+                navigation={true}
+                modules={[Pagination, Navigation]}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1,
+                    slidesPerGroup: 1,
+                    spaceBetween: 0,
+                  },
+                  576: {
+                    slidesPerView: 2,
+                    slidesPerGroup: 2,
+                    spaceBetween: 20,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 3,
+                    spaceBetween: 20,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                    slidesPerGroup: 4,
+                    spaceBetween: 20,
+                  },
+                  1300: {
+                    slidesPerView: 4,
+                    slidesPerGroup: 4,
+                    spaceBetween: 20,
+                  },
+                  1400: {
+                    slidesPerView: 5,
+                    slidesPerGroup: 5,
+                    spaceBetween: 20,
+                  },
+                }}>
+                {similarMovieElements}
+              </Swiper>
+            )}
           </div>
         </div>
       </div>
-    </SkeletonTheme>
+    </>
   );
 };
 

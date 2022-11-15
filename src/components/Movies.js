@@ -88,7 +88,7 @@ const Movies = () => {
         </div>
 
         {movies.length !== 0 && (
-          <div ref={loadMore} className="spinner" >
+          <div ref={loadMore} className="spinner spinner--full-screen" >
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>
         )}
