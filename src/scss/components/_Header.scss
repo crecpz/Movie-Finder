@@ -2,20 +2,18 @@
 
 .header {
   @include flex($ai: center);
-  height: 90px;
-  flex: 1 0 auto;
-  padding-left: deep-map-get($spacing, lg);
-  padding-right: deep-map-get($spacing, lg);
-  // padding: 1.5rem 2.25rem;
-  // padding: deep-map-get($spacing, sm) deep-map-get($spacing, lg);
-  // background-color: rgb(192, 80, 80);
-
-  background-color: transparent;
   position: sticky;
   top: 0;
   z-index: 10;
 
+  // margin-top: -(deep-map-get($height, header, lg));
+  height: deep-map-get($height, header, lg);
+  flex: 1 0 auto;
+  padding-left: deep-map-get($spacing, lg);
+  padding-right: deep-map-get($spacing, lg);
 
+  background-color: #000;
+  border-bottom: 2px solid rgb(213, 108, 80);
 
   @include md {
     position: relative;
@@ -23,13 +21,22 @@
   }
 
   @include sm {
+    height: deep-map-get($height, header, sm);
     padding: deep-map-get($spacing, sm) deep-map-get($spacing, sm);
   }
 
   &__logo {
-    @include text(3xl);
+    @include text(2xl);
     white-space: nowrap;
     font-weight: bold;
+    color: map-get($color, tertiary);
+
+    @include sm {
+      @include text(xl);
+    }
+
+    h1 {
+    }
 
     i {
       margin-right: 0.5rem;
@@ -86,8 +93,27 @@
   }
 
   &__link {
-    @include text(lg);
+    position: relative;
+    @include text(base);
     font-weight: bold;
+    transition: color map-get($transition, 150);
+
+    @include hover-query() {
+      &:hover {
+        color: map-get($color, tertiary);
+      }
+    }
+
+    &.active {
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        height: 2px;
+        width: 100%;
+        background-color: rgb(213, 108, 80);
+      }
+    }
 
     &:nth-last-child(2) {
       margin-left: auto;

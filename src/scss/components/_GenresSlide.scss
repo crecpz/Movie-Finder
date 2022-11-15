@@ -1,8 +1,8 @@
 @use "../abstracts" as *;
 
 .genres-swiper {
-  .container{
-    &:hover{
+  .container {
+    &:hover {
       .swiper-button-prev,
       .swiper-button-next {
         opacity: 1;
@@ -38,8 +38,6 @@
   }
 }
 
-
-
 .slide-link {
   $bolck: &;
   @include flex($dir: column, $ai: center);
@@ -49,25 +47,27 @@
   padding: 0.5rem 0;
   text-align: center;
 
-  &:hover {
-    #{$bolck}__icon,
-    #{$bolck}__name {
-      color: map-get($color, active);
+  @include hover-query {
+    &:hover {
+      #{$bolck}__icon,
+      #{$bolck}__name {
+        color: map-get($color, active);
+      }
     }
   }
 
-  &--active{
+  &--active {
     color: map-get($color, active);
   }
 
   &__icon {
     @include text(2xl);
-    transition: color map-get($transition, 200);
+    transition: color map-get($transition, 150);
   }
 
   &__name {
     @include text(base);
     margin-top: 0.5rem;
-    transition: color map-get($transition, 200);
+    transition: color map-get($transition, 150);
   }
 }

@@ -13,9 +13,6 @@ $text: (
     6xl: 3.75rem,
     7xl: 4.5rem,
   ),
-  // spacing:(
-  //   base:  0.15em,
-  // ),,,
 );
 
 $max-width: (
@@ -25,21 +22,18 @@ $max-width: (
   md: 740px,
 );
 
-
 // color
 $color: (
   primary: #fff,
   secondary: #000,
   tertiary: rgb(213, 108, 80),
   active: rgb(213, 108, 80),
-
   // #831e1e
 );
 
 // padding
 $spacing: (
   sm: 1.5rem,
-  // lg: 2.25rem,
   lg: 4rem,
 );
 
@@ -53,4 +47,11 @@ $transition: (
   300: 300ms ease-in-out,
   500: 500ms ease-in-out,
   800: 800ms ease-in-out,
+);
+
+$height: (
+  header: (
+    sm: 60px,
+    lg: 70px,
+  ),
 );

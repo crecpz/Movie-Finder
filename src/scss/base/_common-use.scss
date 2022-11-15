@@ -97,3 +97,15 @@
         opacity: 1;
     }
 }
+
+// .flag {
+//     position: absolute;
+//     top: calc(100vh - deep-map-get($height, header, lg));
+//     width: 100%;
+//     height: 1px;
+//     border: 1px solid red;
+
+//     @include sm {
+//         top: calc(100vh - deep-map-get($height, header, lg));
+//     }
+// }

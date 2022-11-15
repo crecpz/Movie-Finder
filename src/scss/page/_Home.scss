@@ -24,13 +24,16 @@
     position: relative;
     display: block;
     width: 100%;
-    // height: calc(100vh - 90px);
-    height: 100vh;
+    height: calc(100vh - deep-map-get($height, header, lg));
+
+    @include sm {
+      height: calc(100vh - deep-map-get($height, header, sm));
+    }
 
     .carousel__backdrop {
       @include sm {
         display: none;
-        height: calc(100vh - 90px);
+
         object-fit: cover;
         object-position: left;
       }
@@ -130,42 +133,44 @@
     }
   }
 }
+.home {
+  position: relative;
+  
+  &__genres {
+    padding-bottom: 3rem;
+    padding-top: 3rem;
+    padding-left: map-get($spacing, lg);
+    padding-right: map-get($spacing, lg);
 
-.home__genres {
-  padding-bottom: 3rem;
-  padding-top: 3rem;
-  padding-left: map-get($spacing, lg);
-  padding-right: map-get($spacing, lg);
-
-  @include sm {
-    padding-left: map-get($spacing, sm);
-    padding-right: map-get($spacing, sm);
-  }
-
-  &-item {
-    @include flex($dir: column);
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #333;
-  }
-
-  .swiper{
-    width: 100%;
-  }
-
-
-  &-link {
-    @include flex($ai: center);
-    align-self: start;
-
-    &:hover i {
-      animation: move-x infinite 300ms alternate;
+    @include sm {
+      padding-left: map-get($spacing, sm);
+      padding-right: map-get($spacing, sm);
     }
 
-    i {
-      @include text(xl);
-      margin-left: 0.75rem;
-      margin-top: 0.75rem;
+    &-item {
+      @include flex($dir: column);
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #333;
+    }
+
+    .swiper {
+      width: 100%;
+    }
+
+    &-link {
+      @include flex($ai: center);
+      align-self: start;
+
+      &:hover i {
+        animation: move-x infinite 300ms alternate;
+      }
+
+      i {
+        @include text(xl);
+        margin-left: 0.75rem;
+        margin-top: 0.75rem;
+      }
     }
   }
 }

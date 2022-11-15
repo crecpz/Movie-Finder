@@ -142,7 +142,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
    */
   function changeImgStatus(e) {
     const { alt } = e.target;
-    console.log(e);
 
     setImgLoadStatus((prev) => {
       return prev.map((i) => {

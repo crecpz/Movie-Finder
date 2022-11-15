@@ -18,15 +18,14 @@ function App() {
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
 
-
   return (
     <div className="App">
       <Router>
         <Header />
         <main>
           <Routes>
-            <Route index element={<Home />}></Route>
-            <Route
+            <Route index path="/" element={<Home />}></Route>
+            <Route 
               path="movie/:id"
               element={
                 <MovieDetail
