@@ -11,8 +11,6 @@ import GenresSwiper from "./GenresSwiper";
 import MoviesCard from "./MoviesCard";
 import { spinnerStyle } from "../utils/components-styles";
 
-
-
 const Movies = () => {
   // intersection
   const { ref: loadMore, inView: isIntersecting } = useInView();
@@ -25,7 +23,6 @@ const Movies = () => {
   let API_URL = "";
   // 在網址中取得 genresId
   const { genresId } = useParams();
-
   // 存放頁面數字
   const [pageNum, setPageNum] = useState(1);
 
@@ -42,7 +39,10 @@ const Movies = () => {
       break;
 
     case "genres":
-      API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${genresId}&page=${pageNum}`;
+      // 注意: 會先檢查網址，如果網址是 undefined，就給他預設值 28 (Action 類別的代號)
+      API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${
+        genresId || 28
+      }&page=${pageNum}`;
       break;
   }
 
@@ -76,7 +76,9 @@ const Movies = () => {
     <div className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
+
         {type === "genres" && <GenresSwiper />}
+
         <div className="movies-cards">
           {movies.length !== 0 ? (
             movies.map((movie) => {
@@ -88,7 +90,7 @@ const Movies = () => {
         </div>
 
         {movies.length !== 0 && (
-          <div ref={loadMore} className="spinner spinner--full-screen" >
+          <div ref={loadMore} className="spinner spinner--full-screen">
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>
         )}

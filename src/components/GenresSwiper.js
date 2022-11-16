@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 import { FreeMode, Navigation, Pagination, Scrollbar } from "swiper";
 import { getData } from "../utils/function";
 import genresIconsData from "../utils/genresIconsData";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 const GenresSwiper = () => {
   // 取得類別 id 與對應的名稱
@@ -17,13 +17,15 @@ const GenresSwiper = () => {
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 存放類別資料(TMDB 提供的 19 個類別)
   const [genresData, setGenresData] = useState([]);
+  // 取得 url params
+  const { genresId } = useParams();
 
   useEffect(() => {
     let subscribed = true;
-    if(subscribed) getData(GENRES_URL, setGenresData);
-    return ()=> {
+    if (subscribed) getData(GENRES_URL, setGenresData);
+    return () => {
       subscribed = false;
-    }
+    };
   }, []);
 
   const slideElements = genresData.genres
@@ -33,9 +35,10 @@ const GenresSwiper = () => {
             <NavLink
               to={`${genres ? genres.id : ""}`}
               className={({ isActive }) =>
-                isActive ? "slide-link slide-link--active" : "slide-link"
-              }
-              >
+                isActive || (genresId === undefined && genres.id === 28)
+                  ? "slide-link active"
+                  : "slide-link"
+              }>
               <i
                 className={`slide-link__icon ${
                   genresIconsData[genres.id]

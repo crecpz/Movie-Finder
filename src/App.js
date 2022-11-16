@@ -6,6 +6,7 @@ import Movies from "./components/Movies";
 import WatchCards from "./components/WatchCards";
 import Home from "./page/Home";
 import MovieDetail from "./page/MovieDetail";
+import NotFound from "./page/NotFound";
 import Search from "./page/Search";
 import Watchlist from "./page/Watchlist";
 
@@ -15,7 +16,6 @@ function App() {
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
 
-
   return (
     <div className="App">
       <Router>
@@ -23,6 +23,7 @@ function App() {
         <main>
           <Routes>
             <Route index path="/" element={<Home />}></Route>
+
             <Route
               path="movie/:id"
               element={
@@ -34,9 +35,19 @@ function App() {
 
             <Route path="movies/:type" element={<Movies />}>
               <Route path=":genresId" element={<Movies />}></Route>
+              <Route path="*" element={<NotFound />}></Route>
             </Route>
 
             <Route path="/watchlist" element={<Watchlist />}>
+            <Route
+                element={
+                  <WatchCards
+                    
+                    watchlist={watchlist}
+                    setWatchlist={setWatchlist}
+                  />
+                }></Route>
+      
               <Route
                 path=":watchStatus"
                 element={
@@ -45,13 +56,33 @@ function App() {
                     setWatchlist={setWatchlist}
                   />
                 }></Route>
+
+              {/* <Route
+                path="unwatched"
+                element={
+                  <WatchCards
+                    watchlist={watchlist}
+                    setWatchlist={setWatchlist}
+                  />
+                }></Route>
+
+              <Route
+                path="watched"
+                element={
+                  <WatchCards
+                    watchlist={watchlist}
+                    setWatchlist={setWatchlist}
+                  />
+                }></Route> */}
             </Route>
+
             <Route
               path="/search"
               element={
                 <Search watchlist={watchlist} setWatchlist={setWatchlist} />
               }></Route>
-            <Route path="/*" element={<h1>not found</h1>}></Route>
+
+            <Route path="/*" element={<NotFound />}></Route>
           </Routes>
         </main>
       </Router>

@@ -6,7 +6,6 @@ const Header = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const headerRef = useRef();
   const navRef = useRef(null);
-  const [headerHide, setHeaderHide] = useState(false);
 
   useEffect(() => {
     let lastScrollY = 0;
@@ -51,7 +50,6 @@ const Header = () => {
     <header ref={headerRef} className="header">
       <Link to="/" className="header__logo">
         <h1>
-          {/* <i className="fa-solid fa-film"></i>Movie Finder */}
           <i className="fa-solid fa-clapperboard"></i>Movie Finder
         </h1>
       </Link>
@@ -70,12 +68,15 @@ const Header = () => {
         <NavLink to="/movies/popular" className="nav__link">
           Popular
         </NavLink>
-        <NavLink to="/movies/genres/28" className="nav__link">
+        <NavLink to="/movies/genres" className="nav__link">
           Genres
         </NavLink>
-        <NavLink to="/watchlist/unwatched" className="nav__link">
+        <NavLink to="/watchlist" className="nav__link">
           Watchlist
         </NavLink>
+        {/* <NavLink to="/watchlist/unwatched" className="nav__link">
+          Watchlist
+        </NavLink> */}
         <Link to="/search" className="nav__link">
           <i className="fa-solid fa-magnifying-glass"></i>
         </Link>

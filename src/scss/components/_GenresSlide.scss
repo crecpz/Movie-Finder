@@ -56,7 +56,7 @@
     }
   }
 
-  &--active {
+  &.active {
     color: map-get($color, active);
   }
 

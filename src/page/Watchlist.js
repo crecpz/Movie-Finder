@@ -1,8 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 const Watchlist = () => {
-
-  console.log(1)
   return (
     <div className="watchlist">
       <div className="container">
@@ -29,6 +27,7 @@ const Watchlist = () => {
             </NavLink>
           </div>
         </div>
+
 
         <Outlet />
       </div>
