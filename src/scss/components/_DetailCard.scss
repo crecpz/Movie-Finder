@@ -10,7 +10,7 @@
   padding-top: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid #333;
-
+  
   @include sm {
     flex-direction: column;
     width: 100%;
@@ -25,9 +25,7 @@
     align-self: start;
 
     @include sm {
-      // max-width: 10.9375rem;
       max-width: none;
-  
     }
   }
 
@@ -36,7 +34,7 @@
     margin-left: 2rem;
 
     @include sm {
-      row-gap: .75rem;
+      row-gap: 0.75rem;
       margin-left: 0;
       margin-top: 1.5rem;
     }
@@ -45,8 +43,8 @@
       align-self: flex-start;
     }
   }
-  
-  &__link{
+
+  &__link {
     flex-shrink: 0;
   }
 
@@ -69,14 +67,15 @@
   &__info {
     @include flex;
     margin-top: 0.5rem;
-    
+
     @include sm {
       flex-direction: column;
       row-gap: 0.5rem;
     }
   }
 
-  &__vote, &__runtime {
+  &__vote,
+  &__runtime {
     @include sm {
       display: none;
     }

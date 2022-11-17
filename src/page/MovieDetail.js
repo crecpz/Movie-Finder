@@ -287,7 +287,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           <div className="container">
             <h2 className="layout-title">Similar Movies</h2>
             {similarMovies.results && similarMovies.results.length === 0 ? (
-              <p class="placeholder-text">No similar movies!</p>
+              <p className="placeholder-text">No similar movies!</p>
             ) : (
               <Swiper
                 effect="coverflow"

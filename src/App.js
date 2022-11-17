@@ -38,7 +38,7 @@ function App() {
               <Route path="*" element={<NotFound />}></Route>
             </Route>
 
-            <Route path="/watchlist" element={<Watchlist />}>
+            <Route path="/watchlist" element={<Watchlist watchlist={watchlist}/>}>
               <Route
                 index
                 element={

@@ -5,6 +5,10 @@ import { getData, removeDuplicate } from "../utils/function";
 import { useInView } from "react-intersection-observer";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../utils/components-styles";
+import ScrollToTop from "react-scroll-to-top";
+
+
+
 const Search = ({ watchlist, setWatchlist }) => {
   const { ref: loadMore, inView: isIntersecting } = useInView();
   const [searchText, setSearchText] = useState("");
@@ -116,6 +120,13 @@ const Search = ({ watchlist, setWatchlist }) => {
           )}
         </ul>
       </div>
+      <ScrollToTop
+        smooth
+        className="scroll-to-top"
+        color="#fff"
+        viewBox="0 0 448 512"
+        svgPath='M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z'
+      />
     </div>
   );
 };
