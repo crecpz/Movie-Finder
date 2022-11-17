@@ -1,15 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-// 上映 in theaters / 下檔 out of theaters
 
 const Header = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const headerRef = useRef();
   const navRef = useRef(null);
 
+
+  // * 向下 scroll 隱藏 scrollbar, 向上 scroll 顯示 scrollbar
   useEffect(() => {
     let lastScrollY = 0;
-    const handleScroll = (e) => {
+    const handleScroll = () => {
       let currentScrollY = window.scrollY;
       if (currentScrollY > lastScrollY) {
         headerRef.current.classList.add("header--hide");
@@ -27,19 +28,19 @@ const Header = () => {
     };
   }, []);
 
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (
-        navRef.current &&
-        !navRef.current.contains(e.target) &&
-        !e.target.classList.contains("header__menu-btn")
-      ) {
-        setNavIsOpen(false);
-      }
-    }
-    window.addEventListener("click", handleClickOutside);
-    return () => window.removeEventListener("click", handleClickOutside);
-  }, [navRef]);
+  // useEffect(() => {
+  //   function handleClickOutside(e) {
+  //     if (
+  //       navRef.current &&
+  //       !navRef.current.contains(e.target) &&
+  //       !e.target.classList.contains("header__menu-btn")
+  //     ) {
+  //       setNavIsOpen(false);
+  //     }
+  //   }
+  //   window.addEventListener("click", handleClickOutside);
+  //   return () => window.removeEventListener("click", handleClickOutside);
+  // }, [navRef]);
 
   return (
     <header ref={headerRef} className="header">
@@ -53,7 +54,7 @@ const Header = () => {
         onClick={() => setNavIsOpen((prev) => !prev)}>
         <i className="fa-solid fa-bars"></i>
       </button>
-      <nav ref={navRef} className={`nav${navIsOpen ? " nav--open" : ""}`}>
+      <nav ref={navRef} className={`nav ${navIsOpen ? " nav--open" : ""}`}>
         <NavLink to="/" end className="nav__link">
           Home
         </NavLink>
@@ -69,12 +70,9 @@ const Header = () => {
         <NavLink to="/watchlist" className="nav__link">
           Watchlist
         </NavLink>
-        {/* <NavLink to="/watchlist/unwatched" className="nav__link">
-          Watchlist
-        </NavLink> */}
-        <Link to="/search" className="nav__link">
+        <NavLink to="/search" className="nav__link">
           <i className="fa-solid fa-magnifying-glass"></i>
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );

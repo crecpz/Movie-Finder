@@ -15,7 +15,7 @@
 
   transition: transform map-get($transition, 300);
 
-  &--hide{
+  &--hide {
     transform: translateY(-100%);
   }
 
@@ -69,30 +69,47 @@
   column-gap: 1.5rem;
   margin-left: 3.5rem;
 
+  position: static;
+
   @include md {
-    position: absolute;
-    top: 5.625rem;
+    position: fixed;
+    top: deep-map-get($height, header, lg);
     z-index: 5;
     width: calc(100% - deep-map-get($spacing, lg) * 2);
+    left: 50%;
+
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 2rem;
+
+    padding: 2rem 0;
     margin-left: auto;
     margin-right: auto;
-    background-color: rgba(0, 0, 0, 0.773);
-    padding: 2rem 0;
-    row-gap: 2rem;
+
+    background-color: rgb(0, 0, 0);
+
     visibility: hidden;
     opacity: 0;
-    transform: scaleY(0);
+
+    transform: scaleY(0) translateX(-50%);
     transform-origin: top;
-    transition-property: visivility, opacity, transform;
-    transition-property: all;
-    transition: 200ms ease-in-out;
+  }
+
+  @include sm {
+    width: calc(100% - deep-map-get($spacing, sm) * 2);
+    top: deep-map-get($height, header, sm);
   }
 
   &--open {
-    transform: scaleY(1);
-    visibility: visible;
-    opacity: 1;
+    @include md {
+      transform: scaleY(1) translateX(-50%);
+      visibility: visible;
+      opacity: 1;
+
+      transition: map-get($transition, 300);
+      transition-property: transform, opacity, visibility;
+    }
   }
 
   &__link {
@@ -109,7 +126,7 @@
       width: 100%;
       background-color: rgb(213, 108, 80);
       transform: scaleX(0);
-      transition: transform map-get($transition,  150);
+      transition: transform map-get($transition, 150);
     }
 
     @include hover-query() {

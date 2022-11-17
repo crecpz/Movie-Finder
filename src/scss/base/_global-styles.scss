@@ -118,12 +118,16 @@ h6 {
 // scrollToTop 套件樣式
 .scroll-to-top{
     @include flex($ai:center, $jc: center);
-    width: 70px !important;
-    height: 70px !important;
+    width: 4.375rem !important;
+    height: 4.375rem !important;
     z-index: 30;
     border-radius: 50%;
     background-color: map-get($color, tertiary);
-    // transition:
+
+    @include sm {
+        width: 3.125rem !important;
+        height: 3.125rem !important;
+    }
 }
 
 .spinner-full-screen {

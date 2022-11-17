@@ -26,10 +26,15 @@ $gap: 24px;
 
   // 頂部切換連結(單一)
   &__link {
-    padding: 0.825em 1.2em;
+    padding: 0.5em 1.2em;
     font-weight: bold;
     border: 1px solid map-get($color, tertiary);
     transition: background-color map-get($transition, 300);
+
+    @include sm {
+      @include text(sm);
+      padding: .375rem .75rem;
+    }
 
     @include hover-query {
       &:hover {
