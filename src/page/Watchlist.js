@@ -1,6 +1,8 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 
-const Watchlist = () => {
+const Watchlist = ({ Watchlist }) => {
+  const { watchStatus } = useParams();
+
   return (
     <div className="watchlist">
       <div className="container">
@@ -10,24 +12,22 @@ const Watchlist = () => {
             <NavLink
               to="/watchlist/unwatched"
               className={({ isActive }) =>
-                isActive
-                  ? "watchlist__link watchlist__link--active"
+                isActive || watchStatus === undefined
+                  ? "watchlist__link active"
                   : "watchlist__link"
               }>
               Unwatched
             </NavLink>
+
             <NavLink
               to="/watchlist/watched"
               className={({ isActive }) =>
-                isActive
-                  ? "watchlist__link watchlist__link--active"
-                  : "watchlist__link"
+                isActive ? "watchlist__link active" : "watchlist__link"
               }>
               Watched
             </NavLink>
           </div>
         </div>
-
 
         <Outlet />
       </div>

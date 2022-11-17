@@ -23,9 +23,9 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     watchlist.find((movie) => movie.id === id) !== undefined
   );
 
-  // 目前已經載入
-  const currentMovieObjLoaded =
-    currentMovie && Object.keys(currentMovie).length !== 0;
+  // // 目前已經載入
+  // const currentMovieObjLoaded =
+  //   currentMovie && Object.keys(currentMovie).length !== 0;
 
   // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
@@ -35,10 +35,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     { type: "poster", isLoaded: false },
   ]);
 
-  //! 接下來要在結構做出樣式(+到watchlist or 沒+ 的樣式)，
-  //! 嚴防重複增加，根據目前是否 isInWatchlist 來決定按下之後是要做移除還是增加
-  let similarPageNum = 1;
-  const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=${similarPageNum}`;
+
+  const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const TRAILER_URL = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
 

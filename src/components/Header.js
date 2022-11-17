@@ -11,18 +11,13 @@ const Header = () => {
     let lastScrollY = 0;
     const handleScroll = (e) => {
       let currentScrollY = window.scrollY;
-      if(currentScrollY > lastScrollY){
-        console.log('現在在往下滑')
-        headerRef.current.classList.add('header--hide');
+      if (currentScrollY > lastScrollY) {
+        headerRef.current.classList.add("header--hide");
       }
-      
-      if(currentScrollY < lastScrollY){
-        headerRef.current.classList.remove('header--hide');
-        console.log('現在在往上滑')
+      if (currentScrollY < lastScrollY) {
+        headerRef.current.classList.remove("header--hide");
       }
-
       lastScrollY = currentScrollY;
-      console.log(currentScrollY, lastScrollY)
     };
 
     window.addEventListener("scroll", handleScroll);

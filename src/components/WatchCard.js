@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getData, noPoster } from "../utils/function";
+import { getData } from "../utils/function";
 
-const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
+const WatchCard = ({ id, watchStatus, watched, watchlist, setWatchlist }) => {
   const [currentMovie, setCurrentMovie] = useState({});
+  // 單一電影資料 API_URL
   const API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
 
   useEffect(() => {
@@ -23,8 +24,6 @@ const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
       subscribed = false;
     };
   }, [watchlist]);
-
-  // ! No movies in your list, add some!
 
   // * 改變觀看狀態
   function changeStatus() {
@@ -49,13 +48,14 @@ const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
     });
   }
 
-  return (
+  return Object.keys(currentMovie).length === 0 ? (
+    ""
+  ) : (
     <div className="watchcard">
       <div className="watchcard__img">
         <img
           className="watchcard__movie-poster"
           src={`https://image.tmdb.org/t/p/original/${currentMovie.poster_path}`}
-          onError={noPoster}
           alt="watchcard-poster"
         />
       </div>
@@ -90,14 +90,6 @@ const WatchCard = ({ watchStatus, id, watched, watchlist, setWatchlist }) => {
           </button>
         </div>
       </div>
-      {/* <img
-        className="watchcard__movie-backdrop"
-        src={`https://image.tmdb.org/t/p/original/${
-          currentMovie ? currentMovie.backdrop_path : ""
-        }`}
-        onError={noImage}
-        alt="watchcard-backdrop"
-      /> */}
     </div>
   );
 };

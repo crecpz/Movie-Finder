@@ -39,15 +39,15 @@ function App() {
             </Route>
 
             <Route path="/watchlist" element={<Watchlist />}>
-            <Route
+              <Route
+                index
                 element={
                   <WatchCards
-                    
                     watchlist={watchlist}
                     setWatchlist={setWatchlist}
                   />
                 }></Route>
-      
+
               <Route
                 path=":watchStatus"
                 element={
@@ -56,24 +56,6 @@ function App() {
                     setWatchlist={setWatchlist}
                   />
                 }></Route>
-
-              {/* <Route
-                path="unwatched"
-                element={
-                  <WatchCards
-                    watchlist={watchlist}
-                    setWatchlist={setWatchlist}
-                  />
-                }></Route>
-
-              <Route
-                path="watched"
-                element={
-                  <WatchCards
-                    watchlist={watchlist}
-                    setWatchlist={setWatchlist}
-                  />
-                }></Route> */}
             </Route>
 
             <Route

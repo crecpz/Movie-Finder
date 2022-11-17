@@ -23,16 +23,23 @@ $gap: 24px;
 
   // 頂部切換連結
   &__links {
+    @include flex($jc: center);
+    border-radius: 5px;
   }
 
   &__link {
-    border: 0.0625rem solid map-get($color, primary);
     padding: 0.825em 1.2em;
     font-weight: bold;
-    
-    &--active {
-      // color: map-get($color, secondary);
-      background-color: map-get($color, active);
+    background-color: map-get($color, active);
+
+    @include hover-query {
+      &:hover {
+        @include hover-bg-color(map-get($color, active));
+      }
+    }
+
+    &.active {
+      background-color: darken($color: map-get($color, active), $amount: 15);
     }
 
     &:nth-child(2) {
@@ -58,9 +65,9 @@ $gap: 24px;
   position: relative;
   overflow: hidden;
   border-radius: map-get($border-radius, base);
-  background-color: map-get($color, primary);
   background-color: map-get($color, secondary);
   max-width: calc((100% / $perRowAmount) - $gap * ($perRowAmount - 1) / $perRowAmount);
+  animation: scale map-get($transition, 500);
 
   @include xl {
     max-width: calc((100% / 4) - $gap * (4 - 1) / 4);
@@ -139,7 +146,7 @@ $gap: 24px;
   }
 
   &__title {
-    @include text(4xl);
+    @include text(2xl);
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
     padding-left: 1rem;
@@ -188,7 +195,7 @@ $gap: 24px;
   &__btn {
     @include flex($dir: column, $ai: center);
     @include text(xs);
-    padding: .5rem;
+    padding: 0.5rem;
     flex: 1 0 auto;
     width: 33.3%;
     transition: color map-get($transition, 300);

@@ -115,6 +115,17 @@ h6 {
     margin-bottom: 3rem;
 }
 
+// scrollToTop 套件樣式
+.scroll-to-top{
+    @include flex($ai:center, $jc: center);
+    width: 70px !important;
+    height: 70px !important;
+    z-index: 30;
+    border-radius: 50%;
+    background-color: map-get($color, tertiary);
+    // transition:
+}
+
 .spinner-full-screen {
     @include flex($jc: center, $ai: center);
     visibility: hidden;
@@ -135,14 +146,4 @@ h6 {
         visibility: visible;
         opacity: 1;
     }
-}
-
-
-// * scroll 
-.scroll-up{
-
-}
-
-.scroll-down{
-    
 }

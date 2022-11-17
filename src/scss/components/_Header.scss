@@ -4,7 +4,7 @@
   @include flex($ai: center);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 30;
   height: deep-map-get($height, header, lg);
   flex: 1 0 auto;
   padding-left: deep-map-get($spacing, lg);
@@ -20,7 +20,6 @@
   }
 
   @include md {
-    // position: relative;
     justify-content: space-between;
   }
 
@@ -102,9 +101,25 @@
     font-weight: bold;
     transition: color map-get($transition, 150);
 
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      height: 2px;
+      width: 100%;
+      background-color: rgb(213, 108, 80);
+      transform: scaleX(0);
+      transition: transform map-get($transition,  150);
+    }
+
     @include hover-query() {
       &:hover {
         color: map-get($color, tertiary);
+
+        &::before {
+          transform: scaleX(1);
+          transform-origin: center;
+        }
       }
     }
 
@@ -115,6 +130,7 @@
         bottom: -3px;
         height: 2px;
         width: 100%;
+        transform: scaleX(1);
         background-color: rgb(213, 108, 80);
       }
     }

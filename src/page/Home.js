@@ -13,17 +13,20 @@ import MovieSwiper from "../components/MovieSwiper";
 import { spinnerStyle } from "../utils/components-styles";
 
 const Home = () => {
-  const [popularMovies, setPopularMovies] = useState([]);
-  // 取得趨勢 movie, 24hr 更新一次
+  // 存放趨勢 movie
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  // 趨勢 API_URL (取得趨勢 movie, 24hr 更新一次)
   const TRENDING_URL =
     "https://api.themoviedb.org/3/trending/movie/day?api_key=e86818f56e7d92f357708ecb03052800";
-  // 取得類別 id 與對應的名稱
+  // 類別 API_URL (取得類別 id 與對應的名稱)
   const GENRES_URL =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 類別資料
   const [genresData, setGenresData] = useState([]);
   const { ref: loadMore, inView: isIntersecting } = useInView();
   const [showAmount, setShowAmount] = useState(3);
+  // 第一張輪播圖的載入狀態
+  const [imgIsLoaded, setImgIsLoaded] = useState(false);
 
   useEffect(() => {
     if (isIntersecting) {
@@ -34,7 +37,7 @@ const Home = () => {
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
-      getData(TRENDING_URL, setPopularMovies);
+      getData(TRENDING_URL, setTrendingMovies);
       getData(GENRES_URL, setGenresData);
     }
     return () => {
@@ -42,44 +45,54 @@ const Home = () => {
     };
   }, []);
 
+
+  // * 處理 img 讀取完成的事件
+  function handleImgLoaded() {
+    // 變更狀態為 true (表示已經讀取好)
+    setImgIsLoaded(true);
+  }
+
   // * 輪播
-  const carouselElements = popularMovies.results
-    ? popularMovies.results.map((movie) => {
+  const carouselElements = trendingMovies.results
+    ? trendingMovies.results.map((movie, index) => {
         return (
-          <Link
-            to={`/movie/${movie && movie.id}`}
-            className="carousel"
-            key={movie && movie.id}>
+          <Link to={`/movie/${movie.id}`} className="carousel" key={movie.id}>
             <div className="carousel__img">
               <img
-                src={`https://image.tmdb.org/t/p/original/${
-                  movie && movie.backdrop_path
-                }`}
+                src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
                 className="carousel__backdrop"
                 alt="movie-backdrop"
+                onLoad={() => {
+                  // 檢查第一張輪播 backdrop 是否已被載入
+                  index === 0 && handleImgLoaded();
+                }}
               />
               <img
-                src={`https://image.tmdb.org/t/p/original/${
-                  movie && movie.poster_path
-                }`}
+                src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                 className="carousel__poster"
                 alt="movie-poster"
+                onLoad={() => {
+                  // 檢查第一張輪播 backdrop 是否已被載入
+                  index === 0 && handleImgLoaded();
+                }}
               />
             </div>
             <div className="carousel__text">
               <h3 className="carousel__title">
-                {movie && movie.original_title}
+                {movie.original_title ? movie.original_title : ""}
               </h3>
               <div className="carousel__info">
                 <p className="carousel__release-date">
-                  {movie && movie.release_date}
+                  {movie.release_date ? movie.release_date : ""}
                 </p>
                 <p className="carousel__vote">
-                  {movie && movie.vote_average}
+                  {movie.vote_average ? movie.vote_average : ""}
                   <i className="fa-solid fa-star"></i>
                 </p>
               </div>
-              <p className="carousel__overview">{movie && movie.overview}</p>
+              <p className="carousel__overview">
+                {movie.overview ? movie.overview : ""}
+              </p>
             </div>
           </Link>
         );
@@ -87,21 +100,25 @@ const Home = () => {
     : "";
 
   // * genres swiper
-  const MovieSwiperElements = genresData.genres
-    ? genresData.genres.map((genres, index) => {
-        return (
-          <MovieSwiper
-            key={genres.id}
-            id={genres.id}
-            {...genres}
-            show={index <= showAmount}
-          />
-        );
-      })
-    : "loading...";
+  const MovieSwiperElements =
+    genresData.genres &&
+    genresData.genres.map((genres, index) => {
+      return (
+        <MovieSwiper
+          key={genres.id}
+          id={genres.id}
+          {...genres}
+          show={index <= showAmount}
+        />
+      );
+    });
 
   return (
     <section className="home">
+      <div className={`spinner-full-screen ${!imgIsLoaded && "active"}`}>
+        <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+      </div>
+
       <Carousel
         showThumbs={false}
         autoPlay={true}
@@ -110,6 +127,7 @@ const Home = () => {
         showStatus={false}>
         {carouselElements}
       </Carousel>
+
       <div className="home__genres">
         {MovieSwiperElements}
         {genresData.genres && showAmount <= genresData.genres.length && (

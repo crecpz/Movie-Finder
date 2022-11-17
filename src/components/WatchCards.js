@@ -2,21 +2,20 @@ import { useParams } from "react-router-dom";
 import WatchCard from "./WatchCard";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../utils/components-styles";
+import { useState } from "react";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
   // 根據目前網址的參數來取得目前為在 Unwatched 還是 Watched 頁面
   const { watchStatus } = useParams();
-  console.log(watchStatus)
-
-  const listContent =
-    watchStatus === "unwatched"
+  let listContent =
+    watchStatus === "unwatched" || watchStatus === undefined
       ? watchlist.filter((watchlistData) => !watchlistData.watched)
       : watchlist.filter((watchlistData) => watchlistData.watched);
-      
-  // ! No movies in your list, add some!
-  //   <div ref={loadMore} className="spinner">
-  //   <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-  // </div>
+  listContent = listContent.map((watchlistData) => ({
+    ...watchlistData,
+    isLoaded: false,
+  }));
+
 
   return (
     <div className="watchcards">
@@ -24,6 +23,7 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
         listContent.map((watchlistData) => {
           return (
             <WatchCard
+              key={watchlistData.id}
               watchStatus={watchStatus}
               id={watchlistData.id}
               watched={watchlistData.watched}

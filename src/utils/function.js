@@ -98,16 +98,8 @@ export function capitalize(str) {
 
 export function noPoster({ currentTarget }) {
   currentTarget.onerror = null; // prevents looping
-  // currentTarget.src =
-  //   "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
-  currentTarget.src = "https://via.placeholder.com/300X450.png?text=No+Poster";
-
-  // * 原版
-  // onError={({ currentTarget }) => {
-  //   currentTarget.onerror = null; // prevents looping
-  //   currentTarget.src =
-  //     "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
-  // }}
+  currentTarget.src =
+    "https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80&w=440";
 }
 
 export function noBackdrop({ currentTarget }) {
