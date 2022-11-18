@@ -6,27 +6,39 @@ const Header = () => {
   const headerRef = useRef();
   const navRef = useRef(null);
 
-
   // * 向下 scroll 隱藏 scrollbar, 向上 scroll 顯示 scrollbar
   useEffect(() => {
     let lastScrollY = 0;
     const handleScroll = () => {
-      let currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY) {
-        headerRef.current.classList.add("header--hide");
+      if (!navIsOpen) {
+        let currentScrollY = window.scrollY;
+        if (currentScrollY > lastScrollY) {
+          headerRef.current.classList.add("header--hide");
+        }
+        if (currentScrollY < lastScrollY) {
+          headerRef.current.classList.remove("header--hide");
+        }
+        lastScrollY = currentScrollY;
       }
-      if (currentScrollY < lastScrollY) {
-        headerRef.current.classList.remove("header--hide");
-      }
-      lastScrollY = currentScrollY;
     };
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [navIsOpen]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handelResize);
+    function handelResize() {
+      navRef.current.style.transition = "none";
+    }
+
+    return () => {
+      window.removeEventListener("resize", handelResize);
+      navRef.current.style.transition = "";
+    };
+  }, [navRef]);
 
   // useEffect(() => {
   //   function handleClickOutside(e) {
@@ -50,11 +62,13 @@ const Header = () => {
         </h1>
       </Link>
       <button
-        className="header__menu-btn"
+        className={`header__menu-btn ${
+          navIsOpen ? "header__menu-btn--nav-open" : ""
+        }`}
         onClick={() => setNavIsOpen((prev) => !prev)}>
         <i className="fa-solid fa-bars"></i>
       </button>
-      <nav ref={navRef} className={`nav ${navIsOpen ? " nav--open" : ""}`}>
+      <nav ref={navRef} className={`nav ${navIsOpen ? "nav--open" : ""}`}>
         <NavLink to="/" end className="nav__link">
           Home
         </NavLink>

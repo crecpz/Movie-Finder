@@ -38,7 +38,7 @@ function App() {
               <Route path="*" element={<NotFound />}></Route>
             </Route>
 
-            <Route path="/watchlist" element={<Watchlist watchlist={watchlist}/>}>
+            <Route path="/watchlist" element={<Watchlist />}>
               <Route
                 index
                 element={
@@ -47,7 +47,6 @@ function App() {
                     setWatchlist={setWatchlist}
                   />
                 }></Route>
-
               <Route
                 path=":watchStatus"
                 element={

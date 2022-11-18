@@ -71,7 +71,7 @@ const GenresSwiper = () => {
               spaceBetween: 0,
             },
             576: {
-              slidesPerView: 6,
+              slidesPerView: 5,
               spaceBetween: 10,
             },
             768: {

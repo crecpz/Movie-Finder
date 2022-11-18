@@ -82,14 +82,14 @@
 
     @include md {
       // max-width: 33.75rem;
-      // margin-left: map-get($spacing, lg);
+      // margin-left: map-get($x-spacing, lg);
       margin-bottom: 5rem;
     }
 
     @include sm {
       margin-left: 0;
-      padding-left: map-get($spacing, sm);
-      padding-right: map-get($spacing, sm);
+      padding-left: map-get($x-spacing, sm);
+      padding-right: map-get($x-spacing, sm);
       padding-bottom: 3rem;
     }
   }
@@ -140,12 +140,12 @@
   &__genres {
     padding-bottom: 3rem;
     padding-top: 3rem;
-    padding-left: map-get($spacing, lg);
-    padding-right: map-get($spacing, lg);
+    padding-left: map-get($x-spacing, lg);
+    padding-right: map-get($x-spacing, lg);
 
     @include sm {
-      padding-left: map-get($spacing, sm);
-      padding-right: map-get($spacing, sm);
+      padding-left: map-get($x-spacing, sm);
+      padding-right: map-get($x-spacing, sm);
     }
 
     &-item {

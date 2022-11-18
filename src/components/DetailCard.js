@@ -6,6 +6,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
   const id = movie.id;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const [currentMovie, setCurrentMovie] = useState({});
+
   useEffect(() => {
     let subscribed = true;
     if (subscribed) getData(CURRENT_DETAIL_URL, setCurrentMovie);
@@ -14,6 +15,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
     };
   }, []);
 
+  // * 更改 watchlist 
   function changeWatchlist(id) {
     setWatchlist((prev) => {
       if (inWatchlist) {

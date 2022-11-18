@@ -73,18 +73,14 @@ const Movies = () => {
     };
   }, [pageNum]);
 
-  const scrollToTopStyle = {
-    width: "150px",
-    height: "150px",
-  };
+
+
 
   return (
     <div className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
-
         {type === "genres" && <GenresSwiper />}
-
         <div className="movies-cards">
           {movies.length !== 0 ? (
             movies.map((movie) => {
@@ -94,7 +90,6 @@ const Movies = () => {
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           )}
         </div>
-
         {movies.length !== 0 && (
           <div ref={loadMore} className="spinner spinner--full-screen">
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />

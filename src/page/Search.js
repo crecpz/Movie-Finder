@@ -7,39 +7,20 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 
-
-
 const Search = ({ watchlist, setWatchlist }) => {
   const { ref: loadMore, inView: isIntersecting } = useInView();
   const [searchText, setSearchText] = useState("");
   const [searchResult, setSearchResult] = useState({});
   const [pageNum, setPageNum] = useState(1);
+  // 搜尋電影的 API_URL
+  const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
 
+  // 當 watchlist 改變，更新 localStorage 值
   useEffect(() => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  const getMoreData = async (API_URL, setState) => {
-    try {
-      const res = await fetch(API_URL);
-      if (!res.ok) {
-        throw new Error("Error");
-      }
-      const data = await res.json();
-      setState((prev) => {
-        return {
-          ...prev,
-          results: removeDuplicate(prev.results, data.results),
-        };
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
-  const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
-
-  // ! - 關於複製貼上也必須跑出搜尋結果
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
   };
@@ -55,6 +36,7 @@ const Search = ({ watchlist, setWatchlist }) => {
       subscribed = false;
     };
   }, [searchText]);
+  
 
   useEffect(() => {
     if (isIntersecting && searchResult) {
@@ -63,6 +45,24 @@ const Search = ({ watchlist, setWatchlist }) => {
   }, [isIntersecting]);
 
   useEffect(() => {
+    const getMoreData = async (API_URL, setState) => {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) {
+          throw new Error("Error");
+        }
+        const data = await res.json();
+        setState((prev) => {
+          return {
+            ...prev,
+            results: removeDuplicate(prev.results, data.results),
+          };
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    
     let subscribed = true;
     // 僅在目前頁面 > 1 時才進行獲取
     if (pageNum > 1 && subscribed) getMoreData(API_URL, setSearchResult);
@@ -125,7 +125,7 @@ const Search = ({ watchlist, setWatchlist }) => {
         className="scroll-to-top"
         color="#fff"
         viewBox="0 0 448 512"
-        svgPath='M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z'
+        svgPath="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
       />
     </div>
   );

@@ -3,7 +3,7 @@ import { capitalize } from "../utils/function";
 
 import ScrollToTop from "react-scroll-to-top";
 
-const Watchlist = ({ watchlist }) => {
+const Watchlist = () => {
   const { watchStatus = "unwatched" } = useParams();
 
   return (
@@ -12,9 +12,10 @@ const Watchlist = ({ watchlist }) => {
         <div className="watchlist__header">
           <h2 className="layout-title">Watchlist</h2>
           <div className="watchlist__links">
-            {["unwatched", "watched"].map((listType) => {
+            {["unwatched", "watched"].map((listType, index) => {
               return (
                 <NavLink
+                  key={index}
                   to={`/watchlist/${listType}`}
                   className={({ isActive }) =>
                     isActive || listType === watchStatus
@@ -25,26 +26,6 @@ const Watchlist = ({ watchlist }) => {
                 </NavLink>
               );
             })}
-
-            {/* ! 以下原版 */}
-
-            {/* <NavLink
-              to="/watchlist/unwatched"
-              className={({ isActive }) =>
-                isActive || watchStatus === undefined
-                  ? "watchlist__link active"
-                  : "watchlist__link"
-              }>
-              Unwatched
-            </NavLink>
-
-            <NavLink
-              to="/watchlist/watched"
-              className={({ isActive }) =>
-                isActive ? "watchlist__link active" : "watchlist__link"
-              }>
-              Watched
-            </NavLink> */}
           </div>
         </div>
 
