@@ -4,7 +4,7 @@
 $perRowAmount: 5;
 
 // * 卡片的父層所設定的 gap (指的是 column-gap)
-$gap: 24px;
+$gap: 1.5rem;
 
 // @ 單張卡片如何計算 ?
 //  max-width: calc((100% / $perRowAmount) - $gap * ($perRowAmount - 1) / $perRowAmount);
@@ -59,8 +59,8 @@ $gap: 24px;
 
 .watchcards {
   @include flex($wrap: wrap);
-  margin-top: 64px;
-  gap: 24px;
+  margin-top: 4rem;
+  gap: 1.5rem;
 }
 
 .watchcard {
@@ -86,8 +86,9 @@ $gap: 24px;
   }
 
   @include sm {
-    max-width: 18.75rem;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: deep-map-get($card-size, width, sm);
   }
 
   @include hover-query() {

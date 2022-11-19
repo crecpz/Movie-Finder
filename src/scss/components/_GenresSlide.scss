@@ -63,6 +63,10 @@
   &__icon {
     @include text(2xl);
     transition: color map-get($transition, 150);
+
+    @include sm {
+      @include text(xl);
+    }
   }
 
   &__name {

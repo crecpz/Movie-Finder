@@ -17,8 +17,8 @@ body {
     color: deep-map-get($color, primary);
     background-color: black;
     font-family: "Roboto", sans-serif;
-    overflow-y: scroll;
     height: 100vh;
+    overflow-y: scroll;
 }
 
 a {
@@ -38,7 +38,6 @@ h5,
 h6 {
     font-family: "Oswald", sans-serif;
 }
-
 
 .container {
     width: 100%;
@@ -117,8 +116,8 @@ h6 {
 }
 
 // scrollToTop 套件樣式
-.scroll-to-top{
-    @include flex($ai:center, $jc: center);
+.scroll-to-top {
+    @include flex($ai: center, $jc: center);
     width: 4.375rem !important;
     height: 4.375rem !important;
     z-index: 30;
