@@ -4,9 +4,10 @@
 $gap: 1.5rem;
 
 .movies-cards {
-  @include flex($wrap: wrap);
-  margin-top: 4rem;
-  gap: $gap;
+  // ! 註解的都是已經移出的
+  // @include flex($wrap: wrap);
+  // margin-top: 4rem;
+  // gap: $gap;
 
   @include sm {
     gap: 2.5rem;
@@ -14,44 +15,44 @@ $gap: 1.5rem;
 }
 
 .movies-card-link {
-  display: inline-block;
-  // @ calc(100%/每列卡片張數 - (卡片之間有幾個$gap?) / 每列卡片張數)
-  max-width: calc(20% - ($gap * 4) / 5);
-  flex: 1 0 100%;
+  animation: scale map-get($transition, 500);
 
-  @include xl {
-    max-width: calc(25% - ($gap * 3) / 4);
-  }
+  // @
+  // max-width: calc(20% - ($gap * 4) / 5);
 
-  @include lg {
-    max-width: calc(33.3% - ($gap * 2) / 3);
-  }
+  // @include xl {
+  //   max-width: calc(25% - ($gap * 3) / 4);
+  // }
 
-  @include md {
-    max-width: calc(50% - ($gap * 1) / 2);
-  }
+  // @include lg {
+  //   max-width: calc(33.3% - ($gap * 2) / 3);
+  // }
 
-  @include sm {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: deep-map-get($card-size, width, sm);
+  // @include md {
+  //   max-width: calc(50% - ($gap * 1) / 2);
+  // }
 
-    &:not(:first-child) {
-      border-top: 1px solid map-get($color, primary-light);
-      padding-top: 2.5rem;
-    }
-  }
+  // @include sm {
+  //   margin-left: auto;
+  //   margin-right: auto;
+  //   max-width: deep-map-get($card-size, width, sm);
+
+  //   &:not(:first-child) {
+  //     border-top: 1px solid map-get($color, primary-light);
+  //     padding-top: 2.5rem;
+  //   }
+  // }
 }
 
 .movies-card {
   $block: &;
   position: relative;
-  border-radius: map-get($border-radius, base);
-  overflow: hidden;
   transition: 200ms ease-in-out;
   transition-property: transform, box-shadow;
   cursor: pointer;
-  animation: scale map-get($transition, 500);
+
+  overflow: hidden;
+  border-radius: map-get($border-radius, base);
 
   &::before {
     content: "";

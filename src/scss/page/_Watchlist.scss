@@ -11,8 +11,8 @@ $gap: 1.5rem;
 
 .watchlist {
   @include x-spacing;
-  padding-top: 48px;
-  padding-bottom: 48px;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 
   &__header {
     @include flex($ai: center, $jc: space-between);
@@ -21,7 +21,7 @@ $gap: 1.5rem;
   // 頂部切換連結(容器)
   &__links {
     @include flex($jc: center);
-    border-radius: 5px;
+    border-radius: .3125rem;
   }
 
   // 頂部切換連結(單一)
@@ -70,6 +70,7 @@ $gap: 1.5rem;
   overflow: hidden;
   border-radius: map-get($border-radius, base);
   background-color: map-get($color, secondary);
+
   max-width: calc((100% / $perRowAmount) - $gap * ($perRowAmount - 1) / $perRowAmount);
   animation: scale map-get($transition, 500);
 
@@ -207,7 +208,7 @@ $gap: 1.5rem;
     transition-property: color, background-color;
 
     &:not(:first-child) {
-      border-left: 0.0625rem solid;
+      border-left: 1px solid;
     }
 
     &:hover {

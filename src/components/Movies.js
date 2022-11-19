@@ -81,7 +81,7 @@ const Movies = () => {
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
         {type === "genres" && <GenresSwiper />}
-        <div className="movies-cards">
+        <div className="cards movies-cards">
           {movies.length !== 0 ? (
             movies.map((movie) => {
               return <MoviesCard key={movie.id} movie={movie} />;
