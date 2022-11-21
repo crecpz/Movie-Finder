@@ -4,25 +4,25 @@ import { Link } from "react-router-dom";
 import { getData } from "../utils/function";
 
 const WatchCard = ({ id, watchStatus, watched, watchlist, setWatchlist }) => {
+  // 存放當前電影資料 API_URL
   const [currentMovie, setCurrentMovie] = useState({});
-  // 單一電影資料 API_URL
+  // 當前電影資料 API_URL
   const API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
 
   useEffect(() => {
     let subscribed = true;
+
+    // 取得當前電影資料
     if (subscribed) getData(API_URL, setCurrentMovie);
+
     return () => {
       subscribed = false;
     };
-  }, [watchStatus]);
+  }, [watchStatus, watchlist]);
 
   useEffect(() => {
-    let subscribed = true;
-    if (subscribed) getData(API_URL, setCurrentMovie);
+    // 一旦 watchlist 改變，將新的資料存進 localStorage
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
-    return () => {
-      subscribed = false;
-    };
   }, [watchlist]);
 
   // * 改變觀看狀態
@@ -48,14 +48,31 @@ const WatchCard = ({ id, watchStatus, watched, watchlist, setWatchlist }) => {
     });
   }
 
+  function changeImgStatus(id) {
+    // setImgLoadStatus((prev) => {
+    //   prev.map((card) => {
+    //     if (card.id === id) {
+    //       return {
+    //         ...card,
+    //         isLoaded: true,
+    //       };
+    //     } else {
+    //       return card;
+    //     }
+    //   });
+    // });
+  }
+
   return Object.keys(currentMovie).length === 0 ? (
     ""
   ) : (
-    <div className="watchcard">
+    <div className="watchcard card">
       <div className="watchcard__img">
         <img
           className="watchcard__movie-poster"
           src={`https://image.tmdb.org/t/p/original/${currentMovie.poster_path}`}
+          onLoad={() => changeImgStatus(id)}
+          // data-id={currentMovie.id}
           alt="watchcard-poster"
         />
       </div>

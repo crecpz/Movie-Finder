@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
+import { spinnerStyle } from "../utils/components-styles";
 import { useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import {
@@ -10,7 +11,6 @@ import {
 import ScrollToTop from "react-scroll-to-top";
 import GenresSwiper from "./GenresSwiper";
 import MoviesCard from "./MoviesCard";
-import { spinnerStyle } from "../utils/components-styles";
 
 const Movies = () => {
   // intersection
@@ -72,9 +72,6 @@ const Movies = () => {
       subscribed = false;
     };
   }, [pageNum]);
-
-
-
 
   return (
     <div className="movies">

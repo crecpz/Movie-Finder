@@ -23,10 +23,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     watchlist.find((movie) => movie.id === id) !== undefined
   );
 
-  // // 目前已經載入
-  // const currentMovieObjLoaded =
-  //   currentMovie && Object.keys(currentMovie).length !== 0;
-
   // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
   // 存放目前電影 poster 與 backdrop 載入狀態
@@ -34,7 +30,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     { type: "backdrop", isLoaded: false },
     { type: "poster", isLoaded: false },
   ]);
-
 
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
@@ -66,23 +61,27 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       getData(SIMILAR_URL, setSimilarMovies);
       getData(TRAILER_URL, setTrailer);
     }
-    // 更新目前的 watchlist 狀態
+    // 更新目前的 watchlist 按鈕狀態
+    // (如果在 watchlist 中 find() 的結果不是 undefined 就設為 true，否則設為 false)
     setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
+
+    // 換頁後滾動到頂部
     window.scrollTo(0, 0);
+
     return () => {
       subscribed = false;
     };
   }, [id]);
 
   useEffect(() => {
-    // 更新目前的 watchlist 狀態
+    // 更新目前的 inWatchlist 狀態
     setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
     // 存至 localStorage
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
   /**
-   * * 接收一個 id 作為參數，更新 watchlist 清單內的資料
+   * * 更新 watchlist 資料，如果已存在於 watchlist，則從 watchlist 中剔除；否則新增一個資料
    * @param {*} id 目前頁面電影的 Id
    */
   function changeWatchlist(id) {
@@ -90,7 +89,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       if (inWatchlist) {
         return prev.filter((movie) => movie.id !== id);
       } else {
-        return [...prev, { id: id, watched: false }];
+        return [...prev, { id: id, watched: false, isLoaded: false }];
       }
     });
   }
@@ -140,7 +139,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
    */
   function changeImgStatus(e) {
     const { alt } = e.target;
-
     setImgLoadStatus((prev) => {
       return prev.map((i) => {
         if (i.type === alt) {
@@ -163,7 +161,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
   useEffect(() => {
     // 檢查當前電影的 poster_path 是否為 null
-    // 如果為 null，則表示 API 為提供該張圖片
+    // 如果為 null，則表示 API 未提供該張圖片
     if (currentMovie.poster_path === null) {
       // 手動設定 poster 的載入狀態為 true
       // (至於 poster 海報則是直接不顯示)

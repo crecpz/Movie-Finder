@@ -13,7 +13,7 @@
 // };
 
 /**
- * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
+ * * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
  * @param {*} url fetch url
  * @param {*} setState 資料儲存的 state
  */
@@ -31,8 +31,7 @@ export const getData = async (url, setState) => {
 };
 
 /**
- * 獲取更多的資料(在原來的基礎上獲取更多)
- * ! 注意:
+ * * 獲取更多的資料(在原來的基礎上獲取更多)
  * @param {*} API_URL url fetch url
  * @param {*} setState setState 資料儲存的 state
  */
@@ -69,8 +68,9 @@ export function removeDuplicate(originMovies, inCommingMovies) {
   }, []);
 }
 
+
 /**
- * 取得當月首日~當月最後一天的日期
+ * * 取得當月首日~當月最後一天的日期
  * @returns
  */
 export function getFirstDayAndLastDayOfMonth() {
@@ -88,7 +88,7 @@ export function getFirstDayAndLastDayOfMonth() {
   );
 }
 
-// 將字母首字變大寫
+// * 將字母首字變大寫
 export function capitalize(str) {
   return str
     .split("-")
