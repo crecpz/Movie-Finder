@@ -11,7 +11,8 @@ import { getData, noBackdrop, noPoster } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
-  const { id } = useParams();
+  let { id: currentMovieId } = useParams();
+  currentMovieId = Number(currentMovieId);
   // 儲存當前電影資料
   const [currentMovie, setCurrentMovie] = useState({});
   // 存放與當前電影相似的其他電影
@@ -20,7 +21,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [trailer, setTrailer] = useState({});
   // 表示當前頁面的電影是否已經加進 watchlist
   const [inWatchlist, setInWatchlist] = useState(
-    watchlist.find((movie) => movie.id === id) !== undefined
+    watchlist.find((movie) => movie.id === currentMovieId) !== undefined
   );
 
   // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
@@ -31,9 +32,9 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     { type: "poster", isLoaded: false },
   ]);
 
-  const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
-  const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
-  const TRAILER_URL = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
+  const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
+  const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=e86818f56e7d92f357708ecb03052800`;
+  const TRAILER_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
 
   useEffect(() => {
     let subscribed = true;
@@ -63,7 +64,9 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     }
     // 更新目前的 watchlist 按鈕狀態
     // (如果在 watchlist 中 find() 的結果不是 undefined 就設為 true，否則設為 false)
-    setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
+    setInWatchlist(
+      watchlist.find((movie) => movie.id === currentMovieId) !== undefined
+    );
 
     // 換頁後滾動到頂部
     window.scrollTo(0, 0);
@@ -71,17 +74,21 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     return () => {
       subscribed = false;
     };
-  }, [id]);
+  }, [currentMovieId]);
 
   useEffect(() => {
     // 更新目前的 inWatchlist 狀態
-    setInWatchlist(watchlist.find((movie) => movie.id === id) !== undefined);
+    setInWatchlist(
+      watchlist.find((movie) => movie.id === currentMovieId) !== undefined
+    );
     // 存至 localStorage
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
   /**
-   * * 更新 watchlist 資料，如果已存在於 watchlist，則從 watchlist 中剔除；否則新增一個資料
+   * * 更新 watchlist 資料，
+   * * 如果已存在於 watchlist，則從 watchlist 中剔除；
+   * * 否則新增一筆新資料。
    * @param {*} id 目前頁面電影的 Id
    */
   function changeWatchlist(id) {
@@ -89,7 +96,9 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       if (inWatchlist) {
         return prev.filter((movie) => movie.id !== id);
       } else {
-        return [...prev, { id: id, watched: false, isLoaded: false }];
+        // watched: 是否已觀看
+        // isLoaded: 是否已經載入，預設 false
+        return [...prev, { id: id, watched: false }];
       }
     });
   }
@@ -247,7 +256,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                   </button>
                   <button
                     className="movie-detail__btn btn btn--transparent btn--lg"
-                    onClick={() => changeWatchlist(id)}>
+                    onClick={() => changeWatchlist(currentMovieId)}>
                     <i
                       className={`fa-solid ${
                         inWatchlist ? "fa-check" : "fa-plus"

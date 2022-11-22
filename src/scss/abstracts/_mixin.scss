@@ -41,13 +41,16 @@
   }
 }
 
-
 @mixin x-spacing {
   padding-left: map-get($x-spacing, lg);
   padding-right: map-get($x-spacing, lg);
 
-  @include sm {
+  @include md{
     padding-left: map-get($x-spacing, sm);
     padding-right: map-get($x-spacing, sm);
   }
+  // @include sm {
+  //   padding-left: map-get($x-spacing, sm);
+  //   padding-right: map-get($x-spacing, sm);
+  // }
 }

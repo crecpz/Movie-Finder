@@ -40,6 +40,7 @@ const Header = () => {
     window.addEventListener("resize", handelResize);
     function handelResize() {
       navRef.current.style.transition = "none";
+      setNavIsOpen(false);
       setTimeout(() => {
         navRef.current.style.transition = "";
       }, 100);

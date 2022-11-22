@@ -3,78 +3,138 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../utils/components-styles";
+import { getData } from "../utils/function";
 import WatchCard from "./WatchCard";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
-  const [watchCardLoaded, setWatchCardLoaded] = useState(true);
+  // 確認目前位於 Unwatched 還是 Watched
+  const { watchStatusTag = "unwatched" } = useParams();
 
-  // 根據目前網址的參數來取得目前為在 Unwatched 還是 Watched 頁面
-  const { watchStatus } = useParams();
+  // 存放 watchlist 電影資料
+  const [watchcards, setWatchcards] = useState([]);
 
-  const [listContent, setListContent] = useState(
-    watchStatus === "unwatched" || watchStatus === undefined
-      ? watchlist.filter((watchlistData) => !watchlistData.watched)
-      : watchlist.filter((watchlistData) => watchlistData.watched)
-  );
-
-  // 存放各個 watchCard poster 載入狀態
-  const [imgLoadStatus, setImgLoadStatus] = useState(
-    listContent.map(({ id }) => ({ id, isLoaded: false }))
-  );
-
-  console.log("imgLoadStatus: ", imgLoadStatus);
+  const currentList =
+    watchStatusTag === "unwatched"
+      ? watchlist.filter(({ watched }) => !watched)
+      : watchlist.filter(({ watched }) => watched);
 
   useEffect(() => {
-    // console.log(imgLoadStatus);
-  }, [imgLoadStatus]);
+    let subscribed = true;
+    // 取得當前電影資料
+    if (subscribed) {
+      const getData = async () => {
+        try {
+          const results = await Promise.all(
+            currentList.map(({ id }) =>
+              fetch(
+                `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`
+              )
+            )
+          );
 
-  // useEffect(() => {
-  //   // setImgLoadStatus()
-  // }, []);
+          const finalData = await Promise.all(
+            results.map((result) => result.json())
+          );
 
-  // console.log(imgLoadStatus);
+          setWatchcards(
+            finalData.map(({ id, poster_path, title }) => ({
+              id: id,
+              poster_path: poster_path,
+              title: title,
+            }))
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      };
 
-  // let listContent =
-  //   watchStatus === "unwatched" || watchStatus === undefined
-  //     ? watchlist.filter((watchlistData) => !watchlistData.watched)
-  //     : watchlist.filter((watchlistData) => watchlistData.watched);
+      getData();
+    }
 
-  // listContent = listContent.map((watchlistData) => ({
-  //   ...watchlistData,
-  //   isLoaded: false,
-  // }));
-
-  // useEffect(() => {
-  // setTimeout(() => {
-  //   setWatchCardLoaded(true);
-  // }, 1000);
-  // }, []);
+    return () => {
+      subscribed = false;
+    };
+  }, [watchlist, watchStatusTag]);
 
   return (
     <div className="cards">
-      {listContent.length !== 0 ? (
-        watchCardLoaded ? (
-          listContent.map((watchlistData) => {
-            return (
-              <WatchCard
-                key={watchlistData.id}
-                watchStatus={watchStatus}
-                id={watchlistData.id}
-                watched={watchlistData.watched}
-                watchlist={watchlist}
-                setWatchlist={setWatchlist}
-                // setImgLoadStatus={setImgLoadStatus}
-              />
-            );
-          })
-        ) : (
-          <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-        )
-      ) : (
-        <p className="empty-msg">No movies in your list, add some!</p>
-      )}
+      {watchcards.map(({ id, poster_path, title }) => {
+        return (
+          <WatchCard
+            key={id}
+            id={id}
+            poster_path={poster_path}
+            title={title}
+            watchlist={watchlist}
+            setWatchlist={setWatchlist}
+          />
+        );
+      })}
+
+      {/* <p className="empty-msg">No movies in your list, add some!</p> */}
+      {/*  <PulseLoader color="#fff" cssOverride={spinnerStyle} /> */}
     </div>
   );
+
+  // ! 舊的
+  // const WatchCards = ({ watchlist, setWatchlist }) => {
+  //   // 目前的電影的 poster 是否全部已經載入完畢
+  //   const [watchCardLoaded, setWatchCardLoaded] = useState(true);
+  //   //  目前的電影的 poster 載入狀態
+  //   const [imgStatus, setImgStatus] = useState([
+  //   ]);
+
+  //   // 根據目前網址的參數來取得目前為在 Unwatched 還是 Watched 頁面
+  //   const { watchStatus } = useParams();
+
+  //   const [listContent, setListContent] = useState(
+  //     watchStatus === "unwatched" || watchStatus === undefined
+  //       ? watchlist.filter((watchlistData) => !watchlistData.watched)
+  //       : watchlist.filter((watchlistData) => watchlistData.watched)
+  //   );
+
+  //   // const []
+
+  //   // let listContent =
+  //   //   watchStatus === "unwatched" || watchStatus === undefined
+  //   //     ? watchlist.filter((watchlistData) => !watchlistData.watched)
+  //   //     : watchlist.filter((watchlistData) => watchlistData.watched);
+
+  //   // listContent = listContent.map((watchlistData) => ({
+  //   //   ...watchlistData,
+  //   //   isLoaded: false,
+  //   // }));
+
+  //   // useEffect(() => {
+  //   // setTimeout(() => {
+  //   //   setWatchCardLoaded(true);
+  //   // }, 1000);
+  //   // }, []);
+
+  //   return (
+  //     <div className="cards">
+  //       {listContent.length !== 0 ? (
+  //         watchCardLoaded ? (
+  //           listContent.map((watchlistData) => {
+  //             return (
+  //               <WatchCard
+  //                 key={watchlistData.id}
+  //                 watchStatus={watchStatus}
+  //                 id={watchlistData.id}
+  //                 watched={watchlistData.watched}
+  //                 watchlist={watchlist}
+  //                 setWatchlist={setWatchlist}
+  //               />
+  //             );
+  //           })
+  //         ) : (
+  //           <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+  //         )
+  //       ) : (
+  //         <p className="empty-msg">No movies in your list, add some!</p>
+  //       )}
+  //     </div>
+  //   );
 
   // return (
   //   <div className="cards">

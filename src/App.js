@@ -48,7 +48,7 @@ function App() {
                   />
                 }></Route>
               <Route
-                path=":watchStatus"
+                path=":watchStatusTag"
                 element={
                   <WatchCards
                     watchlist={watchlist}

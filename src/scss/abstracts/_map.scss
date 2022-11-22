@@ -25,7 +25,8 @@ $max-width: (
 // color
 $color: (
   primary: #fff,
-  primary-light: #ffffff4f, // 用於淡色底線
+  // 用於淡色底線
+  primary-light: #ffffff26,
   secondary: #000,
   tertiary: rgb(213, 108, 80),
   active: rgb(213, 108, 80),
@@ -51,8 +52,8 @@ $transition: (
 );
 
 // 電影卡片寬度
-$card-size:(
-  width:(
+$card-size: (
+  width: (
     sm: 18.75rem,
   ),
 );

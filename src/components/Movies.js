@@ -17,7 +17,6 @@ const Movies = () => {
   const { ref: loadMore, inView: isIntersecting } = useInView();
   // 存放取得的電影資料
   const [movies, setMovies] = useState([]);
-  // const [movies, setMovies] = useState([]);
   // 存放使用者目前點擊到的頁面參數
   const { type } = useParams();
   // 根據目前頁面參數來決定 URL 內容(下面使用 switch 判斷)

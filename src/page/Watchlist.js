@@ -4,7 +4,7 @@ import { capitalize } from "../utils/function";
 import ScrollToTop from "react-scroll-to-top";
 
 const Watchlist = () => {
-  const { watchStatus = "unwatched" } = useParams();
+  const { watchStatusTag = "unwatched" } = useParams();
 
   return (
     <div className="watchlist">
@@ -18,7 +18,7 @@ const Watchlist = () => {
                   key={index}
                   to={`/watchlist/${listType}`}
                   className={({ isActive }) =>
-                    isActive || listType === watchStatus
+                    isActive || listType === watchStatusTag
                       ? "watchlist__link active"
                       : "watchlist__link"
                   }>

@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 const MoviesCard = ({ movie }) => {
   // 不存在圖片的就不顯示在此
   return movie.poster_path ? (
-    <Link to={`/movie/${movie ? movie.id : ""}`} className="movies-card-link card">
+    <Link
+      to={`/movie/${movie ? movie.id : ""}`}
+      className="movies-card-link card">
       <div className="movies-card">
         <img
           className="movies-card__img"
