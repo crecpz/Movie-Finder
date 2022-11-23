@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
+const WatchCard = ({
+  id,
+  poster_path,
+  title,
+  watchlist,
+  setWatchlist,
+}) => {
   // 確認目前位於 Unwatched 還是 Watched
   const { watchStatusTag = "unwatched" } = useParams();
 

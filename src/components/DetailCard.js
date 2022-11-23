@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { getData, noPoster } from "../utils/function";
 
 const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
-  // ! 用 雙等而非全等 就可以了
-  // const id = String(movie.id);
   const id = movie.id;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const [currentMovie, setCurrentMovie] = useState({});
@@ -17,6 +15,24 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
     };
   }, []);
 
+  // /**
+  //  * * 更新 watchlist 資料，
+  //  * * 如果已存在於 watchlist，則從 watchlist 中剔除；
+  //  * * 否則新增一筆新資料。
+  //  * @param {*} id 目前頁面電影的 Id
+  //  */
+  // function changeWatchlist(id) {
+  //   setWatchlist((prev) => {
+  //     if (inWatchlist) {
+  //       return prev.filter((movie) => movie.id !== id);
+  //     } else {
+  //       // watched: 是否已觀看
+  //       // isLoaded: 是否已經載入，預設 false
+  //       return [...prev, { id: id, watched: false }];
+  //     }
+  //   });
+  // }
+
   /**
    * * 更新 watchlist 資料，
    * * 如果已存在於 watchlist，則從 watchlist 中剔除；
@@ -28,9 +44,8 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
       if (inWatchlist) {
         return prev.filter((movie) => movie.id !== id);
       } else {
-        // watched: 是否已觀看
-        // isLoaded: 是否已經載入，預設 false
-        return [...prev, { id: id, watched: false }];
+        // status: 觀看狀態，預設為 unwatched
+        return [...prev, { id: id, status: "unwatched" }];
       }
     });
   }
