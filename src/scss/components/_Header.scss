@@ -51,8 +51,9 @@
       height: 0.125rem;
       background-color: map-get($color, "primary");
       pointer-events: none;
-      transition: ease-in-out 300ms;
+      transition: map-get($transition, 300);
       transition-property: transform, opacity;
+      pointer-events: none;
 
       &:not(:first-child) {
         margin-top: 6px;
@@ -89,33 +90,46 @@
 
 .nav {
   @include flex($ai: center);
+  position: relative;
   flex: 1 0 auto;
   column-gap: 1.5rem;
   margin-left: 3.5rem;
-  position: static;
+
+  @for $i from 1 through 6 {
+    & > :nth-child(#{$i}) {
+      animation: slide-right 850ms ease-in-out #{$i * 50}ms;
+
+      // &::before {
+      //   // nav-open 套用後，顯示 .nav__link::before 的底線
+      //   // opacity: 1;
+      // }
+    }
+  }
 
   @include md {
+    opacity: 0;
+    visibility: hidden;
+
     position: fixed;
     top: deep-map-get($height, header, lg);
     left: 0;
     z-index: 5;
 
     width: 100%;
+    height: 100vh;
 
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    row-gap: 2rem;
+    row-gap: 2.5rem;
 
     padding: 3rem 0;
     margin-left: auto;
     margin-right: auto;
+    background-color: rgba(0, 0, 0, 0.8);
 
-    transform: scaleY(0);
-    transform-origin: top;
-
-    background-color: map-get($color, secondary);
-    transition: transform map-get($transition, 300);
+    transition: map-get($transition, 500);
+    transition-property: visibility, opacity;
   }
 
   @include sm {
@@ -124,45 +138,64 @@
 
   &--open {
     @include md {
-      transform: scaleY(1);
+      opacity: 1;
+      visibility: visible;
+
+      @for $i from 1 through 6 {
+        & > :nth-child(#{$i}) {
+          animation: slide-left 850ms ease-in-out #{$i * 50}ms forwards;
+
+          &::before {
+            // nav-open 套用後，顯示 .nav__link::before 的底線
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 
   &__link {
-    position: relative;
     @include text(base);
+    position: relative;
     font-weight: bold;
     transition: color map-get($transition, 150);
 
+    @include md {
+      @include text(xl);
+      // transform: translateX(100vw);
+    }
+
+    // * .nav__link hover 狀態
     @include hover-query() {
       &:hover {
         color: map-get($color, tertiary);
 
         &::before {
+          opacity: 1;
           transform: scaleX(1);
         }
       }
     }
 
+    // * link 下方底線
     &::before {
       content: "";
       position: absolute;
-      bottom: -3px;
+      bottom: -4px;
       width: 100%;
       height: 2px;
+      opacity: 0;
       transform: scaleX(0);
       transform-origin: center;
-      transition: transform map-get($transition, 150);
+      // @ 將 opacity 設為 0，等到 .nav--open 被套用時，才將 opacity 設為 1，
+      // @ 這麼做是為了防止動畫過程中橘色底線出現在每個 Link 上。
+      transition: map-get($transition, 150), map-get($transition, 300);
+      transition-property: transform, opacity;
       background-color: map-get($color, tertiary);
     }
 
     &.active {
       &::before {
-        content: "";
-        position: absolute;
-        bottom: -3px;
-        height: 2px;
-        width: 100%;
         transform: scaleX(1);
         background-color: map-get($color, tertiary);
       }

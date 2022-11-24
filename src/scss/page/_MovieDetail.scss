@@ -129,12 +129,6 @@
   &__btn {
     align-self: flex-start;
 
-    // @include lg {
-    // &.btn--black {
-    //   border: 1px solid map-get($color, primary);
-    // }
-    // }
-
     &:not(:first-child) {
       margin-left: 2.5rem;
 

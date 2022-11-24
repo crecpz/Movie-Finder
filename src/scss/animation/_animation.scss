@@ -1,33 +1,30 @@
 @keyframes move-x {
-  from{
+  from {
     transform: translateX(0%);
-  }to{
+  }
+  to {
     transform: translateX(75%);
   }
 }
 
 @keyframes scale {
-  from{
-    opacity: .3;
+  from {
+    opacity: 0.3;
     transform: scale(0.5);
   }
 }
 
+@keyframes slide-left {
+  100% {
+    transform: translateX(0);
+  }
+}
 
-// @keyframes slide-to-left {
-//   from {
-//     transform: translateX(100%)
-//   }
-//   to{
-//     transform: translateX(0%)
-//   }
-// }
-
-// @keyframes slide-down {
-//   from {
-//     transform: translateY(-100%)
-//   }
-//   to{
-//     transform: translateY(0%)
-//   }
-// }
+@keyframes slide-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    // transform: translateX(100vw);
+  }
+}

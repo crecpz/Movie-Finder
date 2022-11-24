@@ -1,13 +1,8 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { noPoster } from "../utils/function";
 
-const WatchCard = ({
-  id,
-  poster_path,
-  title,
-  watchlist,
-  setWatchlist,
-}) => {
+const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
   // 確認目前位於 Unwatched 還是 Watched
   const { watchStatusTag = "unwatched" } = useParams();
 
@@ -16,12 +11,15 @@ const WatchCard = ({
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  // * 改變觀看狀態 (Unwatched <-> Watched)
+  // * 改變觀看狀態 (Unwatched <---> Watched)
   function changeStatus(id) {
     setWatchlist((prev) => {
       return prev.map((movie) => {
         if (movie.id === id) {
-          return { ...movie, watched: !movie.watched };
+          return {
+            ...movie,
+            status: movie.status === "unwatched" ? "watched" : "unwatched",
+          };
         } else {
           return movie;
         }
@@ -40,6 +38,7 @@ const WatchCard = ({
         <img
           className="watchcard__movie-poster"
           src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+          onError={noPoster}
           alt="watchcard-poster"
         />
       </div>

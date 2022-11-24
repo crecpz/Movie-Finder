@@ -20,7 +20,6 @@ const Search = ({ watchlist, setWatchlist }) => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
   };
@@ -36,7 +35,6 @@ const Search = ({ watchlist, setWatchlist }) => {
       subscribed = false;
     };
   }, [searchText]);
-  
 
   useEffect(() => {
     if (isIntersecting && searchResult) {
@@ -62,7 +60,7 @@ const Search = ({ watchlist, setWatchlist }) => {
         console.log(err);
       }
     };
-    
+
     let subscribed = true;
     // 僅在目前頁面 > 1 時才進行獲取
     if (pageNum > 1 && subscribed) getMoreData(API_URL, setSearchResult);
@@ -83,7 +81,7 @@ const Search = ({ watchlist, setWatchlist }) => {
             key={movie.id}
             movie={movie}
             inWatchlist={watchlist.some(
-              (watchlistData) => String(movie.id) === watchlistData.id
+              (watchlistData) => movie.id === watchlistData.id
             )}
             setWatchlist={setWatchlist}
           />

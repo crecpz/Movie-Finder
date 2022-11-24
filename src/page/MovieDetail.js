@@ -67,10 +67,9 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     setInWatchlist(
       watchlist.find((movie) => movie.id === currentMovieId) !== undefined
     );
-
     // 換頁後滾動到頂部
     window.scrollTo(0, 0);
-
+    // cleanup func
     return () => {
       subscribed = false;
     };
@@ -96,9 +95,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       if (inWatchlist) {
         return prev.filter((movie) => movie.id !== id);
       } else {
-        // watched: 是否已觀看
-        // isLoaded: 是否已經載入，預設 false
-        return [...prev, { id: id, watched: false }];
+        // status: 觀看狀態，預設為 unwatched
+        return [...prev, { id: id, status: "unwatched" }];
       }
     });
   }
@@ -172,7 +170,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     // 檢查當前電影的 poster_path 是否為 null
     // 如果為 null，則表示 API 未提供該張圖片
     if (currentMovie.poster_path === null) {
-      // 手動設定 poster 的載入狀態為 true
+      // 設定 poster 的載入狀態為 true
       // (至於 poster 海報則是直接不顯示)
       setImgLoadStatus((prev) => {
         return prev.map((i) => {

@@ -1,43 +1,13 @@
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { useCallback } from "react";
 
 const Header = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
-  const headerRef = useRef();
+  const headerRef = useRef(null);
   const navRef = useRef(null);
 
-  // * 向下 scroll 隱藏 scrollbar, 向上 scroll 顯示 scrollbar
   useEffect(() => {
-    // 記住上一次 scrollY 值 (初始是在頂端，所以預設為 0)
-    let lastScrollY = 0;
-    const handleScroll = (e) => {
-      // 僅在 navIsOpen 為 false 的時候執行
-      if (!navIsOpen) {
-        // 取得最新的 scrollY
-        let currentScrollY = window.scrollY;
-        // 如果最新的 scrollY 比上一次的 scrollY 還要大，代表現在正在往下滑
-        if (currentScrollY > lastScrollY) {
-          // 隱藏 header
-          headerRef.current.classList.add("header--hide");
-        } else {
-          // 否則顯示 header
-          headerRef.current.classList.remove("header--hide");
-        }
-        // 更新上次 scrollY
-        lastScrollY = currentScrollY;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [navIsOpen]);
-
-  useEffect(() => {
-    window.addEventListener("resize", handelResize);
+    // * 使用者 resize 時，關閉 nav 的 transition
     function handelResize() {
       navRef.current.style.transition = "none";
       setNavIsOpen(false);
@@ -45,10 +15,42 @@ const Header = () => {
         navRef.current.style.transition = "";
       }, 100);
     }
+
+    // ! 等到滿版 nav 出來之後再來決定這邊要怎麼寫
+    function handleClick(e) {
+      if (
+        !e.target.closest(".nav") &&
+        !e.target.classList.contains("header__menu-btn")
+      ) {
+        setNavIsOpen(false);
+      }
+    }
+
     return () => {
       window.removeEventListener("resize", handelResize);
+      window.removeEventListener("click", handleClick);
     };
   }, []);
+
+  useEffect(() => {
+    // * 當 nav 打開時禁止頁面滾動，並調整 header padding-right
+    const body = document.body;
+    const scrollBarWidth = window.innerWidth - body.clientWidth;
+    const headerPaddingRight = window
+      .getComputedStyle(headerRef.current, null)
+      .getPropertyValue("padding-right");
+
+    if (navIsOpen) {
+      body.style.overflowY = "hidden";
+      headerRef.current.style.paddingRight = `${
+        parseInt(headerPaddingRight) + scrollBarWidth
+      }px`;
+      
+    } else {
+      body.style.overflowY = "";
+      headerRef.current.style.paddingRight = "";
+    }
+  }, [navIsOpen]);
 
   return (
     <header ref={headerRef} className="header">

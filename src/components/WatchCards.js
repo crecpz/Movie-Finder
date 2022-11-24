@@ -6,12 +6,7 @@ import { spinnerStyle } from "../utils/components-styles";
 import WatchCard from "./WatchCard";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
-  // ! 目前拿 DetailCard 來測試，我將新增新的資料到 localStorage 的物件稍作修改，
-  // ! watched: boolean -->  status: "unwatched"
-  // ! 因為做了修改，所以在點按按鈕的時候，不會有相應的反應，但是資料確實會被加進 localStorage
-
   const { watchStatusTag = "unwatched" } = useParams();
-
   // @ 從 watchlist 中 fetch 電影資料，存放到 watchcards state 中
   const [watchcards, setWatchcards] = useState([]);
 
@@ -19,26 +14,56 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
     // 取得當前電影資料
     let subscribed = true;
     if (subscribed) {
-      const getData = async (id) => {
+      // ! old ---
+      // const getData = async (id) => {
+      // ! old ---
+
+      const getData = async () => {
         try {
-          const result = await fetch(
-            `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`
+          const results = await Promise.all(
+            watchlist.map(({ id }) =>
+              fetch(
+                `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`
+              )
+            )
           );
-          const data = await result.json();
-          // 取得當前 id 電影在 watchlist 中的資料
-          const watchData = watchlist.find((i) => i.id === id);
-          // watchlist 資料、id、poster_path、title 一併放入 watchcards
-          setWatchcards((prev) => [
-            ...prev,
-            { ...watchData, poster_path: data.poster_path, title: data.title },
-          ]);
+          const finalData = await Promise.all(
+            results.map((result) => result.json())
+          );
+          setWatchcards(
+            finalData.map(({ id, poster_path, title }) => {
+              const watchData = watchlist.find((i) => i.id === id);
+              return {
+                ...watchData,
+                poster_path: poster_path,
+                title: title,
+              };
+            })
+          );
+
+          // ! old ---
+          // const result = await fetch(
+          //   `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`
+          //   );
+          //   const data = await result.json();
+          //   // 取得當前 id 電影在 watchlist 中的資料
+          // const watchData = watchlist.find((i) => i.id === id);
+          // // watchlist 資料、id、poster_path、title 一併放入 watchcards
+          // setWatchcards((prev) => [
+          //   ...prev,
+          //   { ...watchData, poster_path: data.poster_path, title: data.title },
+          // ]);
+          // ! old ---
         } catch (err) {
           console.log(err);
         }
       };
 
+      // ! old ---
       // 遍歷 watchlist 中的每一個電影，以 id 作為參數，進行 fetch
-      watchlist.forEach(({ id }) => getData(id));
+      // watchlist.forEach(({ id }) => getData(id));
+      // ! old ---
+      getData();
     }
     // clean func
     return () => {
@@ -47,10 +72,15 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
   }, [watchlist]);
 
   // 根據目前所在的標籤(Unwatched or Watched)來決定 currentList 內容
-  const currentList =
-    watchStatusTag === "unwatched"
-      ? watchcards.filter(({ watched }) => !watched)
-      : watchcards.filter(({ watched }) => watched);
+  // const currentList =
+  //   watchStatusTag === "unwatched"
+  //     ? watchcards.filter(({ watched }) => !watched)
+  //     : watchcards.filter(({ watched }) => watched);
+  const currentList = watchcards.filter(
+    ({ status }) => status === watchStatusTag
+  );
+
+  console.log(currentList);
 
   return (
     <div className="cards">
@@ -99,23 +129,23 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
 //     if (subscribed) {
 //       const getData = async () => {
 //         try {
-//           const results = await Promise.all(
-//             currentList.map(({ id }) =>
-//               fetch(
-//                 `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`
-//               )
-//             )
-//           );
-//           const finalData = await Promise.all(
-//             results.map((result) => result.json())
-//           );
-//           setWatchcards(
-//             finalData.map(({ id, poster_path, title }) => ({
-//               id: id,
-//               poster_path: poster_path,
-//               title: title,
-//             }))
-//           );
+// const results = await Promise.all(
+//   currentList.map(({ id }) =>
+//     fetch(
+//       `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`
+//     )
+//   )
+// );
+// const finalData = await Promise.all(
+//   results.map((result) => result.json())
+// );
+// setWatchcards(
+//   finalData.map(({ id, poster_path, title }) => ({
+//     id: id,
+//     poster_path: poster_path,
+//     title: title,
+//   }))
+// );
 //         } catch (err) {
 //           console.log(err);
 //         }

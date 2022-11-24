@@ -1,6 +1,7 @@
 @use "../abstracts" as *;
 
-// todo 整理重用
+// @ 每張卡片的寬度計算方式: (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
+// -->  (100% / $card-amount - ($column-gap * $gap-amount) / $card-amount)
 
 // 卡片之間的 column-gap
 $column-gap: 1.5rem;
@@ -10,7 +11,6 @@ $card-amount: (
   2xl: 5,
   xl: 4,
   lg: 3,
-  // md: 3,
   md: 2,
   sm: 1,
 );
@@ -23,9 +23,6 @@ $gap-amount: (
   md: 1,
   sm: 0,
 );
-
-// @ 計算方式: (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
-// -->  (100% / $card-amount - ($column-gap * $gap-amount) / $card-amount)
 
 .cards {
   @include flex($wrap: wrap);
@@ -56,12 +53,6 @@ $gap-amount: (
       (100% / map-get($card-amount, md)) - ($column-gap * map-get($gap-amount, md) / map-get($card-amount, md))
     );
   }
-
-  // @include md {
-  //   max-width: calc(
-  //     (100% / map-get($card-amount, md)) - ($column-gap * map-get($gap-amount, md) / map-get($card-amount, md))
-  //   );
-  // }
 
   @include sm {
     max-width: deep-map-get($card-size, width, sm);

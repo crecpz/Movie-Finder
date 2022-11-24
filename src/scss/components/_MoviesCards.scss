@@ -14,6 +14,7 @@
   }
 }
 
+// * 電影卡片
 .movies-card {
   $block: &;
   position: relative;
@@ -30,9 +31,9 @@
     display: block;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: map-get($color, overlay);
     opacity: 0;
-    transition: 300ms ease-in-out;
+    transition: map-get($transition, 300);
     transition-property: opacity, background-color;
 
     @include sm {
