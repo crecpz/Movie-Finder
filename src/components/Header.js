@@ -15,20 +15,8 @@ const Header = () => {
         navRef.current.style.transition = "";
       }, 100);
     }
-
-    // ! 等到滿版 nav 出來之後再來決定這邊要怎麼寫
-    function handleClick(e) {
-      if (
-        !e.target.closest(".nav") &&
-        !e.target.classList.contains("header__menu-btn")
-      ) {
-        setNavIsOpen(false);
-      }
-    }
-
     return () => {
       window.removeEventListener("resize", handelResize);
-      window.removeEventListener("click", handleClick);
     };
   }, []);
 
@@ -45,7 +33,6 @@ const Header = () => {
       headerRef.current.style.paddingRight = `${
         parseInt(headerPaddingRight) + scrollBarWidth
       }px`;
-      
     } else {
       body.style.overflowY = "";
       headerRef.current.style.paddingRight = "";

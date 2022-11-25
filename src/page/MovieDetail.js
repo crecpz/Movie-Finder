@@ -17,8 +17,10 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [currentMovie, setCurrentMovie] = useState({});
   // 存放與當前電影相似的其他電影
   const [similarMovies, setSimilarMovies] = useState({});
-  // 儲存預告片資料
-  const [trailer, setTrailer] = useState({});
+  // 存放演員資料
+  const [credits, setCredits] = useState([]);
+  // 存放 video 資料
+  const [video, setVideo] = useState({});
   // 表示當前頁面的電影是否已經加進 watchlist
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === currentMovieId) !== undefined
@@ -34,20 +36,21 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=e86818f56e7d92f357708ecb03052800`;
-  const TRAILER_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
+  const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
+  const CREDITS_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/credits?api_key=e86818f56e7d92f357708ecb03052800`;
 
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
       getData(CURRENT_DETAIL_URL, setCurrentMovie);
-      getData(TRAILER_URL, setTrailer);
+      getData(VIDEO_URL, setVideo);
       getData(SIMILAR_URL, setSimilarMovies);
+      getData(CREDITS_URL, setCredits);
     }
     return () => {
       subscribed = false;
     };
   }, []);
-
   useEffect(() => {
     // 換頁後，恢復 poster & backdrop 的狀態
     setImgIsLoaded(false);
@@ -60,7 +63,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     if (subscribed) {
       getData(CURRENT_DETAIL_URL, setCurrentMovie);
       getData(SIMILAR_URL, setSimilarMovies);
-      getData(TRAILER_URL, setTrailer);
+      getData(VIDEO_URL, setVideo);
     }
     // 更新目前的 watchlist 按鈕狀態
     // (如果在 watchlist 中 find() 的結果不是 undefined 就設為 true，否則設為 false)
@@ -101,11 +104,45 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     });
   }
 
-  // * 預告片 key
-  const trailerKey =
-    trailer.results &&
-    trailer.results.find(({ type }) => type === "Trailer" || type === "Teaser")
-      ? trailer.results.find(
+  // console.log(credits.cast.slice(0))
+  console.log(
+    "sort",
+    credits.cast && credits.cast.sort((a, b) => b.popularity - a.popularity)
+  );
+  console.log("no-sort", credits.cast && credits.cast.slice(0, 15));
+
+  // let creditsSortByPopularity = credits.cast &&
+
+  // * 演員列表
+  const creditsElement =
+    credits.cast &&
+    // credits.cast.slice(0, 15).map(({ character, name, profile_path }) => {
+    credits.cast
+      .sort((a, b) => b.popularity - a.popularity)
+      .slice(0, 30)
+      .map(({ character, name, profile_path }) => {
+        return (
+          <div className="movie-detail__cast-card card">
+            <img
+              className="movie-detail__cast-img"
+              src={`https://image.tmdb.org/t/p/w500/${profile_path}`}
+              alt="profilie_path"
+            />
+            <p className="movie-detail__cast-info">
+              <span>{name}</span>
+              <span>{character}</span>
+            </p>
+          </div>
+        );
+      });
+  // console.log(credits.cast && credits.cast.slice(0, 5));
+
+  // *  video key
+  // 修先取得 Trailer 或 Teaser
+  const videoKey =
+    video.results &&
+    video.results.find(({ type }) => type === "Trailer" || type === "Teaser")
+      ? video.results.find(
           ({ type }) => type === "Trailer" || type === "Teaser"
         ).key
       : "";
@@ -191,6 +228,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       </div>
 
       <div className="movie-detail">
+        {/* intro */}
         <div className="movie-detail__intro">
           <div className="movie-detail__backdrop">
             <img
@@ -250,7 +288,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 </p>
                 <div className="movie-detail__btns">
                   <button className="movie-detail__btn btn btn--red btn--lg">
-                    <i className="fa-solid fa-play"></i>Watch Trailer
+                    <i className="fa-solid fa-play"></i>Watch Video
                   </button>
                   <button
                     className="movie-detail__btn btn btn--transparent btn--lg"
@@ -266,29 +304,42 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
             </div>
           </div>
         </div>
-        <div className="movie-detail__trailer">
+
+        {/* credits */}
+        <section className="movie-detail__cast">
           <div className="container">
-            <h2 className="layout-title">Trailer</h2>
+            <h2 className="layout-title">Cast</h2>
+            <div className="movie-detail__cast-cards cards">
+              {creditsElement}
+            </div>
+          </div>
+        </section>
+
+        {/* video */}
+        <section className="movie-detail__video">
+          <div className="container">
+            <h2 className="layout-title">Video</h2>
             <div
-              className={`movie-detail__video-container ${
-                trailerKey ? "" : "movie-detail__video-container--no-video"
+              className={`movie-detail__iframe-container ${
+                videoKey ? "" : "movie-detail__video-container--no-video"
               }`}>
-              {trailerKey ? (
+              {videoKey ? (
                 <iframe
-                  className="movie-detail__video"
-                  src={`https://www.youtube.com/embed/${trailerKey}`}
+                  className="movie-detail__iframe"
+                  src={`https://www.youtube.com/embed/${videoKey}`}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen></iframe>
               ) : (
-                <p className="placeholder-text">No Trailer!</p>
+                <p className="placeholder-text">No Video!</p>
               )}
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="movie-swiper movie-detail__similar">
+        {/* similar moives */}
+        <section className="movie-swiper movie-detail__similar">
           <div className="container">
             <h2 className="layout-title">Similar Movies</h2>
             {similarMovies.results && similarMovies.results.length === 0 ? (
@@ -342,7 +393,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               </Swiper>
             )}
           </div>
-        </div>
+        </section>
       </div>
     </>
   );

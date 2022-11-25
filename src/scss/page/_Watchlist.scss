@@ -9,6 +9,10 @@
     @include flex($ai: center, $jc: space-between);
   }
 
+  &__cards {
+    margin-top: 4rem;
+  }
+
   // 頂部切換連結容器
   &__links {
     @include flex($jc: center);

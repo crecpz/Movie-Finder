@@ -80,10 +80,8 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
     ({ status }) => status === watchStatusTag
   );
 
-  console.log(currentList);
-
   return (
-    <div className="cards">
+    <div className="watchlist__cards cards">
       {watchlist.some(({ status }) => status === watchStatusTag) ? (
         currentList.length ? (
           currentList.map(({ id, poster_path, title }) => {

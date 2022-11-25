@@ -95,16 +95,11 @@
   column-gap: 1.5rem;
   margin-left: 3.5rem;
 
-  @for $i from 1 through 6 {
-    & > :nth-child(#{$i}) {
-      animation: slide-right 850ms ease-in-out #{$i * 50}ms;
-
-      // &::before {
-      //   // nav-open 套用後，顯示 .nav__link::before 的底線
-      //   // opacity: 1;
-      // }
-    }
-  }
+  // @for $i from 1 through 6 {
+  //   & > :nth-child(#{$i}) {
+  //     animation: slide-right 850ms ease-in-out #{$i * 50}ms;
+  //   }
+  // }
 
   @include md {
     opacity: 0;
