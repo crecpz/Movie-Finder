@@ -14,7 +14,19 @@
   }
 }
 
+// .selected .carousel__text {
+.slide.selected .carousel__text {
+  @for $i from 1 through 3 {
+    & > :nth-child(#{$i}) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 .carousel {
+  $block: &;
+
   position: relative;
   display: block;
   text-align: left;
@@ -30,7 +42,7 @@
       height: calc(100vh - deep-map-get($height, header, sm));
     }
 
-    .carousel__backdrop {
+    #{$block}__backdrop {
       @include sm {
         display: none;
 
@@ -39,7 +51,7 @@
       }
     }
 
-    .carousel__poster {
+    #{$block}__poster {
       display: none;
       @include sm {
         display: inline-block;
@@ -76,13 +88,18 @@
     max-width: 1000px;
     padding-bottom: 6rem;
 
-    @include lg {
-      // max-width: 37.5rem;
+    // ! 以下未完成
+    @for $i from 1 through 3 {
+      & > :nth-child(#{$i}) {
+        opacity: 0;
+        transform: translateY(-100px);
+        transition: map-get($transition, 500) $i * 200ms, map-get($transition, 150) $i * 100ms;
+        // transition-delay: ;
+        transition-property: translate, opacity;
+      }
     }
 
     @include md {
-      // max-width: 33.75rem;
-      // margin-left: map-get($x-spacing, lg);
       margin-bottom: 5rem;
     }
 
@@ -157,6 +174,7 @@
 
     .swiper {
       width: 100%;
+      margin-top: 1.5rem;
     }
 
     &-link {

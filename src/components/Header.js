@@ -7,16 +7,34 @@ const Header = () => {
   const navRef = useRef(null);
 
   useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    // window.addEventListener("scroll", handleScroll);
+
+    // ! 注意!最後要禁用的屬性具體要看 nav 使用了什麼，目前還未定(看下方箭頭)
+    // ! 注意!最後要禁用的屬性具體要看 nav 使用了什麼，目前還未定(看下方箭頭)
+    // ! 注意!最後要禁用的屬性具體要看 nav 使用了什麼，目前還未定(看下方箭頭)
     // * 使用者 resize 時，關閉 nav 的 transition
-    function handelResize() {
-      navRef.current.style.transition = "none";
+    function handleResize() {
+      navRef.current.style.transition = "none"; // ! <---
+      navRef.current.style.animation = "none"; // ! <---
       setNavIsOpen(false);
       setTimeout(() => {
         navRef.current.style.transition = "";
       }, 100);
     }
+
+    // function handleScroll() {
+    //   let currentScrollY = window.scrollY;
+    //   if (currentScrollY === 0) {
+    //     headerRef.current.classList.remove("header--scrolling");
+    //   } else {
+    //     headerRef.current.classList.add("header--scrolling");
+    //   }
+    // }
+
     return () => {
-      window.removeEventListener("resize", handelResize);
+      window.removeEventListener("resize", handleResize);
+      // window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -58,37 +76,37 @@ const Header = () => {
           to="/"
           end
           className="nav__link"
-          onClick={() => setNavIsOpen((prev) => !prev)}>
+          onClick={() => setNavIsOpen(false)}>
           Home
         </NavLink>
         <NavLink
           to="/movies/new"
           className="nav__link"
-          onClick={() => setNavIsOpen((prev) => !prev)}>
+          onClick={() => setNavIsOpen(false)}>
           New
         </NavLink>
         <NavLink
           to="/movies/popular"
           className="nav__link"
-          onClick={() => setNavIsOpen((prev) => !prev)}>
+          onClick={() => setNavIsOpen(false)}>
           Popular
         </NavLink>
         <NavLink
           to="/movies/genres"
           className="nav__link"
-          onClick={() => setNavIsOpen((prev) => !prev)}>
+          onClick={() => setNavIsOpen(false)}>
           Genres
         </NavLink>
         <NavLink
           to="/watchlist"
           className="nav__link"
-          onClick={() => setNavIsOpen((prev) => !prev)}>
+          onClick={() => setNavIsOpen(false)}>
           Watchlist
         </NavLink>
         <NavLink
           to="/search"
           className="nav__link"
-          onClick={() => setNavIsOpen((prev) => !prev)}>
+          onClick={() => setNavIsOpen(false)}>
           <i className="fa-solid fa-magnifying-glass"></i>
         </NavLink>
       </nav>

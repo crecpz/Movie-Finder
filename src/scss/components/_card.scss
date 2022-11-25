@@ -1,6 +1,7 @@
 @use "../abstracts" as *;
 
-// @ 每張卡片的寬度計算方式: (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
+// @ 使用於 New, Popular, Genres, watchlist 
+// 每張卡片的寬度計算方式: (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
 // -->  (100% / $card-amount - ($column-gap * $gap-amount) / $card-amount)
 
 // 卡片之間的 column-gap

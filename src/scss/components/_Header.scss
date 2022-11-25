@@ -9,13 +9,15 @@
   flex: 1 0 auto;
   padding-left: deep-map-get($x-spacing, lg);
   padding-right: deep-map-get($x-spacing, lg);
-  border-bottom: 2px solid rgb(213, 108, 80);
+  border-bottom: 1px solid rgb(213, 108, 80);
   background-color: map-get($color, secondary);
-  transition: transform map-get($transition, 300);
+  transition: map-get($transition, 300), map-get($transition, 500);
+  transition-property: transform, background-color, border-color;
 
-  &--hide {
-    transform: translateY(-100%);
-  }
+  // &--scrolling {
+  //   background-color: map-get($color, overlay);
+  //   border-bottom-color: transparent;
+  // }
 
   @include md {
     justify-content: space-between;
@@ -179,13 +181,10 @@
       bottom: -4px;
       width: 100%;
       height: 2px;
-      opacity: 0;
       transform: scaleX(0);
       transform-origin: center;
-      // @ 將 opacity 設為 0，等到 .nav--open 被套用時，才將 opacity 設為 1，
-      // @ 這麼做是為了防止動畫過程中橘色底線出現在每個 Link 上。
-      transition: map-get($transition, 150), map-get($transition, 300);
-      transition-property: transform, opacity;
+      transition: map-get($transition, 150);
+      transition-property: transform;
       background-color: map-get($color, tertiary);
     }
 

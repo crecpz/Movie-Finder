@@ -124,7 +124,9 @@ const Home = () => {
         autoPlay={true}
         transitionTime={3}
         infiniteLoop={true}
-        showStatus={false}>
+        showStatus={false}
+        // emulateTouch={true}
+        >
         {carouselElements}
       </Carousel>
 

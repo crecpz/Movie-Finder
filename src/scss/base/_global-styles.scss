@@ -60,7 +60,7 @@ h6 {
         max-width: map-get($max-width, sm);
     }
 
-    &--lg {
+    &--no-limit {
         max-width: none;
     }
 }
@@ -88,9 +88,15 @@ h6 {
     padding: 0.25em 0.8em;
     white-space: nowrap;
     font-weight: bold;
-    color: #000;
-    background-color: #fff;
+    color: map-get($color, secondary);
+    background-color: map-get($color, primary);
     border-radius: 30px;
+
+    @include hover-query {
+        &:hover {
+            @include hover-bg-color(map-get($color, primary));
+        }
+    }
 
     &-wrapper {
         @include flex($wrap: wrap);

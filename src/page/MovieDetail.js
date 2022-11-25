@@ -7,8 +7,9 @@ import PulseLoader from "react-spinners/PulseLoader";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { getData, noBackdrop, noPoster } from "../utils/function";
+import { getData, noBackdrop } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
+import ScrollToTop from "react-scroll-to-top";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
   let { id: currentMovieId } = useParams();
@@ -229,7 +230,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
       <div className="movie-detail">
         {/* intro */}
-        <div className="movie-detail__intro">
+        <section className="movie-detail__intro">
           <div className="movie-detail__backdrop">
             <img
               src={`https://image.tmdb.org/t/p/original/${currentMovie.backdrop_path}`}
@@ -239,7 +240,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
             />
           </div>
           <div className="movie-detail__content">
-            <div className="container container--lg">
+            {/* container--no-limit */}
+            <div className="container">
               {currentMovie.poster_path !== null && (
                 <img
                   className="movie-detail__poster"
@@ -303,7 +305,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* credits */}
         <section className="movie-detail__cast">
@@ -339,7 +341,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         </section>
 
         {/* similar moives */}
-        <section className="movie-swiper movie-detail__similar">
+        <section className="movie-detail__similar movie-swiper">
           <div className="container">
             <h2 className="layout-title">Similar Movies</h2>
             {similarMovies.results && similarMovies.results.length === 0 ? (
@@ -395,6 +397,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           </div>
         </section>
       </div>
+      <ScrollToTop
+        smooth
+        className="scroll-to-top"
+        color="#fff"
+        viewBox="0 0 448 512"
+        svgPath="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+      />
     </>
   );
 };

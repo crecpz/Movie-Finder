@@ -3,6 +3,20 @@
 .movie-detail {
   position: relative;
 
+  // 除了首個 section 之外，其餘的 sectioni 都套用以下樣式:
+  > section:not(:first-child) {
+    margin-top: 3rem;
+
+    .container {
+      border-top: 1px solid #333;
+      padding-top: 3rem;
+    }
+  }
+
+  .layout-title {
+    margin-bottom: 1.5rem;
+  }
+
   &__intro {
     display: grid;
     height: calc(100vh - 90px);
@@ -12,6 +26,7 @@
     }
   }
 
+  // 電影 backdrop
   &__backdrop {
     grid-row: 1/2;
     grid-column: 1/2;
@@ -63,11 +78,9 @@
   &__poster {
     border-radius: 15px;
     width: 100%;
-    max-width: 300px;
+    max-width: 18.75rem;
     border-radius: map-get($border-radius, base);
-
-    @include lg {
-    }
+    box-shadow: map-get($box-shadow, base);
   }
 
   &__texts {
@@ -106,7 +119,7 @@
     text-overflow: ellipsis;
 
     @include lg {
-      // lg 以下，解除限制
+      // lg 以下，解除行數限制
       overflow: visible;
       display: inline;
       -webkit-line-clamp: none; /* 行數 */
@@ -120,7 +133,7 @@
     }
   }
 
-  // * 按鈕 (Watch Video & Add Watchlist)
+  // 按鈕 (Watch Video & Add Watchlist)
   &__btns {
     @include flex;
     margin-top: 1rem;
@@ -146,28 +159,32 @@
   // * cast
   &__cast {
     @include x-spacing;
+
     &-cards {
     }
     &-card {
     }
     &-img {
+      border-radius: map-get($border-radius, base);
       width: 100%;
     }
+
     &-info {
+      @include flex($dir: column);
+      @include text(xl);
+      margin-top: 1rem;
     }
   }
 
   // * Video
   &__video {
     @include x-spacing;
-    margin-top: 2rem;
   }
 
   &__iframe-container {
     position: relative;
     width: 100%;
     padding-bottom: 56.25%;
-    margin-top: 1.5rem;
 
     &--no-video {
       padding-bottom: 0;
@@ -183,18 +200,17 @@
     border: 0;
   }
 
-  &__video,
-  &__similar {
-    .container {
-      border-top: 1px solid #333;
-      padding-top: 2rem;
-    }
-  }
+  // &__video,
+  // &__similar {
+  // .container {
+  //   border-top: 1px solid #333;
+  //   padding-top: 2rem;
+  // }
+  // }
 
   // * Similar Movies swiper (相似電影 swiper)
   &__similar {
     @include x-spacing;
-    margin-top: 2rem;
     padding-bottom: 2rem;
   }
 }
