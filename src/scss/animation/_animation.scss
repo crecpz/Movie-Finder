@@ -24,8 +24,21 @@
   0% {
     transform: translateX(0);
   }
+}
+
+@keyframes intersection {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  30% {
+    transform: translateY(30px);
+  }
+
   100% {
-    // transform: translateX(100vw);
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 

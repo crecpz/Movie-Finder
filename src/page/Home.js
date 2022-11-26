@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 import { getData } from "../utils/function";
 import MovieSwiper from "../components/MovieSwiper";
 import { spinnerStyle } from "../utils/components-styles";
+import { useRef } from "react";
 
 const Home = () => {
   // 存放趨勢 movie
@@ -19,13 +20,18 @@ const Home = () => {
   // 趨勢 API_URL (取得趨勢 movie, 24hr 更新一次)
   const TRENDING_URL =
     "https://api.themoviedb.org/3/trending/movie/day?api_key=e86818f56e7d92f357708ecb03052800";
-  // 類別 API_URL (取得類別 id 與對應的名稱)
+  // 電影類別 API_URL (取得類別 id 與對應的名稱)
   const GENRES_URL =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
-  // 類別資料
+  // 電影類別資料
   const [genresData, setGenresData] = useState([]);
+
+  // const genresRefs = useRef();
+  // console.log(genresRefs);
+
   const { ref: loadMore, inView: isIntersecting } = useInView();
   const [showAmount, setShowAmount] = useState(3);
+
   // 第一張輪播圖的載入狀態
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
 
@@ -126,7 +132,7 @@ const Home = () => {
         infiniteLoop={true}
         showStatus={false}
         // emulateTouch={true}
-        >
+      >
         {carouselElements}
       </Carousel>
 
