@@ -1,29 +1,43 @@
 @use "../abstracts" as *;
 
 // @ carousel 套件相關組件
-// 左右箭頭
+// carousel 左右箭頭
 .control-arrow {
   @include sm {
     display: none;
   }
 }
-// 底部控制點
+// carousel 底部圓點
 .control-dots {
   @include sm {
     display: none;
   }
 }
 
-// 當 carousel 播放到當前的圖片時
-.slide.selected .carousel__text {
-  // .carousel__text 子層 3 元素依序出現
-  @for $i from 1 through 3 {
-    & > :nth-child(#{$i}) {
-      opacity: 1;
-      transform: translateY(0);
+// 當 carousel 播放到當前的圖片時...
+.slide.selected {
+  // 給予文字 transition 效果
+  .carousel__text {
+    // .carousel__text 內的 3 個子元素依序出現
+    @for $i from 1 through 3 {
+      & > :nth-child(#{$i}) {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 }
+
+// // 當 carousel 播放到當前的圖片時，給予文字 transition 效果
+// .slide.selected .carousel__text {
+//   // .carousel__text 內的 3 個子元素依序出現
+//   @for $i from 1 through 3 {
+//     & > :nth-child(#{$i}) {
+//       opacity: 1;
+//       transform: translateY(0);
+//     }
+//   }
+// }
 
 .carousel {
   $block: &;
@@ -42,21 +56,6 @@
       height: calc(100vh - deep-map-get($height, header, sm));
     }
 
-    #{$block}__backdrop {
-      @include sm {
-        display: none;
-        object-fit: cover;
-        object-position: left;
-      }
-    }
-
-    #{$block}__poster {
-      display: none;
-      @include sm {
-        display: inline-block;
-      }
-    }
-
     @include lg {
       max-height: none;
     }
@@ -66,10 +65,31 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.033), rgb(0, 0, 0));
+      background-image: linear-gradient(rgb(0 0 0 / 20%), rgb(0 0 0));
       width: 100%;
       height: 100%;
       z-index: 5;
+      transition: all ease-in-out 1000ms;
+    }
+
+    // @ backdrop 將於 breakpoint < md 時被隱藏，替換成 poster
+    // img tag (backdrop)
+    #{$block}__backdrop {
+      object-fit: cover;
+      height: 100%;
+
+      @include md {
+        display: none;
+      }
+    }
+
+    // img tag (poster)
+    #{$block}__poster {
+      // poster 於 breakpoint < md 時被顯示
+      display: none;
+      @include md {
+        display: inline-block;
+      }
     }
   }
 
@@ -87,20 +107,16 @@
     max-width: 1000px;
     padding-bottom: 6rem;
 
-    transform: translateY(-25px);
-    transition: map-get($transition, 800);
-    transition-property: transform;
-
     & > :nth-child(n) {
       opacity: 0;
-      transform: translateY(-15px);
+      transform: translateY(-20px);
       transition: map-get($transition, 800), map-get($transition, 800);
       transition-property: transform, opacity;
     }
 
     @for $i from 1 through 3 {
       & > :nth-child(#{$i}) {
-        transition-delay: $i * 200ms;
+        transition-delay: $i * 150ms;
       }
     }
 

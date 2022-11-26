@@ -2,7 +2,7 @@
 // @ font-family:
 //  default: Nunito
 //  h1~h6: Oswald
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Oswald:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Oswald:wght@700&display=swap");
 
 html {
     box-sizing: border-box;
@@ -19,7 +19,7 @@ html {
 body {
     color: deep-map-get($color, primary);
     background-color: black;
-    font-family: 'Nunito', sans-serif;
+    font-family: "Nunito", sans-serif;
     height: 100vh;
     overflow-y: scroll;
 }
@@ -160,4 +160,8 @@ h6 {
         visibility: visible;
         opacity: 1;
     }
+}
+
+.intersection-transition {
+    animation: intersection map-get($transition, 1000) forwards;
 }
