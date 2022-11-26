@@ -1,5 +1,8 @@
 @use "../abstracts" as *;
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap");
+// @ font-family:
+//  default: Nunito
+//  h1~h6: Oswald
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Oswald:wght@700&display=swap');
 
 html {
     box-sizing: border-box;
@@ -16,7 +19,7 @@ html {
 body {
     color: deep-map-get($color, primary);
     background-color: black;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Nunito', sans-serif;
     height: 100vh;
     overflow-y: scroll;
 }
@@ -37,6 +40,7 @@ h4,
 h5,
 h6 {
     font-family: "Oswald", sans-serif;
+    letter-spacing: deep-map-get($text, spacing, wide);
 }
 
 .container {

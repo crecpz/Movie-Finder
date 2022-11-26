@@ -14,8 +14,9 @@
   }
 }
 
-// .selected .carousel__text {
+// 當 carousel 播放到當前的圖片時
 .slide.selected .carousel__text {
+  // .carousel__text 子層 3 元素依序出現
   @for $i from 1 through 3 {
     & > :nth-child(#{$i}) {
       opacity: 1;
@@ -26,7 +27,6 @@
 
 .carousel {
   $block: &;
-
   position: relative;
   display: block;
   text-align: left;
@@ -45,7 +45,6 @@
     #{$block}__backdrop {
       @include sm {
         display: none;
-
         object-fit: cover;
         object-position: left;
       }
@@ -88,14 +87,20 @@
     max-width: 1000px;
     padding-bottom: 6rem;
 
-    // ! 以下未完成
+    transform: translateY(-25px);
+    transition: map-get($transition, 800);
+    transition-property: transform;
+
+    & > :nth-child(n) {
+      opacity: 0;
+      transform: translateY(-15px);
+      transition: map-get($transition, 800), map-get($transition, 800);
+      transition-property: transform, opacity;
+    }
+
     @for $i from 1 through 3 {
       & > :nth-child(#{$i}) {
-        opacity: 0;
-        transform: translateY(-100px);
-        transition: map-get($transition, 500) $i * 200ms, map-get($transition, 150) $i * 100ms;
-        // transition-delay: ;
-        transition-property: translate, opacity;
+        transition-delay: $i * 200ms;
       }
     }
 

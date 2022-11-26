@@ -13,6 +13,11 @@ $text: (
     6xl: 3.75rem,
     7xl: 4.5rem,
   ),
+  spacing: (
+    wide: 0.025em,
+    wider: 0.05em,
+    widest: 0.1em,
+  ),
 );
 
 $max-width: (
@@ -25,14 +30,16 @@ $max-width: (
 // color
 $color: (
   primary: #fff,
-  // 用於淡色底線
-  primary-light: #ffffff26,
+  // primary-dark 為 primary hsl 降至 50%
+  primary-dark: hsl(0, 0%, 50%),
   secondary: #000,
   // 半透明暗色背景
   overlay: rgba(0, 0, 0, 0.45),
   tertiary: rgb(213, 108, 80),
   active: rgb(213, 108, 80),
   // #831e1e
+  // 用於淡色底線
+  light-gray: #ffffff26,
 );
 
 // padding
@@ -56,6 +63,8 @@ $transition: (
   300: 300ms ease-in-out,
   500: 500ms ease-in-out,
   800: 800ms ease-in-out,
+  1000: 1000ms ease-in-out,
+  1200: 1200ms ease-in-out,
 );
 
 // 電影卡片寬度

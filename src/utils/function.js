@@ -68,7 +68,6 @@ export function removeDuplicate(originMovies, inCommingMovies) {
   }, []);
 }
 
-
 /**
  * * 取得當月首日~當月最後一天的日期
  * @returns
@@ -88,6 +87,25 @@ export function getFirstDayAndLastDayOfMonth() {
   );
 }
 
+/**\
+ * * 移除帶有括號的 string
+ */
+export function removeBracketsStr(str) {
+  const reg = /\(\w+\s*\w+\)/gi;
+  return reg.test(str) ? str.replace(reg, "") : str;
+}
+
+/**
+ * * 將分鐘成轉換時間格式
+ * @param {*} min 分鐘
+ * @returns 返回一個 X h X min 字串
+ */
+export function convertTime(min) {
+  let h = Math.floor(min / 60);
+  let m = min % 60;
+  return `${h <= 0 ? "" : h + "h "}${m <= 0 ? "" : m + "min"}`;
+}
+
 // * 將字母首字變大寫
 export function capitalize(str) {
   return str
@@ -96,12 +114,17 @@ export function capitalize(str) {
     .join(" ");
 }
 
+// * 無圖片替代方案
+export function noAvatar({ currentTarget }) {
+  currentTarget.onerror = null; // prevents looping
+  currentTarget.src =
+    "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
+}
 export function noPoster({ currentTarget }) {
   currentTarget.onerror = null; // prevents looping
   currentTarget.src =
     "https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80&w=440";
 }
-
 export function noBackdrop({ currentTarget }) {
   currentTarget.onerror = null; // prevents looping
   currentTarget.src =

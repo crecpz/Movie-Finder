@@ -17,10 +17,12 @@
   }
 }
 
+// 設成圓形
 @mixin rounded-full {
   border-radius: 50%;
 }
 
+// 重置按鈕樣式
 @mixin button-reset {
   background-color: transparent;
   border: 0;
@@ -41,16 +43,13 @@
   }
 }
 
+// 全局左右 padding
 @mixin x-spacing {
   padding-left: map-get($x-spacing, lg);
   padding-right: map-get($x-spacing, lg);
 
-  @include md{
+  @include md {
     padding-left: map-get($x-spacing, sm);
     padding-right: map-get($x-spacing, sm);
   }
-  // @include sm {
-  //   padding-left: map-get($x-spacing, sm);
-  //   padding-right: map-get($x-spacing, sm);
-  // }
 }

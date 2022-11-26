@@ -7,7 +7,13 @@ import PulseLoader from "react-spinners/PulseLoader";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { getData, noBackdrop } from "../utils/function";
+import {
+  convertTime,
+  getData,
+  noAvatar,
+  noBackdrop,
+  removeBracketsStr,
+} from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 
@@ -105,38 +111,33 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     });
   }
 
-  // console.log(credits.cast.slice(0))
-  console.log(
-    "sort",
-    credits.cast && credits.cast.sort((a, b) => b.popularity - a.popularity)
-  );
-  console.log("no-sort", credits.cast && credits.cast.slice(0, 15));
-
-  // let creditsSortByPopularity = credits.cast &&
-
   // * 演員列表
   const creditsElement =
     credits.cast &&
-    // credits.cast.slice(0, 15).map(({ character, name, profile_path }) => {
     credits.cast
       .sort((a, b) => b.popularity - a.popularity)
-      .slice(0, 30)
+      .slice(0, 12)
       .map(({ character, name, profile_path }) => {
         return (
-          <div className="movie-detail__cast-card card">
+          <div className="movie-detail__cast-card">
             <img
               className="movie-detail__cast-img"
               src={`https://image.tmdb.org/t/p/w500/${profile_path}`}
+              onError={(e) => noAvatar(e)}
               alt="profilie_path"
             />
             <p className="movie-detail__cast-info">
               <span>{name}</span>
-              <span>{character}</span>
+              <span>{removeBracketsStr(character)}</span>
             </p>
           </div>
         );
       });
-  // console.log(credits.cast && credits.cast.slice(0, 5));
+
+  console.log(
+    credits.cast &&
+      credits.cast.sort((a, b) => b.popularity - a.popularity).slice(0, 30)
+  );
 
   // *  video key
   // 修先取得 Trailer 或 Teaser
@@ -224,7 +225,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
   return (
     <>
-      <div className={`spinner-full-screen ${!imgIsLoaded && "active"}`}>
+      <div className={`spinner-full-screen${!imgIsLoaded ? " active" : ""}`}>
         <PulseLoader color="#fff" cssOverride={spinnerStyle} />
       </div>
 
@@ -240,7 +241,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
             />
           </div>
           <div className="movie-detail__content">
-            {/* container--no-limit */}
             <div className="container">
               {currentMovie.poster_path !== null && (
                 <img
@@ -282,7 +282,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                     <i className="fa-solid fa-star"></i>
                   </p>
                   <p className="movie-detail__runtime">
-                    {currentMovie.runtime || ""} Minutes
+                    {convertTime(currentMovie.runtime) || ""}
                   </p>
                 </div>
                 <p className="movie-detail__overview">
@@ -307,12 +307,16 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           </div>
         </section>
 
-        {/* credits */}
+        {/* credits(cast) */}
         <section className="movie-detail__cast">
           <div className="container">
             <h2 className="layout-title">Cast</h2>
-            <div className="movie-detail__cast-cards cards">
-              {creditsElement}
+            <div className="movie-detail__cast-content">
+              <input
+                type="checkbox"
+                className="expand-btn movie-detail__cast-btn"
+              />
+              <div className="movie-detail__cast-cards">{creditsElement}</div>
             </div>
           </div>
         </section>

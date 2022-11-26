@@ -3,6 +3,8 @@
 .movie-detail {
   position: relative;
 
+  // * 共通樣式設定
+
   // 除了首個 section 之外，其餘的 sectioni 都套用以下樣式:
   > section:not(:first-child) {
     margin-top: 3rem;
@@ -17,6 +19,7 @@
     margin-bottom: 1.5rem;
   }
 
+  // * 頂部介紹區塊
   &__intro {
     display: grid;
     height: calc(100vh - 90px);
@@ -75,6 +78,7 @@
     }
   }
 
+  // 電影海報
   &__poster {
     border-radius: 15px;
     width: 100%;
@@ -83,6 +87,7 @@
     box-shadow: map-get($box-shadow, base);
   }
 
+  // 文字區域
   &__texts {
     @include flex($dir: column, $jc: center);
     margin-left: 4rem;
@@ -96,6 +101,7 @@
     }
   }
 
+  // 電影名稱
   &__title {
     @include text(6xl);
 
@@ -108,6 +114,7 @@
     }
   }
 
+  // 文字介紹
   &__overview {
     @include text(xl);
     // @ 限制行數
@@ -158,21 +165,112 @@
 
   // * cast
   &__cast {
+    $block: &;
     @include x-spacing;
 
+    .container {
+      overflow: hidden;
+    }
+
+    &-content {
+      position: relative;
+    }
+
+    // 收合列表 btn(checkbox)
+    &-btn {
+      display: none;
+
+      // 收合列表只發生在 breakpoint md 以下
+      @include md {
+        display: flex;
+
+        // 當收合列表 checkbox 是 :checked 狀態
+        &:checked {
+          // checkbox 後面的 .movie-detail__cast-cards
+          & + #{$block}-cards {
+            max-height: 87.5rem;
+            overflow-y: visible;
+
+            &::before {
+              opacity: 0;
+            }
+          }
+        }
+      }
+    }
+
     &-cards {
+      @include flex($jc: space-between, $wrap: wrap);
+      row-gap: 2rem;
+
+      @include md {
+        padding-bottom: 4rem;
+        max-height: 25rem;
+        overflow-y: hidden;
+        transition: map-get($transition, 500);
+        transition-property: max-height;
+
+        &::before {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          transition: opacity map-get($transition, 500);
+          background-image: linear-gradient(to bottom, transparent, black);
+        }
+      }
     }
+
     &-card {
-    }
-    &-img {
-      border-radius: map-get($border-radius, base);
+      @include flex($ai: center);
       width: 100%;
+      max-width: 33.333%; // 3 欄
+
+      @include xl {
+        max-width: 50%; // 2 欄
+      }
+
+      @include md {
+        max-width: 100%; // 1 欄
+      }
+    }
+
+    &-img {
+      width: 6.25rem;
+      height: 6.25rem;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+
+      @include lg {
+        width: 4.5rem;
+        height: 4.5rem;
+      }
     }
 
     &-info {
       @include flex($dir: column);
-      @include text(xl);
-      margin-top: 1rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+
+      span:nth-child(1) {
+        font-weight: bold;
+        @include text(2xl);
+
+        @include lg {
+          @include text(xl);
+        }
+      }
+
+      span:nth-child(2) {
+        @include text(xl);
+        color: map-get($color, primary-dark);
+
+        @include lg {
+          @include text(lg);
+        }
+      }
     }
   }
 
