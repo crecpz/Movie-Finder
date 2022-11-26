@@ -4,11 +4,12 @@
   position: relative;
 
   // * 共通樣式設定
-
   // 除了首個 section 之外，其餘的 sectioni 都套用以下樣式:
   > section:not(:first-child) {
     margin-top: 3rem;
+    // opacity: 0;
 
+    // 每個 section 內的 container 加上一條 border-top
     .container {
       border-top: 1px solid #333;
       padding-top: 3rem;

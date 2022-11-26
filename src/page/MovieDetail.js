@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
 import PulseLoader from "react-spinners/PulseLoader";
-// Import Swiper styles
+// Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -32,7 +32,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === currentMovieId) !== undefined
   );
-
   // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
   // 存放目前電影 poster 與 backdrop 載入狀態
@@ -41,6 +40,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     { type: "poster", isLoaded: false },
   ]);
 
+  // API URLs
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=e86818f56e7d92f357708ecb03052800`;
   const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
@@ -50,14 +50,15 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     let subscribed = true;
     if (subscribed) {
       getData(CURRENT_DETAIL_URL, setCurrentMovie);
+      getData(CREDITS_URL, setCredits);
       getData(VIDEO_URL, setVideo);
       getData(SIMILAR_URL, setSimilarMovies);
-      getData(CREDITS_URL, setCredits);
     }
     return () => {
       subscribed = false;
     };
   }, []);
+
   useEffect(() => {
     // 換頁後，恢復 poster & backdrop 的狀態
     setImgIsLoaded(false);
@@ -65,12 +66,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       { type: "backdrop", isLoaded: false },
       { type: "poster", isLoaded: false },
     ]);
-
+    // 取得 API 資料
     let subscribed = true;
     if (subscribed) {
       getData(CURRENT_DETAIL_URL, setCurrentMovie);
-      getData(SIMILAR_URL, setSimilarMovies);
+      getData(CREDITS_URL, setCredits);
       getData(VIDEO_URL, setVideo);
+      getData(SIMILAR_URL, setSimilarMovies);
     }
     // 更新目前的 watchlist 按鈕狀態
     // (如果在 watchlist 中 find() 的結果不是 undefined 就設為 true，否則設為 false)
@@ -79,7 +81,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     );
     // 換頁後滾動到頂部
     window.scrollTo(0, 0);
-    // cleanup func
+    // cleanup function
     return () => {
       subscribed = false;
     };
@@ -133,11 +135,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           </div>
         );
       });
-
-  console.log(
-    credits.cast &&
-      credits.cast.sort((a, b) => b.popularity - a.popularity).slice(0, 30)
-  );
 
   // *  video key
   // 修先取得 Trailer 或 Teaser
@@ -316,7 +313,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 type="checkbox"
                 className="expand-btn movie-detail__cast-btn"
               />
-              <div className="movie-detail__cast-cards">{creditsElement}</div>
+              <div className="movie-detail__cast-cards">
+                {credits.cast && credits.cast.length ? (
+                  creditsElement
+                ) : (
+                  <p className="placeholder-text">Sorry, no cast!</p>
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -327,7 +330,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
             <h2 className="layout-title">Video</h2>
             <div
               className={`movie-detail__iframe-container ${
-                videoKey ? "" : "movie-detail__video-container--no-video"
+                videoKey ? "" : "movie-detail__iframe-container--no-video"
               }`}>
               {videoKey ? (
                 <iframe
@@ -338,7 +341,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen></iframe>
               ) : (
-                <p className="placeholder-text">No Video!</p>
+                <p className="placeholder-text">Sorry, no video!</p>
               )}
             </div>
           </div>
