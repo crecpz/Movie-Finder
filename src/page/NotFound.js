@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
@@ -11,7 +11,10 @@ const NotFound = () => {
             alt="not-found-backdrop"
           />
         </div>
-        <button className="btn btn--lg btn--transparent">Go Home</button>
+        {/* <button className="btn btn--transparent not-found__btn">Go Home</button> */}
+        <Link to="/" className="btn btn--lg btn--transparent not-found__btn">
+          Go Home
+        </Link>
       </div>
     </sectioin>
   );

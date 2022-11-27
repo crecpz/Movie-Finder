@@ -31,7 +31,8 @@
 
   &--sm {
     @include text(base);
-    padding: 0.5em 0.75em;
+    // padding: 0.5em 0.75em;
+    padding: 0.75em 1em;
     border-radius: map-get($border-radius, base);
 
     @include sm {

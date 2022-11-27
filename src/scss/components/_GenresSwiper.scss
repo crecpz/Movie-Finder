@@ -1,6 +1,8 @@
 @use "../abstracts" as *;
 
 .genres-swiper {
+  margin-top: 1rem;
+  
   @include hover-query {
     &:hover {
       .swiper-scrollbar {
@@ -31,36 +33,6 @@
     background-color: map-get($color, tertiary);
     height: 2px;
   }
-
-  // .container:hover {
-  //   .swiper-button-prev,
-  //   .swiper-button-next {
-  //     opacity: 1;
-  //     visibility: visible;
-  //   }
-  // }
-
-  // // 左右切換按鈕(prev, next)
-  // .swiper-button-prev,
-  // .swiper-button-next {
-  //   top: 50%;
-  //   opacity: 0;
-  //   visibility: hidden;
-  //   transition: map-get($transition, 300);
-  //   transition-property: opacity, visibility;
-
-  //   &::after {
-  //     @include flex($ai: center, $jc: center);
-  //     @include text(xs);
-  //     flex-shrink: 0;
-  //     width: 1.75rem;
-  //     height: 1.75rem;
-  //     background-color: #fcfcfcbf;
-  //     border-radius: 50%;
-  //     color: map-get($color, secondary);
-  //     font-weight: bold;
-  //   }
-  // }
 }
 
 .slide-link {
