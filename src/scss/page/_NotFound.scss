@@ -1,0 +1,32 @@
+@use "../abstracts" as *;
+
+.not-found {
+  @include x-spacing;
+
+  &__img {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+
+    img {
+      width: 100%;
+      height: calc(100% - deep-map-get($height, header, lg));
+      height: 100%;
+      object-fit: cover;
+      object-position: bottom;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.847);
+    }
+  }
+
+  &__layout-title {
+  }
+}

@@ -12,7 +12,6 @@ import "swiper/css/navigation";
 import { getData } from "../utils/function";
 import MovieSwiper from "../components/MovieSwiper";
 import { spinnerStyle } from "../utils/components-styles";
-import { useRef } from "react";
 
 const Home = () => {
   // 存放趨勢 movie
@@ -69,7 +68,8 @@ const Home = () => {
                 className="carousel__backdrop"
                 alt="movie-backdrop"
                 onLoad={() => {
-                  // 檢查第一張輪播 backdrop 是否已被載入
+                  // 如果 onLoad 觸發的對象 index === 0 ，代表第一張電影圖已被載入
+                  // 調用 handleImgLoaded() 將 imgIsLoaded state 設為 true，下方 poster 也是一樣的方式
                   index === 0 && handleImgLoaded();
                 }}
               />
@@ -78,7 +78,7 @@ const Home = () => {
                 className="carousel__poster"
                 alt="movie-poster"
                 onLoad={() => {
-                  // 檢查第一張輪播 backdrop 是否已被載入
+                  // 同上方式
                   index === 0 && handleImgLoaded();
                 }}
               />
@@ -131,7 +131,7 @@ const Home = () => {
         transitionTime={3}
         infiniteLoop={true}
         showStatus={false}
-        // emulateTouch={true}
+        // emulateTouch={true} // 模擬觸控
       >
         {carouselElements}
       </Carousel>

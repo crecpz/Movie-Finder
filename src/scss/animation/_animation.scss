@@ -1,4 +1,4 @@
-@keyframes move-x {
+@keyframes x-moving {
   from {
     transform: translateX(0%);
   }
@@ -7,6 +7,7 @@
   }
 }
 
+// 目前用於 MovieCard 卡片出現的效果
 @keyframes scale {
   from {
     opacity: 0.3;
@@ -14,38 +15,10 @@
   }
 }
 
-@keyframes slide-left {
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-right {
-  0% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes intersection {
+@keyframes in-view {
   0% {
     opacity: 0;
     transform: translateY(30px);
-  }
-
-  30% {
-    transform: translateY(30px);
-  }
-
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes intersection {
-  0% {
-    opacity: 0;
-    // transform: translateY(20px);
   }
 
   30% {

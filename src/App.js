@@ -22,8 +22,9 @@ function App() {
         <Header />
         <main>
           <Routes>
+            {/* Home */}
             <Route index path="/" element={<Home />}></Route>
-
+            {/* MovieDetail */}
             <Route
               path="movie/:id"
               element={
@@ -32,12 +33,11 @@ function App() {
                   setWatchlist={setWatchlist}
                 />
               }></Route>
-
+            {/* Movies */}
             <Route path="movies/:type" element={<Movies />}>
               <Route path=":genresId" element={<Movies />}></Route>
-              <Route path="*" element={<NotFound />}></Route>
             </Route>
-
+            {/* Watchlist */}
             <Route path="/watchlist" element={<Watchlist />}>
               <Route
                 index
@@ -56,13 +56,13 @@ function App() {
                   />
                 }></Route>
             </Route>
-
+            {/* 搜尋頁面 */}
             <Route
               path="/search"
               element={
                 <Search watchlist={watchlist} setWatchlist={setWatchlist} />
               }></Route>
-
+            {/* Not Found */}
             <Route path="/*" element={<NotFound />}></Route>
           </Routes>
         </main>

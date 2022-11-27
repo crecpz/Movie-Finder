@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
+// import "swiper/css/lazy";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { getData } from "../utils/function";
@@ -23,7 +24,7 @@ const MovieSwiper = ({ id, name, show }) => {
   // * swiper 內的 slide
   const slideElements = genresContent.results
     ? genresContent.results.map((movie) => {
-        return (
+        return movie.backdrop_path ? (
           <SwiperSlide key={movie.id}>
             <div className="movie-slide">
               <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
@@ -32,6 +33,7 @@ const MovieSwiper = ({ id, name, show }) => {
                   className="movie-slide__backdrop"
                   alt="movie-backdrop"
                 />
+                <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
               </Link>
               <Link
                 to={`/movie/${movie && movie.id}`}
@@ -40,6 +42,8 @@ const MovieSwiper = ({ id, name, show }) => {
               </Link>
             </div>
           </SwiperSlide>
+        ) : (
+          ""
         );
       })
     : "loading...";
@@ -51,40 +55,48 @@ const MovieSwiper = ({ id, name, show }) => {
         <i className="fa-solid fa-angle-right"></i>
       </Link>
       <Swiper
-        slidesPerView={5}
+        modules={[Navigation, Pagination]}
+        slidesPerView={6}
+        slidesPerGroup={6}
         spaceBetween={20}
-        slidesPerGroup={3}
+        navigation
         loop={true}
-        loopFillGroupWithBlank={false}
         pagination={{
-          clickable: true,
+          type: "bullets",
         }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
         breakpoints={{
+          // 0: {
+          //   slidesPerView: 1,
+          //   slidesPerGroup: 1,
+          //   spaceBetween: 0,
+          // },
+          // 576: {
+          //   slidesPerView: 2,
+          //   slidesPerGroup: 2,
+          // },
           0: {
-            slidesPerView: 1,
-            spaceBetween: 0,
+            slidesPerView: 2,
+            slidesPerGroup: 2,
           },
           576: {
-            slidesPerView: 2,
-            spaceBetween: 20,
+            slidesPerView: 3,
+            slidesPerGroup: 3,
           },
           768: {
             slidesPerView: 3,
-            spaceBetween: 20,
+            slidesPerGroup: 3,
           },
           1024: {
             slidesPerView: 4,
-            spaceBetween: 20,
+            slidesPerGroup: 4,
           },
           1300: {
-            slidesPerView: 4,
-            spaceBetween: 20,
+            slidesPerView: 5,
+            slidesPerGroup: 5,
           },
           1400: {
-            slidesPerView: 5,
-            spaceBetween: 20,
+            slidesPerView: 6,
+            slidesPerGroup: 6,
           },
         }}>
         {slideElements}

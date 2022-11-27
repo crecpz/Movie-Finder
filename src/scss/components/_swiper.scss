@@ -1,0 +1,111 @@
+@use "../abstracts" as *;
+
+.swiper {
+  user-select: none;
+
+  @include hover-query {
+    &:hover {
+      .swiper-button-prev,
+      .swiper-button-next {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+
+  // 底部分頁 bullet
+  .swiper-pagination {
+    bottom: -8px;
+  }
+
+  // 左右切換按鈕(prev, next)
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: 50%;
+    transform: translateY(-75%);
+    // swiper 未 hover 的時候隱藏
+    opacity: 0;
+    visibility: hidden;
+
+    margin-left: 1rem;
+    margin-right: 1rem;
+    transition: map-get($transition, 300);
+    transition-property: opacity, visibility;
+
+    &::after {
+      @include flex($ai: center, $jc: center);
+      @include text(base);
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-weight: bold;
+      border-radius: 50%;
+      background-color: #fcfcfcbf;
+      color: map-get($color, secondary);
+    }
+  }
+
+  // // 左右切換按鈕(prev, next)
+  // .swiper-button-prev,
+  // .swiper-button-next {
+  //   transition: map-get($transition, 300);
+  //   transition-property: opacity, visibility;
+
+  //   &::after {
+  //     @include flex($ai: center, $jc: center);
+  //     @include text(base);
+  //     flex-shrink: 0;
+  //     width: 2.5rem;
+  //     height: 2.5rem;
+  //     background-color: #fcfcfcbf;
+  //     border-radius: 50%;
+  //     color: map-get($color, secondary);
+  //     font-weight: bold;
+  //   }
+  // }
+
+  &__wrapper {
+    margin-top: 2rem;
+  }
+
+  &-pagination-bullet {
+    background-color: map-get($color, primary);
+  }
+
+  &-button {
+    &-prev,
+    &-next {
+      color: map-get($color, primary);
+      top: calc(50% - 2rem); // @ 因為有底部的電影名稱，所以將 handler 做些調整，將其再往上調一點
+    }
+  }
+}
+
+.movie-swiper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.movie-slide {
+  width: 100%;
+
+  &__img-link {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: map-get($border-radius, base);
+  }
+
+  &__title-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
+  &__backdrop {
+    width: 100%;
+  }
+
+  &__name {
+    @include text(xl);
+  }
+}

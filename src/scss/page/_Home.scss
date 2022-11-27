@@ -28,17 +28,6 @@
   }
 }
 
-// // 當 carousel 播放到當前的圖片時，給予文字 transition 效果
-// .slide.selected .carousel__text {
-//   // .carousel__text 內的 3 個子元素依序出現
-//   @for $i from 1 through 3 {
-//     & > :nth-child(#{$i}) {
-//       opacity: 1;
-//       transform: translateY(0);
-//     }
-//   }
-// }
-
 .carousel {
   $block: &;
   position: relative;
@@ -176,15 +165,9 @@
   position: relative;
 
   &__genres {
+    @include x-spacing;
     padding-bottom: 3rem;
     padding-top: 3rem;
-    padding-left: map-get($x-spacing, lg);
-    padding-right: map-get($x-spacing, lg);
-
-    @include sm {
-      padding-left: map-get($x-spacing, sm);
-      padding-right: map-get($x-spacing, sm);
-    }
 
     &-item {
       @include flex($dir: column);
@@ -203,7 +186,7 @@
       align-self: start;
 
       &:hover i {
-        animation: move-x infinite 300ms alternate;
+        animation: x-moving infinite 300ms alternate;
       }
 
       i {

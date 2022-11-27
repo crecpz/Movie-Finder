@@ -1,0 +1,102 @@
+@use "../abstracts" as *;
+
+.genres-swiper {
+  @include hover-query {
+    &:hover {
+      .swiper-scrollbar {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  // scrollbar
+  .swiper-scrollbar {
+    opacity: 0;
+    visibility: hidden;
+    transition: map-get($transition, 300);
+    transition-property: opacity, visibility;
+    background-color: darken($color: map-get($color, tertiary), $amount: 30);
+
+    // sm 開始 scrollbar 改為顯示
+    @include sm {
+      opacity: 1;
+      visibility: visible;
+      transition: none;
+    }
+  }
+
+  // 底部滾動條握柄
+  .swiper-scrollbar-drag {
+    background-color: map-get($color, tertiary);
+    height: 2px;
+  }
+
+  // .container:hover {
+  //   .swiper-button-prev,
+  //   .swiper-button-next {
+  //     opacity: 1;
+  //     visibility: visible;
+  //   }
+  // }
+
+  // // 左右切換按鈕(prev, next)
+  // .swiper-button-prev,
+  // .swiper-button-next {
+  //   top: 50%;
+  //   opacity: 0;
+  //   visibility: hidden;
+  //   transition: map-get($transition, 300);
+  //   transition-property: opacity, visibility;
+
+  //   &::after {
+  //     @include flex($ai: center, $jc: center);
+  //     @include text(xs);
+  //     flex-shrink: 0;
+  //     width: 1.75rem;
+  //     height: 1.75rem;
+  //     background-color: #fcfcfcbf;
+  //     border-radius: 50%;
+  //     color: map-get($color, secondary);
+  //     font-weight: bold;
+  //   }
+  // }
+}
+
+.slide-link {
+  $bolck: &;
+  @include flex($dir: column, $ai: center);
+  border-radius: map-get($border-radius, base);
+  width: 100%;
+  max-width: 80px;
+  padding: 0.5rem 0;
+  text-align: center;
+
+  @include hover-query {
+    &:hover {
+      #{$bolck}__icon,
+      #{$bolck}__name {
+        color: map-get($color, active);
+      }
+    }
+  }
+
+  &.active {
+    color: map-get($color, active);
+  }
+
+  &__icon {
+    @include text(2xl);
+    transition: color map-get($transition, 150);
+
+    @include sm {
+      @include text(xl);
+    }
+  }
+
+  &__name {
+    @include text(base);
+    margin-top: 0.5rem;
+    transition: color map-get($transition, 150);
+  }
+}

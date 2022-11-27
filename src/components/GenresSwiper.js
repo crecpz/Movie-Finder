@@ -57,14 +57,10 @@ const GenresSwiper = () => {
       <div className="container">
         <Swiper
           className="mySwiper"
-          scrollbar={{
-            hide: true,
-          }}
-          navigation={true}
-          slidesPerGroup={3}
+          modules={[Scrollbar]}
           slidesPerView={3}
-          freeMode={true}
-          modules={[Scrollbar, Navigation]}
+          slidesPerGroup={3}
+          scrollbar
           breakpoints={{
             0: {
               slidesPerView: 4,
