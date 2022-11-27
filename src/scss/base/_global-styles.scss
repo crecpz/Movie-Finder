@@ -49,11 +49,6 @@ h6 {
 
 main {
     min-height: calc(100% - deep-map-get($height, header, lg));
-    
-    & > :not(.home, .movie-detail) {
-        padding-top: 3rem;
-        padding-bottom: 3rem;
-    }
 }
 
 .container {

@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Header from "./components/Header";
 import Movies from "./components/Movies";
 import WatchCards from "./components/WatchCards";
@@ -10,7 +15,6 @@ import NotFound from "./page/NotFound";
 import Search from "./page/Search";
 import Watchlist from "./page/Watchlist";
 
-// ! 記得處理 not-found
 function App() {
   const [watchlist, setWatchlist] = useState(
     JSON.parse(window.localStorage.getItem("watchlist")) || []
@@ -24,6 +28,7 @@ function App() {
           <Routes>
             {/* Home */}
             <Route index path="/" element={<Home />}></Route>
+
             {/* MovieDetail */}
             <Route
               path="movie/:id"
@@ -33,10 +38,18 @@ function App() {
                   setWatchlist={setWatchlist}
                 />
               }></Route>
+
             {/* Movies */}
-            <Route path="movies/:type" element={<Movies />}>
-              <Route path=":genresId" element={<Movies />}></Route>
+            <Route path="movies/">
+              <Route path="new" element={<Movies type="new" />}></Route>
+              <Route path="popular" element={<Movies type="popular" />}></Route>
+              <Route path="genres" element={<Movies type="genres" />}>
+                <Route
+                  path=":genresId"
+                  element={<Movies type="genres" />}></Route>
+              </Route>
             </Route>
+
             {/* Watchlist */}
             <Route path="/watchlist" element={<Watchlist />}>
               <Route
@@ -56,14 +69,18 @@ function App() {
                   />
                 }></Route>
             </Route>
+
             {/* 搜尋頁面 */}
             <Route
               path="/search"
               element={
                 <Search watchlist={watchlist} setWatchlist={setWatchlist} />
               }></Route>
-            {/* Not Found */}
-            <Route path="/*" element={<NotFound />}></Route>
+
+            <Route path="/notfound" element={<NotFound />}></Route>
+            <Route
+              path="/*"
+              element={<Navigate to="/notfound" replace />}></Route>
           </Routes>
         </main>
       </Router>

@@ -2,8 +2,8 @@
 
 .watchlist {
   @include x-spacing;
-  // padding-top: 3rem;
-  // padding-bottom: 3rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 
   &__header {
     @include flex($ai: center, $jc: space-between);

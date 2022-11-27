@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 // import required modules
-import { FreeMode, Navigation, Pagination, Scrollbar } from "swiper";
+import { Scrollbar } from "swiper";
 import { getData } from "../utils/function";
 import genresIconsData from "../utils/genresIconsData";
 import { NavLink, useParams } from "react-router-dom";
