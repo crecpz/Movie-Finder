@@ -30,8 +30,7 @@ $max-width: (
 // color
 $color: (
   primary: #fff,
-  // primary-dark 為 primary hsl 降至 50%
-  primary-dark: hsl(0, 0%, 50%),
+  primary-dark: hsl(0, 0%, 50%),// 註: primary-dark 顏色 =  primary 的 hsl 降至 50%
   secondary: #000,
   // 半透明暗色背景
   overlay: rgba(0, 0, 0, 0.45),
@@ -76,7 +75,7 @@ $card-size: (
 
 $height: (
   header: (
-    sm: 60px,
-    lg: 70px,
+    sm: 70px,
+    lg: 80px,
   ),
 );

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <sectioin className="not-found">
+    <section className="not-found">
       <div className="container">
         <h2 className="layout-title not-found__layout-title">Page Not Found</h2>
         <div className="not-found__img">
@@ -16,7 +16,7 @@ const NotFound = () => {
           Go Home
         </Link>
       </div>
-    </sectioin>
+    </section>
   );
 };
 

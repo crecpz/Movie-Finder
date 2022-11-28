@@ -2,22 +2,27 @@
 
 .header {
   @include flex($ai: center);
-  position: sticky;
-  top: 0;
+  position: fixed;
   z-index: 30;
   flex: 1 0 auto;
+  width: 100%;
   height: deep-map-get($height, header, lg);
+
   padding-left: deep-map-get($x-spacing, lg);
   padding-right: deep-map-get($x-spacing, lg);
-  border-bottom: 1px solid rgb(213, 108, 80);
-  background-color: map-get($color, secondary);
-  transition: map-get($transition, 300), map-get($transition, 500);
-  transition-property: transform, background-color, border-color;
 
-  // &--scrolling {
-  //   background-color: map-get($color, overlay);
-  //   border-bottom-color: transparent;
-  // }
+  transition: map-get($transition, 800);
+  transition-property: outline, background-color;
+
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, rgb(0 0 0 / 60%), transparent);
+  outline: 1px solid transparent;
+  color: transparent;
+
+  &--black {
+    background-color: map-get($color, secondary);
+    outline: 1px solid map-get($color, tertiary);
+  }
 
   @include md {
     justify-content: space-between;

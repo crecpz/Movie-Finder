@@ -14,6 +14,7 @@ import MoviesCard from "./MoviesCard";
 import genresIconsData from "../utils/genresIconsData";
 
 const Movies = ({ type }) => {
+  const navigate = useNavigate();
   // intersection observer
   const { ref: loadMore, inView: isIntersecting } = useInView();
   // 存放取得的電影資料
@@ -22,9 +23,6 @@ const Movies = ({ type }) => {
   let API_URL = "";
   // 在網址中取得 genresId
   const { genresId } = useParams();
-
-  const navigate = useNavigate();
-
   // 存放頁面數字
   const [pageNum, setPageNum] = useState(1);
 

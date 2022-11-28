@@ -53,3 +53,10 @@
     padding-right: map-get($x-spacing, sm);
   }
 }
+
+// <main> 內 layout 共同設定，目前使用於 New, Popular, Genres, Watchlist 頁面
+@mixin main-layout {
+  @include x-spacing;
+  padding-top: calc(#{deep-map-get($height, header, lg)} + 3rem);
+  padding-bottom: 3rem;
+}

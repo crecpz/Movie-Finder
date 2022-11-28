@@ -16,6 +16,7 @@ import {
 } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
+import { useRef } from "react";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
   let { id: currentMovieId } = useParams();
@@ -39,6 +40,19 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     { type: "backdrop", isLoaded: false },
     { type: "poster", isLoaded: false },
   ]);
+
+  const videoRef = useRef();
+
+  /**
+   * 滾動到指定的 ref 上
+   * @param {*} ref 指定的 ref
+   */
+  const scrollDown = (ref) => {
+    window.scrollTo({
+      top: ref.current.offsetTop,
+      behavior: "smooth",
+    });
+  };
 
   // API URLs
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
@@ -128,7 +142,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               onError={(e) => noAvatar(e)}
               alt="profilie_path"
             />
-            <p className="movie-detail__cast-info">
+            <p className="movie-detail__cast-text">
               <span>{name}</span>
               <span>{removeBracketsStr(character)}</span>
             </p>
@@ -270,23 +284,43 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                       })
                     : ""}
                 </div>
+
                 <div className="info movie-detail__info">
-                  <p className="movie-detail__release-date">
-                    {currentMovie.release_date || ""}
-                  </p>
-                  <p className="vote movie-detail__vote">
-                    {currentMovie.vote_average || ""}
-                    <i className="fa-solid fa-star"></i>
-                  </p>
-                  <p className="movie-detail__runtime">
-                    {convertTime(currentMovie.runtime) || ""}
-                  </p>
+                  {currentMovie.release_date ? (
+                    <p className="movie-detail__release-date">
+                      <i className="fa-regular fa-calendar"></i>
+                      {currentMovie.release_date}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+
+                  {currentMovie.vote_average ? (
+                    <p className="vote movie-detail__vote">
+                      <i className="fa-solid fa-star"></i>
+                      {currentMovie.vote_average}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+
+                  {currentMovie.runtime ? (
+                    <p className="movie-detail__runtime">
+                      <i className="fa-regular fa-clock"></i>
+                      {convertTime(currentMovie.runtime)}
+                    </p>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <p className="movie-detail__overview">
                   {currentMovie.overview || ""}
                 </p>
+
                 <div className="movie-detail__btns">
-                  <button className="movie-detail__btn btn btn--red btn--lg">
+                  <button
+                    className="movie-detail__btn btn btn--red btn--lg"
+                    onClick={() => scrollDown(videoRef)}>
                     <i className="fa-solid fa-play"></i>Watch Video
                   </button>
                   <button
@@ -325,7 +359,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         </section>
 
         {/* video */}
-        <section className="movie-detail__video">
+        <section className="movie-detail__video" ref={videoRef}>
           <div className="container">
             <h2 className="layout-title">Video</h2>
             <div

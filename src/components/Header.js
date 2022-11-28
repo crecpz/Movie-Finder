@@ -1,40 +1,36 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 const Header = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
-
+  
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    // window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-    // ! 注意!最後要禁用的屬性具體要看 nav 使用了什麼，目前還未定(看下方箭頭)
-    // ! 注意!最後要禁用的屬性具體要看 nav 使用了什麼，目前還未定(看下方箭頭)
-    // ! 注意!最後要禁用的屬性具體要看 nav 使用了什麼，目前還未定(看下方箭頭)
     // * 使用者 resize 時，關閉 nav 的 transition
     function handleResize() {
-      navRef.current.style.transition = "none"; // ! <---
-      navRef.current.style.animation = "none"; // ! <---
+      navRef.current.style.transition = "none";
       setNavIsOpen(false);
       setTimeout(() => {
         navRef.current.style.transition = "";
       }, 100);
     }
 
-    // function handleScroll() {
-    //   let currentScrollY = window.scrollY;
-    //   if (currentScrollY === 0) {
-    //     headerRef.current.classList.remove("header--scrolling");
-    //   } else {
-    //     headerRef.current.classList.add("header--scrolling");
-    //   }
-    // }
+    function handleScroll() {
+      let currentScrollY = window.scrollY;
+      if (currentScrollY === 0) {
+        headerRef.current.classList.remove("header--black");
+      } else {
+        headerRef.current.classList.add("header--black");
+      }
+    }
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      // window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -48,11 +44,13 @@ const Header = () => {
 
     if (navIsOpen) {
       body.style.overflowY = "hidden";
+      headerRef.current.classList.add("header--black");
       headerRef.current.style.paddingRight = `${
         parseInt(headerPaddingRight) + scrollBarWidth
       }px`;
     } else {
       body.style.overflowY = "";
+      headerRef.current.classList.remove("header--black");
       headerRef.current.style.paddingRight = "";
     }
   }, [navIsOpen]);

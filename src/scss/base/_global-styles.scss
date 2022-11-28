@@ -118,7 +118,7 @@ main {
 }
 
 .info {
-    @include flex();
+    @include flex;
     column-gap: 1.5rem;
 }
 
@@ -170,6 +170,6 @@ main {
     }
 }
 
-.intersection-animation {
-    animation: intersection map-get($transition, 1000) forwards;
-}
+// .intersection-animation {
+//     animation: intersection map-get($transition, 1000) forwards;
+// }

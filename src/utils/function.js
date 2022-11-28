@@ -103,7 +103,7 @@ export function removeBracketsStr(str) {
 export function convertTime(min) {
   let h = Math.floor(min / 60);
   let m = min % 60;
-  return `${h <= 0 ? "" : h + "h "}${m <= 0 ? "" : m + "min"}`;
+  return `${h <= 0 ? "" : h + " h "}${m <= 0 ? "" : m + " min"}`;
 }
 
 // * 將字母首字變大寫
