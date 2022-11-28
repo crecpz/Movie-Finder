@@ -104,6 +104,28 @@
     height: 100%;
     max-width: 56.25rem;
 
+    // 選中所有的直系子層
+    & > :nth-child(n) {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: map-get($transition, 800), map-get($transition, 800);
+      transition-property: transform, opacity;
+    }
+
+    // 按照 index 依序 transition-delay
+    @for $i from 1 through 5 {
+      & > :nth-child(#{$i}) {
+        transition-delay: $i * 150ms;
+      }
+    }
+
+    &.appear {
+      & > :nth-child(n) {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @include lg {
       margin-left: 0rem;
       margin-top: 3rem;

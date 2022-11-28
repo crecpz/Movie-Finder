@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header watchlist={watchlist} />
         <main>
           <Routes>
             {/* Home */}
@@ -50,7 +50,9 @@ function App() {
             </Route>
 
             {/* Watchlist */}
-            <Route path="/watchlist" element={<Watchlist />}>
+            <Route
+              path="/watchlist"
+              element={<Watchlist setWatchlist={setWatchlist} />}>
               <Route
                 index
                 element={

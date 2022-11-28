@@ -1,11 +1,11 @@
-import { Link, NavLink, useParams } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
-const Header = () => {
+const Header = ({ unreadWatchlist, watchlist }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
-  
+
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
@@ -100,6 +100,19 @@ const Header = () => {
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Watchlist
+          {watchlist.filter(({ unread }) => unread).length ? (
+            <span className="nav__link-number">
+              {watchlist.filter(({ unread }) => unread).length}
+            </span>
+          ) : (
+            ""
+          )}
+          {/* {unreadWatchlist.length ? (
+            <span className="nav__link-number">{unreadWatchlist}</span>
+          ) : (
+            ""
+          )} */}
+          {/* <span className="nav__link-number">13</span> */}
         </NavLink>
         <NavLink
           to="/search"

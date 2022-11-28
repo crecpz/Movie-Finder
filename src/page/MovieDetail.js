@@ -18,7 +18,13 @@ import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 import { useRef } from "react";
 
-const MovieDetail = ({ watchlist, setWatchlist }) => {
+const MovieDetail = ({
+  watchlist,
+  setWatchlist,
+  unreadWatchlist,
+  setUnreadWatchlist,
+}) => {
+  // 從 useParams() 中拆出 currentMovieId，並將其轉為 Number
   let { id: currentMovieId } = useParams();
   currentMovieId = Number(currentMovieId);
   // 儲存當前電影資料
@@ -29,7 +35,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const [credits, setCredits] = useState([]);
   // 存放 video 資料
   const [video, setVideo] = useState({});
-  // 表示當前頁面的電影是否已經加進 watchlist
+  // 存放當前電影是否為加進 watchlist 狀態
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === currentMovieId) !== undefined
   );
@@ -40,7 +46,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     { type: "backdrop", isLoaded: false },
     { type: "poster", isLoaded: false },
   ]);
-
+  // 指向 video 區塊的 ref
   const videoRef = useRef();
 
   /**
@@ -122,7 +128,11 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         return prev.filter((movie) => movie.id !== id);
       } else {
         // status: 觀看狀態，預設為 unwatched
-        return [...prev, { id: id, status: "unwatched" }];
+        return [...prev, { id: id, status: "unwatched", unread: true }];
+
+        // 以下舊的
+        // // status: 觀看狀態，預設為 unwatched
+        // return [...prev, { id: id, status: "unwatched" }];
       }
     });
   }
@@ -264,7 +274,10 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 />
               )}
 
-              <div className="movie-detail__texts">
+              <div
+                className={`movie-detail__texts ${
+                  imgIsLoaded ? "appear" : ""
+                }`}>
                 <h3 className="movie-detail__title">
                   {currentMovie.original_title
                     ? currentMovie.original_title

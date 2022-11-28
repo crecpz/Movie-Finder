@@ -8,13 +8,9 @@
   transition-property: color, background-color;
 
   &--lg {
-    @include text(xl);
+    @include text(lg);
     padding: 0.75em 1em;
     border-radius: map-get($border-radius, base);
-
-    @include lg {
-      @include text(lg);
-    }
 
     @include sm {
       @include text(sm);

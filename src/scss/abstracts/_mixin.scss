@@ -2,6 +2,7 @@
 @use "./break-point" as *;
 @use "./map" as *;
 
+// flex
 @mixin flex($dir: row, $jc: flex-start, $ai: stretch, $wrap: nowrap) {
   display: flex;
   flex-direction: $dir;
@@ -59,4 +60,30 @@
   @include x-spacing;
   padding-top: calc(#{deep-map-get($height, header, lg)} + 3rem);
   padding-bottom: 3rem;
+}
+
+// * 將某一個元素的所有直系子元素出現時加上淡入效果
+// - 需使用 .appear 來加進該元素當中才會觸發效果
+@mixin elem-appear($amount) {
+  // 選中某個元素的所有的直系子層
+  & > :nth-child(n) {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: map-get($transition, 800), map-get($transition, 800);
+    transition-property: transform, opacity;
+  }
+
+  // 按照 $i 數量依序增加 transition-delay
+  @for $i from 1 through $amount {
+    & > :nth-child(#{$i}) {
+      transition-delay: $i * 150ms;
+    }
+  }
+
+  &.appear {
+    & > :nth-child(n) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

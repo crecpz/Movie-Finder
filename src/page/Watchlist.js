@@ -2,9 +2,18 @@ import { NavLink, Outlet, useParams } from "react-router-dom";
 import { capitalize } from "../utils/function";
 
 import ScrollToTop from "react-scroll-to-top";
+import { useEffect } from "react";
 
-const Watchlist = () => {
+const Watchlist = ({ setWatchlist }) => {
   const { watchStatusTag = "unwatched" } = useParams();
+
+  useEffect(() => {
+    setWatchlist((prev) => {
+      return prev.map((moive) => {
+        return { ...moive, unread: false };
+      });
+    });
+  }, []);
 
   return (
     <div className="watchlist">
