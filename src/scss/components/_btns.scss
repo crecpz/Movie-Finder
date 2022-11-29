@@ -12,6 +12,14 @@
     padding: 0.75em 1em;
     border-radius: map-get($border-radius, base);
 
+    @include lg {
+      @include text(lg);
+    }
+
+    @include md {
+      @include text(base);
+    }
+
     @include sm {
       @include text(sm);
     }
@@ -81,6 +89,7 @@
 .expand-btn {
   @include rounded-full;
   @include flex($ai: center, $jc: center);
+  display: none;
   position: absolute;
   left: 50%;
   bottom: 0;

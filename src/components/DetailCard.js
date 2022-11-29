@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getData, noPoster } from "../utils/function";
+import { convertTime, getData, noPoster } from "../utils/function";
 
 const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
   const id = movie.id;
@@ -14,24 +14,6 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
       subscribed = false;
     };
   }, []);
-
-  // /**
-  //  * * 更新 watchlist 資料，
-  //  * * 如果已存在於 watchlist，則從 watchlist 中剔除；
-  //  * * 否則新增一筆新資料。
-  //  * @param {*} id 目前頁面電影的 Id
-  //  */
-  // function changeWatchlist(id) {
-  //   setWatchlist((prev) => {
-  //     if (inWatchlist) {
-  //       return prev.filter((movie) => movie.id !== id);
-  //     } else {
-  //       // watched: 是否已觀看
-  //       // isLoaded: 是否已經載入，預設 false
-  //       return [...prev, { id: id, watched: false }];
-  //     }
-  //   });
-  // }
 
   /**
    * * 更新 watchlist 資料，
@@ -66,29 +48,36 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
             {movie ? movie.original_title : ""}
           </h3>
         </Link>
+
         <div className="info detail-card__info">
-          {movie && movie.release_date ? (
+          {movie.release_date ? (
             <p className="release-date detail-card__release-date">
+              <i className="fa-regular fa-calendar"></i>
               {movie.release_date}
             </p>
           ) : (
             ""
           )}
-          {movie && movie.vote_average ? (
+
+          {movie.vote_average ? (
             <p className="vote detail-card__vote">
-              {movie.vote_average} <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              {movie.vote_average}
             </p>
           ) : (
             ""
           )}
-          {movie && currentMovie.runtime ? (
+
+          {currentMovie.runtime ? (
             <p className="detail-card__runtime">
-              {currentMovie.runtime} Minutes
+              <i className="fa-regular fa-clock"></i>
+              {convertTime(currentMovie.runtime)}
             </p>
           ) : (
             ""
           )}
         </div>
+
         <div className="detail-card__genres-tag-wrapper genres-tag-wrapper">
           {currentMovie && currentMovie.genres
             ? currentMovie.genres.map((genres) => {

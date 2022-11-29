@@ -9,12 +9,13 @@
   @include flex;
   padding-top: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid #333;
-  
+  border-bottom: 1px solid map-get($color, light-gray);
+
   @include sm {
     flex-direction: column;
     width: 100%;
-    max-width: 20.625rem;
+    // max-width: 20.625rem;
+    max-width: 300px;
     margin: 0 auto;
   }
 
@@ -23,6 +24,10 @@
     max-width: 9.375rem;
     border-radius: map-get($border-radius, base);
     align-self: start;
+
+    @include md {
+      max-width: 7.8125rem;
+    }
 
     @include sm {
       max-width: none;
@@ -34,7 +39,7 @@
     margin-left: 2rem;
 
     @include sm {
-      row-gap: 0.75rem;
+      row-gap: 1.25rem;
       margin-left: 0;
       margin-top: 1.5rem;
     }
@@ -51,7 +56,7 @@
   &__title {
     @include text(3xl);
 
-    @include sm {
+    @include md {
       @include text(2xl);
     }
   }
@@ -59,7 +64,7 @@
   &__genres-tag-wrapper {
     margin-top: 1rem;
 
-    @include sm {
+    @include md {
       display: none;
     }
   }
@@ -72,6 +77,16 @@
       flex-direction: column;
       row-gap: 0.5rem;
     }
+
+    & > p:not(:first-child) {
+      i {
+        margin-left: 1rem;
+
+        @include sm {
+          margin-left: 0;
+        }
+      }
+    }
   }
 
   &__vote,
@@ -82,6 +97,7 @@
   }
 
   &__btn {
+    @include text(sm);
     margin-top: 2rem;
     align-self: flex-start;
 

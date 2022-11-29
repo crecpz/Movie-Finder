@@ -5,7 +5,7 @@
 // 卡片之間的 column-gap
 $column-gap: 1.5rem;
 
-// 每列要容納幾張卡片?
+// 每列在特定斷點分別要容納幾張卡片?
 $card-amount: (
   2xl: 5,
   xl: 4,
@@ -14,7 +14,7 @@ $card-amount: (
   sm: 1,
 );
 
-// 一列有幾個 gap?
+// 每列在特定斷點分別有幾個 gap?
 $gap-amount: (
   2xl: 4,
   xl: 3,

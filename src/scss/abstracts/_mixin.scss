@@ -87,3 +87,19 @@
     }
   }
 }
+
+// @mixin expand-layout($max-height) {
+//   overflow-y: hidden;
+//   max-height: $max-height;
+
+//   // 遮蓋層
+//   &::before {
+//     content: "";
+//     position: absolute;
+//     bottom: 0;
+//     width: 100%;
+//     height: 100%;
+//     transition: opacity map-get($transition, 500);
+//     background-image: linear-gradient(to bottom, transparent, black);
+//   }
+// }

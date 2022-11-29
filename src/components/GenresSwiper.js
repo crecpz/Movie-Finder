@@ -28,6 +28,7 @@ const GenresSwiper = () => {
     };
   }, []);
 
+  // * slideElements
   const slideElements = genresData.genres
     ? genresData.genres.map((genres) => {
         return (

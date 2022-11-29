@@ -1,17 +1,3 @@
-// // @ 在下面原版的基礎上做點小改， 原本 return setState(data); -----> 變成 return setState(data.results)
-// export const getData = async (url, setState) => {
-//   try {
-//     const res = await fetch(url);
-//     if (!res.ok) {
-//       throw new Error("Error");
-//     }
-//     const data = await res.json();
-//     return setState(data.results);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 /**
  * * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
  * @param {*} url fetch url

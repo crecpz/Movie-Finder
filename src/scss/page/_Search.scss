@@ -2,22 +2,15 @@
 
 .search {
   @include main-layout;
-  // margin-top: 3rem;
   padding-left: 2.25rem;
   padding-right: 2.25rem;
 
-  .container {
-  }
-
   &__input {
     @include text(xl);
-    @include flex();
+    @include flex;
     width: 100%;
     padding: 0.5rem 0.75rem;
-    border: 1px solid;
     border-radius: map-get($border-radius, base);
-    color: map-get($color, primary);
-    background-color: map-get($color, secondary);
     margin: 0 auto;
   }
 

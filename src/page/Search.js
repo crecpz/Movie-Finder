@@ -9,9 +9,12 @@ import ScrollToTop from "react-scroll-to-top";
 
 const Search = ({ watchlist, setWatchlist }) => {
   const { ref: loadMore, inView: isIntersecting } = useInView();
+  // 存放搜尋框輸入的文字
   const [searchText, setSearchText] = useState("");
+  // 存放搜尋結果
   const [searchResult, setSearchResult] = useState({});
   const [pageNum, setPageNum] = useState(1);
+
   // 搜尋電影的 API_URL
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
 
@@ -23,6 +26,8 @@ const Search = ({ watchlist, setWatchlist }) => {
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
   };
+
+  console.log(searchResult);
 
   useEffect(() => {
     let subscribed = true;
@@ -43,6 +48,7 @@ const Search = ({ watchlist, setWatchlist }) => {
   }, [isIntersecting]);
 
   useEffect(() => {
+    // 取得更多的搜尋結果
     const getMoreData = async (API_URL, setState) => {
       try {
         const res = await fetch(API_URL);
@@ -69,11 +75,12 @@ const Search = ({ watchlist, setWatchlist }) => {
     };
   }, [pageNum]);
 
+  // * 搜尋結果 elements
   const searchResultElements = searchResult.results ? (
     searchResult.results.length === 0 ? (
-      <span className="empty-msg">
+      <p className="empty-msg">
         Sorry, no search result. Can't find what you're looking for.
-      </span>
+      </p>
     ) : (
       searchResult.results.map((movie) => {
         return (

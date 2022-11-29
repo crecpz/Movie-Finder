@@ -27,6 +27,8 @@ const Movies = ({ type }) => {
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
+    // 如果當前傳入 type(prop) 是 "genres"，且在 genresIconsData 找到相對應的 genres id 的話
+    // 跳轉到 notfound 頁面
     if (type === "genres" && genresId && !genresIconsData[genresId]) {
       navigate("/notfound", { replace: true });
     }

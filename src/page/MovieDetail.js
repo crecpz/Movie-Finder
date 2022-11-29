@@ -21,8 +21,6 @@ import { useRef } from "react";
 const MovieDetail = ({
   watchlist,
   setWatchlist,
-  unreadWatchlist,
-  setUnreadWatchlist,
 }) => {
   // 從 useParams() 中拆出 currentMovieId，並將其轉為 Number
   let { id: currentMovieId } = useParams();
@@ -129,10 +127,6 @@ const MovieDetail = ({
       } else {
         // status: 觀看狀態，預設為 unwatched
         return [...prev, { id: id, status: "unwatched", unread: true }];
-
-        // 以下舊的
-        // // status: 觀看狀態，預設為 unwatched
-        // return [...prev, { id: id, status: "unwatched" }];
       }
     });
   }
@@ -283,6 +277,7 @@ const MovieDetail = ({
                     ? currentMovie.original_title
                     : ""}
                 </h3>
+
                 <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
                   {currentMovie.genres
                     ? currentMovie.genres.map((genres) => {
@@ -307,7 +302,6 @@ const MovieDetail = ({
                   ) : (
                     ""
                   )}
-
                   {currentMovie.vote_average ? (
                     <p className="vote movie-detail__vote">
                       <i className="fa-solid fa-star"></i>
@@ -316,7 +310,6 @@ const MovieDetail = ({
                   ) : (
                     ""
                   )}
-
                   {currentMovie.runtime ? (
                     <p className="movie-detail__runtime">
                       <i className="fa-regular fa-clock"></i>
@@ -326,6 +319,7 @@ const MovieDetail = ({
                     ""
                   )}
                 </div>
+
                 <p className="movie-detail__overview">
                   {currentMovie.overview || ""}
                 </p>
@@ -355,7 +349,10 @@ const MovieDetail = ({
         <section className="movie-detail__cast">
           <div className="container">
             <h2 className="layout-title">Cast</h2>
-            <div className="movie-detail__cast-content">
+            <div
+              className={`movie-detail__cast-content ${
+                credits.cast && credits.cast.length ? "" : "no-cast"
+              }`}>
               <input
                 type="checkbox"
                 className="expand-btn movie-detail__cast-btn"
@@ -364,7 +361,7 @@ const MovieDetail = ({
                 {credits.cast && credits.cast.length ? (
                   creditsElement
                 ) : (
-                  <p className="placeholder-text">Sorry, no cast!</p>
+                  <p className="empty-msg">No cast information!</p>
                 )}
               </div>
             </div>
@@ -388,7 +385,7 @@ const MovieDetail = ({
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen></iframe>
               ) : (
-                <p className="placeholder-text">Sorry, no video!</p>
+                <p className="empty-msg">No video!</p>
               )}
             </div>
           </div>
@@ -399,7 +396,7 @@ const MovieDetail = ({
           <div className="container">
             <h2 className="layout-title">Similar Movies</h2>
             {similarMovies.results && similarMovies.results.length === 0 ? (
-              <p className="placeholder-text">No similar movies!</p>
+              <p className="empty-msg">No similar movies!</p>
             ) : (
               <Swiper
                 effect="coverflow"

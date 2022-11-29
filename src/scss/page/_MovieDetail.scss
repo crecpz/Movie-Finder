@@ -6,16 +6,7 @@
   // * 共通樣式設定
   // 除了首個 section(.movie-detail__intro) 之外，其餘的 sectioni 都套用以下樣式:
   > section:not(:first-child) {
-    padding-top: 7rem;
-
-    // margin-top: 3rem;
-    // opacity: 0;
-
-    // 每個 section 內的 container 加上一條 border-top
-    // .container {
-    //   border-top: 1px solid #333;
-    //   padding-top: 3rem;
-    // }
+    margin-top: 7rem;
   }
 
   .layout-title {
@@ -34,21 +25,21 @@
     }
   }
 
-  // 電影 backdrop
+  // * 電影 backdrop
   &__backdrop {
+    overflow: hidden;
     grid-row: 1/2;
     grid-column: 1/2;
     position: relative;
     z-index: -1;
-    overflow: hidden;
     width: 100%;
-    // max-height: 80vh;
     max-height: 90vh;
 
     @include lg {
       align-self: flex-start;
     }
 
+    // backdrop img tag
     img {
       width: 100%;
       height: 100%;
@@ -61,10 +52,10 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.033), rgb(0, 0, 0));
+      z-index: 5;
       width: 100%;
       height: 100%;
-      z-index: 5;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.033), rgb(0, 0, 0));
     }
   }
 
@@ -75,7 +66,11 @@
     grid-row: 1/2;
 
     @include lg {
-      margin-top: 8rem;
+      margin-top: 6rem;
+    }
+
+    @include md {
+      margin-top: 5.5rem;
     }
 
     .container {
@@ -87,22 +82,39 @@
     }
   }
 
-  // 電影海報
+  // * 電影海報
   &__poster {
-    border-radius: 15px;
+    border-radius: 0.9375rem;
     width: 100%;
     max-width: 18.75rem;
     border-radius: map-get($border-radius, base);
     box-shadow: map-get($box-shadow, base);
+
+    @include md {
+      max-width: 15.625rem;
+    }
   }
 
-  // 文字區域
+  // * 文字區域
   &__texts {
     @include flex($dir: column, $jc: center);
     margin-left: 4rem;
     row-gap: 1rem;
     height: 100%;
     max-width: 56.25rem;
+
+    @include lg {
+      margin-left: 0rem;
+      margin-top: 3rem;
+    }
+
+    @include md {
+      justify-content: start;
+    }
+
+    @include sm {
+      margin-top: 2rem;
+    }
 
     // 選中所有的直系子層
     & > :nth-child(n) {
@@ -125,14 +137,9 @@
         transform: translateY(0);
       }
     }
-
-    @include lg {
-      margin-left: 0rem;
-      margin-top: 3rem;
-    }
   }
 
-  // 電影名稱
+  // * 電影名稱(標題)
   &__title {
     @include text(6xl);
 
@@ -145,51 +152,13 @@
     }
   }
 
-  // 資訊區(上映日期、評分、放映時長)
-  &__info {
-    & > p:not(:first-child) {
-      display: flex;
-      &::before {
-        content: "";
-        display: block;
-        width: 1px;
-        height: 100%;
-        background-color: map-get($color, primary-dark);
-      }
-
-      i {
-        margin-left: 1.5rem;
-      }
-    }
-
-    i {
-      margin-right: 0.5rem;
-    }
-  }
-
-  // 文字介紹
+  // * 文字介紹
   &__overview {
     @include text(xl);
 
-    // ! 以下為行數限制相關設定，暫時禁用
-    // @ 限制行數
-    // overflow: hidden;
-    // display: -webkit-box;
-    // -webkit-line-clamp: 3; /* 行數 */
-    // -webkit-box-orient: vertical;
-    // white-space: normal;
-    // text-overflow: ellipsis;
-
-    // @include lg {
-    // lg 以下，解除行數限制
-    // overflow: visible;
-    // display: inline;
-    // -webkit-line-clamp: none; /* 行數 */
-    // -webkit-box-orient: vertical;
-    // white-space: normal;
-    // text-overflow: clip;
-    // }
-    // ! ----------
+    @include lg {
+      order: 5;
+    }
 
     @include sm {
       @include text(lg);
@@ -199,7 +168,11 @@
   // 按鈕 (Watch Video & Add Watchlist)
   &__btns {
     @include flex;
-    margin-top: 1rem;
+    // margin-top: 1rem;
+
+    @include lg {
+      order: 4;
+    }
   }
 
   &__btn {
@@ -225,17 +198,29 @@
     @include x-spacing;
 
     .container {
+      // 為了確保收合的過程中不要讓內容超出 .container
       overflow: hidden;
     }
 
     &-content {
       position: relative;
+
+      // 此 class 用於無 cast 資料的情況
+      &.no-cast {
+        // 將收合的按鈕(input checkbox)隱藏
+        .expand-btn {
+          display: none;
+        }
+
+        // 將遮蓋在 movie-detail__cast-cards 上的漸層隱藏
+        .movie-detail__cast-cards::before {
+          display: none;
+        }
+      }
     }
 
     // 收合列表 btn(checkbox)
     &-btn {
-      display: none;
-
       // 收合列表只發生在 breakpoint md 以下
       @include md {
         display: flex;
@@ -257,11 +242,11 @@
 
     &-cards {
       @include flex($wrap: wrap);
-      // @include flex($jc: space-between, $wrap: wrap);
       row-gap: 2rem;
 
       @include md {
         padding-bottom: 4rem;
+
         max-height: 25rem;
         overflow-y: hidden;
         transition: map-get($transition, 500);

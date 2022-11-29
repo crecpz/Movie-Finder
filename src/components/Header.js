@@ -107,12 +107,6 @@ const Header = ({ unreadWatchlist, watchlist }) => {
           ) : (
             ""
           )}
-          {/* {unreadWatchlist.length ? (
-            <span className="nav__link-number">{unreadWatchlist}</span>
-          ) : (
-            ""
-          )} */}
-          {/* <span className="nav__link-number">13</span> */}
         </NavLink>
         <NavLink
           to="/search"
