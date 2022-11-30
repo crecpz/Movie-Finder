@@ -9,7 +9,7 @@
 }
 // carousel 底部圓點
 .control-dots {
-  @include sm {
+  @include md {
     display: none;
   }
 }
@@ -17,7 +17,7 @@
 // 當 carousel 播放到當前的圖片時...
 .slide.selected {
   // 給予文字 transition 效果
-  .carousel__text {
+  .home-carousel__text {
     // .carousel__text 內的 3 個子元素依序出現
     @for $i from 1 through 3 {
       & > :nth-child(#{$i}) {
@@ -28,10 +28,11 @@
   }
 }
 
-.carousel {
+.home-carousel {
   $block: &;
   position: relative;
   display: block;
+  height: 100%;
   text-align: left;
 
   // * carousel 圖片部分
@@ -40,10 +41,6 @@
     display: block;
     width: 100%;
     height: 100vh;
-
-    @include sm {
-      height: calc(100vh - deep-map-get($height, header, sm));
-    }
 
     @include lg {
       max-height: none;
@@ -77,6 +74,8 @@
       display: none;
       @include md {
         display: inline-block;
+        object-fit: cover;
+        height: 100%;
       }
     }
   }
@@ -129,7 +128,7 @@
       @include text(5xl);
     }
 
-    @include sm {
+    @include md {
       @include text(4xl);
     }
   }
@@ -139,6 +138,10 @@
     @include text(xl);
     font-weight: bold;
 
+    i {
+      margin-right: 1rem;
+    }
+
     @include sm {
       @include text(xl);
     }
@@ -146,11 +149,6 @@
 
   &__vote {
     @include text(xl);
-    margin-left: 1.5rem;
-
-    i {
-      margin-left: 0.5rem;
-    }
   }
 
   &__overview {
@@ -187,7 +185,7 @@
       align-self: start;
 
       &:hover i {
-        animation: x-moving infinite 300ms alternate;
+        animation: x-moving map-get($transition, 300) infinite alternate;
       }
 
       i {

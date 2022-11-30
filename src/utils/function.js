@@ -3,7 +3,7 @@
  * @param {*} url fetch url
  * @param {*} setState 資料儲存的 state
  */
-export const getData = async (url, setState) => {
+export const getData = async (url, setState, handleError) => {
   try {
     const res = await fetch(url);
     if (!res.ok) {
@@ -15,6 +15,24 @@ export const getData = async (url, setState) => {
     console.log(err);
   }
 };
+
+// /**
+//  * * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
+//  * @param {*} url fetch url
+//  * @param {*} setState 資料儲存的 state
+//  */
+// export const getData = async (url, setState) => {
+//   try {
+//     const res = await fetch(url);
+//     if (!res.ok) {
+//       throw new Error("Error");
+//     }
+//     const data = await res.json();
+//     setState(data);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 /**
  * * 獲取更多的資料(在原來的基礎上獲取更多)

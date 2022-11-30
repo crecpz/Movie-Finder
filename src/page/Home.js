@@ -24,14 +24,11 @@ const Home = () => {
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 電影類別資料
   const [genresData, setGenresData] = useState([]);
-
-  // const genresRefs = useRef();
-  // console.log(genresRefs);
-
+  // 用來偵測 loadMore ref 是否已經進入 intersection observer
   const { ref: loadMore, inView: isIntersecting } = useInView();
+  // 用來存放目前在 Home.js 中要顯示的 swiper 數量
   const [showAmount, setShowAmount] = useState(3);
-
-  // 第一張輪播圖的載入狀態
+  // 儲存首張輪播圖的載入狀態(若載入完畢，將其設為 true 並解除 spinner )
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -61,11 +58,14 @@ const Home = () => {
   const carouselElements = trendingMovies.results
     ? trendingMovies.results.map((movie, index) => {
         return (
-          <Link to={`/movie/${movie.id}`} className="carousel" key={movie.id}>
-            <div className="carousel__img">
+          <Link
+            to={`/movie/${movie.id}`}
+            className="home-carousel"
+            key={movie.id}>
+            <div className="home-carousel__img">
               <img
                 src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-                className="carousel__backdrop"
+                className="home-carousel__backdrop"
                 alt="movie-backdrop"
                 onLoad={() => {
                   // 如果 onLoad 觸發的對象 index === 0 ，代表第一張電影圖已被載入
@@ -75,7 +75,7 @@ const Home = () => {
               />
               <img
                 src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                className="carousel__poster"
+                className="home-carousel__poster"
                 alt="movie-poster"
                 onLoad={() => {
                   // 同上方式
@@ -83,20 +83,29 @@ const Home = () => {
                 }}
               />
             </div>
-            <div className="carousel__text">
-              <h3 className="carousel__title">
+            <div className="home-carousel__text">
+              <h3 className="home-carousel__title">
                 {movie.original_title ? movie.original_title : ""}
               </h3>
-              <div className="carousel__info">
-                <p className="carousel__release-date">
-                  {movie.release_date ? movie.release_date : ""}
-                </p>
-                <p className="carousel__vote">
-                  {movie.vote_average ? movie.vote_average : ""}
-                  <i className="fa-solid fa-star"></i>
-                </p>
+              <div className="info home-carousel__info">
+                {movie.release_date ? (
+                  <p className="home-carousel__release-date">
+                    <i className="fa-regular fa-calendar"></i>
+                    {movie.release_date}
+                  </p>
+                ) : (
+                  ""
+                )}
+                {movie.vote_average ? (
+                  <p className="home-carousel__vote">
+                    <i className="fa-solid fa-star"></i>
+                    {movie.vote_average}
+                  </p>
+                ) : (
+                  ""
+                )}
               </div>
-              <p className="carousel__overview">
+              <p className="overview home-carousel__overview">
                 {movie.overview ? movie.overview : ""}
               </p>
             </div>
@@ -121,17 +130,17 @@ const Home = () => {
 
   return (
     <section className="home">
-      <div className={`spinner-full-screen ${!imgIsLoaded && "active"}`}>
+      <div className={`spinner-full-screen${imgIsLoaded ? "" : " active"}`}>
         <PulseLoader color="#fff" cssOverride={spinnerStyle} />
       </div>
 
       <Carousel
         showThumbs={false}
-        autoPlay={true}
+        // autoPlay={true}
         transitionTime={3}
         infiniteLoop={true}
         showStatus={false}
-        // emulateTouch={true} // 模擬觸控
+        emulateTouch={true} // 模擬觸控
       >
         {carouselElements}
       </Carousel>

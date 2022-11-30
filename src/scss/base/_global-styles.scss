@@ -160,8 +160,12 @@ main {
 
 .vote {
     i {
-        margin-left: 0.5rem;
+        // margin-left: 0.5rem;
     }
+}
+
+.overview {
+    letter-spacing: deep-map-get($text, spacing, wider);
 }
 
 .spinner {

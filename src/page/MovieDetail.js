@@ -18,10 +18,7 @@ import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 import { useRef } from "react";
 
-const MovieDetail = ({
-  watchlist,
-  setWatchlist,
-}) => {
+const MovieDetail = ({ watchlist, setWatchlist }) => {
   // 從 useParams() 中拆出 currentMovieId，並將其轉為 Number
   let { id: currentMovieId } = useParams();
   currentMovieId = Number(currentMovieId);
@@ -64,18 +61,18 @@ const MovieDetail = ({
   const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
   const CREDITS_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/credits?api_key=e86818f56e7d92f357708ecb03052800`;
 
-  useEffect(() => {
-    let subscribed = true;
-    if (subscribed) {
-      getData(CURRENT_DETAIL_URL, setCurrentMovie);
-      getData(CREDITS_URL, setCredits);
-      getData(VIDEO_URL, setVideo);
-      getData(SIMILAR_URL, setSimilarMovies);
-    }
-    return () => {
-      subscribed = false;
-    };
-  }, []);
+  // useEffect(() => {
+  //   let subscribed = true;
+  //   if (subscribed) {
+  //     getData(CURRENT_DETAIL_URL, setCurrentMovie);
+  //     getData(CREDITS_URL, setCredits);
+  //     getData(VIDEO_URL, setVideo);
+  //     getData(SIMILAR_URL, setSimilarMovies);
+  //   }
+  //   return () => {
+  //     subscribed = false;
+  //   };
+  // }, []);
 
   useEffect(() => {
     // 換頁後，恢復 poster & backdrop 的狀態
@@ -87,10 +84,10 @@ const MovieDetail = ({
     // 取得 API 資料
     let subscribed = true;
     if (subscribed) {
-      getData(CURRENT_DETAIL_URL, setCurrentMovie);
-      getData(CREDITS_URL, setCredits);
-      getData(VIDEO_URL, setVideo);
-      getData(SIMILAR_URL, setSimilarMovies);
+      getData(CURRENT_DETAIL_URL, setCurrentMovie); // 當前電影資料
+      getData(CREDITS_URL, setCredits); // 演員資料
+      getData(VIDEO_URL, setVideo); // Video
+      getData(SIMILAR_URL, setSimilarMovies); // 相似電影推薦
     }
     // 更新目前的 watchlist 按鈕狀態
     // (如果在 watchlist 中 find() 的結果不是 undefined 就設為 true，否則設為 false)
@@ -167,7 +164,7 @@ const MovieDetail = ({
   // * 相似電影
   const similarMovieElements = similarMovies.results
     ? similarMovies.results.map((movie) => {
-        return movie.backdrop_path ? (
+        return movie.backdrop_path && movie.original_title ? (
           <SwiperSlide key={movie.id}>
             <div className="movie-slide">
               <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
@@ -180,11 +177,9 @@ const MovieDetail = ({
                 />
               </Link>
               <Link
-                to={`/movie/${movie && movie.id}`}
+                to={`/movie/${movie.id}`}
                 className="movie-slide__title-link">
-                <h2 className="movie-slide__name">
-                  {movie && movie.original_title}
-                </h2>
+                <h2 className="movie-slide__name">{movie.original_title}</h2>
               </Link>
             </div>
           </SwiperSlide>
@@ -320,7 +315,7 @@ const MovieDetail = ({
                   )}
                 </div>
 
-                <p className="movie-detail__overview">
+                <p className="overview movie-detail__overview">
                   {currentMovie.overview || ""}
                 </p>
 
