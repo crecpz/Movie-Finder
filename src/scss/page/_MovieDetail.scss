@@ -3,7 +3,7 @@
 .movie-detail {
   position: relative;
 
-  // * 共通樣式設定
+  //* 共通樣式設定
   // 除了首個 section(.movie-detail__intro) 之外，其餘的 sectioni 都套用以下樣式:
   > section:not(:first-child) {
     margin-top: 7rem;
@@ -15,7 +15,7 @@
     border-bottom: 1px solid map-get($color, light-gray);
   }
 
-  // * 頂部介紹區塊
+  //* 頂部介紹區塊
   &__intro {
     display: grid;
     height: 100vh;
@@ -25,7 +25,7 @@
     }
   }
 
-  // * 電影 backdrop
+  //* 電影 backdrop
   &__backdrop {
     overflow: hidden;
     grid-row: 1/2;
@@ -82,7 +82,7 @@
     }
   }
 
-  // * 電影海報
+  //* 電影海報
   &__poster {
     border-radius: 0.9375rem;
     width: 100%;
@@ -95,7 +95,7 @@
     }
   }
 
-  // * 文字區域
+  //* 文字區域
   &__texts {
     @include flex($dir: column, $jc: center);
     margin-left: 4rem;
@@ -109,6 +109,7 @@
     }
 
     @include md {
+      row-gap: 1.25rem;
       justify-content: start;
     }
 
@@ -139,20 +140,20 @@
     }
   }
 
-  // * 電影名稱(標題)
+  //* 電影名稱(標題)
   &__title {
-    @include text(6xl);
+    @include text(5xl);
 
     @include lg {
-      @include text(5xl);
+      @include text(4xl);
     }
 
-    @include sm {
-      @include text(4xl);
+    @include md {
+      @include text(3xl);
     }
   }
 
-  // * 文字介紹
+  //* 文字介紹
   &__overview {
     @include text(xl);
 
@@ -192,7 +193,7 @@
     }
   }
 
-  // * cast (演員列表)
+  //* cast (演員列表)
   &__cast {
     $block: &;
     @include x-spacing;
@@ -319,7 +320,7 @@
     }
   }
 
-  // * Video
+  //* Video
   &__video {
     @include x-spacing;
   }
@@ -343,7 +344,7 @@
     border: 0;
   }
 
-  // * Similar Movies swiper (相似電影 swiper)
+  //* Similar Movies swiper (相似電影 swiper)
   &__similar {
     @include x-spacing;
     padding-bottom: 2rem;

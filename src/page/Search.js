@@ -75,7 +75,7 @@ const Search = ({ watchlist, setWatchlist }) => {
     };
   }, [pageNum]);
 
-  // * 搜尋結果 elements
+  //* 搜尋結果 elements
   const searchResultElements = searchResult.results ? (
     searchResult.results.length === 0 ? (
       <p className="empty-msg">

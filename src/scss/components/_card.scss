@@ -23,14 +23,14 @@ $gap-amount: (
   sm: 0,
 );
 
-// * 卡片容器
+//* 卡片容器
 // @ $column-gap 卡片之間的 column-gap
 @mixin cards($column-gap) {
   @include flex($wrap: wrap);
   gap: $column-gap;
 }
 
-// * 卡片
+//* 卡片
 // @ $column-gap(sass variable): 卡片之間的 column-gap
 // @ $card-amount(sass map): 列出每個 breakpoint 一列有幾個 gap
 // @ $gap-amount(sass map): 列出每個 breakpoint 每列要容納幾張卡片

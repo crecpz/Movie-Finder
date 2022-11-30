@@ -35,7 +35,7 @@
   height: 100%;
   text-align: left;
 
-  // * carousel 圖片部分
+  //* carousel 圖片部分
   &__img {
     position: relative;
     display: block;
@@ -80,7 +80,7 @@
     }
   }
 
-  // * carousel 文字部分
+  //* carousel 文字部分
   &__text {
     @include flex($dir: column, $jc: flex-end);
     @include x-spacing;

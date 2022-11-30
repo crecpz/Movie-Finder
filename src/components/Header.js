@@ -10,7 +10,7 @@ const Header = ({ unreadWatchlist, watchlist }) => {
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
 
-    // * 使用者 resize 時，關閉 nav 的 transition
+    //* 使用者 resize 時，關閉 nav 的 transition
     function handleResize() {
       navRef.current.style.transition = "none";
       setNavIsOpen(false);
@@ -35,7 +35,7 @@ const Header = ({ unreadWatchlist, watchlist }) => {
   }, []);
 
   useEffect(() => {
-    // * 當 nav 打開時禁止頁面滾動，並調整 header padding-right
+    //* 當 nav 打開時禁止頁面滾動，並調整 header padding-right
     const body = document.body;
     const scrollBarWidth = window.innerWidth - body.clientWidth;
     const headerPaddingRight = window

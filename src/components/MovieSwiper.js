@@ -21,7 +21,7 @@ const MovieSwiper = ({ id, name, show }) => {
     };
   }, []);
 
-  // * swiper 內的 slide
+  //* swiper 內的 slide
   const slideElements = genresContent.results
     ? genresContent.results.map((movie) => {
         return movie.backdrop_path ? (

@@ -48,13 +48,13 @@ const Home = () => {
     };
   }, []);
 
-  // * 處理 img 讀取完成的事件
+  //* 處理 img 讀取完成的事件
   function handleImgLoaded() {
     // 變更狀態為 true (表示已經讀取好)
     setImgIsLoaded(true);
   }
 
-  // * 輪播
+  //* 輪播
   const carouselElements = trendingMovies.results
     ? trendingMovies.results.map((movie, index) => {
         return (
@@ -114,7 +114,7 @@ const Home = () => {
       })
     : "";
 
-  // * genres swiper
+  //* genres swiper
   const MovieSwiperElements =
     genresData.genres &&
     genresData.genres.map((genres, index) => {

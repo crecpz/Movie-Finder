@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
+import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 // Swiper styles
 import "swiper/css";
@@ -13,12 +14,14 @@ import {
   noAvatar,
   noBackdrop,
   removeBracketsStr,
+  scrollDownTo,
 } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 import { useRef } from "react";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
+  const navigate = useNavigate();
   // 從 useParams() 中拆出 currentMovieId，並將其轉為 Number
   let { id: currentMovieId } = useParams();
   currentMovieId = Number(currentMovieId);
@@ -44,35 +47,15 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   // 指向 video 區塊的 ref
   const videoRef = useRef();
 
-  /**
-   * 滾動到指定的 ref 上
-   * @param {*} ref 指定的 ref
-   */
-  const scrollDown = (ref) => {
-    window.scrollTo({
-      top: ref.current.offsetTop,
-      behavior: "smooth",
-    });
-  };
-
   // API URLs
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=e86818f56e7d92f357708ecb03052800`;
   const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
   const CREDITS_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/credits?api_key=e86818f56e7d92f357708ecb03052800`;
 
-  // useEffect(() => {
-  //   let subscribed = true;
-  //   if (subscribed) {
-  //     getData(CURRENT_DETAIL_URL, setCurrentMovie);
-  //     getData(CREDITS_URL, setCredits);
-  //     getData(VIDEO_URL, setVideo);
-  //     getData(SIMILAR_URL, setSimilarMovies);
-  //   }
-  //   return () => {
-  //     subscribed = false;
-  //   };
-  // }, []);
+  function handleError() {
+    navigate("/notfound", { replace: true });
+  }
 
   useEffect(() => {
     // 換頁後，恢復 poster & backdrop 的狀態
@@ -84,7 +67,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     // 取得 API 資料
     let subscribed = true;
     if (subscribed) {
-      getData(CURRENT_DETAIL_URL, setCurrentMovie); // 當前電影資料
+      getData(CURRENT_DETAIL_URL, setCurrentMovie, handleError); // 當前電影資料
       getData(CREDITS_URL, setCredits); // 演員資料
       getData(VIDEO_URL, setVideo); // Video
       getData(SIMILAR_URL, setSimilarMovies); // 相似電影推薦
@@ -128,7 +111,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     });
   }
 
-  // * 演員列表
+  //* 演員列表
   const creditsElement =
     credits.cast &&
     credits.cast
@@ -151,7 +134,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         );
       });
 
-  // *  video key
+  //*  video key
   // 修先取得 Trailer 或 Teaser
   const videoKey =
     video.results &&
@@ -161,7 +144,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         ).key
       : "";
 
-  // * 相似電影
+  //* 相似電影
   const similarMovieElements = similarMovies.results
     ? similarMovies.results.map((movie) => {
         return movie.backdrop_path && movie.original_title ? (
@@ -322,7 +305,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 <div className="movie-detail__btns">
                   <button
                     className="movie-detail__btn btn btn--red btn--lg"
-                    onClick={() => scrollDown(videoRef)}>
+                    onClick={() => scrollDownTo(videoRef)}>
                     <i className="fa-solid fa-play"></i>Watch Video
                   </button>
                   <button

@@ -11,7 +11,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  // * 改變觀看狀態 (Unwatched <---> Watched)
+  //* 改變觀看狀態 (Unwatched <---> Watched)
   function changeStatus(id) {
     setWatchlist((prev) => {
       return prev.map((movie) => {
@@ -27,7 +27,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
     });
   }
 
-  // * 刪除 watchcard
+  //* 刪除 watchcard
   function removeWatchcard(id) {
     setWatchlist((prev) => prev.filter((i) => i.id != id));
   }
@@ -101,7 +101,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
 //     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
 //   }, [watchlist]);
 
-//   // * 改變觀看狀態
+//   //* 改變觀看狀態
 //   function changeStatus() {
 //     setWatchlist((prevWatchlist) => {
 //       return prevWatchlist.map((i) => {
@@ -117,7 +117,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
 //     });
 //   }
 
-// // * 刪除 watchcard
+// //* 刪除 watchcard
 // function removeWatchcard(id) {
 //   setWatchlist((prevWatchlist) => {
 //     return prevWatchlist.filter((i) => i.id !== id);

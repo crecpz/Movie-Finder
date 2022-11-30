@@ -2,6 +2,7 @@
  * * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
  * @param {*} url fetch url
  * @param {*} setState 資料儲存的 state
+ * @param {*} handleError 錯誤處理 callback
  */
 export const getData = async (url, setState, handleError) => {
   try {
@@ -13,26 +14,9 @@ export const getData = async (url, setState, handleError) => {
     setState(data);
   } catch (err) {
     console.log(err);
+    if (handleError) handleError();
   }
 };
-
-// /**
-//  * * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
-//  * @param {*} url fetch url
-//  * @param {*} setState 資料儲存的 state
-//  */
-// export const getData = async (url, setState) => {
-//   try {
-//     const res = await fetch(url);
-//     if (!res.ok) {
-//       throw new Error("Error");
-//     }
-//     const data = await res.json();
-//     setState(data);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 /**
  * * 獲取更多的資料(在原來的基礎上獲取更多)
@@ -110,7 +94,7 @@ export function convertTime(min) {
   return `${h <= 0 ? "" : h + " h "}${m <= 0 ? "" : m + " min"}`;
 }
 
-// * 將字母首字變大寫
+//* 將字母首字變大寫
 export function capitalize(str) {
   return str
     .split("-")
@@ -118,7 +102,7 @@ export function capitalize(str) {
     .join(" ");
 }
 
-// * 無圖片替代方案
+//* 無圖片替代方案
 export function noAvatar({ currentTarget }) {
   currentTarget.onerror = null; // prevents looping
   currentTarget.src =
@@ -133,4 +117,15 @@ export function noBackdrop({ currentTarget }) {
   currentTarget.onerror = null; // prevents looping
   currentTarget.src =
     "https://cdn.pixabay.com/photo/2019/11/07/20/48/cinema-4609877_960_720.jpg";
+}
+
+/**
+ * 滾動到指定的 ref 上
+ * @param {*} ref 指定的 ref
+ */
+export function scrollDownTo(ref) {
+  window.scrollTo({
+    top: ref.current.offsetTop,
+    behavior: "smooth",
+  });
 }

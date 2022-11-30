@@ -95,7 +95,7 @@
   }
 }
 
-// * nav
+//* nav
 .nav {
   @include flex($ai: center);
   position: relative;
@@ -188,7 +188,7 @@
       opacity: 0;
     }
 
-    // * .nav__link hover 狀態
+    //* .nav__link hover 狀態
     @include hover-query() {
       &:hover {
         color: map-get($color, tertiary);
@@ -200,7 +200,7 @@
       }
     }
 
-    // * link 下方底線
+    //* link 下方底線
     &::before {
       content: "";
       position: absolute;
