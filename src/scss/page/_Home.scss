@@ -1,6 +1,6 @@
 @use "../abstracts" as *;
 
-// @ carousel 套件相關組件
+//@ carousel 套件相關組件
 // carousel 左右箭頭
 .control-arrow {
   @include sm {
@@ -57,7 +57,7 @@
       z-index: 5;
     }
 
-    // @ backdrop 將於 breakpoint < md 時被隱藏，替換成 poster
+    //@ backdrop 將於 breakpoint < md 時被隱藏，替換成 poster
     // img tag (backdrop)
     #{$block}__backdrop {
       object-fit: cover;
@@ -122,11 +122,7 @@
   }
 
   &__title {
-    @include text(6xl);
-
-    @include lg {
-      @include text(5xl);
-    }
+    @include text(5xl);
 
     @include md {
       @include text(4xl);
@@ -170,8 +166,8 @@
 
     &-item {
       @include flex($dir: column);
-      margin-top: 2rem;
-      padding-top: 2rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
       border-top: 1px solid #333;
     }
 

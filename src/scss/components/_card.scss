@@ -1,6 +1,6 @@
 @use "../abstracts" as *;
 
-// @ 使用於 New, Popular, Genres, watchlist
+//@ 使用於 New, Popular, Genres, watchlist
 
 // 卡片之間的 column-gap
 $column-gap: 1.5rem;
@@ -24,16 +24,16 @@ $gap-amount: (
 );
 
 //* 卡片容器
-// @ $column-gap 卡片之間的 column-gap
+//@ $column-gap 卡片之間的 column-gap
 @mixin cards($column-gap) {
   @include flex($wrap: wrap);
   gap: $column-gap;
 }
 
 //* 卡片
-// @ $column-gap(sass variable): 卡片之間的 column-gap
-// @ $card-amount(sass map): 列出每個 breakpoint 一列有幾個 gap
-// @ $gap-amount(sass map): 列出每個 breakpoint 每列要容納幾張卡片
+//@ $column-gap(sass variable): 卡片之間的 column-gap
+//@ $card-amount(sass map): 列出每個 breakpoint 一列有幾個 gap
+//@ $gap-amount(sass map): 列出每個 breakpoint 每列要容納幾張卡片
 // 每張卡片的寬度 = (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
 // --> (100% / $card-amount - ($column-gap * $gap-amount) / $card-amount)
 @mixin card($column-gap, $card-amount, $gap-amount) {
@@ -75,7 +75,7 @@ $gap-amount: (
   @include card($column-gap, $card-amount, $gap-amount);
 }
 
-// // @ 使用於 New, Popular, Genres, watchlist
+// //@ 使用於 New, Popular, Genres, watchlist
 // // 每張卡片的寬度計算方式: (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
 // // -->  (100% / $card-amount - ($column-gap * $gap-amount) / $card-amount)
 

@@ -19,7 +19,7 @@
 //
 // deep-map-get($myMap, layer1, layer2, layer3) // #fff
 //
-// @return Unspecified (it may return anything as a result)
+//@return Unspecified (it may return anything as a result)
 // ---------------------------------------------------------
 @function deep-map-get ($map, $keys...) {
   @if type-of($map) != 'map' {

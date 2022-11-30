@@ -1,6 +1,7 @@
 @use "../abstracts" as *;
 
 .swiper {
+  $block: &;
   user-select: none;
 
   @include hover-query {
@@ -13,10 +14,23 @@
     }
   }
 
+  // 使 .movie-swiper 下方的 bullets 跟其上方文字產生間隔
+  &.swiper-free-mode {
+    #{$block}-wrapper {
+      padding-bottom: 1.5rem;
+      @include md {
+        padding-bottom: 0;
+      }
+    }
+  }
 
   // 底部分頁 bullet
   .swiper-pagination {
     bottom: -8px;
+
+    @include md {
+      display: none;
+    }
   }
 
   // 左右切換按鈕(prev, next)
@@ -33,6 +47,10 @@
     transition: map-get($transition, 300);
     transition-property: opacity, visibility;
 
+    @include md {
+      display: none;
+    }
+
     &::after {
       @include flex($ai: center, $jc: center);
       @include text(base);
@@ -46,29 +64,6 @@
     }
   }
 
-  // // 左右切換按鈕(prev, next)
-  // .swiper-button-prev,
-  // .swiper-button-next {
-  //   transition: map-get($transition, 300);
-  //   transition-property: opacity, visibility;
-
-  //   &::after {
-  //     @include flex($ai: center, $jc: center);
-  //     @include text(base);
-  //     flex-shrink: 0;
-  //     width: 2.5rem;
-  //     height: 2.5rem;
-  //     background-color: #fcfcfcbf;
-  //     border-radius: 50%;
-  //     color: map-get($color, secondary);
-  //     font-weight: bold;
-  //   }
-  // }
-
-  &__wrapper {
-    margin-top: 2rem;
-  }
-
   &-pagination-bullet {
     background-color: map-get($color, primary);
   }
@@ -77,7 +72,7 @@
     &-prev,
     &-next {
       color: map-get($color, primary);
-      top: calc(50% - 2rem); // @ 因為有底部的電影名稱，所以將 handler 做些調整，將其再往上調一點
+      top: calc(50% - 2rem); //@ 因為有底部的電影名稱，所以將 handler 做些調整，將其再往上調一點
     }
   }
 }
@@ -85,27 +80,54 @@
 .movie-swiper {
   margin-left: auto;
   margin-right: auto;
+
+  .layout-title {
+    @include md {
+    }
+  }
 }
 
 .movie-slide {
   width: 100%;
-
+  // * swiper 圖片連結
   &__img-link {
     display: inline-block;
     overflow: hidden;
     border-radius: map-get($border-radius, base);
   }
 
+  //* swiper 圖片
+  &__img {
+    width: 100%;
+
+    // swiper backdrop 預設為顯示，直到螢幕 <= 768px 後隱藏
+    &--backdrop {
+      @include md {
+        display: none;
+      }
+    }
+
+    // swiper poster 預設為隱藏，直到螢幕 <= 768px 後隱藏顯示
+    &--poster {
+      display: none;
+      @include md {
+        display: inline-block;
+      }
+    }
+  }
+
+  //* swiper 電影名稱連結
   &__title-link {
     display: inline-block;
     margin-top: 0.5rem;
+
+    // breakpoint <= 768 隱藏標題連結文字
+    @include md {
+      display: none;
+    }
   }
 
-  &__backdrop {
-    width: 100%;
-  }
-
-  &__name {
-    @include text(xl);
+  &__title {
+    @include text(lg);
   }
 }

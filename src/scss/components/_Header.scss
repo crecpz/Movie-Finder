@@ -160,7 +160,7 @@
   }
 
   &__link {
-    // @include flex($ai: center);
+    //@include flex($ai: center);
     @include text(base);
     position: relative;
     font-weight: bold;

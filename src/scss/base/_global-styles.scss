@@ -1,5 +1,5 @@
 @use "../abstracts" as *;
-// @ font-family:
+//@ font-family:
 //  default: Nunito
 //  h1~h6: Oswald
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Oswald:wght@700&display=swap");
@@ -80,7 +80,7 @@ main {
 .layout-title {
     @include text(4xl);
 
-    @include sm {
+    @include md {
         @include text(3xl);
     }
 }

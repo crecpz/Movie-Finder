@@ -7,7 +7,7 @@ import WatchCard from "./WatchCard";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
   const { watchStatusTag = "unwatched" } = useParams();
-  // @ 從 watchlist 中 fetch 電影資料，存放到 watchcards state 中
+  //@ 從 watchlist 中 fetch 電影資料，存放到 watchcards state 中
   const [watchcards, setWatchcards] = useState([]);
 
   useEffect(() => {

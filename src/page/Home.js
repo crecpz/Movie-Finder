@@ -31,6 +31,7 @@ const Home = () => {
   // 儲存首張輪播圖的載入狀態(若載入完畢，將其設為 true 並解除 spinner )
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
 
+  //* 若 loadMore ref 已經進入 intersection observer，增加
   useEffect(() => {
     if (isIntersecting) {
       setShowAmount((prev) => prev + 4);
@@ -136,11 +137,11 @@ const Home = () => {
 
       <Carousel
         showThumbs={false}
-        // autoPlay={true}
-        transitionTime={3}
+        autoPlay={true}
+        transitionTime={10}
         infiniteLoop={true}
         showStatus={false}
-        emulateTouch={true} // 模擬觸控
+        emulateTouch={true} //@ 模擬觸控
       >
         {carouselElements}
       </Carousel>
@@ -153,6 +154,7 @@ const Home = () => {
           </div>
         )}
       </div>
+
       <ScrollToTop
         smooth
         className="scroll-to-top"
