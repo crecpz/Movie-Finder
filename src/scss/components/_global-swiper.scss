@@ -1,0 +1,63 @@
+@use "../abstracts" as *;
+
+//@ 此處放置 swiper 的全局設定
+
+.swiper {
+  $block: &;
+  user-select: none;
+
+  @include hover-query {
+    &:hover {
+      .swiper-button-prev,
+      .swiper-button-next {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+  // 使 .movie-swiper 下方的 bullets 跟其上方文字產生間隔
+  &.swiper-free-mode {
+    #{$block}-wrapper {
+      padding-bottom: 1.5rem;
+      @include md {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  // 左右切換按鈕(prev, next)
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: 50%;
+    transform: translateY(-75%);
+    // swiper 未 hover 的時候隱藏
+    opacity: 0;
+    visibility: hidden;
+
+    margin-left: 1rem;
+    margin-right: 1rem;
+    transition: map-get($transition, 300);
+    transition-property: opacity, visibility;
+
+    @include md {
+      display: none;
+    }
+
+    &::after {
+      @include flex($ai: center, $jc: center);
+      @include text(base);
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-weight: bold;
+      border-radius: 50%;
+      background-color: #fcfcfcbf;
+      color: map-get($color, secondary);
+    }
+  }
+
+  &-pagination-bullet {
+    background-color: map-get($color, primary);
+  }
+}

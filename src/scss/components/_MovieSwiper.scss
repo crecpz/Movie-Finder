@@ -1,0 +1,65 @@
+@use "../abstracts" as *;
+
+.movie-swiper {
+  margin-left: auto;
+  margin-right: auto;
+
+  // 底部分頁 bullet
+  .swiper-pagination {
+    bottom: -8px;
+
+    @include md {
+      display: none;
+    }
+  }
+  
+  .layout-title {
+    @include md {
+    }
+  }
+}
+
+.movie-slide {
+  width: 100%;
+  // * swiper 圖片連結
+  &__img-link {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: map-get($border-radius, base);
+  }
+
+  //* swiper 圖片
+  &__img {
+    width: 100%;
+
+    // swiper backdrop 預設為顯示，直到螢幕 <= 768px 後隱藏
+    &--backdrop {
+      @include md {
+        display: none;
+      }
+    }
+
+    // swiper poster 預設為隱藏，直到螢幕 <= 768px 後隱藏顯示
+    &--poster {
+      display: none;
+      @include md {
+        display: inline-block;
+      }
+    }
+  }
+
+  //* swiper 電影名稱連結
+  &__title-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+
+    // breakpoint <= 768 隱藏標題連結文字
+    @include md {
+      display: none;
+    }
+  }
+
+  &__title {
+    @include text(lg);
+  }
+}
