@@ -3,7 +3,7 @@
 .home {
   position: relative;
 
-  //* 依照電影類型進行分類的 swiper
+  //* 電影類型 swiper
   &__genres {
     @include x-spacing;
     padding-bottom: 3rem;
@@ -39,25 +39,30 @@
   }
 }
 
-.hero__swiper {
-  @include flex;
-  width: 100%;
+//* hero
+.hero {
+  //* hero section swiper
+  &__swiper {
+    @include flex;
+    width: 100%;
 
-  // 底部動態 bullets
-  .swiper-pagination-bullets-dynamic {
-    margin-bottom: 0.5rem;
+    // 底部動態 bullets
+    .swiper-pagination-bullets-dynamic {
+      margin-bottom: 0.5rem;
+    }
   }
-}
 
-.hero-slide {
-  $block: &;
-  position: relative;
-  display: block;
-  height: 100%;
-  text-align: left;
+  //* hero section slide
+  &__slide-link {
+    $block: &;
+    position: relative;
+    display: block;
+    height: 100%;
+    text-align: left;
+  }
 
   //* slide 圖片部分
-  &__imgs {
+  &__slide-imgs {
     position: relative;
     display: block;
     width: 100%;
@@ -72,43 +77,43 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      background-image: linear-gradient(rgb(0 0 0 / 15%), rgb(0 0 0));
-      width: 100%;
-      height: 100%;
       z-index: 5;
-    }
-
-    //@ backdrop 將於 breakpoint <= md 時被隱藏，替換成 poster
-    #{$block}__img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      background-image: linear-gradient(rgb(0 0 0 / 15%), rgb(0 0 0));
+    }
+  }
 
-      // img tag (backdrop)
-      &--backdrop {
-        @include md {
-          display: none;
-        }
+  //@ backdrop 將於 breakpoint <= md 時被隱藏，替換成 poster
+  &__slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    // img tag (backdrop)
+    &--backdrop {
+      @include md {
+        display: none;
       }
-      // img tag (poster)
-      &--poster {
-        @include md {
-          display: inline-block;
-        }
+    }
+    // img tag (poster)
+    &--poster {
+      @include md {
+        display: inline-block;
       }
     }
   }
 
   //* slide 文字部分
-  // 注意: 有關文字的 transition 相關設定在最底下
-  &__text {
+  //! 注意: 有關文字的 transition 相關設定在最底下
+  &__slide-text {
     @include flex($dir: column, $jc: flex-end);
     @include x-spacing;
     row-gap: 1rem;
     column-gap: 1rem;
     position: absolute;
     left: 0;
-    bottom: 0rem;
+    bottom: 0;
     z-index: 10;
     height: 100%;
     max-width: 62.5rem;
@@ -130,7 +135,6 @@
     }
 
     @include md {
-      // margin-bottom: 5rem;
       padding-bottom: 3rem;
     }
 
@@ -141,7 +145,7 @@
     }
   }
 
-  &__title {
+  &__slide-title {
     @include text(5xl);
 
     @include md {
@@ -149,7 +153,7 @@
     }
   }
 
-  &__info {
+  &__slide-info {
     @include flex($jc: flex-start);
     @include text(xl);
     font-weight: bold;
@@ -163,11 +167,11 @@
     }
   }
 
-  &__vote {
+  &__slide-vote {
     @include text(xl);
   }
 
-  &__overview {
+  &__slide-overview {
     @include text(xl);
 
     @include sm {
@@ -179,7 +183,7 @@
 // 當 swiper 播放到當前的圖片時...
 .swiper-slide-active {
   // 給予文字 transition 效果
-  .hero-slide__text {
+  .hero__slide-text {
     // hero-slide 內的 3 個子元素依序出現
     @for $i from 1 through 3 {
       & > :nth-child(#{$i}) {

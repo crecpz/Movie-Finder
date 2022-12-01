@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, FreeMode, Scrollbar } from "swiper";
+import { Navigation, Pagination, FreeMode } from "swiper";
 import { getData } from "../utils/function";
 import { Link } from "react-router-dom";
 // Swiper styles
@@ -77,20 +77,15 @@ const MovieSwiper = ({ id, name, show }) => {
             loop: false,
           },
           576: {
-            // slidesPerView: 3,
             slidesPerView: 3.5,
-            // slidesPerGroup: 3,
             loop: false,
           },
           768: {
             slidesPerView: 3,
-            // slidesPerView: 'auto',
-            // slidesPerGroup: 3,
-            // width: 100,
           },
-          
+
           1024: {
-            slidesPerView:3,
+            slidesPerView: 3,
             slidesPerGroup: 3,
           },
           1300: {

@@ -64,12 +64,12 @@ const Home = () => {
           <SwiperSlide>
             <Link
               to={`/movie/${movie.id}`}
-              className="hero-slide"
+              className="hero__slide-link"
               key={movie.id}>
-              <div className="hero-slide__imgs">
+              <div className="hero__slide-imgs">
                 <img
                   src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-                  className="hero-slide__img hero-slide__img--backdrop"
+                  className="hero__slide-img hero__slide-img--backdrop"
                   alt="movie-backdrop"
                   onLoad={() => {
                     // 如果 onLoad 觸發的對象 index === 0 ，代表第一張電影圖已被載入
@@ -79,7 +79,7 @@ const Home = () => {
                 />
                 <img
                   src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                  className="hero-slide__img hero-slide__img--poster"
+                  className="hero__slide-img hero__slide-img--poster"
                   alt="movie-poster"
                   onLoad={() => {
                     // 同上方式
@@ -87,13 +87,13 @@ const Home = () => {
                   }}
                 />
               </div>
-              <div className="hero-slide__text">
-                <h3 className="hero-slide__title">
+              <div className="hero__slide-text">
+                <h3 className="hero__slide-title">
                   {movie.original_title ? movie.original_title : ""}
                 </h3>
-                <div className="info hero-slide__info">
+                <div className="info hero__slide-info">
                   {movie.release_date ? (
-                    <p className="hero-slide__release-date">
+                    <p className="hero__slide-release-date">
                       <i className="fa-regular fa-calendar"></i>
                       {movie.release_date}
                     </p>
@@ -101,7 +101,7 @@ const Home = () => {
                     ""
                   )}
                   {movie.vote_average ? (
-                    <p className="hero-slide__vote">
+                    <p className="hero__slide-vote">
                       <i className="fa-solid fa-star"></i>
                       {movie.vote_average}
                     </p>
@@ -109,7 +109,7 @@ const Home = () => {
                     ""
                   )}
                 </div>
-                <p className="overview hero-slide__overview">
+                <p className="overview hero__slide-overview">
                   {movie.overview ? movie.overview : ""}
                 </p>
               </div>
@@ -118,65 +118,6 @@ const Home = () => {
         );
       })
     : "";
-
-  // const carouselElements = trendingMovies.results
-  //   ? trendingMovies.results.map((movie, index) => {
-  //       return (
-  //         <Link
-  //           to={`/movie/${movie.id}`}
-  //           className="home-carousel"
-  //           key={movie.id}>
-  //           <div className="home-carousel__img">
-  //             <img
-  //               src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-  //               className="home-carousel__backdrop"
-  //               alt="movie-backdrop"
-  //               onLoad={() => {
-  //                 // 如果 onLoad 觸發的對象 index === 0 ，代表第一張電影圖已被載入
-  //                 // 調用 handleImgLoaded() 將 imgIsLoaded state 設為 true，下方 poster 也是一樣的方式
-  //                 index === 0 && handleImgLoaded();
-  //               }}
-  //             />
-  //             <img
-  //               src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-  //               className="home-carousel__poster"
-  //               alt="movie-poster"
-  //               onLoad={() => {
-  //                 // 同上方式
-  //                 index === 0 && handleImgLoaded();
-  //               }}
-  //             />
-  //           </div>
-  //           <div className="home-carousel__text">
-  //             <h3 className="home-carousel__title">
-  //               {movie.original_title ? movie.original_title : ""}
-  //             </h3>
-  //             <div className="info home-carousel__info">
-  //               {movie.release_date ? (
-  //                 <p className="home-carousel__release-date">
-  //                   <i className="fa-regular fa-calendar"></i>
-  //                   {movie.release_date}
-  //                 </p>
-  //               ) : (
-  //                 ""
-  //               )}
-  //               {movie.vote_average ? (
-  //                 <p className="home-carousel__vote">
-  //                   <i className="fa-solid fa-star"></i>
-  //                   {movie.vote_average}
-  //                 </p>
-  //               ) : (
-  //                 ""
-  //               )}
-  //             </div>
-  //             <p className="overview home-carousel__overview">
-  //               {movie.overview ? movie.overview : ""}
-  //             </p>
-  //           </div>
-  //         </Link>
-  //       );
-  //     })
-  //   : "";
 
   //* genres swiper
   const MovieSwiperElements =
@@ -213,17 +154,6 @@ const Home = () => {
           {heroSlideElements}
         </Swiper>
       </section>
-
-      {/* <Carousel
-        showThumbs={false}
-        autoPlay={true}
-        transitionTime={10}
-        infiniteLoop={true}
-        showStatus={false}
-        emulateTouch={true} //@ 模擬觸控
-      >
-        {heroSlideElements}
-      </Carousel> */}
 
       <div className="home__genres">
         {MovieSwiperElements}

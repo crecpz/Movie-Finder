@@ -7,7 +7,6 @@
   // 底部分頁 bullet
   .swiper-pagination {
     bottom: -8px;
-
     @include md {
       display: none;
     }
@@ -42,6 +41,7 @@
     // swiper poster 預設為隱藏，直到螢幕 <= 768px 後隱藏顯示
     &--poster {
       display: none;
+      
       @include md {
         display: inline-block;
       }
