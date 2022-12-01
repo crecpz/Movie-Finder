@@ -6,7 +6,7 @@ import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
 import ScrollToTop from "react-scroll-to-top";
 import { getData } from "../utils/function";
-import MovieSwiper from "../components/MovieSwiper";
+import HomeGenresSwiper from "../components/HomeGenresSwiper";
 // Import Swiper
 import { Pagination, Navigation, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -57,7 +57,7 @@ const Home = () => {
     setImgIsLoaded(true);
   }
 
-  //* 輪播(播放近期趨勢 movie)
+  //* hero 輪播(播放近期趨勢 movie)
   const heroSlideElements = trendingMovies.results
     ? trendingMovies.results.map((movie, index) => {
         return (
@@ -120,11 +120,11 @@ const Home = () => {
     : "";
 
   //* genres swiper
-  const MovieSwiperElements =
+  const HomeGenresSwiperElements =
     genresData.genres &&
     genresData.genres.map((genres, index) => {
       return (
-        <MovieSwiper
+        <HomeGenresSwiper
           key={genres.id}
           id={genres.id}
           {...genres}
@@ -155,14 +155,14 @@ const Home = () => {
         </Swiper>
       </section>
 
-      <div className="home__genres">
-        {MovieSwiperElements}
+      <ul className="home__genres-list">
+        {HomeGenresSwiperElements}
         {genresData.genres && showAmount <= genresData.genres.length && (
           <div ref={loadMore} className="spinner">
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>
         )}
-      </div>
+      </ul>
 
       <ScrollToTop
         smooth

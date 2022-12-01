@@ -3,38 +3,39 @@
 .home {
   position: relative;
 
-  //* 電影類型 swiper
-  &__genres {
+  //* genres list
+  &__genres-list {
     @include x-spacing;
     padding-bottom: 3rem;
     padding-top: 3rem;
+  }
 
-    &-item {
-      @include flex($dir: column);
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #333;
-    }
+  //* genres item
+  &__genres-item {
+    @include flex($dir: column);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #333;
 
     .swiper {
       width: 100%;
       margin-top: 1.5rem;
     }
+  }
 
-    //* genres 連結(連結到 genres 頁面)
-    &-link {
-      @include flex($ai: center);
-      align-self: start;
+  //* genres link
+  &__genres-link {
+    @include flex($ai: center);
+    align-self: start;
 
-      &:hover i {
-        animation: x-moving map-get($transition, 300) infinite alternate;
-      }
+    &:hover i {
+      animation: x-moving map-get($transition, 300) infinite alternate;
+    }
 
-      i {
-        @include text(xl);
-        margin-left: 0.75rem;
-        margin-top: 0.75rem;
-      }
+    i {
+      @include text(xl);
+      margin-left: 0.75rem;
+      margin-top: 0.75rem;
     }
   }
 }
