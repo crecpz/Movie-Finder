@@ -7,19 +7,21 @@
   &__genres-list {
     @include x-spacing;
     padding-bottom: 3rem;
-    padding-top: 3rem;
   }
 
   //* genres item
   &__genres-item {
     @include flex($dir: column);
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #333;
+
+    &:not(:first-child) {
+      margin-top: 1.5rem;
+    }
 
     .swiper {
       width: 100%;
       margin-top: 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid map-get($color, light-gray);
     }
   }
 

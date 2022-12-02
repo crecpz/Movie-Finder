@@ -5,6 +5,7 @@
 .swiper {
   $block: &;
   user-select: none;
+  
 
   @include hover-query {
     &:hover {
@@ -12,16 +13,6 @@
       .swiper-button-next {
         visibility: visible;
         opacity: 1;
-      }
-    }
-  }
-
-  // 使 .movie-swiper 下方的 bullets 跟其上方文字產生間隔
-  &.swiper-free-mode {
-    #{$block}-wrapper {
-      padding-bottom: 1.5rem;
-      @include md {
-        padding-bottom: 0;
       }
     }
   }
@@ -51,9 +42,9 @@
       width: 2.5rem;
       height: 2.5rem;
       font-weight: bold;
+      color: map-get($color, secondary);
       border-radius: 50%;
       background-color: #fcfcfcbf;
-      color: map-get($color, secondary);
     }
   }
 

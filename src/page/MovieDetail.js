@@ -19,6 +19,7 @@ import {
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 import { useRef } from "react";
+import MovieSwiper from "../components/MovieSwiper";
 
 const MovieDetail = ({ watchlist, setWatchlist }) => {
   const navigate = useNavigate();
@@ -145,30 +146,28 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       : "";
 
   //* 相似電影
-  const similarMovieElements = similarMovies.results
-    ? similarMovies.results.map((movie) => {
-        return movie.backdrop_path && movie.original_title ? (
-          <SwiperSlide key={movie.id} className="movie-slide">
-            {/* <div className="movie-slide"> */}
-            <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
-              <img
-                src={`https://image.tmdb.org/t/p/original/${
-                  movie && movie.backdrop_path
-                }`}
-                className="movie-slide__backdrop"
-                alt="movie-backdrop"
-              />
-            </Link>
-            <Link to={`/movie/${movie.id}`} className="movie-slide__title-link">
-              <h2 className="movie-slide__name">{movie.original_title}</h2>
-            </Link>
-            {/* </div> */}
-          </SwiperSlide>
-        ) : (
-          ""
-        );
-      })
-    : "";
+  // const similarMovieElements = similarMovies.results
+  //   ? similarMovies.results.map((movie) => {
+  //       return movie.backdrop_path && movie.original_title ? (
+  //         <SwiperSlide key={movie.id} className="movie-slide">
+  //           <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
+  //             <img
+  //               src={`https://image.tmdb.org/t/p/original/${
+  //                 movie && movie.backdrop_path
+  //               }`}
+  //               className="movie-slide__backdrop"
+  //               alt="movie-backdrop"
+  //             />
+  //           </Link>
+  //           <Link to={`/movie/${movie.id}`} className="movie-slide__title-link">
+  //             <h2 className="movie-slide__name">{movie.original_title}</h2>
+  //           </Link>
+  //         </SwiperSlide>
+  //       ) : (
+  //         ""
+  //       );
+  //     })
+  //   : "";
 
   /**
    * * 改變目前 poster & backdrop 的載入狀態，並更新至 imgLoadStatus state
@@ -231,91 +230,85 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               alt="backdrop"
             />
           </div>
-          <div className="movie-detail__content">
-            <div className="container">
-              {currentMovie.poster_path !== null && (
-                <img
-                  className="movie-detail__poster"
-                  src={`https://image.tmdb.org/t/p/original/${
-                    currentMovie ? currentMovie.poster_path : ""
-                  }`}
-                  onLoad={(e) => changeImgStatus(e)}
-                  alt="poster"
-                />
-              )}
+          <div className="container">
+            {currentMovie.poster_path !== null && (
+              <img
+                className="movie-detail__poster"
+                src={`https://image.tmdb.org/t/p/original/${
+                  currentMovie ? currentMovie.poster_path : ""
+                }`}
+                onLoad={(e) => changeImgStatus(e)}
+                alt="poster"
+              />
+            )}
 
-              <div
-                className={`movie-detail__texts ${
-                  imgIsLoaded ? "appear" : ""
-                }`}>
-                <h3 className="movie-detail__title">
-                  {currentMovie.original_title
-                    ? currentMovie.original_title
-                    : ""}
-                </h3>
+            <div
+              className={`movie-detail__texts ${imgIsLoaded ? "appear" : ""}`}>
+              <h3 className="movie-detail__title">
+                {currentMovie.original_title ? currentMovie.original_title : ""}
+              </h3>
 
-                <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
-                  {currentMovie.genres
-                    ? currentMovie.genres.map((genres) => {
-                        return (
-                          <Link
-                            key={genres.id}
-                            to={`/movies/genres/${genres.id}`}
-                            className="movie-detail__genres-tag genres-tag">
-                            {genres.name}
-                          </Link>
-                        );
-                      })
-                    : ""}
-                </div>
+              <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
+                {currentMovie.genres
+                  ? currentMovie.genres.map((genres) => {
+                      return (
+                        <Link
+                          key={genres.id}
+                          to={`/movies/genres/${genres.id}`}
+                          className="movie-detail__genres-tag genres-tag">
+                          {genres.name}
+                        </Link>
+                      );
+                    })
+                  : ""}
+              </div>
 
-                <div className="info movie-detail__info">
-                  {currentMovie.release_date ? (
-                    <p className="movie-detail__release-date">
-                      <i className="fa-regular fa-calendar"></i>
-                      {currentMovie.release_date}
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                  {currentMovie.vote_average ? (
-                    <p className="vote movie-detail__vote">
-                      <i className="fa-solid fa-star"></i>
-                      {currentMovie.vote_average}
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                  {currentMovie.runtime ? (
-                    <p className="movie-detail__runtime">
-                      <i className="fa-regular fa-clock"></i>
-                      {convertTime(currentMovie.runtime)}
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                </div>
+              <div className="info movie-detail__info">
+                {currentMovie.release_date ? (
+                  <p className="movie-detail__release-date">
+                    <i className="fa-regular fa-calendar"></i>
+                    {currentMovie.release_date}
+                  </p>
+                ) : (
+                  ""
+                )}
+                {currentMovie.vote_average ? (
+                  <p className="vote movie-detail__vote">
+                    <i className="fa-solid fa-star"></i>
+                    {currentMovie.vote_average}
+                  </p>
+                ) : (
+                  ""
+                )}
+                {currentMovie.runtime ? (
+                  <p className="movie-detail__runtime">
+                    <i className="fa-regular fa-clock"></i>
+                    {convertTime(currentMovie.runtime)}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
 
-                <p className="overview movie-detail__overview">
-                  {currentMovie.overview || ""}
-                </p>
+              <p className="overview movie-detail__overview">
+                {currentMovie.overview || ""}
+              </p>
 
-                <div className="movie-detail__btns">
-                  <button
-                    className="movie-detail__btn btn btn--red btn--lg"
-                    onClick={() => scrollDownTo(videoRef)}>
-                    <i className="fa-solid fa-play"></i>Watch Video
-                  </button>
-                  <button
-                    className="movie-detail__btn btn btn--transparent btn--lg"
-                    onClick={() => changeWatchlist(currentMovieId)}>
-                    <i
-                      className={`fa-solid ${
-                        inWatchlist ? "fa-check" : "fa-plus"
-                      }`}></i>
-                    {inWatchlist ? "In Watchlist" : "Add Watchlist"}
-                  </button>
-                </div>
+              <div className="movie-detail__btns">
+                <button
+                  className="movie-detail__btn btn btn--red btn--lg"
+                  onClick={() => scrollDownTo(videoRef)}>
+                  <i className="fa-solid fa-play"></i>Watch Video
+                </button>
+                <button
+                  className="movie-detail__btn btn btn--transparent btn--lg"
+                  onClick={() => changeWatchlist(currentMovieId)}>
+                  <i
+                    className={`fa-solid ${
+                      inWatchlist ? "fa-check" : "fa-plus"
+                    }`}></i>
+                  {inWatchlist ? "In Watchlist" : "Add Watchlist"}
+                </button>
               </div>
             </div>
           </div>
@@ -326,7 +319,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           <div className="container">
             <h2 className="layout-title">Cast</h2>
             <div
-              className={`movie-detail__cast-content ${
+              className={`movie-detail__cast-content movie-detail__layout-content ${
                 credits.cast && credits.cast.length ? "" : "no-cast"
               }`}>
               <input
@@ -349,7 +342,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           <div className="container">
             <h2 className="layout-title">Video</h2>
             <div
-              className={`movie-detail__iframe-container ${
+              className={`movie-detail__iframe-content movie-detail__layout-content ${
                 videoKey ? "" : "movie-detail__iframe-container--no-video"
               }`}>
               {videoKey ? (
@@ -371,59 +364,17 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         <section className="movie-detail__similar">
           <div className="container">
             <h2 className="layout-title">Similar Movies</h2>
-            {similarMovies.results && similarMovies.results.length === 0 ? (
-              <p className="empty-msg">No similar movies!</p>
-            ) : (
-              <Swiper
-                slidesPerView={5}
-                spaceBetween={20}
-                slidesPerGroup={5}
-                loop={true}
-                loopFillGroupWithBlank={false}
-                pagination={{
-                  clickable: true,
-                }}
-                navigation={true}
-                modules={[Pagination, Navigation]}
-                breakpoints={{
-                  0: {
-                    slidesPerView: 1,
-                    slidesPerGroup: 1,
-                    spaceBetween: 0,
-                  },
-                  576: {
-                    slidesPerView: 2,
-                    slidesPerGroup: 2,
-                    spaceBetween: 20,
-                  },
-                  768: {
-                    slidesPerView: 3,
-                    slidesPerGroup: 3,
-                    spaceBetween: 20,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                    slidesPerGroup: 4,
-                    spaceBetween: 20,
-                  },
-                  1300: {
-                    slidesPerView: 4,
-                    slidesPerGroup: 4,
-                    spaceBetween: 20,
-                  },
-                  1400: {
-                    slidesPerView: 5,
-                    slidesPerGroup: 5,
-                    spaceBetween: 20,
-                  },
-                }}
-                className="movie-swiper">
-                {similarMovieElements}
-              </Swiper>
-            )}
+            <div className="movie-detail__similar-content movie-detail__layout-content">
+              {similarMovies.results && similarMovies.results.length === 0 ? (
+                <p className="empty-msg">No similar movies!</p>
+              ) : (
+                <MovieSwiper movies={similarMovies} />
+              )}
+            </div>
           </div>
         </section>
       </div>
+
       <ScrollToTop
         smooth
         className="scroll-to-top"

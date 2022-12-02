@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useInView } from "react-intersection-observer";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
+// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Link } from "react-router-dom";
 import ScrollToTop from "react-scroll-to-top";
 import { getData } from "../utils/function";
@@ -61,11 +60,8 @@ const Home = () => {
   const heroSlideElements = trendingMovies.results
     ? trendingMovies.results.map((movie, index) => {
         return (
-          <SwiperSlide>
-            <Link
-              to={`/movie/${movie.id}`}
-              className="hero__slide-link"
-              key={movie.id}>
+          <SwiperSlide key={movie.id}>
+            <Link to={`/movie/${movie.id}`} className="hero__slide-link">
               <div className="hero__slide-imgs">
                 <img
                   src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}

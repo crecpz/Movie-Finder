@@ -1,11 +1,20 @@
 @use "../abstracts" as *;
 
 .movie-swiper {
+
   // 底部分頁 bullet
   .swiper-pagination {
     bottom: -0.5rem;
     @include md {
       display: none;
+    }
+  }
+
+  // 使 .movie-swiper 下方的 bullets 跟其上方文字產生間隔
+  .swiper-wrapper {
+    padding-bottom: 1.5rem;
+    @include md {
+      padding-bottom: 0;
     }
   }
 

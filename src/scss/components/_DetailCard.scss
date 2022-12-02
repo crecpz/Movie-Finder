@@ -1,4 +1,5 @@
 @use "../abstracts" as *;
+//@ 搜尋結果 
 
 .detail-cards {
   margin-top: 4rem;
@@ -14,11 +15,11 @@
   @include sm {
     flex-direction: column;
     width: 100%;
-    // max-width: 20.625rem;
-    max-width: 300px;
+    max-width: 18.75rem;
     margin: 0 auto;
   }
 
+  //* 電影海報
   &__poster {
     width: 100%;
     max-width: 9.375rem;
@@ -34,6 +35,7 @@
     }
   }
 
+  //* 文字部分
   &__texts {
     @include flex($dir: column);
     margin-left: 2rem;
@@ -49,10 +51,12 @@
     }
   }
 
+  //* 圖片連結
   &__link {
     flex-shrink: 0;
   }
 
+  //* 電影名稱
   &__title {
     @include text(3xl);
 
@@ -61,6 +65,7 @@
     }
   }
 
+  //* genres-tag 容器
   &__genres-tag-wrapper {
     margin-top: 1rem;
 
@@ -69,6 +74,7 @@
     }
   }
 
+  //* 資訊(上映日期、評等、時長)
   &__info {
     @include flex;
     margin-top: 0.5rem;
@@ -96,12 +102,14 @@
     }
   }
 
+  //* 按鈕(新增至 watchlist 按鈕)
   &__btn {
     @include text(sm);
     margin-top: 2rem;
     align-self: flex-start;
 
     @include sm {
+      width: 100%;
       margin-top: auto;
     }
   }
