@@ -148,23 +148,21 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   const similarMovieElements = similarMovies.results
     ? similarMovies.results.map((movie) => {
         return movie.backdrop_path && movie.original_title ? (
-          <SwiperSlide key={movie.id}>
-            <div className="movie-slide">
-              <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
-                <img
-                  src={`https://image.tmdb.org/t/p/original/${
-                    movie && movie.backdrop_path
-                  }`}
-                  className="movie-slide__backdrop"
-                  alt="movie-backdrop"
-                />
-              </Link>
-              <Link
-                to={`/movie/${movie.id}`}
-                className="movie-slide__title-link">
-                <h2 className="movie-slide__name">{movie.original_title}</h2>
-              </Link>
-            </div>
+          <SwiperSlide key={movie.id} className="movie-slide">
+            {/* <div className="movie-slide"> */}
+            <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
+              <img
+                src={`https://image.tmdb.org/t/p/original/${
+                  movie && movie.backdrop_path
+                }`}
+                className="movie-slide__backdrop"
+                alt="movie-backdrop"
+              />
+            </Link>
+            <Link to={`/movie/${movie.id}`} className="movie-slide__title-link">
+              <h2 className="movie-slide__name">{movie.original_title}</h2>
+            </Link>
+            {/* </div> */}
           </SwiperSlide>
         ) : (
           ""
@@ -370,14 +368,13 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
         </section>
 
         {/* similar moives */}
-        <section className="movie-detail__similar movie-swiper">
+        <section className="movie-detail__similar">
           <div className="container">
             <h2 className="layout-title">Similar Movies</h2>
             {similarMovies.results && similarMovies.results.length === 0 ? (
               <p className="empty-msg">No similar movies!</p>
             ) : (
               <Swiper
-                effect="coverflow"
                 slidesPerView={5}
                 spaceBetween={20}
                 slidesPerGroup={5}
@@ -419,7 +416,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                     slidesPerGroup: 5,
                     spaceBetween: 20,
                   },
-                }}>
+                }}
+                className="movie-swiper">
                 {similarMovieElements}
               </Swiper>
             )}

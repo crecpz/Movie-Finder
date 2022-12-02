@@ -1,42 +1,69 @@
 @use "../abstracts" as *;
 
-//@ carousel 套件相關組件
-// carousel 左右箭頭
-.control-arrow {
-  @include sm {
-    display: none;
-  }
-}
-// carousel 底部圓點
-.control-dots {
-  @include md {
-    display: none;
-  }
-}
+.home {
+  position: relative;
 
-// 當 carousel 播放到當前的圖片時...
-.slide.selected {
-  // 給予文字 transition 效果
-  .home-carousel__text {
-    // .carousel__text 內的 3 個子元素依序出現
-    @for $i from 1 through 3 {
-      & > :nth-child(#{$i}) {
-        opacity: 1;
-        transform: translateY(0);
-      }
+  //* genres list
+  &__genres-list {
+    @include x-spacing;
+    padding-bottom: 3rem;
+    padding-top: 3rem;
+  }
+
+  //* genres item
+  &__genres-item {
+    @include flex($dir: column);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #333;
+
+    .swiper {
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+  }
+
+  //* genres link
+  &__genres-link {
+    @include flex($ai: center);
+    align-self: start;
+
+    &:hover i {
+      animation: x-moving map-get($transition, 300) infinite alternate;
+    }
+
+    i {
+      @include text(xl);
+      margin-left: 0.75rem;
+      margin-top: 0.75rem;
     }
   }
 }
 
-.home-carousel {
-  $block: &;
-  position: relative;
-  display: block;
-  height: 100%;
-  text-align: left;
+//* hero
+.hero {
+  //* hero section swiper
+  &__swiper {
+    @include flex;
+    width: 100%;
 
-  //* carousel 圖片部分
-  &__img {
+    // 底部動態 bullets
+    .swiper-pagination-bullets-dynamic {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  //* hero section slide
+  &__slide-link {
+    $block: &;
+    position: relative;
+    display: block;
+    height: 100%;
+    text-align: left;
+  }
+
+  //* slide 圖片部分
+  &__slide-imgs {
     position: relative;
     display: block;
     width: 100%;
@@ -51,44 +78,43 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      background-image: linear-gradient(rgb(0 0 0 / 15%), rgb(0 0 0));
+      z-index: 5;
       width: 100%;
       height: 100%;
-      z-index: 5;
+      background-image: linear-gradient(rgb(0 0 0 / 15%), rgb(0 0 0));
     }
+  }
 
-    //@ backdrop 將於 breakpoint < md 時被隱藏，替換成 poster
+  //@ backdrop 將於 breakpoint <= md 時被隱藏，替換成 poster
+  &__slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
     // img tag (backdrop)
-    #{$block}__backdrop {
-      object-fit: cover;
-      height: 100%;
-
+    &--backdrop {
       @include md {
         display: none;
       }
     }
-
     // img tag (poster)
-    #{$block}__poster {
-      // poster 於 breakpoint < md 時被顯示
-      display: none;
+    &--poster {
       @include md {
         display: inline-block;
-        object-fit: cover;
-        height: 100%;
       }
     }
   }
 
-  //* carousel 文字部分
-  &__text {
+  //* slide 文字部分
+  //! 注意: 有關文字的 transition 相關設定在最底下
+  &__slide-text {
     @include flex($dir: column, $jc: flex-end);
     @include x-spacing;
     row-gap: 1rem;
     column-gap: 1rem;
     position: absolute;
     left: 0;
-    top: 0;
+    bottom: 0;
     z-index: 10;
     height: 100%;
     max-width: 62.5rem;
@@ -110,18 +136,17 @@
     }
 
     @include md {
-      margin-bottom: 5rem;
+      padding-bottom: 3rem;
     }
 
     @include sm {
       margin-left: 0;
       padding-left: map-get($x-spacing, sm);
       padding-right: map-get($x-spacing, sm);
-      padding-bottom: 3rem;
     }
   }
 
-  &__title {
+  &__slide-title {
     @include text(5xl);
 
     @include md {
@@ -129,7 +154,7 @@
     }
   }
 
-  &__info {
+  &__slide-info {
     @include flex($jc: flex-start);
     @include text(xl);
     font-weight: bold;
@@ -143,11 +168,11 @@
     }
   }
 
-  &__vote {
+  &__slide-vote {
     @include text(xl);
   }
 
-  &__overview {
+  &__slide-overview {
     @include text(xl);
 
     @include sm {
@@ -156,38 +181,15 @@
   }
 }
 
-.home {
-  position: relative;
-
-  &__genres {
-    @include x-spacing;
-    padding-bottom: 3rem;
-    padding-top: 3rem;
-
-    &-item {
-      @include flex($dir: column);
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #333;
-    }
-
-    .swiper {
-      width: 100%;
-      margin-top: 1.5rem;
-    }
-
-    &-link {
-      @include flex($ai: center);
-      align-self: start;
-
-      &:hover i {
-        animation: x-moving map-get($transition, 300) infinite alternate;
-      }
-
-      i {
-        @include text(xl);
-        margin-left: 0.75rem;
-        margin-top: 0.75rem;
+// 當 swiper 播放到當前的圖片時...
+.swiper-slide-active {
+  // 給予文字 transition 效果
+  .hero__slide-text {
+    // hero-slide 內的 3 個子元素依序出現
+    @for $i from 1 through 3 {
+      & > :nth-child(#{$i}) {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   }

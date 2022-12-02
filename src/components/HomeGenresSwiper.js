@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, FreeMode, Scrollbar } from "swiper";
+import { Navigation, Pagination, FreeMode } from "swiper";
 import { getData } from "../utils/function";
 import { Link } from "react-router-dom";
 // Swiper styles
@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-const MovieSwiper = ({ id, name, show }) => {
+const HomeGenresSwiper = ({ id, name, show }) => {
   const DISCOVER_GENRES_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${id}`;
   const [genresContent, setGenresContent] = useState([]);
 
@@ -20,12 +20,11 @@ const MovieSwiper = ({ id, name, show }) => {
     };
   }, []);
 
-  //* swiper 內的 slide
+  //* slide
   const slideElements = genresContent.results
     ? genresContent.results.map((movie) => {
         return movie.backdrop_path ? (
-          <SwiperSlide key={movie.id}>
-            <div className="movie-slide">
+          <SwiperSlide key={movie.id} classname="movie-slide">
               <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
                 <img
                   src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
@@ -44,7 +43,6 @@ const MovieSwiper = ({ id, name, show }) => {
                 className="movie-slide__title-link">
                 <h2 className="movie-slide__title">{movie.original_title}</h2>
               </Link>
-            </div>
           </SwiperSlide>
         ) : (
           ""
@@ -53,7 +51,7 @@ const MovieSwiper = ({ id, name, show }) => {
     : "loading...";
 
   return show ? (
-    <div className="movie-swiper home__genres-item">
+    <li className="home__genres-item">
       <Link to={`movies/genres/${id}`} className="home__genres-link">
         <h2 className="layout-title">{name}</h2>
         <i className="fa-solid fa-angle-right"></i>
@@ -77,20 +75,15 @@ const MovieSwiper = ({ id, name, show }) => {
             loop: false,
           },
           576: {
-            // slidesPerView: 3,
             slidesPerView: 3.5,
-            // slidesPerGroup: 3,
             loop: false,
           },
           768: {
             slidesPerView: 3,
-            // slidesPerView: 'auto',
-            // slidesPerGroup: 3,
-            // width: 100,
           },
-          
+
           1024: {
-            slidesPerView:3,
+            slidesPerView: 3,
             slidesPerGroup: 3,
           },
           1300: {
@@ -101,13 +94,15 @@ const MovieSwiper = ({ id, name, show }) => {
             slidesPerView: 5,
             slidesPerGroup: 5,
           },
-        }}>
+        }}
+        className="movie-swiper"
+        >
         {slideElements}
       </Swiper>
-    </div>
+    </li>
   ) : (
     ""
   );
 };
 
-export default MovieSwiper;
+export default HomeGenresSwiper;
