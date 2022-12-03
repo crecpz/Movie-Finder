@@ -105,9 +105,13 @@ const Home = () => {
                     ""
                   )}
                 </div>
-                <p className="overview hero__slide-overview">
-                  {movie.overview ? movie.overview : ""}
-                </p>
+                {movie.overview ? (
+                  <p className="overview hero__slide-overview">
+                    {movie.overview}
+                  </p>
+                ) : (
+                  ""
+                )}
               </div>
             </Link>
           </SwiperSlide>

@@ -125,15 +125,15 @@
     // 選中所有的直系子層
     & > :nth-child(n) {
       opacity: 0;
-      transform: translateY(-20px);
-      transition: map-get($transition, 800), map-get($transition, 800);
+      transform: translateY(-1.25rem);
+      transition: map-get($transition, 800), map-get($transition, 1000);
       transition-property: transform, opacity;
     }
 
     // 按照 index 依序 transition-delay
     @for $i from 1 through 3 {
       & > :nth-child(#{$i}) {
-        transition-delay: $i * 150ms;
+        transition-delay: $i * 150ms, $i * 200ms;
       }
     }
 
