@@ -31,7 +31,7 @@
   // 底部滾動條握柄
   .swiper-scrollbar-drag {
     background-color: map-get($color, tertiary);
-    height: 3px;
+    height: .1875rem;
   }
 }
 
@@ -40,7 +40,7 @@
   @include flex($dir: column, $ai: center);
   border-radius: map-get($border-radius, base);
   width: 100%;
-  max-width: 80px;
+  max-width: 5rem;
   padding: 0.5rem 0;
   text-align: center;
 

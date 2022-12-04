@@ -21,10 +21,10 @@ $text: (
 );
 
 $max-width: (
-  default: 1320px,
-  xl: 1200px,
-  lg: 1024px,
-  md: 740px,
+  default: 82.5rem,
+  xl: 75rem,
+  lg: 64rem,
+  md: 46.25rem,
 );
 
 // color
@@ -49,12 +49,12 @@ $x-spacing: (
 
 // box-shadow
 $box-shadow: (
-  base: 0 10px 20px 3px #000000,
+  base: 0 .625rem 1.25rem .1875rem #000000,
 );
 
 // border-radius
 $border-radius: (
-  base: 10px,
+  base: .625rem,
 );
 
 $transition: (
@@ -75,7 +75,7 @@ $card-size: (
 
 $height: (
   header: (
-    sm: 70px,
-    lg: 80px,
+    sm: 4.375rem,
+    lg: 5rem,
   ),
 );

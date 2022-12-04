@@ -48,7 +48,6 @@
     &:hover {
       z-index: 20;
       transform: scale(1.25);
-      // box-shadow: 0 10px 20px 3px #000000;
       box-shadow: map-get($box-shadow, base);
 
       @include md {
