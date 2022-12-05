@@ -19,8 +19,8 @@
 
   .layout-title {
   }
-  
-  &__layout-content{
+
+  &__layout-content {
     margin-top: 1.5rem;
     padding-top: 2rem;
     border-top: 1px solid map-get($color, light-gray);
@@ -82,7 +82,7 @@
       z-index: 5;
       width: 100%;
       height: 100%;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.033), rgb(0, 0, 0));
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgb(0, 0, 0));
     }
   }
 
@@ -121,7 +121,6 @@
     @include sm {
       margin-top: 2rem;
     }
-
   }
 
   //* 電影名稱(標題)
@@ -142,7 +141,7 @@
 
   //* 文字介紹
   &__overview {
-    @include text(xl);
+    @include text(lg);
 
     @include lg {
       order: 5;
