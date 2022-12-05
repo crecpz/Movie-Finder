@@ -2,18 +2,43 @@
 
 .search {
   @include main-layout;
-  padding-left: 2.25rem;
-  padding-right: 2.25rem;
 
-  &__input {
-    @include text(xl);
-    @include flex;
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    border-radius: map-get($border-radius, base);
-    margin: 0 auto;
+  &__input-wrapper {
+    position: relative;
   }
 
-  &__result {
+  &__input {
+    @include flex;
+    @include text(xl);
+    padding: 0.5rem 0.75rem;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 56.25rem;
+    background-color: map-get($color, tertiary);
+    border-radius: map-get($border-radius, base);
+    border: 0;
+
+    &::placeholder {
+      color: map-get($color, secondary);
+    }
+
+    &:focus {
+      outline: 1px solid map-get($color, tertiary);
+    }
+  }
+
+  &__clear-text-btn {
+    @include text(xl);
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    padding: 0;
+    transform: translateY(-50%);
+
+    @include hover-query {
+      i:hover {
+        @include hover-color(map-get($color, secondary));
+      }
+    }
   }
 }

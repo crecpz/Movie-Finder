@@ -42,7 +42,7 @@ export const getMoreData = async (API_URL, setState) => {
 };
 
 /**
- * * 防止獲取到重複的電影(因資料庫內有發現重複的電影)
+ * * 防止獲取到重複的電影(資料庫內有發現重複的電影)
  * @param {*} originMovies 本來的電影
  * @param {*} inCommingMovies 新獲取的電影
  * @returns 返回去除重複後的結果(Array)

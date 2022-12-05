@@ -23,11 +23,10 @@ const Search = ({ watchlist, setWatchlist }) => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  const handleSearchChange = (e) => {
+  // 處理 search input 文字改變
+  function handleSearchChange(e) {
     setSearchText(e.target.value);
-  };
-
-  console.log(searchResult);
+  }
 
   useEffect(() => {
     let subscribed = true;
@@ -102,13 +101,18 @@ const Search = ({ watchlist, setWatchlist }) => {
   return (
     <div className="search">
       <div className="container">
-        <input
-          type="text"
-          className="search__input"
-          placeholder="Search for a movie"
-          onChange={handleSearchChange}
-          value={searchText}
-        />
+        <div className="search__input-wrapper">
+          <input
+            type="text"
+            className="search__input"
+            placeholder="Search for a movie..."
+            onChange={handleSearchChange}
+            value={searchText}
+          />
+          <button className="btn search__clear-text-btn">
+            <i className="fa-solid fa-circle-xmark"></i>
+          </button>
+        </div>
         <ul className="detail-cards">
           {searchResultElements}
 

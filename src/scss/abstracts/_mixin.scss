@@ -44,6 +44,15 @@
   }
 }
 
+// 放入基本顏色，並以該顏色為基礎，將其暗化 20%，若其已經是最暗，則亮化 20%
+@mixin hover-color($current-color) {
+  @if (darken($current-color, 20) == $current-color) {
+    color: lighten($current-color, 20);
+  } @else {
+    color: darken($current-color, 20);
+  }
+}
+
 // 全局左右 padding
 @mixin x-spacing {
   padding-left: map-get($x-spacing, lg);
