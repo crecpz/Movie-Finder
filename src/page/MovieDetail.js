@@ -343,7 +343,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
             <h2 className="layout-title">Video</h2>
             <div
               className={`movie-detail__iframe-content movie-detail__layout-content ${
-                videoKey ? "" : "movie-detail__iframe-container--no-video"
+                videoKey ? "" : "movie-detail__iframe-content--no-video"
               }`}>
               {videoKey ? (
                 <iframe
