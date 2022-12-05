@@ -373,6 +373,26 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
             </div>
           </div>
         </section>
+
+        {/* Related Links */}
+        <section className="movie-detail__related-links">
+          <div className="container">
+            <h2 className="layout-title">Related Links</h2>
+            <div className="movie-detail__related-links-content movie-detail__layout-content">
+              {currentMovie.homepage ? (
+                <a
+                  href={currentMovie.homepage}
+                  className="movie-detail__related-link"
+                  target="_blank">
+                  <i className="fa-solid fa-house"></i>
+                  Homepage<i className="fa-solid fa-link"></i>
+                </a>
+              ) : (
+                <p className="empty-msg">No related links!</p>
+              )}
+            </div>
+          </div>
+        </section>
       </div>
 
       <ScrollToTop

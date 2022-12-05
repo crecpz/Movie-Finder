@@ -17,7 +17,20 @@
     }
   }
 
+  // .movie-detail 內所有 .container 套用 padding mixin
+  .container {
+    @include x-spacing;
+  }
+
   .layout-title {
+    @include flex;
+    &::before {
+      content: "";
+      display: block;
+      width: 0.3125rem;
+      margin-right: 1rem;
+      background-color: map-get($color, tertiary);
+    }
   }
 
   &__layout-content {
@@ -37,7 +50,7 @@
 
     .container {
       @include flex($ai: center);
-      @include x-spacing;
+      // @include x-spacing;
       grid-column: 1/2;
       grid-row: 1/2;
 
@@ -197,7 +210,7 @@
   //* cast (演員列表)
   &__cast {
     $block: &;
-    @include x-spacing;
+    // @include x-spacing;
 
     .container {
       // 為了確保收合的過程中不要讓內容超出 .container
@@ -325,7 +338,7 @@
 
   //* Video
   &__video {
-    @include x-spacing;
+    // @include x-spacing;
   }
 
   &__iframe-content {
@@ -345,11 +358,43 @@
     width: 100%;
     height: 100%;
     border: 0;
+    // 
+    margin-top: 2rem;
   }
 
   //* Similar Movies
   &__similar {
-    @include x-spacing;
-    padding-bottom: 2rem;
+  }
+
+  //* Related Links
+
+  &__related-links-content {
+    @include flex;
+  }
+
+  // <a> 連結
+  &__related-link {
+    @include flex($ai: center);
+    @include text(lg);
+    justify-self: start;
+    @include sm {
+      @include text(base);
+    }
+    @include hover-query {
+      transition: color map-get($transition, 150);
+      &:hover {
+        color: map-get($color, tertiary);
+      }
+    }
+
+    // 連結內首個 icon (home icon)
+    i:nth-child(1) {
+      margin-right: 10px;
+    }
+
+    .fa-link {
+      @include text(sm);
+      margin-left: 5px;
+    }
   }
 }
