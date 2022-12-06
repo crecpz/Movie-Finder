@@ -16,6 +16,43 @@ const Search = ({ watchlist, setWatchlist }) => {
   // 搜尋結果頁數
   const [pageNum, setPageNum] = useState(1);
 
+  // ? 存放 autoComplete 選項
+  const [autoComplete, setAutoComplete] = useState({});
+
+  // ? autoComplete ui 顯示狀態
+  const [showAutoComplete, setShowAutoComplete] = useState(false);
+  // console.log("autoComplete", autoComplete);
+  // useEffect(() => {}, [autoComplete]);
+
+  //! pageNum 要特別注意，留意他何時要歸 1
+  // setPageNum(1);
+
+  useEffect(() => {
+    //   let subscribed = true;
+    if (searchText.trim().length === 0) {
+      // 清空 autoComplete 資料
+      setAutoComplete({});
+      // //
+      // setShowAutoComplete(false);
+    }
+
+    // else {
+    //     if (subscribed) getData(API_URL, setSearchResult);
+    //   }
+    //   return () => {
+    //     subscribed = false;
+    //   };
+  }, [searchText]);
+  
+
+  useEffect(() => {
+    if (!autoComplete.results) {
+      setShowAutoComplete(false);
+    } else {
+      setShowAutoComplete(true);
+    }
+  }, [autoComplete]);
+
   // 搜尋電影的 API_URL
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
 
@@ -25,26 +62,49 @@ const Search = ({ watchlist, setWatchlist }) => {
   }, [watchlist]);
 
   // 處理 search input 文字改變
-  function handleSearchChange(e) {
+  function handleInputChange(e) {
     setSearchText(e.target.value);
-    // console.log(searchText);
+  }
+  // console.log(searchText.length);
+
+  // 處理 search input 被鍵盤按下後的行為
+  function handleKeyUp(e) {
+    // 如果使用者輸入完後按下 Enter
+    if (e.key === "Enter") {
+      // 獲取搜尋資料
+      getData(API_URL, setSearchResult);
+      // todo 隱藏 autoComplete
+    }
   }
 
-  // console.log(searchText);
+  //@ 原版
+  // useEffect(() => {
+  //   let subscribed = true;
+  //   if (searchText === "") {
+  //     setSearchResult({});
+  //     setPageNum(1);
+  //   } else {
+  //     if (subscribed) getData(API_URL, setSearchResult);
+  //   }
+  //   return () => {
+  //     subscribed = false;
+  //   };
+  // }, [searchText]);
 
   useEffect(() => {
     let subscribed = true;
     if (searchText === "") {
-      setSearchResult({});
+      // setSearchResult({});
       setPageNum(1);
     } else {
-      if (subscribed) getData(API_URL, setSearchResult);
+      if (subscribed) getData(API_URL, setAutoComplete);
     }
     return () => {
       subscribed = false;
     };
   }, [searchText]);
 
+  // 處理 spinner 進入視窗範圍後的行為
   useEffect(() => {
     if (isIntersecting && searchResult) {
       setPageNum((prev) => prev + 1);
@@ -63,7 +123,7 @@ const Search = ({ watchlist, setWatchlist }) => {
         setState((prev) => {
           return {
             ...prev,
-            results: removeDuplicate([...prev.results, ...data.results]),
+            results: removeDuplicate([...prev.results, ...data.results], "id"),
           };
         });
       } catch (err) {
@@ -77,7 +137,6 @@ const Search = ({ watchlist, setWatchlist }) => {
       subscribed = false;
     };
   }, [pageNum]);
-  console.log("pageNum", pageNum);
 
   //* 搜尋結果 elements
   const searchResultElements = searchResult.results ? (
@@ -105,33 +164,62 @@ const Search = ({ watchlist, setWatchlist }) => {
 
   return (
     <div className="search">
-      <div className="search__input-wrapper">
-        <input
-          type="text"
-          className="search__input"
-          placeholder="Search for a movie..."
-          onChange={handleSearchChange}
-          value={searchText}
-        />
-        <button
-          className={`btn search__clear-text-btn ${
-            searchText ? "search__clear-text-btn--show" : ""
-          }`}
-          onClick={() => setSearchText("")}>
-          <i className="fa-solid fa-circle-xmark"></i>
-        </button>
+      <div className="search__bar">
+        <div className="search__input-wrapper">
+          <input
+            type="text"
+            className="search__input"
+            placeholder="Search for a movie..."
+            onChange={handleInputChange}
+            onKeyUp={handleKeyUp}
+            value={searchText}
+          />
+          <button
+            className={`btn search__clear-text-btn ${
+              searchText ? "search__clear-text-btn--show" : ""
+            }`}
+            onClick={() => setSearchText("")}>
+            <i className="fa-solid fa-circle-xmark"></i>
+          </button>
+          <ul
+            className={`auto-complete ${
+              showAutoComplete ? "auto-complete--show" : ""
+            }`}>
+            {autoComplete.results
+              ? removeDuplicate(autoComplete.results, "title")
+                  .slice(0, 8)
+                  .map((res) => {
+                    return (
+                      <li className="auto-complete__item">
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                        {res.title}
+                      </li>
+                    );
+                  })
+              : ""}
+
+            {/* <li className="auto-complete__item">
+              <i className="fa-solid fa-magnifying-glass"></i>auto-complete-box
+            </li>
+            <li className="auto-complete__item">
+              <i className="fa-solid fa-magnifying-glass"></i>auto-complete-box
+            </li>
+            <li className="auto-complete__item">
+              <i className="fa-solid fa-magnifying-glass"></i>auto-complete-box
+            </li> */}
+          </ul>
+        </div>
       </div>
+
       <div className="container">
         <ul className="detail-cards">
           {searchResultElements}
-
           {/* spinner */}
           {searchText && !searchResult.results && (
             <div className="spinner">
               <PulseLoader color="#fff" cssOverride={spinnerStyle} />
             </div>
           )}
-
           {searchResult.results && pageNum <= searchResult.total_results && (
             <div ref={loadMore} className="spinner">
               <PulseLoader color="#fff" cssOverride={spinnerStyle} />

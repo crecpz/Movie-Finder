@@ -82,7 +82,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
         </div>
         <div className="detail-card__genres-tag-wrapper genres-tag-wrapper">
           {currentMovie && currentMovie.genres
-            ? removeDuplicate(currentMovie.genres).map((genres) => {
+            ? removeDuplicate(currentMovie.genres, "id").map((genres) => {
                 return (
                   <Link
                     key={genres.id}

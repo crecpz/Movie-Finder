@@ -34,8 +34,7 @@ export const getMoreData = async (API_URL, setState) => {
     const data = await res.json();
 
     setState((prev) => {
-      // return removeDuplicate(prev, data.results);
-      return removeDuplicate([...prev, ...data.results]);
+      return removeDuplicate([...prev, ...data.results], "id");
     });
   } catch (err) {
     console.log(err);
@@ -63,33 +62,18 @@ export function changeWatchlist(id, inWatchlist, setWatchlist) {
 
 /**
  * * 防止獲取到重複項目(資料庫內有發現重複項目)
- * @param {*} originItem 原始項目
- * @param {*} incomingItem 新獲取項目
+ * @param {*} arr 接收一個陣列作為參數，在該陣列中檢查是否有重複
+ * @param {*} key 要檢查的鍵
  * @returns 返回去除重複後的結果(Array)
  */
-export function removeDuplicate(arr) {
+export function removeDuplicate(arr, key) {
   return arr.reduce((acc, cur) => {
-    if (!acc.some((i) => i.id === cur.id)) {
+    if (acc.every((i) => i[key] !== cur[key])) {
       acc.push(cur);
     }
     return acc;
   }, []);
 }
-
-// /**
-//  * * 防止獲取到重複項目(資料庫內有發現重複項目)
-//  * @param {*} originItem 原始項目
-//  * @param {*} incomingItem 新獲取項目
-//  * @returns 返回去除重複後的結果(Array)
-//  */
-// export function removeDuplicate2(originItem, incomingItem) {
-//   return [...originItem, ...incomingItem].reduce((acc, cur) => {
-//     if (!acc.some((i) => i.id === cur.id)) {
-//       acc.push(cur);
-//     }
-//     return acc;
-//   }, []);
-// }
 
 /**
  * * 取得當月首日~當月最後一天的日期

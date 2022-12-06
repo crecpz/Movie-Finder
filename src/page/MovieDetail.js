@@ -12,8 +12,8 @@ import {
   getData,
   noAvatar,
   noBackdrop,
-  removeBracketsStr,
   removeDuplicate,
+  removeBracketsStr,
   scrollDownTo,
 } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
@@ -208,7 +208,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
               <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
                 {currentMovie.genres
-                  ? removeDuplicate(currentMovie.genres).map((genres) => {
+                  ? removeDuplicate(currentMovie.genres, "id").map((genres) => {
                       return (
                         <Link
                           key={genres.id}

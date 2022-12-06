@@ -3,7 +3,7 @@
 .search {
   @include x-spacing;
 
-  &__input-wrapper {
+  &__bar {
     position: sticky;
     top: 0;
     padding-top: calc(#{deep-map-get($height, header, lg)} + 3rem);
@@ -13,21 +13,26 @@
     margin: 0 auto;
   }
 
+  &__input-wrapper {
+  }
+
   &__input {
     @include flex;
     @include text(xl);
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 0.875rem;
     width: 100%;
     background-color: map-get($color, tertiary);
     border-radius: map-get($border-radius, base);
+    // border-top-right-radius: map-get($border-radius, base);
     border: 0;
+    outline: none;
 
     &::placeholder {
-      color: map-get($color, secondary);
+      color: hsl(13, 61%, 25%);
     }
 
     &:focus {
-      outline: 1px solid map-get($color, tertiary);
+      // : 1px solid map-get($color, tertiary);
     }
   }
 
@@ -35,8 +40,9 @@
     @include text(xl);
     position: absolute;
     bottom: 0.5rem;
-    right: 20px;
+    right: 1.25rem;
     padding: 0;
+
     visibility: hidden;
     opacity: 0;
 
@@ -48,6 +54,43 @@
     @include hover-query {
       i:hover {
         @include hover-color(map-get($color, secondary));
+      }
+    }
+  }
+
+  .auto-complete {
+    position: absolute;
+    // top: -12px;
+    z-index: -1;
+    transform: translateY(-12px);
+    padding-top: 12px;
+    width: 100%;
+    border-bottom-left-radius: map-get($border-radius, base);
+    border-bottom-right-radius: map-get($border-radius, base);
+    background-color: map-get($color, tertiary-light);
+    overflow: hidden;
+    display: none;
+
+    &--show {
+      display: block;
+    }
+
+    &__item {
+      @include text(lg);
+      padding: 0.75rem 0.875rem;
+
+      color: #000;
+      border-top: 1px solid map-get($color, light-gray);
+      cursor: pointer;
+
+      i {
+        margin-right: 1rem;
+      }
+
+      @include hover-query {
+        &:hover {
+          background-color: map-get($color, tertiary-dark);
+        }
       }
     }
   }
