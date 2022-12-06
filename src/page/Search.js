@@ -27,14 +27,16 @@ const Search = ({ watchlist, setWatchlist }) => {
   // 處理 search input 文字改變
   function handleSearchChange(e) {
     setSearchText(e.target.value);
+    // console.log(searchText);
   }
+
+  // console.log(searchText);
 
   useEffect(() => {
     let subscribed = true;
     if (searchText === "") {
       setSearchResult({});
       setPageNum(1);
-      console.log("已清空");
     } else {
       if (subscribed) getData(API_URL, setSearchResult);
     }
@@ -68,7 +70,6 @@ const Search = ({ watchlist, setWatchlist }) => {
         console.log(err);
       }
     };
-
     let subscribed = true;
     // 僅在目前頁面 > 1 時才進行獲取
     if (pageNum > 1 && subscribed) getMoreData(API_URL, setSearchResult);
@@ -76,6 +77,7 @@ const Search = ({ watchlist, setWatchlist }) => {
       subscribed = false;
     };
   }, [pageNum]);
+  console.log("pageNum", pageNum);
 
   //* 搜尋結果 elements
   const searchResultElements = searchResult.results ? (
@@ -101,24 +103,25 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
-  console.log(searchResult.results);
-  console.log(pageNum);
-
   return (
     <div className="search">
+      <div className="search__input-wrapper">
+        <input
+          type="text"
+          className="search__input"
+          placeholder="Search for a movie..."
+          onChange={handleSearchChange}
+          value={searchText}
+        />
+        <button
+          className={`btn search__clear-text-btn ${
+            searchText ? "search__clear-text-btn--show" : ""
+          }`}
+          onClick={() => setSearchText("")}>
+          <i className="fa-solid fa-circle-xmark"></i>
+        </button>
+      </div>
       <div className="container">
-        <div className="search__input-wrapper">
-          <input
-            type="text"
-            className="search__input"
-            placeholder="Search for a movie..."
-            onChange={handleSearchChange}
-            value={searchText}
-          />
-          <button className="btn search__clear-text-btn">
-            <i className="fa-solid fa-circle-xmark"></i>
-          </button>
-        </div>
         <ul className="detail-cards">
           {searchResultElements}
 

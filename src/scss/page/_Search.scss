@@ -1,19 +1,23 @@
 @use "../abstracts" as *;
 
 .search {
-  @include main-layout;
+  @include x-spacing;
 
   &__input-wrapper {
-    position: relative;
+    position: sticky;
+    top: 0;
+    padding-top: calc(#{deep-map-get($height, header, lg)} + 3rem);
+    background-color: map-get($color, secondary);
+    width: 100%;
+    max-width: 82.5rem;
+    margin: 0 auto;
   }
 
   &__input {
     @include flex;
     @include text(xl);
     padding: 0.5rem 0.75rem;
-    margin: 0 auto;
     width: 100%;
-    max-width: 56.25rem;
     background-color: map-get($color, tertiary);
     border-radius: map-get($border-radius, base);
     border: 0;
@@ -30,10 +34,16 @@
   &__clear-text-btn {
     @include text(xl);
     position: absolute;
-    top: 50%;
+    bottom: 0.5rem;
     right: 20px;
     padding: 0;
-    transform: translateY(-50%);
+    visibility: hidden;
+    opacity: 0;
+
+    &--show {
+      visibility: visible;
+      opacity: 1;
+    }
 
     @include hover-query {
       i:hover {
