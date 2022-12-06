@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { convertTime, getData, noPoster } from "../utils/function";
+import {
+  changeWatchlist,
+  convertTime,
+  getData,
+  noPoster,
+  removeDuplicate,
+} from "../utils/function";
 
 const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
   const id = movie.id;
@@ -21,16 +27,16 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
    * * 否則新增一筆新資料。
    * @param {*} id 目前頁面電影的 Id
    */
-  function changeWatchlist(id) {
-    setWatchlist((prev) => {
-      if (inWatchlist) {
-        return prev.filter((movie) => movie.id !== id);
-      } else {
-        // status: 觀看狀態，預設為 unwatched
-        return [...prev, { id: id, status: "unwatched" }];
-      }
-    });
-  }
+  // function changeWatchlist(id) {
+  //   setWatchlist((prev) => {
+  //     if (inWatchlist) {
+  //       return prev.filter((movie) => movie.id !== id);
+  //     } else {
+  //       // status: 觀看狀態，預設為 unwatched
+  //       return [...prev, { id: id, status: "unwatched" }];
+  //     }
+  //   });
+  // }
 
   return (
     <li className="detail-card">
@@ -48,7 +54,6 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
             {movie ? movie.original_title : ""}
           </h3>
         </Link>
-
         <div className="info detail-card__info">
           {movie.release_date ? (
             <p className="release-date detail-card__release-date">
@@ -58,7 +63,6 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
           ) : (
             ""
           )}
-
           {movie.vote_average ? (
             <p className="vote detail-card__vote">
               <i className="fa-solid fa-star"></i>
@@ -67,7 +71,6 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
           ) : (
             ""
           )}
-
           {currentMovie.runtime ? (
             <p className="detail-card__runtime">
               <i className="fa-regular fa-clock"></i>
@@ -77,10 +80,9 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
             ""
           )}
         </div>
-
         <div className="detail-card__genres-tag-wrapper genres-tag-wrapper">
           {currentMovie && currentMovie.genres
-            ? currentMovie.genres.map((genres) => {
+            ? removeDuplicate(currentMovie.genres).map((genres) => {
                 return (
                   <Link
                     key={genres.id}
@@ -94,13 +96,10 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
         </div>
         <button
           className="detail-card__btn btn btn--transparent btn--sm"
-          onClick={() => changeWatchlist(id)}>
+          onClick={() => changeWatchlist(id, inWatchlist, setWatchlist)}>
           <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
           {inWatchlist ? "In Watchlist" : "Add Watchlist"}
         </button>
-        {/* <button className="detail-card__btn btn btn--transparent btn--sm">
-          <i className="fa-solid fa-plus"></i>Add Watchlist
-        </button> */}
       </div>
     </li>
   );

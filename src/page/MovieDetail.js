@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 // Swiper styles
@@ -9,11 +7,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import {
+  changeWatchlist,
   convertTime,
   getData,
   noAvatar,
   noBackdrop,
   removeBracketsStr,
+  removeDuplicate,
   scrollDownTo,
 } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
@@ -95,23 +95,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  /**
-   * * 更新 watchlist 資料，
-   * * 如果已存在於 watchlist，則從 watchlist 中剔除；
-   * * 否則新增一筆新資料。
-   * @param {*} id 目前頁面電影的 Id
-   */
-  function changeWatchlist(id) {
-    setWatchlist((prev) => {
-      if (inWatchlist) {
-        return prev.filter((movie) => movie.id !== id);
-      } else {
-        // status: 觀看狀態，預設為 unwatched
-        return [...prev, { id: id, status: "unwatched", unread: true }];
-      }
-    });
-  }
-
   //* 演員列表
   const creditsElement =
     credits.cast &&
@@ -144,30 +127,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
           ({ type }) => type === "Trailer" || type === "Teaser"
         ).key
       : "";
-
-  //* 相似電影
-  // const similarMovieElements = similarMovies.results
-  //   ? similarMovies.results.map((movie) => {
-  //       return movie.backdrop_path && movie.original_title ? (
-  //         <SwiperSlide key={movie.id} className="movie-slide">
-  //           <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
-  //             <img
-  //               src={`https://image.tmdb.org/t/p/original/${
-  //                 movie && movie.backdrop_path
-  //               }`}
-  //               className="movie-slide__backdrop"
-  //               alt="movie-backdrop"
-  //             />
-  //           </Link>
-  //           <Link to={`/movie/${movie.id}`} className="movie-slide__title-link">
-  //             <h2 className="movie-slide__name">{movie.original_title}</h2>
-  //           </Link>
-  //         </SwiperSlide>
-  //       ) : (
-  //         ""
-  //       );
-  //     })
-  //   : "";
 
   /**
    * * 改變目前 poster & backdrop 的載入狀態，並更新至 imgLoadStatus state
@@ -241,7 +200,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 alt="poster"
               />
             )}
-
             <div
               className={`movie-detail__texts ${imgIsLoaded ? "appear" : ""}`}>
               <h3 className="movie-detail__title">
@@ -250,7 +208,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
 
               <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
                 {currentMovie.genres
-                  ? currentMovie.genres.map((genres) => {
+                  ? removeDuplicate(currentMovie.genres).map((genres) => {
                       return (
                         <Link
                           key={genres.id}
@@ -302,7 +260,9 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 </button>
                 <button
                   className="movie-detail__btn btn btn--transparent btn--lg"
-                  onClick={() => changeWatchlist(currentMovieId)}>
+                  onClick={() =>
+                    changeWatchlist(currentMovieId, inWatchlist, setWatchlist)
+                  }>
                   <i
                     className={`fa-solid ${
                       inWatchlist ? "fa-check" : "fa-plus"

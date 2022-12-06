@@ -13,6 +13,7 @@ const Search = ({ watchlist, setWatchlist }) => {
   const [searchText, setSearchText] = useState("");
   // 存放搜尋結果
   const [searchResult, setSearchResult] = useState({});
+  // 搜尋結果頁數
   const [pageNum, setPageNum] = useState(1);
 
   // 搜尋電影的 API_URL
@@ -32,6 +33,8 @@ const Search = ({ watchlist, setWatchlist }) => {
     let subscribed = true;
     if (searchText === "") {
       setSearchResult({});
+      setPageNum(1);
+      console.log("已清空");
     } else {
       if (subscribed) getData(API_URL, setSearchResult);
     }
@@ -58,7 +61,7 @@ const Search = ({ watchlist, setWatchlist }) => {
         setState((prev) => {
           return {
             ...prev,
-            results: removeDuplicate(prev.results, data.results),
+            results: removeDuplicate([...prev.results, ...data.results]),
           };
         });
       } catch (err) {
@@ -98,6 +101,9 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
+  console.log(searchResult.results);
+  console.log(pageNum);
+
   return (
     <div className="search">
       <div className="container">
@@ -116,6 +122,7 @@ const Search = ({ watchlist, setWatchlist }) => {
         <ul className="detail-cards">
           {searchResultElements}
 
+          {/* spinner */}
           {searchText && !searchResult.results && (
             <div className="spinner">
               <PulseLoader color="#fff" cssOverride={spinnerStyle} />

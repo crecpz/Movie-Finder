@@ -118,10 +118,11 @@
   &__texts {
     @include flex($dir: column, $jc: center);
     @include transition-appear(5);
-    margin-left: 4rem;
     row-gap: 1rem;
-    height: 100%;
+    margin-left: 4rem;
+    width: 100%;
     max-width: 56.25rem;
+    height: 100%;
 
     @include lg {
       margin-left: 0rem;
