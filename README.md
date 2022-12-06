@@ -1,14 +1,13 @@
 # Movie-Finder
 電影資訊瀏覽網站，使用 React.js 開發。
 
-# Demo
+## Demo
 ---------link----------
+<br />
 
-
-# 介紹
+## 介紹
 
 **特色**
-
 - **熱門電影推薦**：首頁輪播推薦 20 部當日最熱門的電影。
 - **根據不同的指標瀏覽電影：**
     - **新上映**：可在 New 頁面瀏覽當月上映的電影。
@@ -24,3 +23,11 @@
 - 串接 The Movie Database (TMDB) API 電影資料庫，取得電影資料。
 - 使用 Swiper 套件製作輪播效果。
 - 使用 Intersection Observer API 實現無限滾動，向下滾動可載入更多資料。
+<br />
+
+## 畫面
+| Desktop | Mobile  |
+| ------------- | ------------- |
+|![Movie-Finder-desktop2](https://user-images.githubusercontent.com/81663340/205796200-a2a7dd6a-173e-4936-9d45-547e8bd44a55.png)|![Movie-Finder-m2](https://user-images.githubusercontent.com/81663340/205796274-cc86d267-5e1c-4251-bf7b-10b5781b3b3f.png)|
+|![Movie-Finder-desktop1](https://user-images.githubusercontent.com/81663340/205796586-8e5680ae-44fe-410a-9d84-4b54943f59ec.png)|![Movie-Finder-m1](https://user-images.githubusercontent.com/81663340/205796600-93745581-a4b2-4183-91c7-02857e5517af.png)|
+
