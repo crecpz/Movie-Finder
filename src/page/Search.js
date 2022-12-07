@@ -17,7 +17,7 @@ const Search = ({ watchlist, setWatchlist }) => {
   const [pageNum, setPageNum] = useState(1);
 
   // ? 存放 autoComplete 選項
-  const [autoComplete, setAutoComplete] = useState({});
+  const [autoComplete, setAutoComplete] = useState([]);
 
   // ? autoComplete ui 顯示狀態
   const [showAutoComplete, setShowAutoComplete] = useState(false);
@@ -28,29 +28,11 @@ const Search = ({ watchlist, setWatchlist }) => {
   // setPageNum(1);
 
   useEffect(() => {
-    //   let subscribed = true;
-    if (searchText.trim().length === 0) {
-      // 清空 autoComplete 資料
-      setAutoComplete({});
-      // //
-      // setShowAutoComplete(false);
-    }
-
-    // else {
-    //     if (subscribed) getData(API_URL, setSearchResult);
+    //   if (!autoComplete.results) {
+    //     setShowAutoComplete(false);
+    //   } else {
+    //     setShowAutoComplete(true);
     //   }
-    //   return () => {
-    //     subscribed = false;
-    //   };
-  }, [searchText]);
-  
-
-  useEffect(() => {
-    if (!autoComplete.results) {
-      setShowAutoComplete(false);
-    } else {
-      setShowAutoComplete(true);
-    }
   }, [autoComplete]);
 
   // 搜尋電影的 API_URL
@@ -74,30 +56,28 @@ const Search = ({ watchlist, setWatchlist }) => {
       // 獲取搜尋資料
       getData(API_URL, setSearchResult);
       // todo 隱藏 autoComplete
+      setShowAutoComplete(false);
     }
   }
 
-  //@ 原版
-  // useEffect(() => {
-  //   let subscribed = true;
-  //   if (searchText === "") {
-  //     setSearchResult({});
-  //     setPageNum(1);
-  //   } else {
-  //     if (subscribed) getData(API_URL, setSearchResult);
-  //   }
-  //   return () => {
-  //     subscribed = false;
-  //   };
-  // }, [searchText]);
+  //* 處理 autoComplete 選項被按下之後的行為
+  function handleAutoCompleteClick(text) {
+    console.log(text);
+    setSearchText(text);
+    getData(API_URL, setSearchResult);
+    setShowAutoComplete(false);
+  }
 
   useEffect(() => {
     let subscribed = true;
-    if (searchText === "") {
-      // setSearchResult({});
+    if (searchText.trim().length === 0) {
+      // ! 看到這條，請思考是否要在 length === 0 的時候將 autoComplete 結果歸零
+
+      setShowAutoComplete(false);
       setPageNum(1);
     } else {
       if (subscribed) getData(API_URL, setAutoComplete);
+      setShowAutoComplete(true);
     }
     return () => {
       subscribed = false;
@@ -138,6 +118,12 @@ const Search = ({ watchlist, setWatchlist }) => {
     };
   }, [pageNum]);
 
+  const autoCompleteElem = autoComplete.results
+    ? removeDuplicate(autoComplete.results, "title")
+        .filter(({ title }) => title !== searchText)
+        .slice(0, 8)
+    : [];
+
   //* 搜尋結果 elements
   const searchResultElements = searchResult.results ? (
     searchResult.results.length === 0 ? (
@@ -170,9 +156,9 @@ const Search = ({ watchlist, setWatchlist }) => {
             type="text"
             className="search__input"
             placeholder="Search for a movie..."
+            value={searchText}
             onChange={handleInputChange}
             onKeyUp={handleKeyUp}
-            value={searchText}
           />
           <button
             className={`btn search__clear-text-btn ${
@@ -181,32 +167,35 @@ const Search = ({ watchlist, setWatchlist }) => {
             onClick={() => setSearchText("")}>
             <i className="fa-solid fa-circle-xmark"></i>
           </button>
+
+          {/* auto-complete */}
           <ul
             className={`auto-complete ${
               showAutoComplete ? "auto-complete--show" : ""
-            }`}>
+            }
+            `}>
             {autoComplete.results
-              ? removeDuplicate(autoComplete.results, "title")
-                  .slice(0, 8)
-                  .map((res) => {
+              ? [searchText, ...autoCompleteElem].map((res, index) => {
+                  if (index === 0) {
                     return (
-                      <li className="auto-complete__item">
+                      <li
+                        className="auto-complete__item"
+                        onClick={() => handleAutoCompleteClick(searchText)}>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        {res.title}
+                        {searchText} <span>- Search</span>
                       </li>
                     );
-                  })
+                  }
+                  return (
+                    <li
+                      className="auto-complete__item"
+                      onClick={() => handleAutoCompleteClick(res.title)}>
+                      <i className="fa-solid fa-magnifying-glass"></i>
+                      {res.title}
+                    </li>
+                  );
+                })
               : ""}
-
-            {/* <li className="auto-complete__item">
-              <i className="fa-solid fa-magnifying-glass"></i>auto-complete-box
-            </li>
-            <li className="auto-complete__item">
-              <i className="fa-solid fa-magnifying-glass"></i>auto-complete-box
-            </li>
-            <li className="auto-complete__item">
-              <i className="fa-solid fa-magnifying-glass"></i>auto-complete-box
-            </li> */}
           </ul>
         </div>
       </div>
