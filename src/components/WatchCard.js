@@ -29,7 +29,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
 
   //* 刪除 watchcard
   function removeWatchcard(id) {
-    setWatchlist((prev) => prev.filter((i) => i.id != id));
+    setWatchlist((prev) => prev.filter((i) => i.id !== id));
   }
 
   return (
