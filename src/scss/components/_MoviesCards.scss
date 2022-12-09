@@ -7,20 +7,13 @@
 
 .movies-card-link {
   animation: scale map-get($transition, 500);
-
-  @include xs {
-    &:not(:first-child) {
-      border-top: 1px solid map-get($color, light-gray);
-      padding-top: 2.5rem;
-    }
-  }
 }
 
 //* 電影卡片
 .movies-card {
   $block: &;
   position: relative;
-  transition: map-get($transition, 150);
+  transition: map-get($transition, 300);
   transition-property: transform, box-shadow;
   cursor: pointer;
   overflow: hidden;
@@ -30,10 +23,9 @@
     content: "";
     position: absolute;
     inset: 0;
-    display: block;
     width: 100%;
     height: 100%;
-    background-color: map-get($color, overlay);
+    background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
     transition: map-get($transition, 300);
     transition-property: opacity, background-color;
@@ -72,7 +64,6 @@
 
   &__img {
     width: 100%;
-
     @include sm {
       border-radius: map-get($border-radius, base);
     }
@@ -101,17 +92,29 @@
   }
 
   &__title {
-    @include text(lg);
+    @include text(base);
   }
 
   &__info {
-    @include flex;
+    @include flex($wrap: wrap);
+    @include text(sm);
     margin-top: 0.5rem;
-    @include text(sm);
-  }
 
-  &__vote {
-    margin-left: 1rem;
-    @include text(sm);
+    @include sm {
+      display: none;
+    }
+
+    // 日期
+    & > :nth-child(1) {
+      margin-right: 0.5rem;
+    }
+
+    // 評等
+    & > :nth-child(2) {
+      @include text(sm);
+      i {
+        margin-left: 0.25rem;
+      }
+    }
   }
 }

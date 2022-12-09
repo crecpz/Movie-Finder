@@ -12,7 +12,6 @@ $card-amount: (
   lg: 4,
   md: 3,
   sm: 2,
-  xs: 1,
 );
 
 // 每列在特定斷點分別有幾個 gap?
@@ -22,7 +21,6 @@ $gap-amount: (
   lg: 3,
   md: 2,
   sm: 1,
-  xs: 0,
 );
 
 //* 卡片容器
@@ -44,21 +42,6 @@ $gap-amount: (
     (100% / map-get($card-amount, default)) -
       ($column-gap * map-get($gap-amount, default) / map-get($card-amount, default))
   );
-  // max-width: calc(
-  //   (100% / map-get($card-amount, 2xl)) - ($column-gap * map-get($gap-amount, 2xl) / map-get($card-amount, 2xl))
-  // );
-
-  // @include xl {
-  //   max-width: calc(
-  //     (100% / map-get($card-amount, xl)) - ($column-gap * map-get($gap-amount, xl) / map-get($card-amount, xl))
-  //   );
-  // }
-
-  // @include lg {
-  //   max-width: calc(
-  //     (100% / map-get($card-amount, lg)) - ($column-gap * map-get($gap-amount, lg) / map-get($card-amount, lg))
-  //   );
-  // }
 
   @include xl {
     max-width: calc(
@@ -81,12 +64,6 @@ $gap-amount: (
     max-width: calc(
       (100% / map-get($card-amount, sm)) - ($column-gap * map-get($gap-amount, sm) / map-get($card-amount, sm))
     );
-  }
-
-  @include xs {
-    max-width: deep-map-get($card-size, width, xs);
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
