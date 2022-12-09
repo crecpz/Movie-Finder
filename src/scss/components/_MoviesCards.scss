@@ -8,7 +8,7 @@
 .movies-card-link {
   animation: scale map-get($transition, 500);
 
-  @include sm {
+  @include xs {
     &:not(:first-child) {
       border-top: 1px solid map-get($color, light-gray);
       padding-top: 2.5rem;
@@ -101,15 +101,17 @@
   }
 
   &__title {
-    @include text(2xl);
+    @include text(lg);
   }
 
   &__info {
     @include flex;
     margin-top: 0.5rem;
+    @include text(sm);
   }
 
   &__vote {
     margin-left: 1rem;
+    @include text(sm);
   }
 }

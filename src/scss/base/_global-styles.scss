@@ -55,11 +55,7 @@ main {
 .container {
     width: 100%;
     margin: 0 auto;
-    max-width: map-get($max-width, default);
-
-    @include xl {
-        max-width: map-get($max-width, default);
-    }
+    max-width: map-get($max-width, xl);
 
     @include lg {
         max-width: map-get($max-width, lg);
@@ -73,9 +69,9 @@ main {
         max-width: map-get($max-width, sm);
     }
 
-    &--no-limit {
-        max-width: none;
-    }
+    // &--no-limit {
+    //     max-width: none;
+    // }
 }
 
 .layout-title {

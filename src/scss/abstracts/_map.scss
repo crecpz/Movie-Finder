@@ -21,7 +21,6 @@ $text: (
 );
 
 $max-width: (
-  default: 82.5rem,
   xl: 75rem,
   lg: 64rem,
   md: 46.25rem,
@@ -72,7 +71,7 @@ $transition: (
 // 電影卡片寬度
 $card-size: (
   width: (
-    sm: 18.75rem,
+    xs: 18.75rem,
   ),
 );
 
