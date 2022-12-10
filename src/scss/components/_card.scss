@@ -1,76 +1,16 @@
 @use "../abstracts" as *;
 
-//@ 使用於 New, Popular, Genres, watchlist
-
-// 卡片之間的 column-gap
-$column-gap: 1.5rem;
-
-// 每列在特定斷點分別要容納幾張卡片?
-$card-amount: (
-  default: 6,
-  xl: 5,
-  lg: 4,
-  md: 3,
-  sm: 2,
-);
-
-// 每列在特定斷點分別有幾個 gap?
-$gap-amount: (
-  default: 5,
-  xl: 4,
-  lg: 3,
-  md: 2,
-  sm: 1,
-);
-
-//* 卡片容器
-//@ $column-gap 卡片之間的 column-gap
-@mixin cards($column-gap) {
-  @include flex($wrap: wrap);
-  gap: $column-gap;
-}
-
-//* 卡片
-//@ $column-gap(sass variable): 卡片之間的 column-gap
-//@ $card-amount(sass map): 列出每個 breakpoint 一列有幾個 gap
-//@ $gap-amount(sass map): 列出每個 breakpoint 每列要容納幾張卡片
-// 每張卡片的寬度 = (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
-// --> (100% / $card-amount - ($column-gap * $gap-amount) / $card-amount)
-@mixin card($column-gap, $card-amount, $gap-amount) {
-  width: 100%;
-  max-width: calc(
-    (100% / map-get($card-amount, default)) -
-      ($column-gap * map-get($gap-amount, default) / map-get($card-amount, default))
-  );
-
-  @include xl {
-    max-width: calc(
-      (100% / map-get($card-amount, xl)) - ($column-gap * map-get($gap-amount, xl) / map-get($card-amount, xl))
-    );
-  }
-
-  @include lg {
-    max-width: calc(
-      (100% / map-get($card-amount, lg)) - ($column-gap * map-get($gap-amount, lg) / map-get($card-amount, lg))
-    );
-  }
-  @include md {
-    max-width: calc(
-      (100% / map-get($card-amount, md)) - ($column-gap * map-get($gap-amount, md) / map-get($card-amount, md))
-    );
-  }
-
-  @include sm {
-    max-width: calc(
-      (100% / map-get($card-amount, sm)) - ($column-gap * map-get($gap-amount, sm) / map-get($card-amount, sm))
-    );
-  }
-}
+//@ 使用於 New, Popular, Genres, watchlist 的共通設定
 
 .cards {
-  @include cards($column-gap);
+  margin-top: 4rem;
+  row-gap: 1.5rem;
+
+  @include md {
+    row-gap: 2rem;
+  }
 }
 
 .card {
-  @include card($column-gap, $card-amount, $gap-amount);
+  position: relative;
 }

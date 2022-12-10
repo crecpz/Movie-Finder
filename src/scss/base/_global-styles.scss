@@ -172,10 +172,10 @@ main {
 // scrollToTop 套件樣式
 .scroll-to-top {
     @include flex($ai: center, $jc: center);
+    @include rounded-full;
     width: 4.375rem !important;
     height: 4.375rem !important;
     z-index: 30;
-    border-radius: 50%;
     background-color: map-get($color, tertiary);
 
     @include sm {

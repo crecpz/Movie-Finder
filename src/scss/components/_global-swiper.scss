@@ -5,7 +5,6 @@
 .swiper {
   $block: &;
   user-select: none;
-  
 
   @include hover-query {
     &:hover {
@@ -38,12 +37,12 @@
     &::after {
       @include flex($ai: center, $jc: center);
       @include text(base);
+      @include rounded-full;
       flex-shrink: 0;
       width: 2.5rem;
       height: 2.5rem;
       font-weight: bold;
       color: map-get($color, secondary);
-      border-radius: 50%;
       background-color: #fcfcfcbf;
     }
   }

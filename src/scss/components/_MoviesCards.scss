@@ -1,52 +1,48 @@
 @use "../abstracts" as *;
 
-//@ 此為位於 New, Popular, Genres 使用的樣式
+//* .movies-cards 卡片佈局設定
+// 卡片之間的 column-gap
+$column-gap: 1.5rem;
+// 每列在特定斷點分別要容納幾張卡片?
+$card-amount: (
+  default: 6,
+  xl: 5,
+  lg: 4,
+  md: 3,
+  sm: 2,
+);
+// 每列在特定斷點分別有幾個 gap?
+$gap-amount: (
+  default: 5,
+  xl: 4,
+  lg: 3,
+  md: 2,
+  sm: 1,
+);
+
 .movies-cards {
-  margin-top: 4rem;
+  @include cards($column-gap);
 }
 
 .movies-card-link {
   animation: scale map-get($transition, 500);
+  @include card($column-gap, $card-amount, $gap-amount);
 }
 
-//* 電影卡片
 .movies-card {
   $block: &;
-  position: relative;
   transition: map-get($transition, 300);
   transition-property: transform, box-shadow;
   cursor: pointer;
-  overflow: hidden;
-  border-radius: map-get($border-radius, base);
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    opacity: 0;
-    transition: map-get($transition, 300);
-    transition-property: opacity, background-color;
-
-    @include sm {
-      // 行動裝置不需要顯示
-      display: none;
-    }
-  }
 
   @include hover-query() {
     &:hover {
+      position: relative;
       z-index: 20;
       transform: scale(1.25);
       box-shadow: map-get($box-shadow, base);
 
       @include md {
-        transform: scale(1.1);
-      }
-
-      @include sm {
         transform: none;
       }
 
@@ -62,11 +58,27 @@
     }
   }
 
+  // 卡片暗色遮蓋
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: map-get($transition, 300);
+    transition-property: opacity;
+
+    @include md {
+      visibility: hidden;
+      opacity: none;
+    }
+  }
+
   &__img {
     width: 100%;
-    @include sm {
-      border-radius: map-get($border-radius, base);
-    }
+    border-radius: map-get($border-radius, base);
   }
 
   &__text {
@@ -81,7 +93,7 @@
     visibility: hidden;
     opacity: 0;
 
-    @include sm {
+    @include md {
       position: static;
       visibility: visible;
       opacity: 1;
@@ -100,7 +112,7 @@
     @include text(sm);
     margin-top: 0.5rem;
 
-    @include sm {
+    @include md {
       display: none;
     }
 

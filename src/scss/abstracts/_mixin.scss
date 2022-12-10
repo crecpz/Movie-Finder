@@ -71,17 +71,17 @@
   padding-bottom: 3rem;
 }
 
-//* 將某一個元素的所有直系子元素出現時加上淡入效果
+//* 將某一個元素的所有直接子元素出現時加上淡入效果
 // - 需使用 .appear 來加進該元素當中才會觸發效果
 @mixin transition-appear($amount) {
-  // 選中元素的所有的直系子層
+  // 選中元素的所有的子層
   & > :nth-child(n) {
     opacity: 0;
     transform: translateY(-1.25rem);
     transition: map-get($transition, 800), map-get($transition, 1000);
     transition-property: transform, opacity;
   }
-  // 按照直系子層數量 $i，依序增加 transition-delay
+  // 按照子層數量 $i，依序增加 transition-delay
   @for $i from 1 through $amount {
     & > :nth-child(#{$i}) {
       transition-delay: $i * 150ms, $i * 200ms;
@@ -92,6 +92,85 @@
     & > :nth-child(n) {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+}
+
+//* 卡片容器 mixin
+//- 使用於 New, Popular, Genres, watchlist
+//$column-gap 參數: 在容器上定義卡片之間的 column-gap
+@mixin cards($column-gap) {
+  @include flex($wrap: wrap);
+  column-gap: $column-gap;
+}
+
+//* 卡片 mixin
+//@ $column-gap(sass variable): 卡片之間的 column-gap
+//@ $card-amount(sass map): 列出每個 breakpoint 一列有幾個 gap
+//@ $gap-amount(sass map): 列出每個 breakpoint 每列要容納幾張卡片
+// 每張卡片的寬度 = (100% / 每列的卡片張數) - ((指定的 gap 大小 * gap 總數) / 每列的卡片張數)
+@mixin card($column-gap, $card-amount, $gap-amount) {
+  width: 100%;
+  max-width: calc(
+    (100% / map-get($card-amount, default)) -
+      ($column-gap * map-get($gap-amount, default) / map-get($card-amount, default))
+  );
+
+  @include xl {
+    max-width: calc(
+      (100% / map-get($card-amount, xl)) - ($column-gap * map-get($gap-amount, xl) / map-get($card-amount, xl))
+    );
+  }
+
+  @include lg {
+    max-width: calc(
+      (100% / map-get($card-amount, lg)) - ($column-gap * map-get($gap-amount, lg) / map-get($card-amount, lg))
+    );
+  }
+  @include md {
+    max-width: calc(
+      (100% / map-get($card-amount, md)) - ($column-gap * map-get($gap-amount, md) / map-get($card-amount, md))
+    );
+  }
+
+  @include sm {
+    max-width: calc(
+      (100% / map-get($card-amount, sm)) - ($column-gap * map-get($gap-amount, sm) / map-get($card-amount, sm))
+    );
+  }
+}
+
+//* 製作出 hamburger 按鈕
+//- HTML 結構: 父層放入 `hamburger` class，子層放入 3 個 <div className="hamburger__line">
+//@ $width hamburger 線條的寬度
+//@ $line-thickness 線條的高度(粗細)
+//@ $line-gap 每一個線條的距離
+//@ $line-color 線條的顏色
+@mixin hamburger($width, $line-thickness, $line-gap, $line-color) {
+  .hamburger {
+    @include flex($dir: column, $ai: center, $jc: center);
+    row-gap: $line-gap;
+
+    &__line {
+      width: $width;
+      height: $line-thickness;
+      transition: map-get($transition, 300);
+      transition-property: transform, opacity;
+      background-color: $line-color;
+      pointer-events: none;
+    }
+
+    &.active .hamburger__line {
+      &:nth-child(1) {
+        transform: translateY($line-thickness + $line-gap) rotate(45deg);
+      }
+      &:nth-child(2) {
+        transform: rotate(0);
+        opacity: 0;
+      }
+      &:nth-child(3) {
+        transform: translateY(-($line-thickness + $line-gap)) rotate(-45deg);
+      }
     }
   }
 }

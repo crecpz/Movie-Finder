@@ -298,7 +298,7 @@
     &-img {
       width: 6.25rem;
       height: 6.25rem;
-      border-radius: 50%;
+      @include rounded-full;
       object-fit: cover;
       flex-shrink: 0;
 
