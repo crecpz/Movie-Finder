@@ -63,11 +63,11 @@ const Header = ({ unreadWatchlist, watchlist }) => {
         </h1>
       </Link>
       <button
-        className={`header__menu-btn ${navIsOpen ? "active" : ""}`}
+        className={`header__menu-btn hamburger ${navIsOpen ? "active" : ""}`}
         onClick={() => setNavIsOpen((prev) => !prev)}>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div className="hamburger__line"></div>
+        <div className="hamburger__line"></div>
+        <div className="hamburger__line"></div>
       </button>
       <nav ref={navRef} className={`nav ${navIsOpen ? "nav--open" : ""}`}>
         <NavLink

@@ -34,7 +34,7 @@ export const getMoreData = async (API_URL, setState) => {
     const data = await res.json();
 
     setState((prev) => {
-      return removeDuplicate(prev, data.results);
+      return removeDuplicate([...prev, ...data.results], "id");
     });
   } catch (err) {
     console.log(err);
@@ -42,14 +42,33 @@ export const getMoreData = async (API_URL, setState) => {
 };
 
 /**
- * * 防止獲取到重複的電影(資料庫內有發現重複的電影)
- * @param {*} originMovies 本來的電影
- * @param {*} inCommingMovies 新獲取的電影
+ * * 更新 watchlist 資料，
+ * * 如果已存在於 watchlist，則從 watchlist 中剔除；
+ * * 否則新增一筆新資料。
+ * @param {*} id 電影 id
+ * @param {*} inWatchlist 判斷是否存在於 watchlist 中
+ * @param {*} setWatchlist 更新 watchlist state
+ */
+export function changeWatchlist(id, inWatchlist, setWatchlist) {
+  setWatchlist((prev) => {
+    if (inWatchlist) {
+      return prev.filter((movie) => movie.id !== id);
+    } else {
+      // status: 觀看狀態，預設為 unwatched
+      return [...prev, { id: id, status: "unwatched" }];
+    }
+  });
+}
+
+/**
+ * * 防止獲取到重複項目(資料庫內有發現重複項目)
+ * @param {*} arr 接收一個陣列作為參數，在該陣列中檢查是否有重複
+ * @param {*} key 要檢查的鍵
  * @returns 返回去除重複後的結果(Array)
  */
-export function removeDuplicate(originMovies, inCommingMovies) {
-  return [...originMovies, ...inCommingMovies].reduce((acc, cur) => {
-    if (!acc.some((i) => i.id === cur.id)) {
+export function removeDuplicate(arr, key) {
+  return arr.reduce((acc, cur) => {
+    if (acc.every((i) => i[key] !== cur[key])) {
       acc.push(cur);
     }
     return acc;

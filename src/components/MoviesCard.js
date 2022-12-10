@@ -18,10 +18,10 @@ const MoviesCard = ({ movie }) => {
             {movie ? movie.original_title : ""}
           </h3>
           <div className="movies-card__info">
-            <p className="movies-card__release-date">
+            <p>
               {movie ? movie.release_date : ""}
             </p>
-            <p className="movies-card__vote">
+            <p>
               {movie ? movie.vote_average : ""}
               <i className="fa-solid fa-star"></i>
             </p>

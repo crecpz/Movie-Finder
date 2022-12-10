@@ -46,18 +46,14 @@ h6 {
 }
 
 main {
-    min-height: calc(100% - deep-map-get($height, header, lg));
-    padding-bottom: 3rem;
+    min-height: 100%;
+    padding-bottom: 1rem;
 }
 
 .container {
     width: 100%;
     margin: 0 auto;
-    max-width: map-get($max-width, default);
-
-    @include xl {
-        max-width: map-get($max-width, default);
-    }
+    max-width: map-get($max-width, xl);
 
     @include lg {
         max-width: map-get($max-width, lg);
@@ -71,9 +67,9 @@ main {
         max-width: map-get($max-width, sm);
     }
 
-    &--no-limit {
-        max-width: none;
-    }
+    // &--no-limit {
+    //     max-width: none;
+    // }
 }
 
 .layout-title {
@@ -98,8 +94,8 @@ main {
 }
 
 .genres-tag {
-    @include text(sm);
-    padding: 0.25em 0.8em;
+    @include text(xs);
+    padding: 0.15em 0.8em;
     white-space: nowrap;
     font-weight: bold;
     color: map-get($color, secondary);
@@ -174,10 +170,10 @@ main {
 // scrollToTop 套件樣式
 .scroll-to-top {
     @include flex($ai: center, $jc: center);
+    @include rounded-full;
     width: 4.375rem !important;
     height: 4.375rem !important;
     z-index: 30;
-    border-radius: 50%;
     background-color: map-get($color, tertiary);
 
     @include sm {

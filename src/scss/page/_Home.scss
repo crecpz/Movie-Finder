@@ -101,6 +101,7 @@
     }
     // img tag (poster)
     &--poster {
+      display: none;
       @include md {
         display: inline-block;
       }
