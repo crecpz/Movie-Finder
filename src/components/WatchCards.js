@@ -9,8 +9,6 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
   const { watchStatusTag = "unwatched" } = useParams();
   // 利用 watchlist 內的資料來 fetch，將 fetch 到的資料存放到 watchcards 中
   const [watchcards, setWatchcards] = useState([]);
-  // watchcards 選項的開啟狀態
-  const [optionIsOpen, setOptionIsOpen] = useState(false);
 
   useEffect(() => {
     // 取得當前電影資料
@@ -50,7 +48,7 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
     };
   }, [watchlist]);
 
-  // 根據目前所在的標籤(Unwatched or Watched)來決定 currentList 內容
+  //* 根據目前所在的位置(Unwatched or Watched)來決定 currentList 內容
   const currentList = watchcards.filter(
     ({ status }) => status === watchStatusTag
   );

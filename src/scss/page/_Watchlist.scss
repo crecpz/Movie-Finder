@@ -76,10 +76,9 @@ $gap-amount: (
 
   @include md {
     position: relative;
-
     // 螢幕 < md 時套用 hamburger bar @mixin
     @include hamburger(
-      $width: 1rem,
+      $width: 0.875rem,
       $line-thickness: 0.125rem,
       $line-gap: 0.1875rem,
       $line-color: map-get($color, secondary)
@@ -88,57 +87,15 @@ $gap-amount: (
 
   @include hover-query {
     &:hover {
-      &::before {
+      .watchcard__img::before {
         opacity: 1;
+        visibility: visible;
       }
       #{$block} {
         &__title,
         &__btns {
           transform: translateY(0%);
         }
-      }
-    }
-  }
-
-  // 卡片暗色遮蓋
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    opacity: 0;
-    transition: map-get($transition, 300);
-    transition-property: opacity, visibility;
-    @include md {
-      visibility: hidden;
-      opacity: 0;
-    }
-  }
-
-  // watchcard option 開啟狀態
-  &--show-option {
-    // 僅在 breakpoint < md 時觸發
-    @include md {
-      // 控制 .watchcard__btns 內的每一個子元素位移
-      #{$block}__btns {
-        visibility: visible;
-        opacity: 1;
-        & > :nth-child(1) {
-          transform: translateX(-150%);
-        }
-        & > :nth-child(2) {
-          transform: translate(-125%, 125%);
-        }
-        & > :nth-child(3) {
-          transform: translateY(150%);
-        }
-      }
-      // 開啟暗色遮蓋
-      &::before {
-        opacity: 1;
-        visibility: visible;
       }
     }
   }
@@ -158,9 +115,28 @@ $gap-amount: (
     color: map-get($color, secondary);
     background-color: map-get($color, primary);
     cursor: pointer;
-
     @include md {
       display: flex;
+      &.active {
+        // 控制 .watchcard__btns 內的每一個子元素位移
+        & ~ .watchcard__content > #{$block}__btns {
+          visibility: visible;
+          opacity: 1;
+          & > :nth-child(1) {
+            transform: translateX(-150%);
+          }
+          & > :nth-child(2) {
+            transform: translate(-125%, 125%);
+          }
+          & > :nth-child(3) {
+            transform: translateY(150%);
+          }
+        }
+        // 開啟暗色遮蓋
+        & + .watchcard__img::before {
+          background-color: rgba(0, 0, 0, 0.7);
+        }
+      }
     }
   }
 
@@ -168,7 +144,36 @@ $gap-amount: (
   &__img {
     width: 100%;
     height: 100%;
-
+    @include md {
+      // 為了避免暗色遮蓋的覆蓋範圍向下延伸到 .watchcard__title 位置，
+      // 故在螢幕寬度 < md 時(此時 .watchcard__title 會移至下方)，讓暗色遮蓋以此作為定位的參照。
+      position: relative;
+    }
+    // 暗色遮蓋
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      visibility: hidden;
+      transition: map-get($transition, 300);
+      transition-property: visibility, opacity;
+      @include md {
+        // 在 < md 的裝置不需要 hover、不需要暗色遮蓋，但是當 .watchcard--option-open 被套用時，
+        // 需要有暗色遮蓋。為了防止螢幕寬度 < md 時 hover 跑出暗色遮蓋，做以下調整:
+        //   1.將暗色遮蓋完全顯示，並將顏色調成透明，此時即使 hover 也不會跑出暗色。
+        //   2.transition-property 改成 background-color，在 .watchcard--option-onen 被套用時，
+        //     使用改變顏色的方式來做出暗色遮蓋效果。
+        opacity: 1;
+        visibility: visible;
+        background-color: rgba(0, 0, 0, 0);
+        transition-property: background-color;
+      }
+    }
+    // <img/>
     img {
       border-radius: map-get($border-radius, base);
     }
@@ -189,11 +194,9 @@ $gap-amount: (
     z-index: 10;
     width: 100%;
     height: 100%;
-
     @include md {
       position: static;
     }
-
     a {
       color: map-get($color, secondary);
     }
@@ -278,8 +281,6 @@ $gap-amount: (
       height: 2.8125rem;
       font-size: 0;
       background-color: map-get($color, tertiary);
-      // transition: map-get($transition, 300);
-      // transition-property: transform, opacity, visibility;
     }
 
     @include xs {

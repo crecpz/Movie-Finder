@@ -141,7 +141,8 @@
 }
 
 //* 製作出 hamburger 按鈕
-//- HTML 結構: 父層放入 `hamburger` class，子層放入 3 個 <div className="hamburger__line">
+//- HTML 結構: 父層放入 `hamburger` class，子層放入 3 個 <div className="hamburger__line">。
+//! 注意單位的使用，單位要統一，否則無法計算。
 //@ $width hamburger 線條的寬度
 //@ $line-thickness 線條的高度(粗細)
 //@ $line-gap 每一個線條的距離
