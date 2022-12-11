@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import DetailCard from "../components/DetailCard";
 import { getData, removeDuplicate } from "../utils/function";
-import { useInView } from "react-intersection-observer";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
-import { useRef } from "react";
 
 const Search = ({ watchlist, setWatchlist }) => {
   const { ref: loadMore, inView: isIntersecting } = useInView();
@@ -29,36 +28,23 @@ const Search = ({ watchlist, setWatchlist }) => {
   const [clickingAutoCompleteItem, setClickingAutoCompleteItem] =
     useState(false);
 
-  //! pageNum 要特別注意，留意他何時要歸 1
-
   // 搜尋電影的 API_URL
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
 
-  // 當 watchlist 改變，更新 localStorage 值
-  useEffect(() => {
-    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
-
-  //* 監聽 Window click 事件
-  useEffect(() => {
-    const hideAutoComplete = (e) => {
-      if (e.target !== inputRef.current) {
-        setShowAutoComplete(false);
-      }
-    };
-    window.addEventListener("click", hideAutoComplete);
-    // clean func
-    return () => {
-      window.removeEventListener("click", hideAutoComplete);
-    };
-  }, []);
-
-  // 處理 search input 文字改變
+  //* 處理 search input 文字改變
   function handleInputChange(e) {
     setSearchText(e.target.value);
   }
 
-  //* 處理 search input 被鍵盤按下後的行為
+  //* 處理 .search__clear-btn 按下後的行為
+  function handleClearBtnClick() {
+    // 將 input 文字清除
+    setSearchText("");
+    // 將 pageNum 設為 1
+    setPageNum(1);
+  }
+
+  //* 處理 search input 鍵盤按下後的行為(使用者用 Enter 來搜尋)
   function handleKeyUp(e) {
     // 如果使用者輸入完後按下 Enter
     if (e.key === "Enter") {
@@ -68,15 +54,13 @@ const Search = ({ watchlist, setWatchlist }) => {
       window.scrollTo(0, 0);
       // 將 pageNum 回歸 1
       setPageNum(1);
-
       // 隱藏 autoComplete
       setShowAutoComplete(false);
     }
   }
 
-  //* 處理 auto-complete__item onClick 觸發後的行為
+  //* 處理 autoComplete 選項的點擊行為(使用者用點擊 auto-complete__item 來搜尋)
   function handleAutoCompleteClick(text) {
-    console.log(text)
     getData(API_URL, setSearchResult);
     // 新的搜尋產生後，滾動到頂部
     window.scrollTo(0, 0);
@@ -89,9 +73,11 @@ const Search = ({ watchlist, setWatchlist }) => {
 
   useEffect(() => {
     let subscribed = true;
+    // 當 inptu 為空
     if (searchText.trim().length === 0) {
-      // ! 看到這條，請思考是否要在 length === 0 的時候將 autoComplete 結果歸零
+      // 關閉 autoComplete 選項
       setShowAutoComplete(false);
+      // 將 pageNum 設為 1
       setPageNum(1);
     } else {
       if (subscribed) {
@@ -105,7 +91,7 @@ const Search = ({ watchlist, setWatchlist }) => {
     };
   }, [searchText]);
 
-  // 處理 spinner 進入視窗範圍後的行為
+  //* 處理 spinner 進入視窗範圍後的行為
   useEffect(() => {
     // 如果目前是 intersection 狀態，且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
     // 則可繼續增加 pageNum 數值
@@ -115,35 +101,7 @@ const Search = ({ watchlist, setWatchlist }) => {
     ) {
       setPageNum((prev) => prev + 1);
     }
-    // if (isIntersecting && pageNum !== searchResult.total_pages) {
-    //   setPageNum((prev) => prev + 1);
-    // }
   }, [isIntersecting]);
-
-  // @舊版
-  // // 處理 spinner 進入視窗範圍後的行為
-  // useEffect(() => {
-  //   if (isIntersecting && searchResult) {
-  //     setPageNum((prev) => prev + 1);
-  //   }
-  // }, [isIntersecting]);
-
-  //@ 目前想到! API 有一個 total_results 的屬性，可以用來比對，
-  //@ 如果當前 searchResult.length !==  total_result 的話，
-  //@ 代表 pageNum 有使用的必要，但是如果 searchResult.length ===  total_result
-  //@ 則不需要增加。
-  //! 甚至可以使用 total_pages 的屬性，更明確
-
-  console.log(
-    "searchText: ",
-    searchText,
-    "isIntersecting ?",
-    isIntersecting,
-    "pageNum: ",
-    pageNum,
-    "searchResult: ",
-    searchResult
-  );
 
   //* pageNum 改變後的行為
   useEffect(() => {
@@ -172,6 +130,26 @@ const Search = ({ watchlist, setWatchlist }) => {
       subscribed = false;
     };
   }, [pageNum]);
+
+  //* 當 watchlist 改變，更新 localStorage 值
+  useEffect(() => {
+    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
+
+  //* 監聽 Window click 事件
+  useEffect(() => {
+    // 點任何處來關閉 autoComplete
+    const hideAutoComplete = (e) => {
+      if (e.target !== inputRef.current) {
+        setShowAutoComplete(false);
+      }
+    };
+    window.addEventListener("click", hideAutoComplete);
+    // clean func
+    return () => {
+      window.removeEventListener("click", hideAutoComplete);
+    };
+  }, []);
 
   //* autoComplete elements
   const autoCompleteItems = autoComplete.results
@@ -216,10 +194,24 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
+  console.log(
+    "searchText: ",
+    searchText,
+    "\n",
+    "isIntersecting ?",
+    isIntersecting,
+    "\n",
+    "pageNum: ",
+    pageNum,
+    "\n",
+    "searchResult: ",
+    searchResult
+  );
+
   return (
     <div className="search">
-      <div className="search__bar">
-        <div className="search__input-wrapper">
+      <div className="container">
+        <div className="search__bar">
           <input
             type="text"
             ref={inputRef}
@@ -239,10 +231,10 @@ const Search = ({ watchlist, setWatchlist }) => {
             // onBlur={() => setShowAutoComplete(false)}
           />
           <button
-            className={`btn search__clear-text-btn ${
-              searchText ? "search__clear-text-btn--show" : ""
+            className={`btn search__clear-btn ${
+              searchText ? "search__clear-btn--show" : ""
             }`}
-            onClick={() => setSearchText("")}>
+            onClick={handleClearBtnClick}>
             <i className="fa-solid fa-circle-xmark"></i>
           </button>
 
@@ -257,6 +249,7 @@ const Search = ({ watchlist, setWatchlist }) => {
                   if (index === 0) {
                     return (
                       <li
+                        key={index}
                         className="auto-complete__item"
                         onClick={() => handleAutoCompleteClick(searchText)}>
                         <i className="fa-solid fa-magnifying-glass"></i>
@@ -266,6 +259,7 @@ const Search = ({ watchlist, setWatchlist }) => {
                   }
                   return (
                     <li
+                      key={index}
                       className="auto-complete__item"
                       onClick={() => handleAutoCompleteClick(res.title)}>
                       <i className="fa-solid fa-magnifying-glass"></i>
@@ -276,31 +270,31 @@ const Search = ({ watchlist, setWatchlist }) => {
               : ""}
           </ul>
         </div>
-      </div>
 
-      <div className="container">
         <ul className="detail-cards">
           {searchResultElements}
-          {/* spinner */}
-          {searchText && !searchResult.results && (
+          {/*! spinner(已經不需要，但是 fetch 過程中可能要) */}
+          {/* {searchText && !searchResult.results && (
             <div className="spinner">
-              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-            </div>
-          )}
-
-          {searchResult.results && pageNum !== searchResult.total_pages && (
-            <div ref={loadMore} className="spinner">
-              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-            </div>
-          )}
-
-          {/* 舊款 */}
-          {/* {searchResult.results && pageNum <= searchResult.total_results && (
-            <div ref={loadMore} className="spinner">
               <PulseLoader color="#fff" cssOverride={spinnerStyle} />
             </div>
           )} */}
 
+          {/* loadMore spinner */}
+          {searchResult.results
+            ? searchResult.results.length !== 0 &&
+              pageNum !== searchResult.total_pages && (
+                <div ref={loadMore} className="spinner">
+                  <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+                </div>
+              )
+            : ""}
+
+          {/* {searchResult.results && pageNum !== searchResult.total_pages && (
+            <div ref={loadMore} className="spinner">
+              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+            </div>
+          )} */}
         </ul>
       </div>
       <ScrollToTop
@@ -315,3 +309,101 @@ const Search = ({ watchlist, setWatchlist }) => {
 };
 
 export default Search;
+
+// return (
+//   <div className="search">
+//     <div className="search__bar">
+//       <div className="search__input-wrapper">
+//         <input
+//           type="text"
+//           ref={inputRef}
+//           className="search__input"
+//           placeholder="Search for a movie..."
+//           value={searchText}
+//           onChange={handleInputChange}
+//           onKeyUp={handleKeyUp}
+//           onFocus={() => {
+//             if (searchText) setShowAutoComplete(true);
+//           }}
+//           // onBlur={() => {
+//           //   console.log("onBlur");
+//           //   setShowAutoComplete(false);
+//           // }}
+//           // onFocus={() => setShowAutoComplete(true)}
+//           // onBlur={() => setShowAutoComplete(false)}
+//         />
+//         <button
+//           className={`btn search__clear-btn ${
+//             searchText ? "search__clear-btn--show" : ""
+//           }`}
+//           onClick={() => setSearchText("")}>
+//           <i className="fa-solid fa-circle-xmark"></i>
+//         </button>
+
+//         {/* auto-complete */}
+//         <ul
+//           className={`auto-complete ${
+//             showAutoComplete ? "auto-complete--show" : ""
+//           }
+//           `}>
+//           {autoComplete.results
+//             ? [searchText, ...autoCompleteItems].map((res, index) => {
+//                 if (index === 0) {
+//                   return (
+//                     <li
+//                       key={index}
+//                       className="auto-complete__item"
+//                       onClick={() => handleAutoCompleteClick(searchText)}>
+//                       <i className="fa-solid fa-magnifying-glass"></i>
+//                       {searchText} <span>- Search</span>
+//                     </li>
+//                   );
+//                 }
+//                 return (
+//                   <li
+//                     key={index}
+//                     className="auto-complete__item"
+//                     onClick={() => handleAutoCompleteClick(res.title)}>
+//                     <i className="fa-solid fa-magnifying-glass"></i>
+//                     {res.title}
+//                   </li>
+//                 );
+//               })
+//             : ""}
+//         </ul>
+//       </div>
+//     </div>
+
+//     <div className="container">
+//       <ul className="detail-cards">
+//         {searchResultElements}
+//         {/* spinner */}
+//         {searchText && !searchResult.results && (
+//           <div className="spinner">
+//             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+//           </div>
+//         )}
+
+//         {searchResult.results && pageNum !== searchResult.total_pages && (
+//           <div ref={loadMore} className="spinner">
+//             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+//           </div>
+//         )}
+
+//         {/* 舊款 */}
+//         {/* {searchResult.results && pageNum <= searchResult.total_results && (
+//           <div ref={loadMore} className="spinner">
+//             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+//           </div>
+//         )} */}
+//       </ul>
+//     </div>
+//     <ScrollToTop
+//       smooth
+//       className="scroll-to-top"
+//       color="#000"
+//       viewBox="0 0 448 512"
+//       svgPath="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
+//     />
+//   </div>
+// );

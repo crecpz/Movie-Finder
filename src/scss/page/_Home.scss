@@ -120,28 +120,27 @@
     bottom: 0;
     z-index: 10;
     height: 100%;
-    max-width: 62.5rem;
+    max-width: 50%;
     padding-bottom: 6rem;
-
-    // 選中所有的直系子層
+    @include xl{
+      max-width: 62.5rem;
+    }
+    // 選中所有的直接子層
     & > :nth-child(n) {
       opacity: 0;
       transform: translateY(-1.25rem);
       transition: map-get($transition, 800), map-get($transition, 1000);
       transition-property: transform, opacity;
     }
-
     // 按照 index 依序 transition-delay
     @for $i from 1 through 3 {
       & > :nth-child(#{$i}) {
         transition-delay: $i * 150ms, $i * 200ms;
       }
     }
-
     @include md {
       padding-bottom: 3rem;
     }
-
     @include sm {
       margin-left: 0;
       padding-left: map-get($x-spacing, sm);
@@ -149,23 +148,22 @@
     }
   }
 
+  // 電影標題
   &__slide-title {
     @include text(5xl);
-
     @include md {
-      @include text(4xl);
+      @include text(2xl);
     }
   }
 
+  // 資訊(上映日期、評等)
   &__slide-info {
     @include flex($jc: flex-start);
     @include text(xl);
     font-weight: bold;
-
     i {
       margin-right: 1rem;
     }
-
     @include sm {
       @include text(xl);
     }
@@ -178,8 +176,12 @@
   &__slide-overview {
     @include text(xl);
 
-    @include sm {
+    @include md {
       @include text(lg);
+    }
+
+    @include sm {
+      @include text(base);
     }
   }
 }
