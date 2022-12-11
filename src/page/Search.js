@@ -91,13 +91,26 @@ const Search = ({ watchlist, setWatchlist }) => {
     };
   }, [searchText]);
 
-  //* 處理 spinner 進入視窗範圍後的行為
+  //--- old
+  // //* 處理 spinner 進入視窗範圍後的行為
+  // useEffect(() => {
+  //   // 如果目前是 intersection 狀態，且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
+  //   // 則可繼續增加 pageNum 數值
+  //   if (
+  //     isIntersecting &&
+  //     searchResult.results.length < searchResult.total_results
+  //   ) {
+  //     setPageNum((prev) => prev + 1);
+  //   }
+  // }, [isIntersecting]);
+  //--- old
   useEffect(() => {
     // 如果目前是 intersection 狀態，且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
     // 則可繼續增加 pageNum 數值
     if (
       isIntersecting &&
-      searchResult.results.length < searchResult.total_results
+      (searchResult.results.length < searchResult.total_results ||
+        pageNum < searchResult.total_pages)
     ) {
       setPageNum((prev) => prev + 1);
     }
