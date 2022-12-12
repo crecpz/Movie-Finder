@@ -25,12 +25,31 @@ const Search = ({ watchlist, setWatchlist }) => {
   const [showAutoComplete, setShowAutoComplete] = useState(false);
 
   //? 用來表示當前是否使用點擊的方式來進行搜尋
-  const [clickingAutoCompleteItem, setClickingAutoCompleteItem] =
-    useState(false);
+  const [startSearching, setStartSearching] = useState(false);
+
+  const url = (str) => {
+    return str.replace(/\s/g, "%20");
+  };
 
   // 搜尋電影的 API_URL
+  // const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
-  console.log("API_URL", API_URL);
+
+  //? console.log("API_URL", API_URL);
+
+  useEffect(() => {
+    if (startSearching) {
+      getData(API_URL, setSearchResult);
+    }
+    // 新的搜尋產生後，滾動到頂部
+    window.scrollTo(0, 0);
+    // 將 pageNum 回歸 1
+    setPageNum(1);
+    // 隱藏 autoComplete
+    setShowAutoComplete(false);
+    return () => setStartSearching(false);
+  }, [startSearching]);
+
   useEffect(() => {
     let subscribed = true;
     // 當 inptu 為空
@@ -42,9 +61,8 @@ const Search = ({ watchlist, setWatchlist }) => {
     } else {
       if (subscribed) {
         getData(API_URL, setAutoComplete);
-        setClickingAutoCompleteItem(false);
+        setShowAutoComplete(true);
       }
-      if (!clickingAutoCompleteItem) setShowAutoComplete(true);
     }
     return () => {
       subscribed = false;
@@ -58,7 +76,6 @@ const Search = ({ watchlist, setWatchlist }) => {
         pageNum < searchResult.total_pages)
     ) {
       setPageNum((prev) => prev + 1);
-      console.log("pageNum 被 +1，目前是", pageNum);
     }
   }, [isIntersecting]);
 
@@ -66,7 +83,7 @@ const Search = ({ watchlist, setWatchlist }) => {
   useEffect(() => {
     // 取得更多的搜尋結果
     const getMoreData = async (API_URL, setState) => {
-      // console.log("API_URL", API_URL);
+      console.log("API_URL from getMoreData()", API_URL);
       try {
         const res = await fetch(API_URL);
         if (!res.ok) {
@@ -74,11 +91,6 @@ const Search = ({ watchlist, setWatchlist }) => {
         }
         const data = await res.json();
         setState((prev) => {
-          console.log("在 getMoreData 中獲取");
-          console.log("prev.results: ", prev.results);
-          // console.log("data.results: ", data);
-          console.log("data: ", data);
-          console.log("在 getMoreData 中獲取");
           return {
             ...prev,
             results: removeDuplicate([...prev.results, ...data.results], "id"),
@@ -92,7 +104,6 @@ const Search = ({ watchlist, setWatchlist }) => {
     let subscribed = true;
     if (pageNum > 1 && subscribed) {
       getMoreData(API_URL, setSearchResult);
-      console.log("獲取新的資料");
     }
     return () => {
       subscribed = false;
@@ -152,19 +163,7 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
-  console.log(
-    "searchText: ",
-    searchText,
-    "\n",
-    "isIntersecting ?",
-    isIntersecting,
-    "\n",
-    "pageNum: ",
-    pageNum,
-    "\n",
-    "searchResult: ",
-    searchResult
-  );
+  
 
   //* 處理 search input 文字改變
   function handleInputChange(e) {
@@ -173,37 +172,25 @@ const Search = ({ watchlist, setWatchlist }) => {
 
   //* 處理 .search__clear-btn 按下後的行為
   function handleClearBtnClick() {
-    // 將 input 文字清除
-    setSearchText("");
-    // 將 pageNum 設為 1
-    setPageNum(1);
+    // // 將 input 文字清除
+    // setSearchText("");
   }
 
   //* 處理 search input 鍵盤按下後的行為(使用者用 Enter 來搜尋)
   function handleKeyUp(e) {
     // 如果使用者輸入完後按下 Enter
     if (e.key === "Enter") {
-      // 獲取搜尋資料
-      getData(API_URL, setSearchResult);
-      // 新的搜尋產生後，滾動到頂部
-      window.scrollTo(0, 0);
-      // 將 pageNum 回歸 1
-      setPageNum(1);
-      // 隱藏 autoComplete
-      setShowAutoComplete(false);
+      // startSearching state 設為 true
+      setStartSearching(true);
     }
   }
 
-  //* 處理 autoComplete 選項的點擊行為(使用者用點擊 auto-complete__item 來搜尋)
+  //* 處理 autoComplete 選項的點擊行為(使用者過 click auto-complete__item 來搜尋)
   function handleAutoCompleteClick(text) {
-    getData(API_URL, setSearchResult);
-    // 新的搜尋產生後，滾動到頂部
-    window.scrollTo(0, 0);
-    setClickingAutoCompleteItem(true);
-    setShowAutoComplete(false);
+    // 讓 input value 成為使用者 click 的文字內容
     setSearchText(text);
-    // 將 pageNum 回歸 1
-    setPageNum(1);
+    // startSearching state 設為 true
+    setStartSearching(true);
   }
 
   return (
@@ -226,7 +213,7 @@ const Search = ({ watchlist, setWatchlist }) => {
             className={`btn search__clear-btn ${
               searchText ? "search__clear-btn--show" : ""
             }`}
-            onClick={handleClearBtnClick}>
+            onClick={() => setSearchText("")}>
             <i className="fa-solid fa-circle-xmark"></i>
           </button>
 

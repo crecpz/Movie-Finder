@@ -21,23 +21,6 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
     };
   }, []);
 
-  /**
-   * * 更新 watchlist 資料，
-   * * 如果已存在於 watchlist，則從 watchlist 中剔除；
-   * * 否則新增一筆新資料。
-   * @param {*} id 目前頁面電影的 Id
-   */
-  // function changeWatchlist(id) {
-  //   setWatchlist((prev) => {
-  //     if (inWatchlist) {
-  //       return prev.filter((movie) => movie.id !== id);
-  //     } else {
-  //       // status: 觀看狀態，預設為 unwatched
-  //       return [...prev, { id: id, status: "unwatched" }];
-  //     }
-  //   });
-  // }
-
   return (
     <li className="detail-card">
       <Link to={`/movie/${movie && movie.id}`} className="detail-card__link">
