@@ -27,15 +27,9 @@ const Search = ({ watchlist, setWatchlist }) => {
   //? 用來表示當前是否使用點擊的方式來進行搜尋
   const [startSearching, setStartSearching] = useState(false);
 
-  const url = (str) => {
-    return str.replace(/\s/g, "%20");
-  };
 
   // 搜尋電影的 API_URL
-  // const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
-
-  //? console.log("API_URL", API_URL);
 
   useEffect(() => {
     if (startSearching) {
@@ -163,17 +157,10 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
-  
 
   //* 處理 search input 文字改變
   function handleInputChange(e) {
     setSearchText(e.target.value);
-  }
-
-  //* 處理 .search__clear-btn 按下後的行為
-  function handleClearBtnClick() {
-    // // 將 input 文字清除
-    // setSearchText("");
   }
 
   //* 處理 search input 鍵盤按下後的行為(使用者用 Enter 來搜尋)
@@ -288,101 +275,3 @@ const Search = ({ watchlist, setWatchlist }) => {
 };
 
 export default Search;
-
-// return (
-//   <div className="search">
-//     <div className="search__bar">
-//       <div className="search__input-wrapper">
-//         <input
-//           type="text"
-//           ref={inputRef}
-//           className="search__input"
-//           placeholder="Search for a movie..."
-//           value={searchText}
-//           onChange={handleInputChange}
-//           onKeyUp={handleKeyUp}
-//           onFocus={() => {
-//             if (searchText) setShowAutoComplete(true);
-//           }}
-//           // onBlur={() => {
-//           //   console.log("onBlur");
-//           //   setShowAutoComplete(false);
-//           // }}
-//           // onFocus={() => setShowAutoComplete(true)}
-//           // onBlur={() => setShowAutoComplete(false)}
-//         />
-//         <button
-//           className={`btn search__clear-btn ${
-//             searchText ? "search__clear-btn--show" : ""
-//           }`}
-//           onClick={() => setSearchText("")}>
-//           <i className="fa-solid fa-circle-xmark"></i>
-//         </button>
-
-//         {/* auto-complete */}
-//         <ul
-//           className={`auto-complete ${
-//             showAutoComplete ? "auto-complete--show" : ""
-//           }
-//           `}>
-//           {autoComplete.results
-//             ? [searchText, ...autoCompleteItems].map((res, index) => {
-//                 if (index === 0) {
-//                   return (
-//                     <li
-//                       key={index}
-//                       className="auto-complete__item"
-//                       onClick={() => handleAutoCompleteClick(searchText)}>
-//                       <i className="fa-solid fa-magnifying-glass"></i>
-//                       {searchText} <span>- Search</span>
-//                     </li>
-//                   );
-//                 }
-//                 return (
-//                   <li
-//                     key={index}
-//                     className="auto-complete__item"
-//                     onClick={() => handleAutoCompleteClick(res.title)}>
-//                     <i className="fa-solid fa-magnifying-glass"></i>
-//                     {res.title}
-//                   </li>
-//                 );
-//               })
-//             : ""}
-//         </ul>
-//       </div>
-//     </div>
-
-//     <div className="container">
-//       <ul className="detail-cards">
-//         {searchResultElements}
-//         {/* spinner */}
-//         {searchText && !searchResult.results && (
-//           <div className="spinner">
-//             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-//           </div>
-//         )}
-
-//         {searchResult.results && pageNum !== searchResult.total_pages && (
-//           <div ref={loadMore} className="spinner">
-//             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-//           </div>
-//         )}
-
-//         {/* 舊款 */}
-//         {/* {searchResult.results && pageNum <= searchResult.total_results && (
-//           <div ref={loadMore} className="spinner">
-//             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-//           </div>
-//         )} */}
-//       </ul>
-//     </div>
-//     <ScrollToTop
-//       smooth
-//       className="scroll-to-top"
-//       color="#000"
-//       viewBox="0 0 448 512"
-//       svgPath="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
-//     />
-//   </div>
-// );
