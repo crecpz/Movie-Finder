@@ -42,20 +42,20 @@ export const getMoreData = async (API_URL, setState) => {
 };
 
 /**
- * * 更新 watchlist 資料，
- * * 如果已存在於 watchlist，則從 watchlist 中剔除；
- * * 否則新增一筆新資料。
+ * * 更新 watchlist 資料， 如果已存在於 watchlist，則從 watchlist 中剔除；否則新增一筆新資料。
  * @param {*} id 電影 id
  * @param {*} inWatchlist 判斷是否存在於 watchlist 中
  * @param {*} setWatchlist 更新 watchlist state
  */
 export function changeWatchlist(id, inWatchlist, setWatchlist) {
   setWatchlist((prev) => {
+    // 如果 id 已經存在於 watchlist 當中
     if (inWatchlist) {
+      // 從 watchlist 中移除該項電影
       return prev.filter((movie) => movie.id !== id);
     } else {
-      // status: 觀看狀態，預設為 unwatched
-      return [...prev, { id: id, status: "unwatched" }];
+      // 如果 id 不存在於目前 watchlist 當中
+      return [...prev, { id: id, status: "unwatched", unread: true }];
     }
   });
 }

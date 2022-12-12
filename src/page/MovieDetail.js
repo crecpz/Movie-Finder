@@ -119,7 +119,7 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       });
 
   //*  video key
-  // 修先取得 Trailer 或 Teaser
+  // 優先取得 Trailer 或 Teaser
   const videoKey =
     video.results &&
     video.results.find(({ type }) => type === "Trailer" || type === "Teaser")

@@ -30,6 +30,141 @@ const Search = ({ watchlist, setWatchlist }) => {
 
   // 搜尋電影的 API_URL
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
+  console.log("API_URL", API_URL);
+  useEffect(() => {
+    let subscribed = true;
+    // 當 inptu 為空
+    if (searchText.trim().length === 0) {
+      // 關閉 autoComplete 選項
+      setShowAutoComplete(false);
+      // 將 pageNum 設為 1
+      setPageNum(1);
+    } else {
+      if (subscribed) {
+        getData(API_URL, setAutoComplete);
+        setClickingAutoCompleteItem(false);
+      }
+      if (!clickingAutoCompleteItem) setShowAutoComplete(true);
+    }
+    return () => {
+      subscribed = false;
+    };
+  }, [searchText]);
+
+  useEffect(() => {
+    if (
+      isIntersecting && // 如果目前是 intersection 狀態
+      (searchResult.results.length < searchResult.total_results || // 且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
+        pageNum < searchResult.total_pages)
+    ) {
+      setPageNum((prev) => prev + 1);
+      console.log("pageNum 被 +1，目前是", pageNum);
+    }
+  }, [isIntersecting]);
+
+  //* pageNum 改變後的行為
+  useEffect(() => {
+    // 取得更多的搜尋結果
+    const getMoreData = async (API_URL, setState) => {
+      // console.log("API_URL", API_URL);
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) {
+          throw new Error("Error");
+        }
+        const data = await res.json();
+        setState((prev) => {
+          console.log("在 getMoreData 中獲取");
+          console.log("prev.results: ", prev.results);
+          // console.log("data.results: ", data);
+          console.log("data: ", data);
+          console.log("在 getMoreData 中獲取");
+          return {
+            ...prev,
+            results: removeDuplicate([...prev.results, ...data.results], "id"),
+          };
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    // 僅在目前頁面 > 1 時才進行獲取
+    let subscribed = true;
+    if (pageNum > 1 && subscribed) {
+      getMoreData(API_URL, setSearchResult);
+      console.log("獲取新的資料");
+    }
+    return () => {
+      subscribed = false;
+    };
+  }, [pageNum]);
+
+  //* 當 watchlist 改變，更新 localStorage 值
+  useEffect(() => {
+    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
+
+  //* 監聽 Window click 事件
+  useEffect(() => {
+    // 進入搜尋頁面後，focus() input
+    inputRef.current.focus();
+    // 點任何處來關閉 autoComplete
+    const hideAutoComplete = (e) => {
+      if (e.target !== inputRef.current) {
+        setShowAutoComplete(false);
+      }
+    };
+    window.addEventListener("click", hideAutoComplete);
+    // clean func
+    return () => {
+      window.removeEventListener("click", hideAutoComplete);
+    };
+  }, []);
+
+  //* autoComplete elements
+  const autoCompleteItems = autoComplete.results
+    ? removeDuplicate(autoComplete.results, "title")
+        .filter(({ title }) => title !== searchText)
+        .slice(0, 8)
+    : [];
+
+  //* 搜尋結果 elements
+  const searchResultElements = searchResult.results ? (
+    searchResult.results.length === 0 ? (
+      <p className="empty-msg">
+        Sorry, no search result. Can't find what you're looking for.
+      </p>
+    ) : (
+      removeDuplicate(searchResult.results, "title").map((movie) => {
+        return (
+          <DetailCard
+            key={movie.id}
+            movie={movie}
+            inWatchlist={watchlist.some(
+              (watchlistData) => movie.id === watchlistData.id
+            )}
+            setWatchlist={setWatchlist}
+          />
+        );
+      })
+    )
+  ) : (
+    ""
+  );
+
+  console.log(
+    "searchText: ",
+    searchText,
+    "\n",
+    "isIntersecting ?",
+    isIntersecting,
+    "\n",
+    "pageNum: ",
+    pageNum,
+    "\n",
+    "searchResult: ",
+    searchResult
+  );
 
   //* 處理 search input 文字改變
   function handleInputChange(e) {
@@ -71,156 +206,6 @@ const Search = ({ watchlist, setWatchlist }) => {
     setPageNum(1);
   }
 
-  useEffect(() => {
-    let subscribed = true;
-    // 當 inptu 為空
-    if (searchText.trim().length === 0) {
-      // 關閉 autoComplete 選項
-      setShowAutoComplete(false);
-      // 將 pageNum 設為 1
-      setPageNum(1);
-    } else {
-      if (subscribed) {
-        getData(API_URL, setAutoComplete);
-        setClickingAutoCompleteItem(false);
-      }
-      if (!clickingAutoCompleteItem) setShowAutoComplete(true);
-    }
-    return () => {
-      subscribed = false;
-    };
-  }, [searchText]);
-
-  //--- old
-  // //* 處理 spinner 進入視窗範圍後的行為
-  // useEffect(() => {
-  //   // 如果目前是 intersection 狀態，且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
-  //   // 則可繼續增加 pageNum 數值
-  //   if (
-  //     isIntersecting &&
-  //     searchResult.results.length < searchResult.total_results
-  //   ) {
-  //     setPageNum((prev) => prev + 1);
-  //   }
-  // }, [isIntersecting]);
-  //--- old
-  useEffect(() => {
-    // 如果目前是 intersection 狀態，且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
-    // 則可繼續增加 pageNum 數值
-    if (
-      isIntersecting &&
-      (searchResult.results.length < searchResult.total_results ||
-        pageNum < searchResult.total_pages)
-    ) {
-      setPageNum((prev) => prev + 1);
-    }
-  }, [isIntersecting]);
-
-  //* pageNum 改變後的行為
-  useEffect(() => {
-    // 取得更多的搜尋結果
-    const getMoreData = async (API_URL, setState) => {
-      try {
-        const res = await fetch(API_URL);
-        if (!res.ok) {
-          throw new Error("Error");
-        }
-        const data = await res.json();
-        setState((prev) => {
-          return {
-            ...prev,
-            results: removeDuplicate([...prev.results, ...data.results], "id"),
-          };
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    let subscribed = true;
-    // 僅在目前頁面 > 1 時才進行獲取
-    if (pageNum > 1 && subscribed) getMoreData(API_URL, setSearchResult);
-    return () => {
-      subscribed = false;
-    };
-  }, [pageNum]);
-
-  //* 當 watchlist 改變，更新 localStorage 值
-  useEffect(() => {
-    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
-
-  //* 監聽 Window click 事件
-  useEffect(() => {
-    // 點任何處來關閉 autoComplete
-    const hideAutoComplete = (e) => {
-      if (e.target !== inputRef.current) {
-        setShowAutoComplete(false);
-      }
-    };
-    window.addEventListener("click", hideAutoComplete);
-    // clean func
-    return () => {
-      window.removeEventListener("click", hideAutoComplete);
-    };
-  }, []);
-
-  //* autoComplete elements
-  const autoCompleteItems = autoComplete.results
-    ? removeDuplicate(autoComplete.results, "title")
-        .filter(({ title }) => title !== searchText)
-        .slice(0, 8)
-    : [];
-
-  //* 搜尋結果 elements
-  const searchResultElements = searchResult.results ? (
-    searchResult.results.length === 0 ? (
-      <p className="empty-msg">
-        Sorry, no search result. Can't find what you're looking for.
-      </p>
-    ) : (
-      removeDuplicate(searchResult.results, "title").map((movie) => {
-        return (
-          <DetailCard
-            key={movie.id}
-            movie={movie}
-            inWatchlist={watchlist.some(
-              (watchlistData) => movie.id === watchlistData.id
-            )}
-            setWatchlist={setWatchlist}
-          />
-        );
-      })
-      // searchResult.results.map((movie) => {
-      //   return (
-      //     <DetailCard
-      //       key={movie.id}
-      //       movie={movie}
-      //       inWatchlist={watchlist.some(
-      //         (watchlistData) => movie.id === watchlistData.id
-      //       )}
-      //       setWatchlist={setWatchlist}
-      //     />
-      //   );
-      // })
-    )
-  ) : (
-    ""
-  );
-
-  console.log(
-    "searchText: ",
-    searchText,
-    "\n",
-    "isIntersecting ?",
-    isIntersecting,
-    "\n",
-    "pageNum: ",
-    pageNum,
-    "\n",
-    "searchResult: ",
-    searchResult
-  );
-
   return (
     <div className="search">
       <div className="container">
@@ -236,12 +221,6 @@ const Search = ({ watchlist, setWatchlist }) => {
             onFocus={() => {
               if (searchText) setShowAutoComplete(true);
             }}
-            // onBlur={() => {
-            //   console.log("onBlur");
-            //   setShowAutoComplete(false);
-            // }}
-            // onFocus={() => setShowAutoComplete(true)}
-            // onBlur={() => setShowAutoComplete(false)}
           />
           <button
             className={`btn search__clear-btn ${
