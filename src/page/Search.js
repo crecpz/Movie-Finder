@@ -153,8 +153,6 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
-  console.log(searchResult.results);
-
   //* 處理 search input 文字改變
   function handleInputChange(e) {
     setSearchText(e.target.value);
