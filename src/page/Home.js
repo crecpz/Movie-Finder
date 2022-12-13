@@ -146,8 +146,7 @@ const Home = () => {
           }}
           centeredSlides={true}
           autoplay={{
-            // delay: 5000,
-            delay: 500000000,
+            delay: 5000,
             disableOnInteraction: false,
           }}
           modules={[Autoplay, Pagination]}

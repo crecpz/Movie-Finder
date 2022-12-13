@@ -69,17 +69,24 @@
     overflow: hidden;
     display: none;
 
+    // .auto-complete 顯示
     &--show {
       display: block;
     }
 
+    // auto-complete 的子項目
     &__item {
       @include text(lg);
       padding: 0.75rem 0.875rem;
-
       color: #000;
       border-top: 1px solid map-get($color, light-gray);
       cursor: pointer;
+
+      @include hover-query {
+        &:hover {
+          background-color: map-get($color, tertiary-dark);
+        }
+      }
 
       i {
         margin-right: 1rem;
@@ -87,12 +94,6 @@
 
       span {
         color: #00000078;
-      }
-
-      @include hover-query {
-        &:hover {
-          background-color: map-get($color, tertiary-dark);
-        }
       }
     }
   }

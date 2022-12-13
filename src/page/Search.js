@@ -7,6 +7,7 @@ import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 
 const Search = ({ watchlist, setWatchlist }) => {
+  // loadMore intersection ref
   const { ref: loadMore, inView: isIntersecting } = useInView();
   // 存放搜尋框輸入的文字
   const [searchText, setSearchText] = useState("");
@@ -14,36 +15,18 @@ const Search = ({ watchlist, setWatchlist }) => {
   const [searchResult, setSearchResult] = useState({});
   // 搜尋結果頁數
   const [pageNum, setPageNum] = useState(1);
-
-  // ? 存放 input ref
-  const inputRef = useRef(null);
-
-  // ? 存放 autoComplete 選項
+  // 存放使用者在 input 輸入的過程中 fetch 到的 autoComplete 選項
   const [autoComplete, setAutoComplete] = useState([]);
-
-  // ? autoComplete ui 顯示狀態
+  // autoComplete ui 顯示狀態
   const [showAutoComplete, setShowAutoComplete] = useState(false);
-
-  //? 用來表示當前是否使用點擊的方式來進行搜尋
+  // 表示目前是否開始進行搜尋(透過鍵盤按下 Enter 或是 click autoCompleteItems)
   const [startSearching, setStartSearching] = useState(false);
-
-
+  // 存放 input ref
+  const inputRef = useRef(null);
   // 搜尋電影的 API_URL
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
 
-  useEffect(() => {
-    if (startSearching) {
-      getData(API_URL, setSearchResult);
-    }
-    // 新的搜尋產生後，滾動到頂部
-    window.scrollTo(0, 0);
-    // 將 pageNum 回歸 1
-    setPageNum(1);
-    // 隱藏 autoComplete
-    setShowAutoComplete(false);
-    return () => setStartSearching(false);
-  }, [startSearching]);
-
+  //* 偵測 searchText 改變
   useEffect(() => {
     let subscribed = true;
     // 當 inptu 為空
@@ -63,11 +46,25 @@ const Search = ({ watchlist, setWatchlist }) => {
     };
   }, [searchText]);
 
+  //* 偵測目前是否為 startSearching 狀態(開始進行搜尋)
+  useEffect(() => {
+    if (startSearching) {
+      getData(API_URL, setSearchResult);
+    }
+    // 新的搜尋產生後，滾動到頂部
+    window.scrollTo(0, 0);
+    // 將 pageNum 回歸 1
+    setPageNum(1);
+    // 隱藏 autoComplete
+    setShowAutoComplete(false);
+    return () => setStartSearching(false);
+  }, [startSearching]);
+
+  //* 偵測 loadMore 是否進入 intersection observer
   useEffect(() => {
     if (
       isIntersecting && // 如果目前是 intersection 狀態
-      (searchResult.results.length < searchResult.total_results || // 且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
-        pageNum < searchResult.total_pages)
+      pageNum < searchResult.total_pages // 且目前 pageNum < 搜尋結果的頁數
     ) {
       setPageNum((prev) => prev + 1);
     }
@@ -77,7 +74,6 @@ const Search = ({ watchlist, setWatchlist }) => {
   useEffect(() => {
     // 取得更多的搜尋結果
     const getMoreData = async (API_URL, setState) => {
-      console.log("API_URL from getMoreData()", API_URL);
       try {
         const res = await fetch(API_URL);
         if (!res.ok) {
@@ -94,8 +90,8 @@ const Search = ({ watchlist, setWatchlist }) => {
         console.log(err);
       }
     };
-    // 僅在目前頁面 > 1 時才進行獲取
     let subscribed = true;
+    // 獲取更多資料的行為只發生在 pageNum > 1
     if (pageNum > 1 && subscribed) {
       getMoreData(API_URL, setSearchResult);
     }
@@ -134,7 +130,7 @@ const Search = ({ watchlist, setWatchlist }) => {
     : [];
 
   //* 搜尋結果 elements
-  const searchResultElements = searchResult.results ? (
+  let searchResultElements = searchResult.results ? (
     searchResult.results.length === 0 ? (
       <p className="empty-msg">
         Sorry, no search result. Can't find what you're looking for.
@@ -157,27 +153,30 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
+  console.log(searchResult.results);
 
   //* 處理 search input 文字改變
   function handleInputChange(e) {
     setSearchText(e.target.value);
   }
 
-  //* 處理 search input 鍵盤按下後的行為(使用者用 Enter 來搜尋)
+  //* 處理 search input 鍵盤按下後的行為
   function handleKeyUp(e) {
-    // 如果使用者輸入完後按下 Enter
-    if (e.key === "Enter") {
+    // 如果在 input 有文字內容的情況下按下 Enter
+    if (e.key === "Enter" && searchText.trim().length !== 0) {
       // startSearching state 設為 true
       setStartSearching(true);
     }
   }
 
   //* 處理 autoComplete 選項的點擊行為(使用者過 click auto-complete__item 來搜尋)
-  function handleAutoCompleteClick(text) {
-    // 讓 input value 成為使用者 click 的文字內容
-    setSearchText(text);
-    // startSearching state 設為 true
-    setStartSearching(true);
+  function handleAutoCompleteClick(resultId, resultTitle) {
+    // 從 autoComplete state 當中，找出目前點擊到的 autoCompleteItems 物件
+    const result = autoComplete.results.find(({ id }) => id === resultId);
+    // 加入到 searchResult state 中
+    setSearchResult({ results: [result] });
+    // 將 input 文字改成點擊到的字
+    setSearchText(resultTitle);
   }
 
   return (
@@ -208,16 +207,16 @@ const Search = ({ watchlist, setWatchlist }) => {
           <ul
             className={`auto-complete ${
               showAutoComplete ? "auto-complete--show" : ""
-            }
-            `}>
+            }`}>
             {autoComplete.results
               ? [searchText, ...autoCompleteItems].map((res, index) => {
                   if (index === 0) {
                     return (
                       <li
-                        key={index}
+                        key={res.id}
+                        id={res.id}
                         className="auto-complete__item"
-                        onClick={() => handleAutoCompleteClick(searchText)}>
+                        onClick={() => setStartSearching(true)}>
                         <i className="fa-solid fa-magnifying-glass"></i>
                         {searchText} <span>- Search</span>
                       </li>
@@ -225,9 +224,12 @@ const Search = ({ watchlist, setWatchlist }) => {
                   }
                   return (
                     <li
-                      key={index}
+                      key={res.id}
+                      id={res.id}
                       className="auto-complete__item"
-                      onClick={() => handleAutoCompleteClick(res.title)}>
+                      onClick={() =>
+                        handleAutoCompleteClick(res.id, res.title)
+                      }>
                       <i className="fa-solid fa-magnifying-glass"></i>
                       {res.title}
                     </li>
@@ -238,16 +240,15 @@ const Search = ({ watchlist, setWatchlist }) => {
         </div>
 
         <ul className="detail-cards">
-          {searchResultElements}
-          {/*! spinner(已經不需要，但是 fetch 過程中可能要) */}
-          {/* {searchText && !searchResult.results && (
+          {/* ! spinner
+          {startSearching && !searchResult.results && (
             <div className="spinner">
               <PulseLoader color="#fff" cssOverride={spinnerStyle} />
             </div>
           )} */}
-
+          {searchResultElements}
           {/* loadMore spinner */}
-          {searchResult.results
+          {searchResult.results && searchResult.total_pages
             ? searchResult.results.length !== 0 &&
               pageNum !== searchResult.total_pages && (
                 <div ref={loadMore} className="spinner">
@@ -255,12 +256,6 @@ const Search = ({ watchlist, setWatchlist }) => {
                 </div>
               )
             : ""}
-
-          {/* {searchResult.results && pageNum !== searchResult.total_pages && (
-            <div ref={loadMore} className="spinner">
-              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-            </div>
-          )} */}
         </ul>
       </div>
       <ScrollToTop
