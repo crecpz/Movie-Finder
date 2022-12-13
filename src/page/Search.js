@@ -27,6 +27,8 @@ const Search = ({ watchlist, setWatchlist }) => {
   //? 用來表示當前是否使用點擊的方式來進行搜尋
   const [startSearching, setStartSearching] = useState(false);
 
+  //? 存放 autoComplete 的 ref
+  const autoCompleteRef = useRef();
 
   // 搜尋電影的 API_URL
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}&page=${pageNum}`;
@@ -66,8 +68,7 @@ const Search = ({ watchlist, setWatchlist }) => {
   useEffect(() => {
     if (
       isIntersecting && // 如果目前是 intersection 狀態
-      (searchResult.results.length < searchResult.total_results || // 且目前 pageNum 還沒到達 API 提供的 total_pages 頁數
-        pageNum < searchResult.total_pages)
+      pageNum < searchResult.total_pages // 且目前 pageNum < 搜尋結果的頁數
     ) {
       setPageNum((prev) => prev + 1);
     }
@@ -133,8 +134,10 @@ const Search = ({ watchlist, setWatchlist }) => {
         .slice(0, 8)
     : [];
 
+  // console.log(autoComplete);
+
   //* 搜尋結果 elements
-  const searchResultElements = searchResult.results ? (
+  let searchResultElements = searchResult.results ? (
     searchResult.results.length === 0 ? (
       <p className="empty-msg">
         Sorry, no search result. Can't find what you're looking for.
@@ -157,27 +160,58 @@ const Search = ({ watchlist, setWatchlist }) => {
     ""
   );
 
+  // console.log(" searchResult.results: ", searchResult.results);
 
   //* 處理 search input 文字改變
   function handleInputChange(e) {
     setSearchText(e.target.value);
   }
 
-  //* 處理 search input 鍵盤按下後的行為(使用者用 Enter 來搜尋)
+  //* 處理 search input 鍵盤按下後的行為
   function handleKeyUp(e) {
     // 如果使用者輸入完後按下 Enter
     if (e.key === "Enter") {
       // startSearching state 設為 true
       setStartSearching(true);
     }
+
+    // Search.js:176 ArrowDown
+    // ArrowUp
+
+    if (showAutoComplete) {
+      const autoCompleteItemAmount = autoCompleteRef.current.children.length;
+      let currentActiveItemIndex = 0;
+
+      // console.log(autoCompleteRef.current);
+
+      // autoCompleteRef.current.children[0].classList.add(
+      //   "auto-complete__item--active"
+      // );
+
+      // console.log(autoCompleteRef.current.children[0]);
+      // console.log(
+      // autoCompleteRef.current.children[0].classList.add(
+      //   "auto-complete__item--active"
+      // )
+      // );
+      if (e.key === "ArrowDown") {
+        currentActiveItemIndex++;
+        // console.log(currentActiveItemIndex);
+        console.log("down");
+      }
+      if (e.key === "ArrowUp") {
+        console.log("up");
+      }
+    }
   }
 
   //* 處理 autoComplete 選項的點擊行為(使用者過 click auto-complete__item 來搜尋)
-  function handleAutoCompleteClick(text) {
-    // 讓 input value 成為使用者 click 的文字內容
-    setSearchText(text);
-    // startSearching state 設為 true
-    setStartSearching(true);
+  function handleAutoCompleteClick(resultId, resultTitle) {
+    const result = autoComplete.results.find(({ id }) => id === resultId);
+    setSearchResult({ results: [result] });
+
+    // todo 將 input 文字改成點擊到的字
+    setSearchText(resultTitle);
   }
 
   return (
@@ -206,6 +240,7 @@ const Search = ({ watchlist, setWatchlist }) => {
 
           {/* auto-complete */}
           <ul
+            ref={autoCompleteRef}
             className={`auto-complete ${
               showAutoComplete ? "auto-complete--show" : ""
             }
@@ -215,9 +250,10 @@ const Search = ({ watchlist, setWatchlist }) => {
                   if (index === 0) {
                     return (
                       <li
-                        key={index}
+                        key={res.id}
+                        id={res.id}
                         className="auto-complete__item"
-                        onClick={() => handleAutoCompleteClick(searchText)}>
+                        onClick={() => setStartSearching(true)}>
                         <i className="fa-solid fa-magnifying-glass"></i>
                         {searchText} <span>- Search</span>
                       </li>
@@ -225,9 +261,12 @@ const Search = ({ watchlist, setWatchlist }) => {
                   }
                   return (
                     <li
-                      key={index}
+                      key={res.id}
+                      id={res.id}
                       className="auto-complete__item"
-                      onClick={() => handleAutoCompleteClick(res.title)}>
+                      onClick={() =>
+                        handleAutoCompleteClick(res.id, res.title)
+                      }>
                       <i className="fa-solid fa-magnifying-glass"></i>
                       {res.title}
                     </li>
@@ -247,7 +286,7 @@ const Search = ({ watchlist, setWatchlist }) => {
           )} */}
 
           {/* loadMore spinner */}
-          {searchResult.results
+          {searchResult.results && searchResult.total_pages
             ? searchResult.results.length !== 0 &&
               pageNum !== searchResult.total_pages && (
                 <div ref={loadMore} className="spinner">
