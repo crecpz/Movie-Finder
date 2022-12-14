@@ -2,7 +2,7 @@
 
 .search {
   @include x-spacing;
-
+  // .search__bar
   &__bar {
     position: sticky;
     top: 0;
@@ -12,10 +12,7 @@
     max-width: 82.5rem;
     margin: 0 auto;
   }
-
-  &__input-wrapper {
-  }
-
+  // .search__input
   &__input {
     @include flex;
     @include text(xl);
@@ -25,13 +22,11 @@
     border-radius: map-get($border-radius, base);
     border: 0;
     outline: none;
-
+    @include sm {
+      @include text(lg);
+    }
     &::placeholder {
       color: hsl(13, 61%, 25%);
-    }
-
-    &:focus {
-      // : 1px solid map-get($color, tertiary);
     }
   }
 
@@ -44,12 +39,11 @@
 
     visibility: hidden;
     opacity: 0;
-
+    // clear-btn 出現
     &--show {
       visibility: visible;
       opacity: 1;
     }
-
     @include hover-query {
       i:hover {
         @include hover-color(map-get($color, secondary));
@@ -58,22 +52,20 @@
   }
 
   .auto-complete {
+    display: none;
     position: absolute;
     z-index: -1;
-    transform: translateY(-12px);
-    padding-top: 12px;
+    overflow: hidden;
+    transform: translateY(-0.75rem);
+    padding-top: .75rem;
     width: 100%;
     border-bottom-left-radius: map-get($border-radius, base);
     border-bottom-right-radius: map-get($border-radius, base);
     background-color: map-get($color, tertiary-light);
-    overflow: hidden;
-    display: none;
-
     // .auto-complete 顯示
     &--show {
       display: block;
     }
-
     // auto-complete 的子項目
     &__item {
       @include text(lg);
@@ -81,17 +73,16 @@
       color: #000;
       border-top: 1px solid map-get($color, light-gray);
       cursor: pointer;
-
       @include hover-query {
         &:hover {
           background-color: map-get($color, tertiary-dark);
         }
       }
-
+      // search icon
       i {
         margin-right: 1rem;
       }
-
+      // .auto-complete__item 內的 "-Search" 字
       span {
         color: #00000078;
       }

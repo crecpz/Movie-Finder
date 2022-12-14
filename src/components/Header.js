@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
-const Header = ({ unreadWatchlist, watchlist }) => {
+const Header = ({ watchlist }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
@@ -10,15 +10,21 @@ const Header = ({ unreadWatchlist, watchlist }) => {
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
 
+    let resizeTimer;
     //* 使用者 resize 時，關閉 nav 的 transition
     function handleResize() {
-      navRef.current.style.transition = "none";
-      setNavIsOpen(false);
-      setTimeout(() => {
-        navRef.current.style.transition = "";
+      // 關閉 nav
+      if (navIsOpen) setNavIsOpen(false);
+      // 取消 transtion
+      const body = document.body;
+      body.classList.add("no-transition");
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        body.classList.remove("no-transition");
       }, 100);
     }
 
+    //* 控制 header 顏色，當 scrollY === 0 加上 header 的底色
     function handleScroll() {
       let currentScrollY = window.scrollY;
       if (currentScrollY === 0) {
@@ -37,20 +43,21 @@ const Header = ({ unreadWatchlist, watchlist }) => {
   useEffect(() => {
     //* 當 nav 打開時禁止頁面滾動，並調整 header padding-right
     const body = document.body;
+    // 取得 scrollBar 的寬度
     const scrollBarWidth = window.innerWidth - body.clientWidth;
+    // 取得 header 目前的 padding-right 值
     const headerPaddingRight = window
       .getComputedStyle(headerRef.current, null)
       .getPropertyValue("padding-right");
 
     if (navIsOpen) {
+      // 如果 nav 目前是開啟狀態
       body.style.overflowY = "hidden";
-      headerRef.current.classList.add("header--black");
       headerRef.current.style.paddingRight = `${
         parseInt(headerPaddingRight) + scrollBarWidth
       }px`;
     } else {
       body.style.overflowY = "";
-      headerRef.current.classList.remove("header--black");
       headerRef.current.style.paddingRight = "";
     }
   }, [navIsOpen]);

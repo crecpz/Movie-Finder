@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 
-// Swiper 
+// Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, FreeMode } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-const MovieSwiper = ({movies}) => {
-  
+const MovieSwiper = ({ movies, swiperBreakpoints }) => {
   //* slide
   const slideElements = movies.results
     ? movies.results.map((movie) => {
@@ -52,33 +51,34 @@ const MovieSwiper = ({movies}) => {
       pagination={{
         type: "bullets",
       }}
-      breakpoints={{
-        0: {
-          slidesPerView: 2.5,
-          slidesPerGroup: 2,
-          loop: false,
-        },
-        576: {
-          slidesPerView: 3.5,
-          loop: false,
-        },
-        768: {
-          slidesPerView: 3,
-        },
+      breakpoints={swiperBreakpoints}
+      // breakpoints={{
+      //   0: {
+      //     slidesPerView: 2.5,
+      //     slidesPerGroup: 2,
+      //     loop: false,
+      //   },
+      //   576: {
+      //     slidesPerView: 3.5,
+      //     loop: false,
+      //   },
+      //   768: {
+      //     slidesPerView: 3,
+      //   },
 
-        1024: {
-          slidesPerView: 3,
-          slidesPerGroup: 3,
-        },
-        1300: {
-          slidesPerView: 4,
-          slidesPerGroup: 4,
-        },
-        1400: {
-          slidesPerView: 5,
-          slidesPerGroup: 5,
-        },
-      }}
+      //   1024: {
+      //     slidesPerView: 4,
+      //     slidesPerGroup: 4,
+      //   },
+      //   1300: {
+      //     slidesPerView: 5,
+      //     slidesPerGroup: 5,
+      //   },
+      //   1400: {
+      //     slidesPerView: 6,
+      //     slidesPerGroup: 6,
+      //   },
+      // }}
       className="movie-swiper">
       {slideElements}
     </Swiper>

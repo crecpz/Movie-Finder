@@ -19,7 +19,7 @@ const Watchlist = ({ setWatchlist }) => {
       <div className="container">
         <div className="watchlist__header">
           <h2 className="layout-title">Watchlist</h2>
-          <div className="watchlist__links">
+          <div className="watchlist__status-btns">
             {["unwatched", "watched"].map((listType, index) => {
               return (
                 <NavLink
@@ -27,8 +27,8 @@ const Watchlist = ({ setWatchlist }) => {
                   to={`/watchlist/${listType}`}
                   className={({ isActive }) =>
                     isActive || listType === watchStatusTag
-                      ? "watchlist__link active"
-                      : "watchlist__link"
+                      ? "watchlist__status-btn active"
+                      : "watchlist__status-btn"
                   }>
                   {capitalize(listType)}
                 </NavLink>

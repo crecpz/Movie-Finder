@@ -20,7 +20,18 @@ body {
     font-family: "Nunito Sans", sans-serif;
     height: 100vh;
     overflow-y: scroll;
+
+    &.no-transition {
+        * {
+            transition: none !important;
+        }
+    }
 }
+
+// .no-transition>* {
+//     transition: none !important;
+// }
+
 a {
     text-decoration: none;
     color: deep-map-get($color, primary);
@@ -54,31 +65,22 @@ main {
     width: 100%;
     margin: 0 auto;
     max-width: map-get($max-width, xl);
-
     @include lg {
         max-width: map-get($max-width, lg);
     }
-
     @include md {
         max-width: map-get($max-width, md);
     }
-
     @include sm {
         max-width: map-get($max-width, sm);
     }
-
-    // &--no-limit {
-    //     max-width: none;
-    // }
 }
 
 .layout-title {
-    @include text(4xl);
-
+    @include text(3xl);
     @include lg {
         @include text(3xl);
     }
-
     @include sm {
         @include text(2xl);
     }
@@ -87,12 +89,12 @@ main {
 // 用於無內容時的文字大小
 .empty-msg {
     @include text(2xl);
-
     @include sm {
         @include text(lg);
     }
 }
 
+// 電影類別標籤
 .genres-tag {
     @include text(xs);
     padding: 0.15em 0.8em;
@@ -101,17 +103,14 @@ main {
     color: map-get($color, secondary);
     background-color: map-get($color, primary);
     border-radius: 1.875rem;
-
     @include md {
         @include text(xs);
     }
-
     @include hover-query {
         &:hover {
             @include hover-bg-color(map-get($color, primary));
         }
     }
-
     // genres 容器
     &-wrapper {
         @include flex($wrap: wrap);
@@ -158,10 +157,12 @@ main {
     }
 }
 
+// 電影介紹文字
 .overview {
     letter-spacing: deep-map-get($text, spacing, wider);
 }
 
+// loading spinner
 .spinner {
     margin-top: 5rem;
     margin-bottom: 3rem;
@@ -187,7 +188,6 @@ main {
     @include flex($jc: center, $ai: center);
     visibility: hidden;
     opacity: 0;
-
     position: fixed;
     width: 100%;
     height: 100vh;

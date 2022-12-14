@@ -15,12 +15,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const Home = () => {
-  // 趨勢 API_URL (取得趨勢 movie, 24hr 更新一次)
+  // 趨勢 API_URL (取得近期流行趨勢電影, 24hr 更新一次)
   const TRENDING_URL =
     "https://api.themoviedb.org/3/trending/movie/day?api_key=e86818f56e7d92f357708ecb03052800";
-  // 存放趨勢 movie
+  // 存放近期流行趨勢電影
   const [trendingMovies, setTrendingMovies] = useState([]);
-  // 電影類別 API_URL (取得類別 id 與對應的名稱)
+  // 電影類別 API_URL (取得所有類別的 id 與對應的名稱)
   const GENRES_URL =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 電影類別資料
@@ -56,7 +56,7 @@ const Home = () => {
     setImgIsLoaded(true);
   }
 
-  //* hero 輪播(播放近期趨勢 movie)
+  //* hero 輪播(播放近期流行趨勢電影)
   const heroSlideElements = trendingMovies.results
     ? trendingMovies.results.map((movie, index) => {
         return (
@@ -120,6 +120,7 @@ const Home = () => {
     : "";
 
   //* genres swiper
+  // 遍歷 genres 清單(包含類別名稱、類別 id)
   const HomeGenresSwiperElements =
     genresData.genres &&
     genresData.genres.map((genres, index) => {

@@ -3,6 +3,9 @@
 
 .detail-cards {
   margin-top: 1rem;
+  @include sm {
+    @include flex($wrap: wrap);
+  }
 }
 
 .detail-card {
@@ -13,10 +16,13 @@
   border-bottom: 1px solid map-get($color, light-gray);
 
   @include sm {
+    position: relative;
     flex-direction: column;
     width: 100%;
-    max-width: 18.75rem;
-    margin: 0 auto;
+    max-width: calc(50%);
+    // width: 100%;
+    // max-width: 18.75rem;
+    // margin: 0 auto;
   }
 
   //* 電影海報
@@ -25,11 +31,9 @@
     max-width: 9.375rem;
     border-radius: map-get($border-radius, base);
     align-self: start;
-
     @include md {
       max-width: 7.8125rem;
     }
-
     @include sm {
       max-width: none;
     }
@@ -39,13 +43,11 @@
   &__texts {
     @include flex($dir: column);
     margin-left: 2rem;
-
     @include sm {
       row-gap: 1.25rem;
       margin-left: 0;
       margin-top: 1.5rem;
     }
-
     #{$block}__link {
       align-self: flex-start;
     }
@@ -59,16 +61,17 @@
   //* 電影名稱
   &__title {
     @include text(3xl);
-
     @include md {
       @include text(2xl);
+    }
+    @include sm {
+      @include text(base);
     }
   }
 
   //* genres-tag 容器
   &__genres-tag-wrapper {
     margin-top: 1rem;
-
     @include md {
       display: none;
     }
@@ -78,12 +81,9 @@
   &__info {
     @include flex;
     margin-top: 0.5rem;
-
     @include sm {
-      flex-direction: column;
-      row-gap: 0.5rem;
+      display: none;
     }
-
     & > p:not(:first-child) {
       i {
         margin-left: 1rem;
@@ -107,7 +107,6 @@
     @include text(sm);
     margin-top: 2rem;
     align-self: flex-start;
-
     @include sm {
       width: 100%;
       margin-top: auto;

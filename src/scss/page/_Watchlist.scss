@@ -8,14 +8,14 @@
     @include flex($ai: center, $jc: space-between);
   }
 
-  // 頂部切換連結容器
-  &__links {
+  // 切換觀看狀態按鈕(按鈕容器)
+  &__status-btns {
     @include flex($jc: center);
     border-radius: 0.3125rem;
   }
 
-  // 頂部切換連結
-  &__link {
+  // 切換觀看狀態按鈕(按鈕)
+  &__status-btn {
     padding: 0.5em 1.2em;
     font-weight: bold;
     border: 1px solid map-get($color, tertiary);
@@ -43,7 +43,7 @@
 
 //* .watchcards 卡片佈局設定
 // 卡片之間的 column-gap
-$column-gap: 1.5rem;
+$column-gap: 1.25rem;
 // 每列在特定斷點分別要容納幾張卡片?
 $card-amount: (
   default: 5,
@@ -70,7 +70,6 @@ $gap-amount: (
   @include card($column-gap, $card-amount, $gap-amount);
   @include flex($dir: column);
   overflow: hidden;
-  border-radius: map-get($border-radius, base);
   background-color: map-get($color, secondary);
   animation: scale map-get($transition, 500);
 
@@ -103,7 +102,7 @@ $gap-amount: (
   // 切換 watchcard option 的按鈕(僅在 breakpoint < md 出現)
   &__option-btn {
     display: none;
-    @include button-reset();
+    @include button-reset;
     @include text(base);
     @include rounded-full;
     position: absolute;
@@ -118,7 +117,7 @@ $gap-amount: (
     @include md {
       display: flex;
       &.active {
-        // 控制 .watchcard__btns 內的每一個子元素位移
+        // 控制 .watchcard__btns 內的每一個子元素(.watchcard__btn)位移
         & ~ .watchcard__content > #{$block}__btns {
           visibility: visible;
           opacity: 1;
@@ -173,9 +172,9 @@ $gap-amount: (
         transition-property: background-color;
       }
     }
-    // <img/>
+    // <img />
     img {
-      border-radius: map-get($border-radius, base);
+      border-radius: map-get($border-radius, md);
     }
   }
 

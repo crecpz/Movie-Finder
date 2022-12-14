@@ -2,7 +2,7 @@
 
 //* .movies-cards 卡片佈局設定
 // 卡片之間的 column-gap
-$column-gap: 1.5rem;
+$column-gap: 1.25rem;
 // 每列在特定斷點分別要容納幾張卡片?
 $card-amount: (
   default: 6,
@@ -25,8 +25,8 @@ $gap-amount: (
 }
 
 .movies-card-link {
-  animation: scale map-get($transition, 500);
   @include card($column-gap, $card-amount, $gap-amount);
+  animation: scale map-get($transition, 500);
 }
 
 .movies-card {
@@ -34,8 +34,10 @@ $gap-amount: (
   transition: map-get($transition, 300);
   transition-property: transform, box-shadow;
   cursor: pointer;
+  border-radius: 1rem;
+  overflow: hidden;
 
-  @include hover-query() {
+  @include hover-query {
     &:hover {
       position: relative;
       z-index: 20;
@@ -78,7 +80,7 @@ $gap-amount: (
 
   &__img {
     width: 100%;
-    border-radius: map-get($border-radius, base);
+    border-radius: map-get($border-radius, md);
   }
 
   &__text {

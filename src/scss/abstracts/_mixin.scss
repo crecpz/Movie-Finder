@@ -115,13 +115,11 @@
     (100% / map-get($card-amount, default)) -
       ($column-gap * map-get($gap-amount, default) / map-get($card-amount, default))
   );
-
   @include xl {
     max-width: calc(
       (100% / map-get($card-amount, xl)) - ($column-gap * map-get($gap-amount, xl) / map-get($card-amount, xl))
     );
   }
-
   @include lg {
     max-width: calc(
       (100% / map-get($card-amount, lg)) - ($column-gap * map-get($gap-amount, lg) / map-get($card-amount, lg))
@@ -132,7 +130,6 @@
       (100% / map-get($card-amount, md)) - ($column-gap * map-get($gap-amount, md) / map-get($card-amount, md))
     );
   }
-
   @include sm {
     max-width: calc(
       (100% / map-get($card-amount, sm)) - ($column-gap * map-get($gap-amount, sm) / map-get($card-amount, sm))
@@ -141,12 +138,12 @@
 }
 
 //* 製作出 hamburger 按鈕
-//- HTML 結構: 父層放入 `hamburger` class，子層放入 3 個 <div className="hamburger__line">。
+//- 先將 HTML 結構: 父層放入 `hamburger` class，子層放入 3 個 <div className="hamburger__line">。
 //! 注意單位的使用，單位要統一，否則無法計算。
-//@ $width hamburger 線條的寬度
-//@ $line-thickness 線條的高度(粗細)
-//@ $line-gap 每一個線條的距離
-//@ $line-color 線條的顏色
+//@ $width hamburger 的寬度(width)
+//@ $line-thickness 線條的粗細(height)
+//@ $line-gap 每一個線條的距離(row-gap)
+//@ $line-color 線條的顏色(background-color)
 @mixin hamburger($width, $line-thickness, $line-gap, $line-color) {
   .hamburger {
     @include flex($dir: column, $ai: center, $jc: center);

@@ -328,7 +328,32 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               {similarMovies.results && similarMovies.results.length === 0 ? (
                 <p className="empty-msg">No similar movies!</p>
               ) : (
-                <MovieSwiper movies={similarMovies} />
+                <MovieSwiper
+                  movies={similarMovies}
+                  swiperBreakpoints={{
+                    0: {
+                      slidesPerView: 2.5,
+                      slidesPerGroup: 2,
+                      loop: false,
+                    },
+                    576: {
+                      slidesPerView: 3.5,
+                      loop: false,
+                    },
+                    768: {
+                      slidesPerView: 3,
+                    },
+
+                    1024: {
+                      slidesPerView: 4,
+                      slidesPerGroup: 4,
+                    },
+                    1300: {
+                      slidesPerView: 5,
+                      slidesPerGroup: 5,
+                    },
+                  }}
+                />
               )}
             </div>
           </div>
