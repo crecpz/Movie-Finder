@@ -5,7 +5,6 @@
 .cards {
   margin-top: 4rem;
   row-gap: 1.5rem;
-
   @include md {
     row-gap: 2rem;
   }

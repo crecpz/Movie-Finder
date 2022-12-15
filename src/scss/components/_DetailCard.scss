@@ -1,28 +1,57 @@
 @use "../abstracts" as *;
-//@ 搜尋結果
+//@ 存放搜尋結果
+//- 定義 DetailCard 內在 breakpoiint sm 的卡片布局
+$detail-cards-column-gap: 1.25rem;
 
+$detail-card-amount: (
+  md: 3,
+  sm: 2,
+);
+$detail-card-gap-amount: (
+  md: 2,
+  sm: 1,
+);
+
+//* 卡片容器
 .detail-cards {
-  margin-top: 1rem;
-  @include sm {
+  margin-top: 3rem;
+  @include md {
     @include flex($wrap: wrap);
+    column-gap: $detail-cards-column-gap;
+    row-gap: 2rem;
   }
 }
 
+//* 卡片
 .detail-card {
   $block: &;
   @include flex;
   padding-top: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid map-get($color, light-gray);
-
-  @include sm {
+  @include md {
     position: relative;
     flex-direction: column;
+    padding-top: 0;
+    padding-bottom: 0;
     width: 100%;
-    max-width: calc(50%);
-    // width: 100%;
-    // max-width: 18.75rem;
-    // margin: 0 auto;
+    border-bottom: 0;
+    max-width: calc(
+      (100% / map-get($detail-card-amount, md)) -
+        ($detail-cards-column-gap * map-get($detail-card-gap-amount, md) / map-get($detail-card-amount, md))
+    );
+  }
+  @include sm {
+    max-width: calc(
+      (100% / map-get($detail-card-amount, sm)) -
+        ($detail-cards-column-gap * map-get($detail-card-gap-amount, sm) / map-get($detail-card-amount, sm))
+    );
+  }
+
+  &__img-link {
+    @include md {
+      position: relative;
+    }
   }
 
   //* 電影海報
@@ -32,9 +61,6 @@
     border-radius: map-get($border-radius, base);
     align-self: start;
     @include md {
-      max-width: 7.8125rem;
-    }
-    @include sm {
       max-width: none;
     }
   }
@@ -43,7 +69,7 @@
   &__texts {
     @include flex($dir: column);
     margin-left: 2rem;
-    @include sm {
+    @include md {
       row-gap: 1.25rem;
       margin-left: 0;
       margin-top: 1.5rem;
@@ -60,12 +86,11 @@
 
   //* 電影名稱
   &__title {
-    @include text(3xl);
-    @include md {
-      @include text(2xl);
-    }
-    @include sm {
-      @include text(base);
+    h3 {
+      @include text(3xl);
+      @include md {
+        @include text(base);
+      }
     }
   }
 
@@ -77,17 +102,16 @@
     }
   }
 
-  //* 資訊(上映日期、評等、時長)
+  //* 電影資訊(上映日期、評等、時長)
   &__info {
     @include flex;
     margin-top: 0.5rem;
-    @include sm {
+    @include md {
       display: none;
     }
     & > p:not(:first-child) {
       i {
         margin-left: 1rem;
-
         @include sm {
           margin-left: 0;
         }
@@ -95,21 +119,30 @@
     }
   }
 
+  //* 評等、電影時長
   &__vote,
   &__runtime {
-    @include sm {
+    @include md {
       display: none;
     }
   }
 
-  //* 按鈕(新增至 watchlist 按鈕)
+  //* 按鈕(add watchlist 按鈕)
   &__btn {
     @include text(sm);
     margin-top: 2rem;
     align-self: flex-start;
-    @include sm {
-      width: 100%;
-      margin-top: auto;
+    @include md {
+      margin-top: 0;
+      font-size: 0; // 隱藏 .detail-card__btn 的文字部分
+    }
+    // +號 icon
+    i {
+      margin-right: 0.75rem;
+      @include md {
+        font-size: initial; // 在 .detail-card__btn 內的 md 斷點有將 font-size 變為 0，但仍需要保留此 icon，故設定成 initial
+        margin-right: 0;
+      }
     }
   }
 }

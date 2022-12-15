@@ -61,7 +61,6 @@
     @include md {
       @include text(2xl);
       @include flex($dir: column);
-      cursor: pointer;
       color: map-get($color, primary);
     }
   }

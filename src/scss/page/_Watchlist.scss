@@ -20,22 +20,20 @@
     font-weight: bold;
     border: 1px solid map-get($color, tertiary);
     transition: background-color map-get($transition, 300);
-
     @include sm {
       @include text(xs);
     }
-
     @include hover-query {
       &:hover {
         @include hover-bg-color(map-get($color, tertiary));
       }
     }
-
+    // status-btn 的 active 狀態
     &.active {
       background-color: map-get($color, tertiary);
     }
-
-    &:nth-child(2) {
+    // 最後一個 status-btn
+    &:last-child {
       border-left: 0;
     }
   }
@@ -99,21 +97,12 @@ $gap-amount: (
     }
   }
 
+  //? 原本在這裡，但已經移走的
+
   // 切換 watchcard option 的按鈕(僅在 breakpoint < md 出現)
   &__option-btn {
     display: none;
-    @include button-reset;
     @include text(base);
-    @include rounded-full;
-    position: absolute;
-    z-index: 11;
-    right: 5%;
-    top: 5%;
-    width: 2.1875rem;
-    height: 2.1875rem;
-    color: map-get($color, secondary);
-    background-color: map-get($color, primary);
-    cursor: pointer;
     @include md {
       display: flex;
       &.active {
@@ -177,7 +166,6 @@ $gap-amount: (
       border-radius: map-get($border-radius, md);
     }
   }
-
   // poster
   &__movie-poster {
     object-fit: cover;
@@ -185,7 +173,6 @@ $gap-amount: (
     width: 100%;
     height: 100%;
   }
-
   // watchcard__content
   &__content {
     @include flex($dir: column, $jc: space-between);
@@ -193,6 +180,9 @@ $gap-amount: (
     z-index: 10;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    border-radius: 1rem;
+    
     @include md {
       position: static;
     }
@@ -200,7 +190,6 @@ $gap-amount: (
       color: map-get($color, secondary);
     }
   }
-
   // watchcard__title
   &__title {
     @include text(2xl);
@@ -212,11 +201,6 @@ $gap-amount: (
     transform: translateY(-200%);
     transition: map-get($transition, 300);
     transition-property: transform;
-
-    @include lg {
-      @include text(3xl);
-    }
-
     @include md {
       @include text(base);
       margin-top: 1rem;

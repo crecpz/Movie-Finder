@@ -59,7 +59,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
     <div className="watchcard card">
       <button
         ref={optionBtnRef}
-        className={`watchcard__option-btn hamburger ${
+        className={`watchcard__option-btn card-btn hamburger ${
           optionIsOpen ? "active" : ""
         }`}
         onClick={handleOptionBtnClick}>

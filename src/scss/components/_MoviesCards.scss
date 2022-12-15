@@ -33,26 +33,22 @@ $gap-amount: (
   $block: &;
   transition: map-get($transition, 300);
   transition-property: transform, box-shadow;
-  cursor: pointer;
   border-radius: 1rem;
   overflow: hidden;
-
   @include hover-query {
     &:hover {
       position: relative;
       z-index: 20;
       transform: scale(1.25);
       box-shadow: map-get($box-shadow, base);
-
       @include md {
         transform: none;
       }
-
       // card 圖片暗色背景
       &::before {
         opacity: 1;
       }
-
+      // .movies-card__text
       #{$block}__text {
         opacity: 1;
         visibility: visible;
@@ -71,18 +67,19 @@ $gap-amount: (
     opacity: 0;
     transition: map-get($transition, 300);
     transition-property: opacity;
-
     @include md {
       visibility: hidden;
-      opacity: none;
+      opacity: 0;
     }
   }
-
+  
+  // .movies-card__img
   &__img {
     width: 100%;
     border-radius: map-get($border-radius, md);
   }
 
+  // movies-card__text
   &__text {
     position: absolute;
     z-index: 5;
@@ -94,7 +91,6 @@ $gap-amount: (
     transition: all ease-in-out 300ms;
     visibility: hidden;
     opacity: 0;
-
     @include md {
       position: static;
       visibility: visible;
@@ -105,24 +101,23 @@ $gap-amount: (
     }
   }
 
+  // movies-card__title
   &__title {
     @include text(base);
   }
 
+  // movies-card__info
   &__info {
     @include flex($wrap: wrap);
     @include text(sm);
     margin-top: 0.5rem;
-
     @include md {
       display: none;
     }
-
     // 日期
     & > :nth-child(1) {
       margin-right: 0.5rem;
     }
-
     // 評等
     & > :nth-child(2) {
       @include text(sm);

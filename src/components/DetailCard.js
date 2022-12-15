@@ -23,7 +23,9 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
 
   return (
     <li className="detail-card">
-      <Link to={`/movie/${movie && movie.id}`} className="detail-card__link">
+      <Link
+        to={`/movie/${movie && movie.id}`}
+        className="detail-card__img-link">
         <img
           src={`https://image.tmdb.org/t/p/w300/${movie && movie.poster_path}`}
           className="detail-card__poster"
@@ -32,10 +34,8 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
         />
       </Link>
       <div className="detail-card__texts">
-        <Link to={`/movie/${movie && movie.id}`} className="detail-card__link">
-          <h3 className="detail-card__title">
-            {movie ? movie.original_title : ""}
-          </h3>
+        <Link to={`/movie/${movie && movie.id}`} className="detail-card__title">
+          <h3>{movie ? movie.original_title : ""}</h3>
         </Link>
         <div className="info detail-card__info">
           {movie.release_date ? (
@@ -78,7 +78,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
             : ""}
         </div>
         <button
-          className="detail-card__btn btn btn--transparent btn--sm"
+          className="detail-card__btn card-btn btn btn--sm btn--transparent"
           onClick={() => changeWatchlist(id, inWatchlist, setWatchlist)}>
           <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
           {inWatchlist ? "In Watchlist" : "Add Watchlist"}

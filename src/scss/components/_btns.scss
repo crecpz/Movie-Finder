@@ -1,8 +1,7 @@
 @use "../abstracts" as *;
 
 .btn {
-  @include button-reset();
-  cursor: pointer;
+  @include button-reset;
   font-weight: bold;
   transition: map-get($transition, 150);
   transition-property: color, background-color;
@@ -11,22 +10,17 @@
     @include text(lg);
     padding: 0.75em 1em;
     border-radius: map-get($border-radius, base);
-
     @include lg {
       @include text(base);
     }
-
     @include md {
       @include text(sm);
     }
-
     @include sm {
       @include text(sm);
     }
-
     i {
       margin-right: 1rem;
-
       @include sm {
         margin-right: 0.25rem;
       }
@@ -37,17 +31,8 @@
     @include text(base);
     padding: 0.75em 1em;
     border-radius: map-get($border-radius, base);
-
     @include sm {
       @include text(sm);
-    }
-
-    i {
-      margin-right: 0.75rem;
-
-      @include sm {
-        margin-right: 0.5rem;
-      }
     }
   }
 
@@ -65,7 +50,6 @@
     background-color: transparent;
     color: map-get($color, primary);
     border: 1px solid map-get($color, primary);
-
     @include hover-query {
       &:hover {
         @include hover-bg-color(map-get($color, secondary));
@@ -76,7 +60,6 @@
   &--red {
     background-color: red;
     color: map-get($color, primary);
-
     @include hover-query {
       &:hover {
         @include hover-bg-color(map-get($color, tertiary));
@@ -85,6 +68,31 @@
   }
 }
 
+// 卡片內的按鈕(用於 Watchlist.js 內的 watchcard、 Search.js 內的 .detail-card)
+.card-btn {
+  @include md {
+    @include button-reset;
+    @include rounded-full;
+    position: absolute;
+    z-index: 1;
+    right: 5%;
+    top: 5%;
+    width: 2.1875rem;
+    height: 2.1875rem;
+    color: map-get($color, secondary);
+    background-color: map-get($color, primary);
+    box-shadow: 0 0 10px 0 #00000085;
+    transition: map-get($transition, 150);
+    transition-property: color, background-color;
+    @include hover-query {
+      &:hover {
+        background-color: map-get($color, tertiary);
+      }
+    }
+  }
+}
+
+// 用於 MovieDetail.js 中的演員名單中的展開按鈕
 .expand-btn {
   @include rounded-full;
   @include flex($ai: center, $jc: center);
@@ -100,19 +108,16 @@
   margin: 0;
   cursor: pointer;
   background-color: map-get($color, primary);
-
   @include hover-query {
     &:hover {
       @include hover-bg-color(map-get($color, primary));
     }
   }
-
   &::before {
     font: var(--fa-font-solid);
     @include text(xl);
     content: "\f078";
   }
-
   // 勾選狀態
   &:checked {
     &::before {
