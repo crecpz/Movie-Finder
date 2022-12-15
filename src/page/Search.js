@@ -116,7 +116,7 @@ const Search = ({ watchlist, setWatchlist }) => {
       }
     };
     window.addEventListener("click", hideAutoComplete);
-    // clean func
+    // cleanup function
     return () => {
       window.removeEventListener("click", hideAutoComplete);
     };

@@ -42,7 +42,7 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
       };
       getData();
     }
-    // clean func
+    // cleanup function
     return () => {
       subscribed = false;
     };
