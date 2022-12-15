@@ -18,7 +18,6 @@ function App() {
   const [watchlist, setWatchlist] = useState(
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
-
   return (
     <div className="App">
       <Router>

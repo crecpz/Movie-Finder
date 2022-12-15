@@ -1,29 +1,13 @@
-import { Link, NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
-const Header = ({ watchlist }) => {
+const Header = ({ watchlist}) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
 
   useEffect(() => {
-    // window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
-
-    // let resizeTimer;
-    //* 視窗發生 resize 時，關閉 nav 的 transition
-    // function handleResize() {
-      // // 關閉 nav
-      // if (navIsOpen) setNavIsOpen(false);
-      // // 取消 transtion
-      // const body = document.body;
-      // body.classList.add("no-transition");
-      // clearTimeout(resizeTimer);
-      // resizeTimer = setTimeout(() => {
-      //   body.classList.remove("no-transition");
-      // }, 100);
-    // }
-
     //* 控制 header 顏色，當 scrollY === 0 加上 header 的底色
     function handleScroll() {
       let currentScrollY = window.scrollY;
@@ -33,9 +17,7 @@ const Header = ({ watchlist }) => {
         headerRef.current.classList.add("header--black");
       }
     }
-
     return () => {
-      // window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -49,7 +31,6 @@ const Header = ({ watchlist }) => {
     const headerPaddingRight = window
       .getComputedStyle(headerRef.current, null)
       .getPropertyValue("padding-right");
-
     // 如果 nav 目前是開啟狀態
     if (navIsOpen) {
       body.style.overflowY = "hidden";
@@ -64,7 +45,6 @@ const Header = ({ watchlist }) => {
       body.style.overflowY = "";
       headerRef.current.style.paddingRight = "";
     }
-
     // 1000ms 後，清除 navRef 的 transition inline-style
     const timer = setTimeout(() => {
       if (!navIsOpen) {
@@ -72,7 +52,6 @@ const Header = ({ watchlist }) => {
         navRef.current.style.transitionProperty = "";
       }
     }, 1000);
-
     // cleanup function
     return () => clearTimeout(timer);
   }, [navIsOpen]);
