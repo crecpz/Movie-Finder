@@ -58,7 +58,7 @@ h6 {
 
 main {
     min-height: 100%;
-    padding-bottom: 1rem;
+    padding-bottom: 3rem;
 }
 
 .container {
@@ -94,6 +94,13 @@ main {
     }
 }
 
+// genres 容器
+.genres-tags {
+    @include flex($wrap: wrap);
+    row-gap: 0.75rem;
+    column-gap: 0.75rem;
+}
+
 // 電影類別標籤
 .genres-tag {
     @include text(xs);
@@ -110,12 +117,6 @@ main {
         &:hover {
             @include hover-bg-color(map-get($color, primary));
         }
-    }
-    // genres 容器
-    &-wrapper {
-        @include flex($wrap: wrap);
-        row-gap: 0.75rem;
-        column-gap: 0.75rem;
     }
 }
 

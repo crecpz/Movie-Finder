@@ -95,7 +95,7 @@ $detail-card-gap-amount: (
   }
 
   //* genres-tag 容器
-  &__genres-tag-wrapper {
+  &__genres-tags {
     margin-top: 1rem;
     @include md {
       display: none;

@@ -7,13 +7,8 @@
   // 除了首個 section 之外，其餘的 sectioni 都套用以下樣式:
   > section:not(:first-child) {
     margin-top: 7rem;
-
     @include md {
       margin-top: 5rem;
-    }
-
-    @include sm {
-      margin-top: 3rem;
     }
   }
 
@@ -22,11 +17,11 @@
     @include x-spacing;
   }
 
+  // 各區塊標題
   .layout-title {
-    @include flex;
+    @include flex;  
     padding-bottom: 1.5rem;
     border-bottom: 1px solid map-get($color, light-gray);
-
     &::before {
       content: "";
       display: block;
@@ -45,7 +40,6 @@
   &__intro {
     display: grid;
     height: 100vh;
-
     @include lg {
       height: auto;
     }
@@ -54,12 +48,10 @@
       @include flex($ai: center);
       grid-column: 1/2;
       grid-row: 1/2;
-
       @include lg {
         flex-direction: column;
         margin-top: 6rem;
       }
-
       @include md {
         margin-top: 5.5rem;
       }
@@ -75,7 +67,6 @@
     z-index: -1;
     width: 100%;
     max-height: 85vh;
-
     @include lg {
       align-self: flex-start;
     }
@@ -108,7 +99,6 @@
     max-width: 16.875rem;
     border-radius: map-get($border-radius, base);
     box-shadow: map-get($box-shadow, base);
-
     @include md {
       max-width: 15.625rem;
     }
@@ -117,63 +107,54 @@
   //* 文字區域
   &__texts {
     @include flex($dir: column, $jc: center);
-    @include transition-appear(5);
+    @include transition-show(5);
     row-gap: 1rem;
     margin-left: 4rem;
     width: 100%;
     max-width: 56.25rem;
     height: 100%;
-
     @include lg {
       margin-left: 0rem;
       margin-top: 3rem;
     }
-
     @include md {
       row-gap: 1.25rem;
       justify-content: start;
     }
-
     @include sm {
       margin-top: 2rem;
     }
   }
 
-  //* 電影名稱(標題)
+  // 電影名稱(標題)
   &__title {
     @include text(5xl);
-
     @include lg {
       @include text(4xl);
     }
-
     @include md {
       @include text(3xl);
     }
   }
 
-  //* 文字介紹
+  // 文字介紹
   &__overview {
     @include text(lg);
-
     @include lg {
       order: 5;
     }
-
     @include sm {
       @include text(lg);
       margin-top: 0.5em;
     }
   }
 
-  //* 按鈕 (Watch Video & Add Watchlist)
+  // 按鈕 (Watch Video & Add Watchlist)
   &__btns {
     @include flex;
-
     @include lg {
       order: 4;
     }
-
     @include sm {
       margin-top: 1rem;
       flex-direction: column;
@@ -183,24 +164,20 @@
   // 單一按鈕
   &__btn {
     align-self: flex-start;
-
     @include sm {
       width: 100%;
     }
-
+    // 除了第一個 btn
     &:not(:first-child) {
       margin-left: 2.5rem;
-
       @include lg {
         margin-left: 1rem;
       }
-
       @include sm {
         margin-left: 0;
         margin-top: 1rem;
       }
     }
-
     //@ 統一設定 Add Watchlist 的 icon 大小(因為打勾與加號的 icon 大小不一)
     i {
       width: 1.125rem;
@@ -210,23 +187,19 @@
   //* cast (演員列表)
   &__cast {
     $block: &;
-    // @include x-spacing;
-
     .container {
-      // 為了確保收合的過程中不要讓內容超出 .container
+      // 為了確保收合的過程中不要讓內容超出 .container 故加上 overflow
       overflow: hidden;
     }
-
+    // cast 內容區
     &-content {
       position: relative;
-
       // 此 class 用於無 cast 資料的情況
       &.no-cast {
         // 將收合的按鈕(input checkbox)隱藏
         .expand-btn {
           display: none;
         }
-
         // 將遮蓋在 movie-detail__cast-cards 上的漸層隱藏
         .movie-detail__cast-cards::before {
           display: none;
@@ -238,15 +211,16 @@
     &-btn {
       // 收合列表只發生在 breakpoint md 以下
       @include md {
-        display: flex;
-
+        // 套用此 class 可使收合列表顯示
+        &--show {
+          display: flex;
+        }
         // 當收合列表 checkbox 是 :checked 狀態
         &:checked {
           // checkbox 後面的 .movie-detail__cast-cards
           & + #{$block}-cards {
             max-height: 87.5rem;
             overflow-y: visible;
-
             &::before {
               opacity: 0;
             }
@@ -259,23 +233,23 @@
     &-cards {
       @include flex($wrap: wrap);
       row-gap: 2rem;
-
       @include md {
-        padding-bottom: 4rem;
-
         max-height: 25rem;
         overflow-y: hidden;
         transition: map-get($transition, 500);
         transition-property: max-height;
-
-        &::before {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 100%;
-          transition: opacity map-get($transition, 500);
-          background-image: linear-gradient(to bottom, transparent, black);
+        // 套用此 class 可使 movie-detail__cast-cards 啟用遮蓋
+        &--has-overlay {
+          padding-bottom: 4rem;
+          &::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity map-get($transition, 500);
+            background-image: linear-gradient(to bottom, transparent, black);
+          }
         }
       }
     }
@@ -285,11 +259,9 @@
       @include flex($ai: center);
       width: 100%;
       max-width: 33.333%; // 3 欄
-
       @include xl {
         max-width: 50%; // 2 欄
       }
-
       @include md {
         max-width: 100%; // 1 欄
       }
@@ -301,7 +273,6 @@
       @include rounded-full;
       object-fit: cover;
       flex-shrink: 0;
-
       @include lg {
         width: 4.5rem;
         height: 4.5rem;
@@ -313,22 +284,18 @@
       @include flex($dir: column);
       padding-left: 1.5rem;
       padding-right: 1.5rem;
-
-      // 人名
+      // 演員名
       span:nth-child(1) {
         font-weight: bold;
         @include text(2xl);
-
         @include lg {
           @include text(xl);
         }
       }
-
       // 擔任角色名
       span:nth-child(2) {
         @include text(xl);
         color: map-get($color, primary-dark);
-
         @include lg {
           @include text(lg);
         }
@@ -336,11 +303,12 @@
     }
   }
 
+  // video 嵌入內容區
   &__iframe-content {
     position: relative;
     width: 100%;
     padding-bottom: 56.25%;
-
+    // 沒有 video 的情況下，將 padding-bottom 設為 0
     &--no-video {
       padding-bottom: 0;
     }

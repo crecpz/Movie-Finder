@@ -1,7 +1,6 @@
 @use "../abstracts" as *;
 
 .movie-swiper {
-
   // 底部分頁 bullet
   .swiper-pagination {
     bottom: -0.5rem;
@@ -9,7 +8,6 @@
       display: none;
     }
   }
-
   // 使 .movie-swiper 下方的 bullets 跟其上方文字產生間隔
   .swiper-wrapper {
     padding-bottom: 1.5rem;
@@ -17,32 +15,25 @@
       padding-bottom: 0;
     }
   }
-
-  .layout-title {
-    @include md {
-    }
-  }
 }
 
 .movie-slide {
-  // * swiper 電影圖片連結
+  // swiper 電影圖片連結
   &__img-link {
     display: inline-block;
     overflow: hidden;
     border-radius: map-get($border-radius, base);
   }
 
-  //* swiper 電影圖片
+  // swiper 電影圖片
   &__img {
     width: 100%;
-
     // swiper backdrop 預設為顯示，直到螢幕 <= 768px 後隱藏
     &--backdrop {
       @include md {
         display: none;
       }
     }
-
     // swiper poster 預設為隱藏，直到螢幕 <= 768px 後隱藏顯示
     &--poster {
       display: none;
@@ -52,19 +43,19 @@
     }
   }
 
-  //* swiper 電影名稱連結
+  // swiper 電影名稱連結
   &__title-link {
     display: inline-block;
     margin-top: 0.5rem;
-
     // breakpoint <= 768 隱藏標題連結文字
     @include md {
       display: none;
     }
   }
 
-  //* swiper 電影名稱
+  // swiper 電影名稱
   &__title {
-    @include text(xl);
+    @include text(lg);
+    font-weight: 400;
   }
 }

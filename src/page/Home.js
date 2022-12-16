@@ -7,7 +7,7 @@ import ScrollToTop from "react-scroll-to-top";
 import { getData } from "../utils/function";
 import HomeGenresSwiper from "../components/HomeGenresSwiper";
 // Import Swiper
-import { Pagination, Navigation, Autoplay } from "swiper";
+import { Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { spinnerStyle } from "../utils/components-styles";
 import "swiper/css";
@@ -45,6 +45,7 @@ const Home = () => {
       getData(TRENDING_URL, setTrendingMovies);
       getData(GENRES_URL, setGenresData);
     }
+    // cleanup function
     return () => {
       subscribed = false;
     };
@@ -87,7 +88,9 @@ const Home = () => {
                 <h3 className="hero__slide-title">
                   {movie.original_title ? movie.original_title : ""}
                 </h3>
-                <div className="info hero__slide-info">
+                {/* 電影資訊 */}
+                <div className="hero__slide-info info">
+                  {/* 上映日期 */}
                   {movie.release_date ? (
                     <p className="hero__slide-release-date">
                       <i className="fa-regular fa-calendar"></i>
@@ -96,6 +99,7 @@ const Home = () => {
                   ) : (
                     ""
                   )}
+                  {/* 評分 */}
                   {movie.vote_average ? (
                     <p className="hero__slide-vote">
                       <i className="fa-solid fa-star"></i>
@@ -105,6 +109,7 @@ const Home = () => {
                     ""
                   )}
                 </div>
+                {/* 文字介紹 */}
                 {movie.overview ? (
                   <p className="overview hero__slide-overview">
                     {movie.overview}
@@ -139,7 +144,6 @@ const Home = () => {
       <div className={`spinner-full-screen${imgIsLoaded ? "" : " active"}`}>
         <PulseLoader color="#fff" cssOverride={spinnerStyle} />
       </div>
-
       <section className="hero">
         <Swiper
           pagination={{

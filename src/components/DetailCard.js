@@ -37,23 +37,27 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
         <Link to={`/movie/${movie && movie.id}`} className="detail-card__title">
           <h3>{movie ? movie.original_title : ""}</h3>
         </Link>
-        <div className="info detail-card__info">
+        {/* 電影資訊 */}
+        <div className="detail-card__info info">
+          {/* 上映日期 */}
           {movie.release_date ? (
-            <p className="release-date detail-card__release-date">
+            <p className="detail-card__release-date release-date">
               <i className="fa-regular fa-calendar"></i>
               {movie.release_date}
             </p>
           ) : (
             ""
           )}
+          {/* 評分 */}
           {movie.vote_average ? (
-            <p className="vote detail-card__vote">
+            <p className="detail-card__vote vote">
               <i className="fa-solid fa-star"></i>
               {movie.vote_average}
             </p>
           ) : (
             ""
           )}
+          {/* 時長 */}
           {currentMovie.runtime ? (
             <p className="detail-card__runtime">
               <i className="fa-regular fa-clock"></i>
@@ -63,7 +67,8 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
             ""
           )}
         </div>
-        <div className="detail-card__genres-tag-wrapper genres-tag-wrapper">
+        {/* 類別標籤 */}
+        <div className="detail-card__genres-tags genres-tags">
           {currentMovie && currentMovie.genres
             ? removeDuplicate(currentMovie.genres, "id").map((genres) => {
                 return (

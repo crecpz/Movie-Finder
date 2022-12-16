@@ -41,11 +41,9 @@ const Movies = ({ type }) => {
       const lastDate = getFirstDayAndLastDayOfMonth()[1];
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=${firstDate}&primary_release_date.lte=${lastDate}&page=${pageNum}`;
       break;
-
     case "popular":
       API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800&page=${pageNum}`;
       break;
-
     case "genres":
       // 注意: 會先檢查網址，如果網址是 undefined，就給他預設值 28 (Action 類別的代號)
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${
@@ -53,6 +51,7 @@ const Movies = ({ type }) => {
       }&page=${pageNum}`;
       break;
   }
+
   //* 切換頁面
   useEffect(() => {
     let subscribed = true;
@@ -86,7 +85,10 @@ const Movies = ({ type }) => {
     <section className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
+        {/* 在 Genres 頁面顯示 <GenresSwiper /> */}
         {type === "genres" && <GenresSwiper />}
+
+        {/* MovieCards */}
         <div className="movies-cards cards">
           {movies.length !== 0 ? (
             movies.map((movie) => {
@@ -96,6 +98,8 @@ const Movies = ({ type }) => {
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           )}
         </div>
+        
+        {/* load more spinner */}
         {movies.length !== 0 && (
           <div ref={loadMore} className="spinner spinner--full-screen">
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />

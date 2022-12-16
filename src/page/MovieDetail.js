@@ -47,16 +47,11 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
   ]);
   // 指向 video 區塊的 ref
   const videoRef = useRef();
-
   // API URLs
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=e86818f56e7d92f357708ecb03052800`;
   const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
   const CREDITS_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/credits?api_key=e86818f56e7d92f357708ecb03052800`;
-
-  function handleError() {
-    navigate("/notfound", { replace: true });
-  }
 
   useEffect(() => {
     // 換頁後，恢復 poster & backdrop 的狀態
@@ -95,56 +90,6 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  //* 演員列表
-  const creditsElement =
-    credits.cast &&
-    credits.cast
-      .sort((a, b) => b.popularity - a.popularity)
-      .slice(0, 12)
-      .map(({ character, name, profile_path }) => {
-        return (
-          <div className="movie-detail__cast-card">
-            <img
-              className="movie-detail__cast-img"
-              src={`https://image.tmdb.org/t/p/w500/${profile_path}`}
-              onError={(e) => noAvatar(e)}
-              alt="profilie_path"
-            />
-            <p className="movie-detail__cast-text">
-              <span>{name}</span>
-              <span>{removeBracketsStr(character)}</span>
-            </p>
-          </div>
-        );
-      });
-
-  //*  video key
-  // 優先取得 Trailer 或 Teaser
-  const videoKey =
-    video.results &&
-    video.results.find(({ type }) => type === "Trailer" || type === "Teaser")
-      ? video.results.find(
-          ({ type }) => type === "Trailer" || type === "Teaser"
-        ).key
-      : "";
-
-  /**
-   * * 改變目前 poster & backdrop 的載入狀態，並更新至 imgLoadStatus state
-   * @param {*} e
-   */
-  function changeImgStatus(e) {
-    const { alt } = e.target;
-    setImgLoadStatus((prev) => {
-      return prev.map((i) => {
-        if (i.type === alt) {
-          return { ...i, isLoaded: true };
-        } else {
-          return i;
-        }
-      });
-    });
-  }
-
   useEffect(() => {
     // 當 imgLoadStatus 內所有的元素的 isLoaded 屬性皆為 true 時
     // 代表 poster 與 backdrop 都已載入完畢
@@ -171,6 +116,61 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       });
     }
   }, [currentMovie]);
+
+  //*  video key
+  // 優先取得 Trailer 或 Teaser
+  const videoKey =
+    video.results &&
+    video.results.find(({ type }) => type === "Trailer" || type === "Teaser")
+      ? video.results.find(
+          ({ type }) => type === "Trailer" || type === "Teaser"
+        ).key
+      : "";
+
+  //* 演員列表
+  const creditsElement =
+    credits.cast &&
+    credits.cast
+      .sort((a, b) => b.popularity - a.popularity)
+      .slice(0, 12)
+      .map(({ character, name, profile_path }) => {
+        return (
+          <div className="movie-detail__cast-card">
+            <img
+              className="movie-detail__cast-img"
+              src={`https://image.tmdb.org/t/p/w500/${profile_path}`}
+              onError={(e) => noAvatar(e)}
+              alt="profilie_path"
+            />
+            <p className="movie-detail__cast-text">
+              <span>{name}</span>
+              <span>{removeBracketsStr(character)}</span>
+            </p>
+          </div>
+        );
+      });
+
+  /**
+   * * 改變目前 poster & backdrop 的載入狀態，並更新至 imgLoadStatus state
+   * @param {*} e
+   */
+  function changeImgStatus(e) {
+    const { alt } = e.target;
+    setImgLoadStatus((prev) => {
+      return prev.map((i) => {
+        if (i.type === alt) {
+          return { ...i, isLoaded: true };
+        } else {
+          return i;
+        }
+      });
+    });
+  }
+
+  //* 前往一個不存在的網址時，導向 notfound 頁面
+  function handleError() {
+    navigate("/notfound", { replace: true });
+  }
 
   return (
     <>
@@ -200,28 +200,30 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 alt="poster"
               />
             )}
-            <div
-              className={`movie-detail__texts ${imgIsLoaded ? "appear" : ""}`}>
+            <div className={`movie-detail__texts ${imgIsLoaded ? "show" : ""}`}>
               <h3 className="movie-detail__title">
                 {currentMovie.original_title ? currentMovie.original_title : ""}
               </h3>
-
-              <div className="movie-detail__genres-tag-wrapper genres-tag-wrapper">
-                {currentMovie.genres
-                  ? removeDuplicate(currentMovie.genres, "id").map((genres) => {
-                      return (
-                        <Link
-                          key={genres.id}
-                          to={`/movies/genres/${genres.id}`}
-                          className="movie-detail__genres-tag genres-tag">
-                          {genres.name}
-                        </Link>
-                      );
-                    })
-                  : ""}
-              </div>
-
-              <div className="info movie-detail__info">
+              {/* 類別標籤 */}
+              {currentMovie.genres ? (
+                <div className="movie-detail__genres-tags genres-tags">
+                  {removeDuplicate(currentMovie.genres, "id").map((genres) => {
+                    return (
+                      <Link
+                        key={genres.id}
+                        to={`/movies/genres/${genres.id}`}
+                        className="movie-detail__genres-tag genres-tag">
+                        {genres.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
+              {/* 電影資訊 */}
+              <div className="movie-detail__info info">
+                {/* 上映日期 */}
                 {currentMovie.release_date ? (
                   <p className="movie-detail__release-date">
                     <i className="fa-regular fa-calendar"></i>
@@ -230,14 +232,16 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 ) : (
                   ""
                 )}
+                {/* 評分 */}
                 {currentMovie.vote_average ? (
-                  <p className="vote movie-detail__vote">
+                  <p className="movie-detail__vote vote">
                     <i className="fa-solid fa-star"></i>
                     {currentMovie.vote_average}
                   </p>
                 ) : (
                   ""
                 )}
+                {/* 時長 */}
                 {currentMovie.runtime ? (
                   <p className="movie-detail__runtime">
                     <i className="fa-regular fa-clock"></i>
@@ -247,10 +251,14 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                   ""
                 )}
               </div>
-
-              <p className="overview movie-detail__overview">
-                {currentMovie.overview || ""}
-              </p>
+              {/* 文字介紹 */}
+              {currentMovie.overview ? (
+                <p className="movie-detail__overview overview">
+                  {currentMovie.overview}
+                </p>
+              ) : (
+                ""
+              )}
 
               <div className="movie-detail__btns">
                 <button
@@ -284,9 +292,18 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               }`}>
               <input
                 type="checkbox"
-                className="expand-btn movie-detail__cast-btn"
+                className={`expand-btn movie-detail__cast-btn ${
+                  credits.cast && credits.cast.length > 5
+                    ? "movie-detail__cast-btn--show"
+                    : ""
+                }`}
               />
-              <div className="movie-detail__cast-cards">
+              <div
+                className={`movie-detail__cast-cards ${
+                  credits.cast && credits.cast.length > 5
+                    ? "movie-detail__cast-cards--has-overlay"
+                    : ""
+                }`}>
                 {credits.cast && credits.cast.length ? (
                   creditsElement
                 ) : (
