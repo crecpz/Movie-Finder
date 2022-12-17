@@ -68,7 +68,7 @@
   }
 }
 
-// 卡片內的按鈕(用於 Watchlist.js 內的 watchcard、 Search.js 內的 .detail-card)
+// 卡片內的按鈕(用於 Watchlist.js 內的 watchcard、 Search.js 內的 .search__result)
 .card-btn {
   @include md {
     @include button-reset;

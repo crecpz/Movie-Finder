@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import DetailCard from "../../components/DetailCard";
+import SearchResult from "../../components/SearchResult/SearchResult";
 import { getData, removeDuplicate } from "../../utils/function";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../../utils/components-styles";
@@ -138,7 +138,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
     ) : (
       removeDuplicate(searchResult.results, "title").map((movie) => {
         return (
-          <DetailCard
+          <SearchResult
             key={movie.id}
             movie={movie}
             inWatchlist={watchlist.some(
@@ -238,7 +238,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
           </ul>
         </div>
 
-        <ul className="detail-cards">
+        <ul className="search__results">
           {/* ! spinner
           {startSearching && !searchResult.results && (
             <div className="spinner">

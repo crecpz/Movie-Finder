@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useInView } from "react-intersection-observer";
-// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Link } from "react-router-dom";
 import ScrollToTop from "react-scroll-to-top";
 import { getData } from "../../utils/function";
-import HomeGenresSwiper from "../../components/HomeGenresSwiper";
+import HomeGenresSwiper from "../../components/HomeGenresSwiper/HomeGenresSwiper";
 // Import Swiper
 import { Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";

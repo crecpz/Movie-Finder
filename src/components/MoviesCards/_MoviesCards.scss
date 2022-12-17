@@ -1,10 +1,10 @@
-@use "../abstracts" as *;
+@use "../../scss/abstracts" as *;
 
 //* .movies-cards 卡片佈局設定
 // 卡片之間的 column-gap
-$column-gap: 1.25rem;
+$movie-cards-column-gap: 1.25rem;
 // 每列在特定斷點分別要容納幾張卡片?
-$card-amount: (
+$movie-cards-card-amount: (
   default: 6,
   xl: 5,
   lg: 4,
@@ -12,7 +12,7 @@ $card-amount: (
   sm: 2,
 );
 // 每列在特定斷點分別有幾個 gap?
-$gap-amount: (
+$movie-cards-gap-amount: (
   default: 5,
   xl: 4,
   lg: 3,
@@ -21,11 +21,11 @@ $gap-amount: (
 );
 
 .movies-cards {
-  @include cards($column-gap);
+  @include cards($movie-cards-column-gap);
 }
 
 .movies-card-link {
-  @include card($column-gap, $card-amount, $gap-amount);
+  @include card($movie-cards-column-gap, $movie-cards-card-amount, $movie-cards-gap-amount);
   animation: scale map-get($transition, 500);
 }
 

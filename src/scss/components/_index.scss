@@ -1,8 +1,9 @@
 @forward "btns";
-@forward "Header";
-@forward "DetailCard";
-@forward "GenresSwiper";
-@forward "MoviesCards";
 @forward "card";
-@forward "global-swiper";
-@forward "movie-swiper";
+@forward "swiper-setting";
+@forward "../../components/Header/Header";
+@forward "../../components/SearchResult/SearchResult";
+@forward "../../components/GenresSwiper/GenresSwiper";
+@forward "../../components/MoviesCards/MoviesCards";
+@forward "../../components/MovieSwiper/movie-swiper";
+@forward "../../components/WatchCards/WatchCards";

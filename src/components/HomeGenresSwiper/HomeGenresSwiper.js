@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getData } from "../utils/function";
+import { getData } from "../../utils/function";
 import { Link } from "react-router-dom";
-import MovieSwiper from "./MovieSwiper";
+import MovieSwiper from "../MovieSwiper/MovieSwiper";
 
 const HomeGenresSwiper = ({ id, name, show }) => {
   // 獲取特定類別的電影資料，並且以受歡迎程度(popularity)進行排序

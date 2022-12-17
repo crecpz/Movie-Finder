@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -18,8 +18,7 @@ import {
 } from "../../utils/function";
 import { spinnerStyle } from "../../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
-import { useRef } from "react";
-import MovieSwiper from "../../components/MovieSwiper";
+import MovieSwiper from "../../components/MovieSwiper/MovieSwiper";
 
 const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const navigate = useNavigate();

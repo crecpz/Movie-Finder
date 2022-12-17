@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,14 +6,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Header from "./components/Header";
-import Movies from "./components/Movies";
-import WatchCards from "./components/WatchCards";
+import Header from "./components/Header/Header"
+import Movies from "./pages/Movies/Movies";
+import WatchCards from "./components/WatchCards/WatchCards";
 import MovieDetail from "./pages/MovieDetail/MovieDetail";
 import Watchlist from "./pages/Watchlist/Watchlist";
 import Search from "./pages/Search/Search";
 import NotFound from "./pages/NotFound/NotFound";
-import { useEffect } from "react";
 
 function App() {
   // watchlist

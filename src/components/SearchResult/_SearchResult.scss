@@ -1,29 +1,30 @@
-@use "../abstracts" as *;
+@use "../../scss/abstracts" as *;
+
 //@ 存放搜尋結果
 //- 定義 DetailCard 內在 breakpoiint sm 的卡片布局
-$detail-cards-column-gap: 1.25rem;
+$search__results-column-gap: 1.25rem;
 
-$detail-card-amount: (
+$search__result-amount: (
   md: 3,
   sm: 2,
 );
-$detail-card-gap-amount: (
+$search__result-gap-amount: (
   md: 2,
   sm: 1,
 );
 
 //* 卡片容器
-.detail-cards {
+.search__results {
   margin-top: 3rem;
   @include md {
     @include flex($wrap: wrap);
-    column-gap: $detail-cards-column-gap;
+    column-gap: $search__results-column-gap;
     row-gap: 2rem;
   }
 }
 
 //* 卡片
-.detail-card {
+.search__result {
   $block: &;
   @include flex;
   padding-top: 2rem;
@@ -37,14 +38,14 @@ $detail-card-gap-amount: (
     width: 100%;
     border-bottom: 0;
     max-width: calc(
-      (100% / map-get($detail-card-amount, md)) -
-        ($detail-cards-column-gap * map-get($detail-card-gap-amount, md) / map-get($detail-card-amount, md))
+      (100% / map-get($search__result-amount, md)) -
+        ($search__results-column-gap * map-get($search__result-gap-amount, md) / map-get($search__result-amount, md))
     );
   }
   @include sm {
     max-width: calc(
-      (100% / map-get($detail-card-amount, sm)) -
-        ($detail-cards-column-gap * map-get($detail-card-gap-amount, sm) / map-get($detail-card-amount, sm))
+      (100% / map-get($search__result-amount, sm)) -
+        ($search__results-column-gap * map-get($search__result-gap-amount, sm) / map-get($search__result-amount, sm))
     );
   }
 

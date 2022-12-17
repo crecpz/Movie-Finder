@@ -1,9 +1,8 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import PulseLoader from "react-spinners/PulseLoader";
-import { spinnerStyle } from "../utils/components-styles";
 import WatchCard from "./WatchCard";
+import PulseLoader from "react-spinners/PulseLoader";
+import { spinnerStyle } from "../../utils/components-styles";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
   const { watchStatusTag = "unwatched" } = useParams();

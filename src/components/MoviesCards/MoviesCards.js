@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const MoviesCard = ({ movie }) => {
+const MoviesCards = ({ movie }) => {
   // 確保電影有圖片跟標題，若不存在的就不顯示在此
   return movie.poster_path && (movie.title || movie.original_title) ? (
     <Link to={`/movie/${movie.id}`} className="movies-card-link card">
@@ -31,4 +31,4 @@ const MoviesCard = ({ movie }) => {
   );
 };
 
-export default MoviesCard;
+export default MoviesCards;

@@ -6,9 +6,9 @@ import {
   getData,
   noPoster,
   removeDuplicate,
-} from "../utils/function";
+} from "../../utils/function";
 
-const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
+const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
   const id = movie.id;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const [currentMovie, setCurrentMovie] = useState({});
@@ -22,26 +22,28 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
   }, []);
 
   return (
-    <li className="detail-card">
+    <li className="search__result">
       <Link
         to={`/movie/${movie && movie.id}`}
-        className="detail-card__img-link">
+        className="search__result__img-link">
         <img
           src={`https://image.tmdb.org/t/p/w300/${movie && movie.poster_path}`}
-          className="detail-card__poster"
+          className="search__result__poster"
           onError={noPoster}
-          alt="detail-card-img"
+          alt="search__result-img"
         />
       </Link>
-      <div className="detail-card__texts">
-        <Link to={`/movie/${movie && movie.id}`} className="detail-card__title">
+      <div className="search__result__texts">
+        <Link
+          to={`/movie/${movie && movie.id}`}
+          className="search__result__title">
           {movie.title ? <h3>{movie.title}</h3> : ""}
         </Link>
         {/* 電影資訊 */}
-        <div className="detail-card__info info">
+        <div className="search__result__info info">
           {/* 上映日期 */}
           {movie.release_date ? (
-            <p className="detail-card__release-date release-date">
+            <p className="search__result__release-date release-date">
               <i className="fa-regular fa-calendar"></i>
               {movie.release_date}
             </p>
@@ -50,7 +52,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
           )}
           {/* 評分 */}
           {movie.vote_average ? (
-            <p className="detail-card__vote vote">
+            <p className="search__result__vote vote">
               <i className="fa-solid fa-star"></i>
               {movie.vote_average}
             </p>
@@ -59,7 +61,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
           )}
           {/* 時長 */}
           {currentMovie.runtime ? (
-            <p className="detail-card__runtime">
+            <p className="search__result__runtime">
               <i className="fa-regular fa-clock"></i>
               {convertTime(currentMovie.runtime)}
             </p>
@@ -68,14 +70,14 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
           )}
         </div>
         {/* 類別標籤 */}
-        <div className="detail-card__genres-tags genres-tags">
+        <div className="search__result__genres-tags genres-tags">
           {currentMovie && currentMovie.genres
             ? removeDuplicate(currentMovie.genres, "id").map((genres) => {
                 return (
                   <Link
                     key={genres.id}
                     to={`/movies/genres/${genres.id}`}
-                    className="detail-card__genres-tag genres-tag">
+                    className="search__result__genres-tag genres-tag">
                     {genres.name}
                   </Link>
                 );
@@ -83,7 +85,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
             : ""}
         </div>
         <button
-          className="detail-card__btn card-btn btn btn--sm btn--transparent"
+          className="search__result__btn card-btn btn btn--sm btn--transparent"
           onClick={() => {
             changeWatchlist(id, inWatchlist, setWatchlist, setUnreadList);
           }}>
@@ -95,4 +97,4 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
   );
 };
 
-export default DetailCard;
+export default SearchResult;

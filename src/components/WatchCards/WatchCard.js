@@ -1,7 +1,6 @@
-import { useRef } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import { noPoster } from "../utils/function";
+import { noPoster } from "../../utils/function";
 
 const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
   // 確認目前位於 Unwatched 還是 Watched
@@ -57,6 +56,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
 
   return (
     <div className="watchcard card">
+      {/* 選單按鈕 */}
       <button
         ref={optionBtnRef}
         className={`watchcard__option-btn card-btn hamburger ${
@@ -67,6 +67,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
         <div className="hamburger__line"></div>
         <div className="hamburger__line"></div>
       </button>
+      {/* 圖片 */}
       <div className="watchcard__img">
         <img
           className="watchcard__movie-poster"
@@ -75,9 +76,12 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
           alt="watchcard-poster"
         />
       </div>
+      {/* 內容區 */}
       <div className="watchcard__content">
         {title ? <h3 className="watchcard__title">{title}</h3> : ""}
+        {/* 三個按鈕 */}
         <div className="watchcard__btns">
+          {/* 觀看狀態切換 */}
           <button
             className="btn btn-transparent watchcard__btn"
             onClick={() => changeStatus(id)}>
@@ -88,12 +92,14 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
             )}
             {`${watchStatusTag === "unwatched" ? "Watched" : "Unwatched"}`}
           </button>
+          {/* 更多資訊 */}
           <Link
             to={`/movie/${id}`}
             className="btn btn-transparent watchcard__btn">
             <i className="fa-solid fa-info"></i>
             More
           </Link>
+          {/* 自 watchlist 移除 */}
           <button
             className="btn btn-transparent watchcard__btn"
             onClick={() => removeWatchcard(id)}>

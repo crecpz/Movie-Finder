@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
-import { spinnerStyle } from "../utils/components-styles";
+import { spinnerStyle } from "../../utils/components-styles";
 import { useNavigate, useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import {
   capitalize,
   getFirstDayAndLastDayOfMonth,
   getMoreData,
-} from "../utils/function";
+} from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
-import GenresSwiper from "./GenresSwiper";
-import MoviesCard from "./MoviesCard";
-import genresIconsData from "../utils/genresIconsData";
+import GenresSwiper from "../../components/GenresSwiper/GenresSwiper";
+import MoviesCard from "../../components/MoviesCards/MoviesCards";
+import genresIconsData from "../../utils/genresIconsData";
 
 const Movies = ({ type }) => {
   const navigate = useNavigate();
@@ -98,7 +98,7 @@ const Movies = ({ type }) => {
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           )}
         </div>
-        
+
         {/* load more spinner */}
         {movies.length !== 0 && (
           <div ref={loadMore} className="spinner spinner--full-screen">
