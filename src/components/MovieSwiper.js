@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, FreeMode } from "swiper";
@@ -11,7 +10,7 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
   //* slide
   const slideElements = movies.results
     ? movies.results.map((movie) => {
-        return movie.backdrop_path && movie.original_title ? (
+        return movie.backdrop_path && movie.title ? (
           <SwiperSlide key={movie.id} className="movie-slide">
             <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
               <img
@@ -26,10 +25,8 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
               />
               <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </Link>
-            <Link
-              to={`/movie/${movie && movie.id}`}
-              className="movie-slide__title-link">
-              <h2 className="movie-slide__title">{movie.original_title}</h2>
+            <Link to={`/movie/${movie.id}`} className="movie-slide__title-link">
+              <h2 className="movie-slide__title">{movie.title}</h2>
             </Link>
           </SwiperSlide>
         ) : (

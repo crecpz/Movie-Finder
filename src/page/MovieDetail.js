@@ -68,8 +68,8 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
       getData(VIDEO_URL, setVideo); // Video
       getData(SIMILAR_URL, setSimilarMovies); // 相似電影推薦
     }
-    // 更新目前的 watchlist 按鈕狀態
-    // (如果在 watchlist 中 find() 的結果不是 undefined 就設為 true，否則設為 false)
+    // 更新目前的 watchlist 按鈕狀態(樣式)
+    // (如果在 watchlist 中 find() 的結果為 undefined 就設為 false，否則設為 true)
     setInWatchlist(
       watchlist.find((movie) => movie.id === currentMovieId) !== undefined
     );
@@ -200,9 +200,11 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 alt="poster"
               />
             )}
+            {/* intro 文字部分 */}
             <div className={`movie-detail__texts ${imgIsLoaded ? "show" : ""}`}>
+              {/* 電影標題 */}
               <h3 className="movie-detail__title">
-                {currentMovie.original_title ? currentMovie.original_title : ""}
+                {currentMovie.title ? currentMovie.title : ""}
               </h3>
               {/* 類別標籤 */}
               {currentMovie.genres ? (
@@ -259,13 +261,15 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
               ) : (
                 ""
               )}
-
+              {/* 按鈕區域 */}
               <div className="movie-detail__btns">
+                {/* Watch Video */}
                 <button
                   className="movie-detail__btn btn btn--red btn--lg"
                   onClick={() => scrollDownTo(videoRef)}>
                   <i className="fa-solid fa-play"></i>Watch Video
                 </button>
+                {/* Add Watchlist */}
                 <button
                   className="movie-detail__btn btn btn--transparent btn--lg"
                   onClick={() =>

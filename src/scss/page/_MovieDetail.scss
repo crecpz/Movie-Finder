@@ -40,8 +40,9 @@
   &__intro {
     display: grid;
     height: 100vh;
+
     @include lg {
-      height: auto;
+      // height: auto;
     }
 
     .container {

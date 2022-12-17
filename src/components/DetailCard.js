@@ -35,7 +35,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
       </Link>
       <div className="detail-card__texts">
         <Link to={`/movie/${movie && movie.id}`} className="detail-card__title">
-          <h3>{movie ? movie.original_title : ""}</h3>
+          {movie.title ? <h3>{movie.title}</h3> : ""}
         </Link>
         {/* 電影資訊 */}
         <div className="detail-card__info info">

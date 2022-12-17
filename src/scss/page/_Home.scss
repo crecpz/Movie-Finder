@@ -150,7 +150,10 @@
   // 電影標題
   &__slide-title {
     @include text(5xl);
-    @include md {
+    @include lg {
+      @include text(4xl);
+    }
+    @include sm {
       @include text(3xl);
     }
   }
@@ -168,14 +171,11 @@
     }
   }
 
-  // 評等
-  &__slide-vote {
-  }
-
   // 文字介紹
   &__slide-overview {
     max-width: 43.75rem;
-    @include md {
+    @include text(xl);
+    @include lg {
       @include text(lg);
     }
     @include sm {

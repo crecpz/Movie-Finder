@@ -63,6 +63,7 @@ const Home = () => {
         return (
           <SwiperSlide key={movie.id}>
             <Link to={`/movie/${movie.id}`} className="hero__slide-link">
+              {/* hero__slide 圖片部分 */}
               <div className="hero__slide-imgs">
                 <img
                   src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
@@ -84,9 +85,11 @@ const Home = () => {
                   }}
                 />
               </div>
+              {/* hero__slide 文字部分 */}
               <div className="hero__slide-text">
+                {/* 電影標題 */}
                 <h3 className="hero__slide-title">
-                  {movie.original_title ? movie.original_title : ""}
+                  {movie.title ? movie.title : ""}
                 </h3>
                 {/* 電影資訊 */}
                 <div className="hero__slide-info info">

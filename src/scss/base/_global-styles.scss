@@ -123,6 +123,7 @@ main {
 // 資訊區(上映日期、評分、放映時長)
 .info {
     @include flex;
+    font-weight: bold;
     column-gap: 1.5rem;
 
     @include sm {

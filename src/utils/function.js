@@ -1,8 +1,8 @@
 /**
  * * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
- * @param {*} url fetch url
- * @param {*} setState 資料儲存的 state
- * @param {*} handleError 錯誤處理 callback
+ * @param {*} `url` fetch url
+ * @param {*} `setState` 資料儲存的 state
+ * @param {*} `handleError` 錯誤處理 callback
  */
 export const getData = async (url, setState, handleError) => {
   try {
@@ -20,19 +20,16 @@ export const getData = async (url, setState, handleError) => {
 
 /**
  * * 獲取更多的資料(在原來的基礎上獲取更多)
- * @param {*} API_URL url fetch url
- * @param {*} setState setState 資料儲存的 state
+ * @param {*} `API_URL` url fetch url
+ * @param {*} `setState` setState 資料儲存的 state
  */
 export const getMoreData = async (API_URL, setState) => {
   try {
     const res = await fetch(API_URL);
-
     if (!res.ok) {
       throw new Error("Error");
     }
-
     const data = await res.json();
-
     setState((prev) => {
       return removeDuplicate([...prev, ...data.results], "id");
     });
@@ -43,9 +40,9 @@ export const getMoreData = async (API_URL, setState) => {
 
 /**
  * * 更新 watchlist 資料， 如果已存在於 watchlist，則從 watchlist 中剔除；否則新增一筆新資料。
- * @param {*} id 電影 id
- * @param {*} inWatchlist 判斷是否存在於 watchlist 中
- * @param {*} setWatchlist 更新 watchlist state
+ * @param {*} `id` 當前電影 id
+ * @param {*} `inWatchlist` 用來判斷是否存在於 watchlist 中的 state
+ * @param {*} `setWatchlist` 用來更新 watchlist 的 state
  */
 export function changeWatchlist(id, inWatchlist, setWatchlist) {
   setWatchlist((prev) => {
@@ -62,8 +59,8 @@ export function changeWatchlist(id, inWatchlist, setWatchlist) {
 
 /**
  * * 防止獲取到重複項目(資料庫內有發現重複項目)
- * @param {*} arr 接收一個陣列作為參數，在該陣列中檢查是否有重複
- * @param {*} key 要檢查的鍵
+ * @param {*} `arr` 接收一個陣列作為參數，在該陣列中檢查是否有重複
+ * @param {*} `key` 要檢查的鍵
  * @returns 返回去除重複後的結果(Array)
  */
 export function removeDuplicate(arr, key) {
@@ -139,8 +136,8 @@ export function noBackdrop({ currentTarget }) {
 }
 
 /**
- * 滾動到指定的 ref 上
- * @param {*} ref 指定的 ref
+ ** 滾動到指定的 ref 上
+ * @param {*} `ref` 指定的 ref
  */
 export function scrollDownTo(ref) {
   window.scrollTo({
