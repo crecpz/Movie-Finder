@@ -7,7 +7,11 @@ const Header = ({ unreadList }) => {
   const navRef = useRef(null);
 
   useEffect(() => {
+    // 監聽 scroll 事件
     window.addEventListener("scroll", handleScroll);
+    // 監聽 resize 事件
+    window.addEventListener("resize", handleResize);
+
     //* 控制 header 顏色，當 scrollY === 0 加上 header 的底色
     function handleScroll() {
       let currentScrollY = window.scrollY;
@@ -17,8 +21,16 @@ const Header = ({ unreadList }) => {
         headerRef.current.classList.add("header--black");
       }
     }
+
+    //* 在 resize 將 nav 關閉
+    function handleResize() {
+      console.log("first");
+      if (navIsOpen) setNavIsOpen(false);
+    }
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -106,20 +118,6 @@ const Header = ({ unreadList }) => {
           ) : (
             <span className="nav__link-number">{unreadList.length}</span>
           )}
-          {/* {JSON.parse(window.localStorage.getItem("unreadList")).length ? (
-            <span className="nav__link-number">
-              {JSON.parse(window.localStorage.getItem("unreadList")).length}
-            </span>
-          ) : (
-            ""
-          )} */}
-          {/* {watchlist.filter(({ unread }) => unread).length ? (
-            <span className="nav__link-number">
-              {watchlist.filter(({ unread }) => unread).length}
-            </span>
-          ) : (
-            ""
-          )} */}
         </NavLink>
         <NavLink
           to="/search"
