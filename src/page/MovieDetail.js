@@ -15,7 +15,6 @@ import {
   removeDuplicate,
   removeBracketsStr,
   scrollDownTo,
-  changeUnread,
 } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
@@ -274,8 +273,12 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
                 <button
                   className="movie-detail__btn btn btn--transparent btn--lg"
                   onClick={() => {
-                    changeWatchlist(currentMovieId, inWatchlist, setWatchlist);
-                    changeUnread(currentMovieId, inWatchlist, setUnreadList);
+                    changeWatchlist(
+                      currentMovieId,
+                      inWatchlist,
+                      setWatchlist,
+                      setUnreadList
+                    );
                   }}>
                   <i
                     className={`fa-solid ${

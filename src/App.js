@@ -16,15 +16,18 @@ import NotFound from "./page/NotFound";
 import { useEffect } from "react";
 
 function App() {
+  // watchlist
   const [watchlist, setWatchlist] = useState(
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
 
+  // 存放新增至 watchlist 後，未讀取的電影(數量提示)
   const [unreadList, setUnreadList] = useState(
     JSON.parse(window.localStorage.getItem("unreadList")) || []
   );
 
   useEffect(() => {
+    // 更新 unreadList 至 localStorage
     window.localStorage.setItem("unreadList", JSON.stringify(unreadList));
   }, [unreadList]);
 

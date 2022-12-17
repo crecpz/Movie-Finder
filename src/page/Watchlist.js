@@ -7,13 +7,8 @@ const Watchlist = ({ setUnreadList }) => {
   const { watchStatusTag = "unwatched" } = useParams();
 
   useEffect(() => {
-    // setWatchlist((prev) => {
-    //   return prev.map((moive) => {
-    //     return { ...moive, unread: false };
-    //   });
-    // });
+    // 進入 watchlist 頁面後，將 unreadList 歸零
     setUnreadList([]);
-    window.localStorage.setItem("unreadList", JSON.stringify([]));
   }, []);
 
   return (

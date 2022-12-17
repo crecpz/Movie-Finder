@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  changeUnread,
   changeWatchlist,
   convertTime,
   getData,
@@ -86,8 +85,7 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
         <button
           className="detail-card__btn card-btn btn btn--sm btn--transparent"
           onClick={() => {
-            changeWatchlist(id, inWatchlist, setWatchlist);
-            changeUnread(id, inWatchlist, setUnreadList);
+            changeWatchlist(id, inWatchlist, setWatchlist, setUnreadList);
           }}>
           <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
           {inWatchlist ? "In Watchlist" : "Add Watchlist"}
