@@ -20,6 +20,9 @@ import { spinnerStyle } from "../../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 import MovieSwiper from "../../components/MovieSwiper/MovieSwiper";
 
+import { AnimationOnScroll } from "react-animation-on-scroll";
+import "animate.css/animate.min.css";
+
 const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const navigate = useNavigate();
   // 從 useParams() 中拆出 currentMovieId，並將其轉為 Number
@@ -173,6 +176,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
   return (
     <>
+    {/* full screen spinner */}
       <div className={`spinner-full-screen${!imgIsLoaded ? " active" : ""}`}>
         <PulseLoader color="#fff" cssOverride={spinnerStyle} />
       </div>
@@ -292,117 +296,125 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
         {/* credits(cast) */}
         <section className="movie-detail__cast">
-          <div className="container">
-            <h2 className="layout-title">Cast</h2>
-            <div
-              className={`movie-detail__cast-content movie-detail__layout-content ${
-                credits.cast && credits.cast.length ? "" : "no-cast"
-              }`}>
-              <input
-                type="checkbox"
-                className={`expand-btn movie-detail__cast-btn ${
-                  credits.cast && credits.cast.length > 5
-                    ? "movie-detail__cast-btn--show"
-                    : ""
-                }`}
-              />
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+            <div className="container">
+              <h2 className="layout-title">Cast</h2>
               <div
-                className={`movie-detail__cast-cards ${
-                  credits.cast && credits.cast.length > 5
-                    ? "movie-detail__cast-cards--has-overlay"
-                    : ""
+                className={`movie-detail__cast-content movie-detail__layout-content ${
+                  credits.cast && credits.cast.length ? "" : "no-cast"
                 }`}>
-                {credits.cast && credits.cast.length ? (
-                  creditsElement
-                ) : (
-                  <p className="empty-msg">No cast information!</p>
-                )}
+                <input
+                  type="checkbox"
+                  className={`expand-btn movie-detail__cast-btn ${
+                    credits.cast && credits.cast.length > 5
+                      ? "movie-detail__cast-btn--show"
+                      : ""
+                  }`}
+                />
+                <div
+                  className={`movie-detail__cast-cards ${
+                    credits.cast && credits.cast.length > 5
+                      ? "movie-detail__cast-cards--has-overlay"
+                      : ""
+                  }`}>
+                  {credits.cast && credits.cast.length ? (
+                    creditsElement
+                  ) : (
+                    <p className="empty-msg">No cast information!</p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          </AnimationOnScroll>
         </section>
 
         {/* video */}
         <section className="movie-detail__video" ref={videoRef}>
-          <div className="container">
-            <h2 className="layout-title">Video</h2>
-            <div
-              className={`movie-detail__iframe-content movie-detail__layout-content ${
-                videoKey ? "" : "movie-detail__iframe-content--no-video"
-              }`}>
-              {videoKey ? (
-                <iframe
-                  className="movie-detail__iframe"
-                  src={`https://www.youtube.com/embed/${videoKey}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen></iframe>
-              ) : (
-                <p className="empty-msg">No video!</p>
-              )}
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+            <div className="container">
+              <h2 className="layout-title">Video</h2>
+              <div
+                className={`movie-detail__iframe-content movie-detail__layout-content ${
+                  videoKey ? "" : "movie-detail__iframe-content--no-video"
+                }`}>
+                {videoKey ? (
+                  <iframe
+                    className="movie-detail__iframe"
+                    src={`https://www.youtube.com/embed/${videoKey}`}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen></iframe>
+                ) : (
+                  <p className="empty-msg">No video!</p>
+                )}
+              </div>
             </div>
-          </div>
+          </AnimationOnScroll>
         </section>
 
         {/* similar moives */}
         <section className="movie-detail__similar">
-          <div className="container">
-            <h2 className="layout-title">Similar Movies</h2>
-            <div className="movie-detail__similar-content movie-detail__layout-content">
-              {similarMovies.results && similarMovies.results.length === 0 ? (
-                <p className="empty-msg">No similar movies!</p>
-              ) : (
-                <MovieSwiper
-                  movies={similarMovies}
-                  swiperBreakpoints={{
-                    0: {
-                      slidesPerView: 2.5,
-                      slidesPerGroup: 2,
-                      loop: false,
-                    },
-                    576: {
-                      slidesPerView: 3.5,
-                      loop: false,
-                    },
-                    768: {
-                      slidesPerView: 3,
-                    },
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+            <div className="container">
+              <h2 className="layout-title">Similar Movies</h2>
+              <div className="movie-detail__similar-content movie-detail__layout-content">
+                {similarMovies.results && similarMovies.results.length === 0 ? (
+                  <p className="empty-msg">No similar movies!</p>
+                ) : (
+                  <MovieSwiper
+                    movies={similarMovies}
+                    swiperBreakpoints={{
+                      0: {
+                        slidesPerView: 2.5,
+                        slidesPerGroup: 2,
+                        loop: false,
+                      },
+                      576: {
+                        slidesPerView: 3.5,
+                        loop: false,
+                      },
+                      768: {
+                        slidesPerView: 3,
+                      },
 
-                    1024: {
-                      slidesPerView: 4,
-                      slidesPerGroup: 4,
-                    },
-                    1300: {
-                      slidesPerView: 5,
-                      slidesPerGroup: 5,
-                    },
-                  }}
-                />
-              )}
+                      1024: {
+                        slidesPerView: 4,
+                        slidesPerGroup: 4,
+                      },
+                      1300: {
+                        slidesPerView: 5,
+                        slidesPerGroup: 5,
+                      },
+                    }}
+                  />
+                )}
+              </div>
             </div>
-          </div>
+          </AnimationOnScroll>
         </section>
 
         {/* Related Links */}
         <section className="movie-detail__related-links">
-          <div className="container">
-            <h2 className="layout-title">Related Links</h2>
-            <div className="movie-detail__related-links-content movie-detail__layout-content">
-              {currentMovie.homepage ? (
-                <a
-                  href={currentMovie.homepage}
-                  className="movie-detail__related-link"
-                  target="_blank"
-                  rel="noreferrer">
-                  <i className="fa-solid fa-house"></i>
-                  Homepage<i className="fa-solid fa-link"></i>
-                </a>
-              ) : (
-                <p className="empty-msg">No related links!</p>
-              )}
+          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+            <div className="container">
+              <h2 className="layout-title">Related Links</h2>
+              <div className="movie-detail__related-links-content movie-detail__layout-content">
+                {currentMovie.homepage ? (
+                  <a
+                    href={currentMovie.homepage}
+                    className="movie-detail__related-link"
+                    target="_blank"
+                    rel="noreferrer">
+                    <i className="fa-solid fa-house"></i>
+                    Homepage<i className="fa-solid fa-link"></i>
+                  </a>
+                ) : (
+                  <p className="empty-msg">No related links!</p>
+                )}
+              </div>
             </div>
-          </div>
+          </AnimationOnScroll>
         </section>
       </div>
 

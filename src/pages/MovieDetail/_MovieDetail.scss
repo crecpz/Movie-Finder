@@ -19,7 +19,7 @@
 
   // 各區塊標題
   .layout-title {
-    @include flex;  
+    @include flex;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid map-get($color, light-gray);
     &::before {

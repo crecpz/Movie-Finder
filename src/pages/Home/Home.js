@@ -13,6 +13,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+import { AnimationOnScroll } from "react-animation-on-scroll";
+import "animate.css/animate.min.css";
+
 const Home = () => {
   // 趨勢 API_URL (取得近期流行趨勢電影, 24hr 更新一次)
   const TRENDING_URL =
@@ -31,7 +34,7 @@ const Home = () => {
   // 儲存首張輪播圖的載入狀態(若載入完畢，將其設為 true 並解除 spinner )
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
 
-  //* 若 loadMore ref 已經進入 intersection observer，增加
+  //* 若 loadMore ref 已經進入 intersection observer，增加 genres swiper 顯示的數量
   useEffect(() => {
     if (isIntersecting) {
       setShowAmount((prev) => prev + 4);
@@ -132,12 +135,18 @@ const Home = () => {
     genresData.genres &&
     genresData.genres.map((genres, index) => {
       return (
-        <HomeGenresSwiper
-          key={genres.id}
-          id={genres.id}
-          {...genres}
-          show={index <= showAmount}
-        />
+        <AnimationOnScroll 
+        animateIn="animate__fadeIn" 
+        duration="0.5"
+        // animateOut="animate__fadeOut"
+        >
+          <HomeGenresSwiper
+            key={genres.id}
+            id={genres.id}
+            {...genres}
+            show={index <= showAmount}
+          />
+        </AnimationOnScroll>
       );
     });
 

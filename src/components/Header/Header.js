@@ -24,7 +24,6 @@ const Header = ({ unreadList }) => {
 
     //* 在 resize 將 nav 關閉
     function handleResize() {
-      console.log("first");
       if (navIsOpen) setNavIsOpen(false);
     }
 
