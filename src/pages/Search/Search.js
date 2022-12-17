@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import DetailCard from "../components/DetailCard";
-import { getData, removeDuplicate } from "../utils/function";
+import DetailCard from "../../components/DetailCard";
+import { getData, removeDuplicate } from "../../utils/function";
 import PulseLoader from "react-spinners/PulseLoader";
-import { spinnerStyle } from "../utils/components-styles";
+import { spinnerStyle } from "../../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 
 const Search = ({ watchlist, setWatchlist, setUnreadList }) => {

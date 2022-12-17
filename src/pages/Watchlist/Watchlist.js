@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
-import { capitalize } from "../utils/function";
+import { capitalize } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
 
 const Watchlist = ({ setUnreadList }) => {

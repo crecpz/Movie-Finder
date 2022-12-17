@@ -1,6 +1,7 @@
-@forward "Home";
-@forward "MovieDetail";
-@forward "Watchlist";
-@forward "Search";
+@forward "../../pages/Home/Home";
+@forward "../../pages/MovieDetail/MovieDetail";
+@forward "../../pages/Watchlist/Watchlist";
+@forward "../../pages/Search/Search";
+@forward "../../pages/NotFound/NotFound";
 @forward "Movies";
-@forward "NotFound";
+

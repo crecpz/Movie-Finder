@@ -15,11 +15,11 @@ import {
   removeDuplicate,
   removeBracketsStr,
   scrollDownTo,
-} from "../utils/function";
-import { spinnerStyle } from "../utils/components-styles";
+} from "../../utils/function";
+import { spinnerStyle } from "../../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 import { useRef } from "react";
-import MovieSwiper from "../components/MovieSwiper";
+import MovieSwiper from "../../components/MovieSwiper";
 
 const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const navigate = useNavigate();

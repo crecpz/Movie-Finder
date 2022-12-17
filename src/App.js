@@ -5,14 +5,14 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Home from "./page/Home";
+import Home from "./pages/Home/Home";
 import Header from "./components/Header";
 import Movies from "./components/Movies";
 import WatchCards from "./components/WatchCards";
-import MovieDetail from "./page/MovieDetail";
-import Watchlist from "./page/Watchlist";
-import Search from "./page/Search";
-import NotFound from "./page/NotFound";
+import MovieDetail from "./pages/MovieDetail/MovieDetail";
+import Watchlist from "./pages/Watchlist/Watchlist";
+import Search from "./pages/Search/Search";
+import NotFound from "./pages/NotFound/NotFound";
 import { useEffect } from "react";
 
 function App() {

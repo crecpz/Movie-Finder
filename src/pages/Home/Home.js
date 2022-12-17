@@ -4,12 +4,12 @@ import { useInView } from "react-intersection-observer";
 // import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Link } from "react-router-dom";
 import ScrollToTop from "react-scroll-to-top";
-import { getData } from "../utils/function";
-import HomeGenresSwiper from "../components/HomeGenresSwiper";
+import { getData } from "../../utils/function";
+import HomeGenresSwiper from "../../components/HomeGenresSwiper";
 // Import Swiper
 import { Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { spinnerStyle } from "../utils/components-styles";
+import { spinnerStyle } from "../../utils/components-styles";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
