@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const Header = ({ watchlist}) => {
+const Header = ({ unreadList }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
@@ -101,13 +101,25 @@ const Header = ({ watchlist}) => {
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Watchlist
-          {watchlist.filter(({ unread }) => unread).length ? (
+          {unreadList.length === 0 ? (
+            ""
+          ) : (
+            <span className="nav__link-number">{unreadList.length}</span>
+          )}
+          {/* {JSON.parse(window.localStorage.getItem("unreadList")).length ? (
+            <span className="nav__link-number">
+              {JSON.parse(window.localStorage.getItem("unreadList")).length}
+            </span>
+          ) : (
+            ""
+          )} */}
+          {/* {watchlist.filter(({ unread }) => unread).length ? (
             <span className="nav__link-number">
               {watchlist.filter(({ unread }) => unread).length}
             </span>
           ) : (
             ""
-          )}
+          )} */}
         </NavLink>
         <NavLink
           to="/search"

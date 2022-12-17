@@ -52,9 +52,51 @@ export function changeWatchlist(id, inWatchlist, setWatchlist) {
       return prev.filter((movie) => movie.id !== id);
     } else {
       // 如果 id 不存在於目前 watchlist 當中
-      return [...prev, { id: id, status: "unwatched", unread: true }];
+      return [...prev, { id: id, status: "unwatched" }];
     }
   });
+}
+// /**
+//  * * 更新 watchlist 資料， 如果已存在於 watchlist，則從 watchlist 中剔除；否則新增一筆新資料。
+//  * @param {*} `id` 當前電影 id
+//  * @param {*} `inWatchlist` 用來判斷是否存在於 watchlist 中的 state
+//  * @param {*} `setWatchlist` 用來更新 watchlist 的 state
+//  */
+// export function changeWatchlist(id, inWatchlist, setWatchlist) {
+//   setWatchlist((prev) => {
+//     // 如果 id 已經存在於 watchlist 當中
+//     if (inWatchlist) {
+//       // 從 watchlist 中移除該項電影
+//       return prev.filter((movie) => movie.id !== id);
+//     } else {
+//       // 如果 id 不存在於目前 watchlist 當中
+//       return [...prev, { id: id, status: "unwatched", unread: true }];
+//     }
+//   });
+// }
+
+export function changeUnread(id, inWatchlist, setUnreadList) {
+  if (inWatchlist) {
+    setUnreadList((prev) => {
+      console.log(prev);
+      return prev.filter((i) => i !== id);
+    });
+  } else {
+    setUnreadList((prev) => {
+      return [...prev, id];
+    });
+  }
+
+  // let localUnreadList =
+  // JSON.parse(window.localStorage.getItem("unreadList")) || [];
+
+  // if (localUnreadList.includes(id)) {
+  //   localUnreadList = localUnreadList.filter((i) => i !== id);
+  // } else {
+  //   localUnreadList.push(id);
+  // }
+  // window.localStorage.setItem("unreadList", JSON.stringify(localUnreadList));
+  // console.log(localUnreadList);
 }
 
 /**

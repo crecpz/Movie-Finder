@@ -15,13 +15,14 @@ import {
   removeDuplicate,
   removeBracketsStr,
   scrollDownTo,
+  changeUnread,
 } from "../utils/function";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 import { useRef } from "react";
 import MovieSwiper from "../components/MovieSwiper";
 
-const MovieDetail = ({ watchlist, setWatchlist }) => {
+const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const navigate = useNavigate();
   // 從 useParams() 中拆出 currentMovieId，並將其轉為 Number
   let { id: currentMovieId } = useParams();
@@ -272,9 +273,10 @@ const MovieDetail = ({ watchlist, setWatchlist }) => {
                 {/* Add Watchlist */}
                 <button
                   className="movie-detail__btn btn btn--transparent btn--lg"
-                  onClick={() =>
-                    changeWatchlist(currentMovieId, inWatchlist, setWatchlist)
-                  }>
+                  onClick={() => {
+                    changeWatchlist(currentMovieId, inWatchlist, setWatchlist);
+                    changeUnread(currentMovieId, inWatchlist, setUnreadList);
+                  }}>
                   <i
                     className={`fa-solid ${
                       inWatchlist ? "fa-check" : "fa-plus"

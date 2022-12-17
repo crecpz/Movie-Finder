@@ -6,7 +6,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
 
-const Search = ({ watchlist, setWatchlist }) => {
+const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
   // loadMore intersection ref
   const { ref: loadMore, inView: isIntersecting } = useInView();
   // 存放搜尋框輸入的文字
@@ -145,6 +145,7 @@ const Search = ({ watchlist, setWatchlist }) => {
               (watchlistData) => movie.id === watchlistData.id
             )}
             setWatchlist={setWatchlist}
+            setUnreadList={setUnreadList}
           />
         );
       })

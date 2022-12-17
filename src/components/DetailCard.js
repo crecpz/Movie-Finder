@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  changeUnread,
   changeWatchlist,
   convertTime,
   getData,
@@ -8,7 +9,7 @@ import {
   removeDuplicate,
 } from "../utils/function";
 
-const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
+const DetailCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
   const id = movie.id;
   const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=e86818f56e7d92f357708ecb03052800`;
   const [currentMovie, setCurrentMovie] = useState({});
@@ -84,7 +85,10 @@ const DetailCard = ({ movie, inWatchlist, setWatchlist }) => {
         </div>
         <button
           className="detail-card__btn card-btn btn btn--sm btn--transparent"
-          onClick={() => changeWatchlist(id, inWatchlist, setWatchlist)}>
+          onClick={() => {
+            changeWatchlist(id, inWatchlist, setWatchlist);
+            changeUnread(id, inWatchlist, setUnreadList);
+          }}>
           <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
           {inWatchlist ? "In Watchlist" : "Add Watchlist"}
         </button>

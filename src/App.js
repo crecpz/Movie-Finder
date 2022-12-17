@@ -5,23 +5,33 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import Home from "./page/Home";
 import Header from "./components/Header";
 import Movies from "./components/Movies";
 import WatchCards from "./components/WatchCards";
-import Home from "./page/Home";
 import MovieDetail from "./page/MovieDetail";
-import NotFound from "./page/NotFound";
-import Search from "./page/Search";
 import Watchlist from "./page/Watchlist";
+import Search from "./page/Search";
+import NotFound from "./page/NotFound";
+import { useEffect } from "react";
 
 function App() {
   const [watchlist, setWatchlist] = useState(
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
+
+  const [unreadList, setUnreadList] = useState(
+    JSON.parse(window.localStorage.getItem("unreadList")) || []
+  );
+
+  useEffect(() => {
+    window.localStorage.setItem("unreadList", JSON.stringify(unreadList));
+  }, [unreadList]);
+
   return (
     <div className="App">
       <Router>
-        <Header watchlist={watchlist} />
+        <Header watchlist={watchlist} unreadList={unreadList} />
         <main>
           <Routes>
             {/* Home */}
@@ -34,6 +44,7 @@ function App() {
                 <MovieDetail
                   watchlist={watchlist}
                   setWatchlist={setWatchlist}
+                  setUnreadList={setUnreadList}
                 />
               }></Route>
 
@@ -51,7 +62,7 @@ function App() {
             {/* Watchlist */}
             <Route
               path="/watchlist"
-              element={<Watchlist setWatchlist={setWatchlist} />}>
+              element={<Watchlist setUnreadList={setUnreadList} />}>
               <Route
                 index
                 element={
@@ -74,7 +85,11 @@ function App() {
             <Route
               path="/search"
               element={
-                <Search watchlist={watchlist} setWatchlist={setWatchlist} />
+                <Search
+                  watchlist={watchlist}
+                  setWatchlist={setWatchlist}
+                  setUnreadList={setUnreadList}
+                />
               }></Route>
 
             <Route path="/notfound" element={<NotFound />}></Route>

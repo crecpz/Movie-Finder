@@ -3,15 +3,17 @@ import { NavLink, Outlet, useParams } from "react-router-dom";
 import { capitalize } from "../utils/function";
 import ScrollToTop from "react-scroll-to-top";
 
-const Watchlist = ({ setWatchlist }) => {
+const Watchlist = ({ setUnreadList }) => {
   const { watchStatusTag = "unwatched" } = useParams();
 
   useEffect(() => {
-    setWatchlist((prev) => {
-      return prev.map((moive) => {
-        return { ...moive, unread: false };
-      });
-    });
+    // setWatchlist((prev) => {
+    //   return prev.map((moive) => {
+    //     return { ...moive, unread: false };
+    //   });
+    // });
+    setUnreadList([]);
+    window.localStorage.setItem("unreadList", JSON.stringify([]));
   }, []);
 
   return (
