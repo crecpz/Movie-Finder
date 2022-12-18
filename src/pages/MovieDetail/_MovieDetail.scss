@@ -39,12 +39,8 @@
   //* 頂部介紹區塊
   &__intro {
     display: grid;
-    height: 100vh;
-
-    @include lg {
-      // height: auto;
-    }
-
+    min-height: 100vh;
+    // intro 內容器
     .container {
       @include flex($ai: center);
       grid-column: 1/2;

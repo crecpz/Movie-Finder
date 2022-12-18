@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import PulseLoader from "react-spinners/PulseLoader";
+import { Link, useParams,useNavigate } from "react-router-dom";
+import MovieSwiper from "../../components/MovieSwiper/MovieSwiper";
 // Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -16,10 +15,12 @@ import {
   removeBracketsStr,
   scrollDownTo,
 } from "../../utils/function";
+// spinner
 import { spinnerStyle } from "../../utils/components-styles";
+import PulseLoader from "react-spinners/PulseLoader";
+// ScrollToTop
 import ScrollToTop from "react-scroll-to-top";
-import MovieSwiper from "../../components/MovieSwiper/MovieSwiper";
-
+// AnimationOnScroll
 import { AnimationOnScroll } from "react-animation-on-scroll";
 import "animate.css/animate.min.css";
 
@@ -296,7 +297,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
         {/* credits(cast) */}
         <section className="movie-detail__cast">
-          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+          <AnimationOnScroll animateIn="animate__fadeIn" animateOnce={true}>
             <div className="container">
               <h2 className="layout-title">Cast</h2>
               <div
@@ -330,7 +331,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
         {/* video */}
         <section className="movie-detail__video" ref={videoRef}>
-          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+          <AnimationOnScroll animateIn="animate__fadeIn" animateOnce={true}>
             <div className="container">
               <h2 className="layout-title">Video</h2>
               <div
@@ -355,7 +356,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
         {/* similar moives */}
         <section className="movie-detail__similar">
-          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+          <AnimationOnScroll animateIn="animate__fadeIn" animateOnce={true}>
             <div className="container">
               <h2 className="layout-title">Similar Movies</h2>
               <div className="movie-detail__similar-content movie-detail__layout-content">
@@ -396,7 +397,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
         {/* Related Links */}
         <section className="movie-detail__related-links">
-          <AnimationOnScroll animateIn="animate__fadeInUp" animateOnce={true}>
+          <AnimationOnScroll animateIn="animate__fadeIn" animateOnce={true}>
             <div className="container">
               <h2 className="layout-title">Related Links</h2>
               <div className="movie-detail__related-links-content movie-detail__layout-content">

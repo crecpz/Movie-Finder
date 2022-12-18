@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import WatchCard from "./WatchCard";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../../utils/components-styles";
+// AnimationOnScroll
+import { AnimationOnScroll } from "react-animation-on-scroll";
+import "animate.css/animate.min.css";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
   const { watchStatusTag = "unwatched" } = useParams();
@@ -53,28 +56,31 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
   );
 
   return (
-    <div className="watchcards cards">
-      {watchlist.some(({ status }) => status === watchStatusTag) ? (
-        currentList.length ? (
-          currentList.map(({ id, poster_path, title }) => {
-            return (
-              <WatchCard
-                key={id}
-                id={id}
-                poster_path={poster_path}
-                title={title}
-                watchlist={watchlist}
-                setWatchlist={setWatchlist}
-              />
-            );
-          })
+    <AnimationOnScroll animateIn="animate__fadeIn" >
+      {/* animateOnce={true} */}
+      <div className="watchcards cards">
+        {watchlist.some(({ status }) => status === watchStatusTag) ? (
+          currentList.length ? (
+            currentList.map(({ id, poster_path, title }) => {
+              return (
+                <WatchCard
+                  key={id}
+                  id={id}
+                  poster_path={poster_path}
+                  title={title}
+                  watchlist={watchlist}
+                  setWatchlist={setWatchlist}
+                />
+              );
+            })
+          ) : (
+            <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+          )
         ) : (
-          <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-        )
-      ) : (
-        <p className="empty-msg">No movies in your list, add some!</p>
-      )}
-    </div>
+          <p className="empty-msg">No movies in your list, add some!</p>
+        )}
+      </div>
+    </AnimationOnScroll>
   );
 };
 

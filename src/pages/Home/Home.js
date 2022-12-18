@@ -135,10 +135,11 @@ const Home = () => {
     genresData.genres &&
     genresData.genres.map((genres, index) => {
       return (
-        <AnimationOnScroll 
-        animateIn="animate__fadeIn" 
-        duration="0.5"
-        // animateOut="animate__fadeOut"
+        <AnimationOnScroll
+          animateIn="animate__fadeIn"
+          duration="1"
+          animateOnce={true}
+          // animateOut="animate__fadeOut"
         >
           <HomeGenresSwiper
             key={genres.id}
