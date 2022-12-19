@@ -15,7 +15,7 @@ const Header = ({ unreadList }) => {
     //* 控制 header 顏色，當 scrollY === 0 加上 header 的底色
     function handleScroll() {
       let currentScrollY = window.scrollY;
-      if (currentScrollY === 0) {
+      if (currentScrollY < 100) {
         headerRef.current.classList.remove("header--black");
       } else {
         headerRef.current.classList.add("header--black");
@@ -69,10 +69,7 @@ const Header = ({ unreadList }) => {
 
   return (
     <header ref={headerRef} className="header">
-      <Link
-        to="/"
-        className="header__logo"
-        onClick={() => setNavIsOpen(false)}>
+      <Link to="/" className="header__logo" onClick={() => setNavIsOpen(false)}>
         <h1>
           <i className="fa-solid fa-clapperboard"></i>Movie Finder
         </h1>

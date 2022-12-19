@@ -2,8 +2,8 @@
 
 .search {
   @include x-spacing;
-  // .search__bar
-  &__bar {
+  // .search-bar
+  &-bar {
     position: sticky;
     top: 0;
     z-index: 2;
@@ -12,42 +12,50 @@
     width: 100%;
     max-width: 82.5rem;
     margin: 0 auto;
-  }
-  // .search__input
-  &__input {
-    @include flex;
-    @include text(xl);
-    padding: 0.75rem 0.875rem;
-    width: 100%;
-    background-color: map-get($color, tertiary);
-    border-radius: map-get($border-radius, base);
-    border: 0;
-    outline: none;
-    @include sm {
-      @include text(lg);
+
+    // search-bar__input-wrapper
+    &__input-wrapper {
+      position: relative;
     }
-    &::placeholder {
-      color: hsl(13, 61%, 25%);
+
+    // .search-bar__input
+    &__input {
+      @include flex;
+      @include text(xl);
+      padding: 0.75rem 0.875rem;
+      width: 100%;
+      background-color: map-get($color, tertiary);
+      border-radius: map-get($border-radius, base);
+      border: 0;
+      outline: none;
+      @include sm {
+        @include text(lg);
+      }
+      &::placeholder {
+        color: hsl(13, 61%, 25%);
+      }
     }
-  }
-  // 清除 input 內文字 btn
-  &__clear-btn {
-    @include text(xl);
-    position: absolute;
-    bottom: 0.625rem;
-    right: 1.25rem;
-    padding: 0;
-    visibility: hidden;
-    opacity: 0;
-    color: map-get($color, secondary);
-    // clear-btn 出現
-    &--show {
-      visibility: visible;
-      opacity: 1;
-    }
-    @include hover-query {
-      i:hover {
-        @include hover-color(map-get($color, secondary));
+
+    // 清除 input 內文字 btn
+    &__clear-btn {
+      @include text(xl);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 1.25rem;
+      padding: 0;
+      visibility: hidden;
+      opacity: 0;
+      color: map-get($color, secondary);
+      // clear-btn 出現
+      &--show {
+        visibility: visible;
+        opacity: 1;
+      }
+      @include hover-query {
+        i:hover {
+          @include hover-color(map-get($color, secondary));
+        }
       }
     }
   }
