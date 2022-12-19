@@ -19,6 +19,7 @@ const GenresSwiper = () => {
   const [genresData, setGenresData] = useState([]);
   // 取得 url params
   const { genresId } = useParams();
+  console.log(genresId);
 
   useEffect(() => {
     let subscribed = true;
