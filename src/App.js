@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Header from "./components/Header/Header"
+import Header from "./components/Header/Header";
 import Movies from "./pages/Movies/Movies";
 import WatchCards from "./components/WatchCards/WatchCards";
 import MovieDetail from "./pages/MovieDetail/MovieDetail";
@@ -30,6 +30,14 @@ function App() {
     window.localStorage.setItem("unreadList", JSON.stringify(unreadList));
   }, [unreadList]);
 
+  useEffect(() => {
+    function appHeight() {
+      const doc = document.documentElement;
+      doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+    }
+    appHeight();
+  }, []);
+
   return (
     <div className="App">
       <Router>
@@ -37,7 +45,7 @@ function App() {
         <main>
           <Routes>
             {/* Home */}
-            <Route index path="/" element={<Home />}></Route>
+            <Route index path="/Movie-Finder" element={<Home />}></Route>
 
             {/* MovieDetail */}
             <Route
@@ -51,7 +59,7 @@ function App() {
               }></Route>
 
             {/* Movies */}
-            <Route path="movies/">
+            <Route path="/Movie-Finder/movies/">
               <Route path="new" element={<Movies type="new" />}></Route>
               <Route path="popular" element={<Movies type="popular" />}></Route>
               <Route path="genres" element={<Movies type="genres" />}>
@@ -62,6 +70,27 @@ function App() {
             </Route>
 
             {/* Watchlist */}
+            <Route
+              path="/Movie-Finder/watchlist"
+              element={<Watchlist setUnreadList={setUnreadList} />}>
+              <Route
+                index
+                element={
+                  <WatchCards
+                    watchlist={watchlist}
+                    setWatchlist={setWatchlist}
+                  />
+                }></Route>
+              <Route
+                path=":watchStatusTag"
+                element={
+                  <WatchCards
+                    watchlist={watchlist}
+                    setWatchlist={setWatchlist}
+                  />
+                }></Route>
+            </Route>
+            {/* Watchlist
             <Route
               path="/watchlist"
               element={<Watchlist setUnreadList={setUnreadList} />}>
@@ -81,11 +110,11 @@ function App() {
                     setWatchlist={setWatchlist}
                   />
                 }></Route>
-            </Route>
+            </Route> */}
 
             {/* 搜尋頁面 */}
             <Route
-              path="/search"
+              path="/Movie-Finder/search"
               element={
                 <Search
                   watchlist={watchlist}
@@ -94,10 +123,10 @@ function App() {
                 />
               }></Route>
 
-            <Route path="/notfound" element={<NotFound />}></Route>
+            <Route path="/Movie-Finder/notfound" element={<NotFound />}></Route>
             <Route
-              path="/*"
-              element={<Navigate to="/notfound" replace />}></Route>
+              path="/Movie-Finder/*"
+              element={<Navigate to="/Movie-Finder/notfound" replace />}></Route>
           </Routes>
         </main>
       </Router>

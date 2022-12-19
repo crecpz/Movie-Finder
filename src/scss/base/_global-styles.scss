@@ -18,19 +18,14 @@ body {
     color: deep-map-get($color, primary);
     background-color: black;
     font-family: "Nunito Sans", sans-serif;
-    height: 100vh;
+    // height: 100vh;
+    height: 100%;
     overflow-y: scroll;
 
-    &.no-transition {
-        * {
-            transition: none !important;
-        }
+    @media not all and (hover: hover) {
+        height: var(--app-height);
     }
 }
-
-// .no-transition>* {
-//     transition: none !important;
-// }
 
 a {
     text-decoration: none;
@@ -173,16 +168,13 @@ main {
 // scrollToTop 套件樣式
 .scroll-to-top {
     @include flex($ai: center, $jc: center);
-    @include rounded-full;
-    width: 4.375rem !important;
-    height: 4.375rem !important;
-    z-index: 30;
-    background-color: map-get($color, tertiary);
-
-    @include sm {
-        width: 3.125rem !important;
-        height: 3.125rem !important;
-    }
+    // width: 4.375rem !important;
+    // height: 4.375rem !important;
+    border-radius: 50% !important;
+    width: 3.125rem !important;
+    height: 3.125rem !important;
+    z-index: 30 !important;
+    background-color: map-get($color, tertiary) !important;
 }
 
 // 全螢幕 spinner 用於首頁與 MovieDetail.js 載入畫面

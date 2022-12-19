@@ -69,7 +69,10 @@ const Header = ({ unreadList }) => {
 
   return (
     <header ref={headerRef} className="header">
-      <Link to="/" className="header__logo" onClick={() => setNavIsOpen(false)}>
+      <Link
+        to="/Movie-Finder"
+        className="header__logo"
+        onClick={() => setNavIsOpen(false)}>
         <h1>
           <i className="fa-solid fa-clapperboard"></i>Movie Finder
         </h1>
@@ -83,32 +86,32 @@ const Header = ({ unreadList }) => {
       </button>
       <nav ref={navRef} className={`nav ${navIsOpen ? "nav--open" : ""}`}>
         <NavLink
-          to="/"
+          to="/Movie-Finder"
           end
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Home
         </NavLink>
         <NavLink
-          to="/movies/new"
+          to="/Movie-Finder/movies/new"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           New
         </NavLink>
         <NavLink
-          to="/movies/popular"
+          to="/Movie-Finder/movies/popular"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Popular
         </NavLink>
         <NavLink
-          to="/movies/genres"
+          to="/Movie-Finder/movies/genres"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Genres
         </NavLink>
         <NavLink
-          to="/watchlist"
+          to="/Movie-Finder/watchlist"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Watchlist
@@ -119,7 +122,7 @@ const Header = ({ unreadList }) => {
           )}
         </NavLink>
         <NavLink
-          to="/search"
+          to="/Movie-Finder/search"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           <i className="fa-solid fa-magnifying-glass"></i>

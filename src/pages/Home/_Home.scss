@@ -5,22 +5,22 @@
 
   //* genres list
   &__genres-list {
+    @include flex($dir: column);
     @include x-spacing;
+    row-gap: 2rem;
     margin-top: 4rem;
   }
 
   //* genres item
   &__genres-item {
     @include flex($dir: column);
-
     &:not(:first-child) {
       margin-top: 1.5rem;
     }
-
     .swiper {
       width: 100%;
-      margin-top: 1.5rem;
-      padding-top: 2rem;
+      margin-top: 0.5rem;
+      padding-top: 1rem;
       border-top: 1px solid map-get($color, light-gray);
     }
   }
@@ -29,15 +29,19 @@
   &__genres-link {
     @include flex($ai: center);
     align-self: start;
-    // hover 狀態 i 的行為
-    &:hover i {
-      animation: x-moving map-get($transition, 300) infinite alternate;
+    @include hover-query {
+      // hover 狀態 i 的行為
+      &:hover i {
+        animation: x-moving map-get($transition, 300) infinite alternate;
+      }
     }
     // 向右箭頭
     i {
-      @include text(xl);
+      @include text(lg);
       margin-left: 0.75rem;
-      margin-top: 0.75rem;
+      @include sm {
+        @include text(sm);
+      }
     }
   }
 }
@@ -71,6 +75,11 @@
     height: 100vh;
     @include lg {
       max-height: none;
+    }
+    @include md {
+      @media not all and (hover: hover) {
+        height: var(--app-height);
+      }
     }
     &::before {
       content: "";

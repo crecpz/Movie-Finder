@@ -55,7 +55,7 @@
 
   // swiper 電影名稱
   &__title {
-    @include text(lg);
-    font-weight: 400;
+    @include text(base);
+    font-weight: 900;
   }
 }

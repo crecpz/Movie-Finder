@@ -97,7 +97,7 @@
     border-radius: map-get($border-radius, base);
     box-shadow: map-get($box-shadow, base);
     @include md {
-      max-width: 15.625rem;
+      max-width: 12.5rem;
     }
   }
 

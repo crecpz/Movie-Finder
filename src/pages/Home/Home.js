@@ -13,9 +13,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { AnimationOnScroll } from "react-animation-on-scroll";
-import "animate.css/animate.min.css";
-
 const Home = () => {
   // 趨勢 API_URL (取得近期流行趨勢電影, 24hr 更新一次)
   const TRENDING_URL =
@@ -135,19 +132,12 @@ const Home = () => {
     genresData.genres &&
     genresData.genres.map((genres, index) => {
       return (
-        <AnimationOnScroll
-          animateIn="animate__fadeIn"
-          duration="1"
-          animateOnce={true}
-          // animateOut="animate__fadeOut"
-        >
-          <HomeGenresSwiper
-            key={genres.id}
-            id={genres.id}
-            {...genres}
-            show={index <= showAmount}
-          />
-        </AnimationOnScroll>
+        <HomeGenresSwiper
+          key={genres.id}
+          id={genres.id}
+          {...genres}
+          show={index <= showAmount}
+        />
       );
     });
 
@@ -184,6 +174,8 @@ const Home = () => {
       <ScrollToTop
         smooth
         className="scroll-to-top"
+        width="20"
+        height="20"
         color="#000"
         viewBox="0 0 448 512"
         svgPath="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"
