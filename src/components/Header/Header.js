@@ -70,7 +70,7 @@ const Header = ({ unreadList }) => {
   return (
     <header ref={headerRef} className="header">
       <Link
-        to="/Movie-Finder"
+        to="/"
         className="header__logo"
         onClick={() => setNavIsOpen(false)}>
         <h1>
@@ -86,32 +86,32 @@ const Header = ({ unreadList }) => {
       </button>
       <nav ref={navRef} className={`nav ${navIsOpen ? "nav--open" : ""}`}>
         <NavLink
-          to="/Movie-Finder"
+          to="/"
           end
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Home
         </NavLink>
         <NavLink
-          to="/Movie-Finder/movies/new"
+          to="/movies/new"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           New
         </NavLink>
         <NavLink
-          to="/Movie-Finder/movies/popular"
+          to="/movies/popular"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Popular
         </NavLink>
         <NavLink
-          to="/Movie-Finder/movies/genres"
+          to="/movies/genres"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Genres
         </NavLink>
         <NavLink
-          to="/Movie-Finder/watchlist"
+          to="/watchlist"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           Watchlist
@@ -122,7 +122,7 @@ const Header = ({ unreadList }) => {
           )}
         </NavLink>
         <NavLink
-          to="/Movie-Finder/search"
+          to="/search"
           className="nav__link"
           onClick={() => setNavIsOpen(false)}>
           <i className="fa-solid fa-magnifying-glass"></i>

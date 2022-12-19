@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -45,11 +45,11 @@ function App() {
         <main>
           <Routes>
             {/* Home */}
-            <Route index path="/Movie-Finder" element={<Home />}></Route>
+            <Route index path="/" element={<Home />}></Route>
 
             {/* MovieDetail */}
             <Route
-              path="movie/:id"
+              path="/movie/:id"
               element={
                 <MovieDetail
                   watchlist={watchlist}
@@ -59,7 +59,7 @@ function App() {
               }></Route>
 
             {/* Movies */}
-            <Route path="/Movie-Finder/movies/">
+            <Route path="/movies">
               <Route path="new" element={<Movies type="new" />}></Route>
               <Route path="popular" element={<Movies type="popular" />}></Route>
               <Route path="genres" element={<Movies type="genres" />}>
@@ -70,27 +70,6 @@ function App() {
             </Route>
 
             {/* Watchlist */}
-            <Route
-              path="/Movie-Finder/watchlist"
-              element={<Watchlist setUnreadList={setUnreadList} />}>
-              <Route
-                index
-                element={
-                  <WatchCards
-                    watchlist={watchlist}
-                    setWatchlist={setWatchlist}
-                  />
-                }></Route>
-              <Route
-                path=":watchStatusTag"
-                element={
-                  <WatchCards
-                    watchlist={watchlist}
-                    setWatchlist={setWatchlist}
-                  />
-                }></Route>
-            </Route>
-            {/* Watchlist
             <Route
               path="/watchlist"
               element={<Watchlist setUnreadList={setUnreadList} />}>
@@ -110,11 +89,11 @@ function App() {
                     setWatchlist={setWatchlist}
                   />
                 }></Route>
-            </Route> */}
+            </Route>
 
             {/* 搜尋頁面 */}
             <Route
-              path="/Movie-Finder/search"
+              path="/search"
               element={
                 <Search
                   watchlist={watchlist}
@@ -123,10 +102,12 @@ function App() {
                 />
               }></Route>
 
-            <Route path="/Movie-Finder/notfound" element={<NotFound />}></Route>
+            <Route path="/notfound" element={<NotFound />}></Route>
             <Route
-              path="/Movie-Finder/*"
-              element={<Navigate to="/Movie-Finder/notfound" replace />}></Route>
+              path="/*"
+              element={
+                <Navigate to="/notfound" replace />
+              }></Route>
           </Routes>
         </main>
       </Router>

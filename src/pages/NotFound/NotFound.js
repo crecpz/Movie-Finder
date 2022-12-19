@@ -11,9 +11,7 @@ const NotFound = () => {
             alt="not-found-backdrop"
           />
         </div>
-        <Link
-          to="/Movie-Finder"
-          className="btn btn--lg btn--transparent not-found__btn">
+        <Link to="/" className="btn btn--lg btn--transparent not-found__btn">
           Go Home
         </Link>
       </div>

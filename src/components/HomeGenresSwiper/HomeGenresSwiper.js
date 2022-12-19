@@ -34,7 +34,7 @@ const HomeGenresSwiper = ({ id, name, show }) => {
         duration="1"
         animateOnce={true}
         style={animationOnScrollStyle}>
-        <Link to={`/Movie-Finder/movies/genres/${id}`} className="home__genres-link">
+        <Link to={`/movies/genres/${id}`} className="home__genres-link">
           <h2 className="layout-title">{name}</h2>
           <i className="fa-solid fa-angle-right"></i>
         </Link>

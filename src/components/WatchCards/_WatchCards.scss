@@ -60,7 +60,7 @@ $watchcards-gap-amount: (
 
    // 切換 watchcard option 的按鈕(僅在 breakpoint < md 出現)
    &__option-btn {
-      display: none;
+      display: none; // 預設隱藏
       @include text(base);
       @include md {
          display: flex;
@@ -195,13 +195,6 @@ $watchcards-gap-amount: (
          transition: map-get($transition, 300);
          transition-property: visibility, opacity;
          background-color: transparent;
-         // watchcard__btns 每個子層
-         @for $i from 1 through 3 {
-            & > :nth-child(#{$i}) {
-               transition: map-get($transition, 300);
-               transition-property: transform, opacity, visibility;
-            }
-         }
       }
    }
 
@@ -212,6 +205,7 @@ $watchcards-gap-amount: (
       padding: 0.5rem;
       flex: 1 0 auto;
       width: 33.3%;
+      color: map-get($color, secondary);
       transition: map-get($transition, 300);
       transition-property: color, background-color;
       @include md {
@@ -223,6 +217,8 @@ $watchcards-gap-amount: (
          height: 2.8125rem;
          font-size: 0;
          background-color: map-get($color, tertiary);
+         transition: map-get($transition, 300);
+         transition-property: transform, opacity, visibility;
       }
       @include xs {
          width: 2.5rem;

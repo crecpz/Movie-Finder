@@ -5,7 +5,6 @@ import ScrollToTop from "react-scroll-to-top";
 
 const Watchlist = ({ setUnreadList }) => {
   const { watchStatusTag = "unwatched" } = useParams();
-  console.log(watchStatusTag);
   useEffect(() => {
     // 進入 watchlist 頁面後，將 unreadList 歸零
     setUnreadList([]);
@@ -21,7 +20,7 @@ const Watchlist = ({ setUnreadList }) => {
               return (
                 <NavLink
                   key={index}
-                  to={`/Movie-Finder/watchlist/${listType}`}
+                  to={`/watchlist/${listType}`}
                   className={({ isActive }) =>
                     isActive || listType === watchStatusTag
                       ? "watchlist__status-btn active"

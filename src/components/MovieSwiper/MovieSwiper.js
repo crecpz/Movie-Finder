@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const MovieSwiper = ({ movies, swiperBreakpoints }) => {
-  //* slide
+  //* slideElements
   const slideElements = movies.results
     ? movies.results.map((movie) => {
         return movie.backdrop_path && movie.title ? (
@@ -49,33 +49,6 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
         type: "bullets",
       }}
       breakpoints={swiperBreakpoints}
-      // breakpoints={{
-      //   0: {
-      //     slidesPerView: 2.5,
-      //     slidesPerGroup: 2,
-      //     loop: false,
-      //   },
-      //   576: {
-      //     slidesPerView: 3.5,
-      //     loop: false,
-      //   },
-      //   768: {
-      //     slidesPerView: 3,
-      //   },
-
-      //   1024: {
-      //     slidesPerView: 4,
-      //     slidesPerGroup: 4,
-      //   },
-      //   1300: {
-      //     slidesPerView: 5,
-      //     slidesPerGroup: 5,
-      //   },
-      //   1400: {
-      //     slidesPerView: 6,
-      //     slidesPerGroup: 6,
-      //   },
-      // }}
       className="movie-swiper">
       {slideElements}
     </Swiper>

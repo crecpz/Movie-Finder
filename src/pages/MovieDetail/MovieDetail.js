@@ -56,6 +56,10 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
   const CREDITS_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/credits?api_key=e86818f56e7d92f357708ecb03052800`;
 
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  }, [])
+
   useEffect(() => {
     // 換頁後，恢復 poster & backdrop 的狀態
     setImgIsLoaded(false);
