@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -19,6 +19,7 @@ const GenresSwiper = () => {
   const [genresData, setGenresData] = useState([]);
   // 取得 url params
   const { genresId } = useParams();
+  console.log(genresId);
 
   useEffect(() => {
     let subscribed = true;

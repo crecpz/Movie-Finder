@@ -21,7 +21,7 @@ const Watchlist = ({ setUnreadList }) => {
               return (
                 <NavLink
                   key={index}
-                  to={`/Movie-Finder/watchlist/${listType}`}
+                  to={`/watchlist/${listType}`}
                   className={({ isActive }) =>
                     isActive || listType === watchStatusTag
                       ? "watchlist__status-btn active"
