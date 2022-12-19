@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  HashRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Header from "./components/Header/Header";
 import Movies from "./pages/Movies/Movies";
@@ -40,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
+      <HashRouter>
         <Header watchlist={watchlist} unreadList={unreadList} />
         <main>
           <Routes>
@@ -105,12 +100,10 @@ function App() {
             <Route path="/notfound" element={<NotFound />}></Route>
             <Route
               path="/*"
-              element={
-                <Navigate to="/notfound" replace />
-              }></Route>
+              element={<Navigate to="/notfound" replace />}></Route>
           </Routes>
         </main>
-      </Router>
+      </HashRouter>
     </div>
   );
 }

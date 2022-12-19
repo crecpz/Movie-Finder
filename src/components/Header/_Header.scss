@@ -89,15 +89,13 @@
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(0, 0, 0, 0.8);
-    // transition: map-get($transition, 500);
-    // transition-property: visibility, opacity;
 
     // 將 nav 的所有直接子層(.nav__link) 設定 nav 開啟前的樣式
     @for $i from 1 through 6 {
       & > :nth-child(#{$i}) {
         opacity: 0;
         transform: translateX(9.375rem);
-        transition: ease-in-out 300ms #{$i * 100}ms;
+        transition: ease-in-out 500ms #{$i * 100}ms;
         transition-property: opacity, transform;
       }
     }

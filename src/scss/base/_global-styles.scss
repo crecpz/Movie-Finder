@@ -191,7 +191,7 @@ main {
     z-index: 10;
     transition: map-get($transition, 500);
     transition-property: opacity visivility;
-    background-color: rgb(0 0 0 / 78%);
+    background-color: rgb(0 0 0 / 85%);
 
     &.active {
         visibility: visible;

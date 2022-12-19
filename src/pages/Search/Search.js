@@ -181,26 +181,28 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
   return (
     <div className="search">
       <div className="container">
-        <div className="search__bar">
-          <input
-            type="text"
-            ref={inputRef}
-            className="search__input"
-            placeholder="Search for a movie..."
-            value={searchText}
-            onChange={handleInputChange}
-            onKeyUp={handleKeyUp}
-            onFocus={() => {
-              if (searchText) setShowAutoComplete(true);
-            }}
-          />
-          <button
-            className={`btn search__clear-btn ${
-              searchText ? "search__clear-btn--show" : ""
-            }`}
-            onClick={() => setSearchText("")}>
-            <i className="fa-solid fa-circle-xmark"></i>
-          </button>
+        <div className="search-bar">
+          <div className="search-bar__input-wrapper">
+            <input
+              type="text"
+              ref={inputRef}
+              className="search-bar__input"
+              placeholder="Search for a movie..."
+              value={searchText}
+              onChange={handleInputChange}
+              onKeyUp={handleKeyUp}
+              onFocus={() => {
+                if (searchText) setShowAutoComplete(true);
+              }}
+            />
+            <button
+              className={`btn search-bar__clear-btn ${
+                searchText ? "search-bar__clear-btn--show" : ""
+              }`}
+              onClick={() => setSearchText("")}>
+              <i className="fa-solid fa-circle-xmark"></i>
+            </button>
+          </div>
 
           {/* auto-complete */}
           <ul
