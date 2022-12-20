@@ -14,34 +14,36 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const Home = () => {
-  // 趨勢 API_URL (取得近期流行趨勢電影, 24hr 更新一次)
+  // 趨勢 API_URL (取得每日流行趨勢電影, 24hr 更新一次)
   const TRENDING_URL =
     "https://api.themoviedb.org/3/trending/movie/day?api_key=e86818f56e7d92f357708ecb03052800";
-  // 存放近期流行趨勢電影
+  // 存放每日流行趨勢電影
   const [trendingMovies, setTrendingMovies] = useState([]);
   // 電影類別 API_URL (取得所有類別的 id 與對應的名稱)
   const GENRES_URL =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
-  // 電影類別資料
+  // 存放電影類別資料
   const [genresData, setGenresData] = useState([]);
   // 用來偵測 loadMore ref 是否已經進入 intersection observer
   const { ref: loadMore, inView: isIntersecting } = useInView();
   // 用來存放目前在 Home.js 中要顯示的 swiper 數量
-  const [showAmount, setShowAmount] = useState(3);
+  const [showSwiperAmount, setShowSwiperAmount] = useState(3);
   // 儲存首張輪播圖的載入狀態(若載入完畢，將其設為 true 並解除 spinner )
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
 
   //* 若 loadMore ref 已經進入 intersection observer，增加 genres swiper 顯示的數量
   useEffect(() => {
     if (isIntersecting) {
-      setShowAmount((prev) => prev + 4);
+      setShowSwiperAmount((prev) => prev + 4);
     }
   }, [isIntersecting]);
 
   useEffect(() => {
     let subscribed = true;
     if (subscribed) {
+      // 取得每日流行趨勢電影
       getData(TRENDING_URL, setTrendingMovies);
+      // 取得電影類別資料
       getData(GENRES_URL, setGenresData);
     }
     // cleanup function
@@ -56,7 +58,7 @@ const Home = () => {
     setImgIsLoaded(true);
   }
 
-  //* hero 輪播(播放近期流行趨勢電影)
+  //* hero 輪播(播放每日流行趨勢電影)
   const heroSlideElements = trendingMovies.results
     ? trendingMovies.results.map((movie, index) => {
         return (
@@ -136,7 +138,7 @@ const Home = () => {
           key={genres.id}
           id={genres.id}
           {...genres}
-          show={index <= showAmount}
+          show={index <= showSwiperAmount}
         />
       );
     });
@@ -146,6 +148,7 @@ const Home = () => {
       <div className={`spinner-full-screen${imgIsLoaded ? "" : " active"}`}>
         <PulseLoader color="#fff" cssOverride={spinnerStyle} />
       </div>
+      {/* hero section */}
       <section className="hero">
         <Swiper
           pagination={{
@@ -164,7 +167,7 @@ const Home = () => {
 
       <ul className="home__genres-list">
         {HomeGenresSwiperElements}
-        {genresData.genres && showAmount <= genresData.genres.length && (
+        {genresData.genres && showSwiperAmount <= genresData.genres.length && (
           <div ref={loadMore} className="spinner">
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>

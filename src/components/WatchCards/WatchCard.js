@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { noPoster } from "../../utils/function";
 
+function allowClick(e) {
+  e.target.classList.remove("pointer-events-none");
+}
+
 const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
   // 確認目前位於 Unwatched 還是 Watched
   const { watchStatusTag = "unwatched" } = useParams();
@@ -46,12 +50,16 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
 
   //* 刪除 watchcard
   function removeWatchcard(id) {
-    if (optionIsOpen) setWatchlist((prev) => prev.filter((i) => i.id !== id));
+    setWatchlist((prev) => prev.filter((i) => i.id !== id));
   }
 
   //* 切換 watchcard option 開啟狀態
-  function handleOptionBtnClick() {
+  function handleOptionBtnClick(e) {
     setOptionIsOpen((prev) => !prev);
+    e.target.parentElement.querySelectorAll(".btn").forEach((i) => {
+      i.classList.add("pointer-events-none");
+      setTimeout(() => i.classList.remove("pointer-events-none"), 10000);
+    });
   }
 
   return (
@@ -62,7 +70,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
         className={`watchcard__option-btn card-btn hamburger ${
           optionIsOpen ? "active" : ""
         }`}
-        onClick={handleOptionBtnClick}>
+        onClick={(e) => handleOptionBtnClick(e)}>
         <div className="hamburger__line"></div>
         <div className="hamburger__line"></div>
         <div className="hamburger__line"></div>
@@ -84,7 +92,9 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
           {/* 觀看狀態切換 */}
           <button
             className="btn btn-transparent watchcard__btn"
-            onClick={() => changeStatus(id)}>
+            onClick={() => changeStatus(id)}
+            // onTransitionEnd={(e) => allowClick(e)}
+          >
             {watchStatusTag === "unwatched" ? (
               <i className="fa-regular fa-eye"></i>
             ) : (
@@ -95,14 +105,18 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
           {/* 更多資訊 */}
           <Link
             to={`/movie/${id}`}
-            className="btn btn-transparent watchcard__btn">
+            className="btn btn-transparent watchcard__btn"
+            // onTransitionEnd={(e) => allowClick(e)}
+          >
             <i className="fa-solid fa-info"></i>
             More
           </Link>
           {/* 自 watchlist 移除 */}
           <button
             className="btn btn-transparent watchcard__btn"
-            onClick={() => removeWatchcard(id)}>
+            onClick={() => removeWatchcard(id)}
+            // onTransitionEnd={(e) => allowClick(e)}
+          >
             <i className="fa-regular fa-trash-can"></i>
             Remove
           </button>

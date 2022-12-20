@@ -232,6 +232,7 @@ $watchcards-gap-amount: (
 
       // watchcard__btn 內的 <i> tag
       i {
+         pointer-events: none;
          @include md {
             @include text(lg);
          }

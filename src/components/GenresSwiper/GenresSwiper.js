@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -19,15 +19,30 @@ const GenresSwiper = () => {
   const [genresData, setGenresData] = useState([]);
   // 取得 url params
   const { genresId } = useParams();
-  console.log(genresId);
+  // swiper Ref
+  const swiperRef = useRef(null);
 
   useEffect(() => {
     let subscribed = true;
+    // 取得類別資料
     if (subscribed) getData(GENRES_URL, setGenresData);
     return () => {
       subscribed = false;
     };
   }, []);
+
+  //* 從其他頁面的 <Link> 連結進此頁後，將 swiper 滾動到正確的位置
+  useEffect(() => {
+    // 如果目前存在來自 useParams() 所獲得的 genresId，且目前 genresData 內已有資料:
+    if (genresId && genresData.genres) {
+      // 找出目前 slide 所在的 index
+      const currentSlide = genresData.genres.findIndex(({ id }) => {
+        return String(id) === genresId;
+      });
+      // 移動到指定的位置
+      swiperRef.current.swiper.slideTo(currentSlide);
+    }
+  }, [genresData]);
 
   //* slideElements
   const slideElements = genresData.genres
@@ -58,6 +73,7 @@ const GenresSwiper = () => {
     <div className="genres-swiper">
       <div className="container">
         <Swiper
+          ref={swiperRef}
           className="mySwiper"
           modules={[Scrollbar]}
           slidesPerView={3}

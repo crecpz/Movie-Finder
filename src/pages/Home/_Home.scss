@@ -14,9 +14,6 @@
   //* genres item
   &__genres-item {
     @include flex($dir: column);
-    &:not(:first-child) {
-      margin-top: 1.5rem;
-    }
     .swiper {
       width: 100%;
       margin-top: 0.5rem;

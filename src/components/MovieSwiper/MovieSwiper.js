@@ -14,12 +14,12 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
           <SwiperSlide key={movie.id} className="movie-slide">
             <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
               <img
-                src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
+                src={`https://image.tmdb.org/t/p/w300/${movie.backdrop_path}`}
                 className="movie-slide__img movie-slide__img--backdrop"
                 alt="movie-backdrop"
               />
               <img
-                src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
                 className="movie-slide__img movie-slide__img--poster"
                 alt="movie-poster"
               />
@@ -43,6 +43,7 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
       spaceBetween={15}
       navigation={true}
       loop={true}
+      speed={2000}
       freeMode={true}
       simulateTouch={true}
       pagination={{

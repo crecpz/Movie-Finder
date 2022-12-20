@@ -13,8 +13,6 @@ import GenresSwiper from "../../components/GenresSwiper/GenresSwiper";
 import MoviesCard from "../../components/MoviesCards/MoviesCards";
 import genresIconsData from "../../utils/genresIconsData";
 
-
-
 const Movies = ({ type }) => {
   const navigate = useNavigate();
   // intersection observer

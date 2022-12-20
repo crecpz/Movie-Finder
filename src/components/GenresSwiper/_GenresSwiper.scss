@@ -2,7 +2,7 @@
 
 .genres-swiper {
   margin-top: 1rem;
-  
+
   @include hover-query {
     &:hover {
       .swiper-scrollbar {
@@ -31,10 +31,11 @@
   // 底部滾動條握柄
   .swiper-scrollbar-drag {
     background-color: map-get($color, tertiary);
-    height: .1875rem;
+    height: 0.1875rem;
   }
 }
 
+// 每一個 genres 內的 icon 連結
 .slide-link {
   $bolck: &;
   @include flex($dir: column, $ai: center);
@@ -43,7 +44,6 @@
   max-width: 5rem;
   padding: 0.5rem 0;
   text-align: center;
-
   @include hover-query {
     &:hover {
       #{$bolck}__icon,
@@ -53,21 +53,24 @@
     }
   }
 
+  // active 樣式
   &.active {
     color: map-get($color, active);
   }
 
+  // 類別 icon
   &__icon {
     @include text(2xl);
     transition: color map-get($transition, 150);
-
     @include sm {
       @include text(xl);
     }
   }
 
+  // 類別名稱
   &__name {
-    @include text(base);
+    @include text(sm);
+    font-weight: bold;
     margin-top: 0.5rem;
     transition: color map-get($transition, 150);
   }
