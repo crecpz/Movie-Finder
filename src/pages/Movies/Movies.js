@@ -85,7 +85,7 @@ const Movies = ({ type }) => {
     <section className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
-        {/* 在 Genres 頁面顯示 <GenresSwiper /> */}
+        {/* 若為 Genres 頁面，則顯示 <GenresSwiper /> */}
         {type === "genres" && <GenresSwiper />}
 
         {/* MovieCards */}
@@ -106,6 +106,8 @@ const Movies = ({ type }) => {
           </div>
         )}
       </div>
+
+      
       <ScrollToTop
         smooth
         className="scroll-to-top"

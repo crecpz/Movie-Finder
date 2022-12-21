@@ -41,6 +41,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        {/* Header */}
         <Header watchlist={watchlist} unreadList={unreadList} />
         <main>
           <Routes>
@@ -102,6 +103,7 @@ function App() {
                 />
               }></Route>
 
+            {/* NotFound */}
             <Route path="/notfound" element={<NotFound />}></Route>
             <Route
               path="/*"

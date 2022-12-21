@@ -10,6 +10,17 @@ const MoviesCards = ({ movie }) => {
           src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
           alt="movie-card-img"
         />
+        {/* add watlist 按鈕 */}
+        <button
+          className="movies-card__btn btn btn--sm btn--transparent"
+          // onClick={() => {
+          //   changeWatchlist(movie.id, inWatchlist, setWatchlist, setUnreadList);
+          // }}
+          >
+          {/* <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i> */}
+          {/* {inWatchlist ? "In Watchlist" : "Add Watchlist"} */}
+        </button>
+
         <div className="movies-card__text">
           <h3 className="movies-card__title">{movie.title}</h3>
           <div className="movies-card__info">

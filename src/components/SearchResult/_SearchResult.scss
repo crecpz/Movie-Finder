@@ -2,29 +2,29 @@
 
 //@ 存放搜尋結果
 //- 定義 DetailCard 內在 breakpoiint sm 的卡片布局
-$search__results-column-gap: 1.25rem;
+$search-results-column-gap: 1.25rem;
 
-$search__result-amount: (
+$search-results-amount: (
   md: 3,
   sm: 2,
 );
-$search__result-gap-amount: (
+$search-results-gap-amount: (
   md: 2,
   sm: 1,
 );
 
 //* 卡片容器
-.search__results {
+.search-results {
   margin-top: 3rem;
   @include md {
     @include flex($wrap: wrap);
-    column-gap: $search__results-column-gap;
+    column-gap: $search-results-column-gap;
     row-gap: 2rem;
   }
 }
 
 //* 卡片
-.search__result {
+.search-result {
   $block: &;
   @include flex;
   padding-top: 2rem;
@@ -38,17 +38,18 @@ $search__result-gap-amount: (
     width: 100%;
     border-bottom: 0;
     max-width: calc(
-      (100% / map-get($search__result-amount, md)) -
-        ($search__results-column-gap * map-get($search__result-gap-amount, md) / map-get($search__result-amount, md))
+      (100% / map-get($search-results-amount, md)) -
+        ($search-results-column-gap * map-get($search-results-gap-amount, md) / map-get($search-results-amount, md))
     );
   }
   @include sm {
     max-width: calc(
-      (100% / map-get($search__result-amount, sm)) -
-        ($search__results-column-gap * map-get($search__result-gap-amount, sm) / map-get($search__result-amount, sm))
+      (100% / map-get($search-results-amount, sm)) -
+        ($search-results-column-gap * map-get($search-results-gap-amount, sm) / map-get($search-results-amount, sm))
     );
   }
 
+  //* 圖片連結
   &__img-link {
     @include md {
       position: relative;
@@ -134,6 +135,8 @@ $search__result-gap-amount: (
     margin-top: 2rem;
     align-self: flex-start;
     @include md {
+      // 斷點在 md 以下套用 card-btn 樣式
+      @include card-btn;
       margin-top: 0;
       font-size: 0; // 隱藏 .detail-card__btn 的文字部分
     }

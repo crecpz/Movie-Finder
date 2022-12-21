@@ -63,6 +63,8 @@ $watchcards-gap-amount: (
       display: none; // 預設隱藏
       @include text(base);
       @include md {
+         // 斷點在 md 以下套用 card-btn 樣式
+         @include card-btn;
          display: flex;
          &.active {
             // 控制 .watchcard__btns 內的每一個子元素(.watchcard__btn)位移

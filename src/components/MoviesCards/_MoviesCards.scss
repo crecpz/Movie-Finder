@@ -1,6 +1,7 @@
 @use "../../scss/abstracts" as *;
 
-//* .movies-cards 卡片佈局設定
+//* 此處放置 .movies-cards、.movies-card 卡片佈局設定
+
 // 卡片之間的 column-gap
 $movie-cards-column-gap: 1.25rem;
 // 每列在特定斷點分別要容納幾張卡片?
@@ -31,6 +32,7 @@ $movie-cards-gap-amount: (
 
 .movies-card {
   $block: &;
+  position: relative;
   transition: map-get($transition, 300);
   transition-property: transform, box-shadow;
   border-radius: 1rem;
@@ -79,6 +81,12 @@ $movie-cards-gap-amount: (
     border-radius: map-get($border-radius, md);
   }
 
+  // movies-card__btn
+  &__btn {
+    
+    @include card-btn;
+  }
+
   // movies-card__text
   &__text {
     position: absolute;
@@ -109,10 +117,12 @@ $movie-cards-gap-amount: (
   // movies-card__info
   &__info {
     @include flex($wrap: wrap);
-    @include text(sm);
+    @include text(xs);
     column-gap: 0.5rem;
     margin-top: 0.5rem;
+    font-weight: bold;
     @include md {
+      // 斷點 md 以下隱藏
       display: none;
     }
     // 日期
@@ -121,7 +131,7 @@ $movie-cards-gap-amount: (
     }
     // 評等
     & > :nth-child(2) {
-      @include text(sm);
+      // 星星 icon
       i {
         @include text(xs);
         margin-right: 0.25rem;

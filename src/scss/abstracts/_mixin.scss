@@ -2,7 +2,7 @@
 @use "./break-point" as *;
 @use "./map" as *;
 
-// flex
+//* flex
 @mixin flex($dir: row, $jc: flex-start, $ai: stretch, $wrap: nowrap) {
   display: flex;
   flex-direction: $dir;
@@ -11,19 +11,19 @@
   flex-wrap: $wrap;
 }
 
-// 檢查裝置是否支援hover，若有支援才執行此
+//* 檢查裝置是否支援hover，若有支援才執行此
 @mixin hover-query() {
   @media (hover: hover) {
     @content;
   }
 }
 
-// 設成圓形
+//* 設成圓形
 @mixin rounded-full {
   border-radius: 50%;
 }
 
-// 重置按鈕樣式
+//* 重置按鈕樣式
 @mixin button-reset {
   background-color: transparent;
   border: 0;
@@ -31,12 +31,12 @@
   cursor: pointer;
 }
 
-// 用於設定文字大小
+//* 用於設定文字大小
 @mixin text($size) {
   font-size: deep-map-get($text, size, $size);
 }
 
-// 放入基本顏色，並以該顏色為基礎，將其暗化 20%，若其已經是最暗，則亮化 20%
+//* 放入基本顏色，並以該顏色為基礎，將其暗化 20%，若其已經是最暗，則亮化 20%
 @mixin hover-bg-color($current-bg-color) {
   @if (darken($current-bg-color, 20) == $current-bg-color) {
     background-color: lighten($current-bg-color, 20);
@@ -45,7 +45,7 @@
   }
 }
 
-// 放入基本顏色，並以該顏色為基礎，將其暗化 20%，若其已經是最暗，則亮化 20%
+//* 放入基本顏色，並以該顏色為基礎，將其暗化 20%，若其已經是最暗，則亮化 20%
 @mixin hover-color($current-color) {
   @if (darken($current-color, 20) == $current-color) {
     color: lighten($current-color, 20);
@@ -54,7 +54,7 @@
   }
 }
 
-// 全局左右 padding
+//* 全局左右 padding
 @mixin x-spacing {
   padding-left: map-get($x-spacing, lg);
   padding-right: map-get($x-spacing, lg);
@@ -65,7 +65,7 @@
   }
 }
 
-// <main> 內 layout 共同設定，目前使用於 New, Popular, Genres, Watchlist 頁面
+//* <main> 內 layout 共同設定，目前使用於 New, Popular, Genres, Watchlist 頁面
 @mixin main-layout {
   @include x-spacing;
   padding-top: calc(#{deep-map-get($height, header, lg)} + 3rem);
@@ -73,7 +73,7 @@
 }
 
 //* 將某一個元素的所有直接子元素出現時加上淡入效果
-// - 需使用 .show 來加進該元素當中才會觸發效果
+//- 需將 class `show` 來加進該元素當中來觸發效果
 @mixin transition-show($amount) {
   // 選中元素的所有的子層
   & > :nth-child(n) {
@@ -140,7 +140,7 @@
 
 //* 製作出 hamburger 按鈕
 //- 先將 HTML 結構: 父層放入 `hamburger` class，子層放入 3 個 <div className="hamburger__line">。
-//! 注意單位的使用，單位要統一，否則無法計算。
+//- 注意單位的使用，單位要統一，否則無法計算。
 //@ $width hamburger 的寬度(width)
 //@ $line-thickness 線條的粗細(height)
 //@ $line-gap 每一個線條的距離(row-gap)
@@ -170,6 +170,28 @@
       &:nth-child(3) {
         transform: translateY(-($line-thickness + $line-gap)) rotate(-45deg);
       }
+    }
+  }
+}
+
+//* 電影卡片右上角上的按鈕(目前用於 add watchlist)
+@mixin card-btn {
+  @include button-reset;
+  @include rounded-full;
+  position: absolute;
+  z-index: 1;
+  right: 5%;
+  top: 5%;
+  width: 2.1875rem;
+  height: 2.1875rem;
+  color: map-get($color, secondary);
+  background-color: map-get($color, primary);
+  box-shadow: 0 0 10px 0 #00000085;
+  transition: map-get($transition, 150);
+  transition-property: color, background-color;
+  @include hover-query {
+    &:hover {
+      background-color: map-get($color, tertiary);
     }
   }
 }

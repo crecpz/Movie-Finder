@@ -68,30 +68,6 @@
   }
 }
 
-// 卡片內的按鈕(用於 Watchlist.js 內的 watchcard、 Search.js 內的 .search__result)
-.card-btn {
-  @include md {
-    @include button-reset;
-    @include rounded-full;
-    position: absolute;
-    z-index: 1;
-    right: 5%;
-    top: 5%;
-    width: 2.1875rem;
-    height: 2.1875rem;
-    color: map-get($color, secondary);
-    background-color: map-get($color, primary);
-    box-shadow: 0 0 10px 0 #00000085;
-    transition: map-get($transition, 150);
-    transition-property: color, background-color;
-    @include hover-query {
-      &:hover {
-        background-color: map-get($color, tertiary);
-      }
-    }
-  }
-}
-
 // 用於 MovieDetail.js 中的演員名單中的展開按鈕
 .expand-btn {
   @include rounded-full;

@@ -240,7 +240,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
           </ul>
         </div>
 
-        <ul className="search__results">
+        <ul className="search-results">
           {/* ! spinner
           {startSearching && !searchResult.results && (
             <div className="spinner">
