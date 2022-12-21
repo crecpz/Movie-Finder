@@ -194,4 +194,7 @@
       background-color: map-get($color, tertiary);
     }
   }
+  & > i {
+    @include text(lg);
+  }
 }

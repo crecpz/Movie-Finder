@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { changeWatchlist } from "../../utils/function";
 
-const MoviesCards = ({ movie }) => {
+const MoviesCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
   // 確保電影有圖片跟標題，若不存在的就不顯示在此
   return movie.poster_path && (movie.title || movie.original_title) ? (
     <Link to={`/movie/${movie.id}`} className="movies-card-link card">
@@ -13,12 +15,14 @@ const MoviesCards = ({ movie }) => {
         {/* add watlist 按鈕 */}
         <button
           className="movies-card__btn btn btn--sm btn--transparent"
-          // onClick={() => {
-          //   changeWatchlist(movie.id, inWatchlist, setWatchlist, setUnreadList);
-          // }}
-          >
-          {/* <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i> */}
-          {/* {inWatchlist ? "In Watchlist" : "Add Watchlist"} */}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            changeWatchlist(movie.id, inWatchlist, setWatchlist, setUnreadList);
+            console.log("e.target:", e.target);
+            console.log("currentTarget:", e.currentTarget);
+          }}>
+          <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
         </button>
 
         <div className="movies-card__text">
@@ -42,4 +46,4 @@ const MoviesCards = ({ movie }) => {
   );
 };
 
-export default MoviesCards;
+export default MoviesCard;

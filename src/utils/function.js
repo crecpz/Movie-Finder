@@ -41,9 +41,9 @@ export const getMoreData = async (API_URL, setState) => {
 /**
  * * 更新 watchlist 資料與 unreadList 資料
  * @param {*} `id` 當前電影 id
- * @param {*} `inWatchlist` 用來判斷是否存在於 watchlist 中的 state
- * @param {*} `setWatchlist` 用來更新 watchlist 的 state
- * @param {*} `setUnreadList` 用來更新 unreadList 的 state
+ * @param {*} `inWatchlist` 用來判斷是否存在於 watchlist state 中
+ * @param {*} `setWatchlist` 用來更新 watchlist state
+ * @param {*} `setUnreadList` 用來更新 unreadList state
  */
 export function changeWatchlist(id, inWatchlist, setWatchlist, setUnreadList) {
   // 如果 id 已經存在於 watchlist 當中

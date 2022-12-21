@@ -37,7 +37,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const [credits, setCredits] = useState([]);
   // 存放 video 資料
   const [video, setVideo] = useState({});
-  // 存放當前電影是否為加進 watchlist 狀態
+  // 當前電影是否已經加進 watchlist
   const [inWatchlist, setInWatchlist] = useState(
     watchlist.find((movie) => movie.id === currentMovieId) !== undefined
   );

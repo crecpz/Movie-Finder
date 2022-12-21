@@ -142,7 +142,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
             key={movie.id}
             movie={movie}
             inWatchlist={watchlist.some(
-              (watchlistData) => movie.id === watchlistData.id
+              (watchlistData) => watchlistData.id === movie.id 
             )}
             setWatchlist={setWatchlist}
             setUnreadList={setUnreadList}

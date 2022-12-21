@@ -173,7 +173,8 @@ const Home = () => {
           </div>
         )}
       </ul>
-{/* ScrollToTop */}
+
+      {/* ScrollToTop */}
       <ScrollToTop
         smooth
         className="scroll-to-top"

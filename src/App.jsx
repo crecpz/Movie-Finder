@@ -61,8 +61,24 @@ function App() {
 
             {/* Movies */}
             <Route path="/movies">
-              <Route path=":type" element={<Movies />}>
-                <Route path=":genresId" element={<Movies />}></Route>
+              <Route
+                path=":type"
+                element={
+                  <Movies
+                    watchlist={watchlist}
+                    setWatchlist={setWatchlist}
+                    setUnreadList={setUnreadList}
+                  />
+                }>
+                <Route
+                  path=":genresId"
+                  element={
+                    <Movies
+                      watchlist={watchlist}
+                      setWatchlist={setWatchlist}
+                      setUnreadList={setUnreadList}
+                    />
+                  }></Route>
               </Route>
             </Route>
 

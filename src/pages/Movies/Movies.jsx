@@ -10,10 +10,10 @@ import {
 } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
 import GenresSwiper from "../../components/GenresSwiper/GenresSwiper";
-import MoviesCard from "../../components/MoviesCards/MoviesCards";
+import MoviesCard from "../../components/MoviesCard/MoviesCard";
 import genresIconsData from "../../utils/genresIconsData";
 
-const Movies = () => {
+const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   const navigate = useNavigate();
   // intersection observer
   const { ref: loadMore, inView: isIntersecting } = useInView();
@@ -90,11 +90,21 @@ const Movies = () => {
         <h2 className="layout-title">{capitalize(type)}</h2>
         {/* 若為 Genres 頁面，則顯示 <GenresSwiper /> */}
         {type === "genres" && <GenresSwiper />}
+
         {/* MovieCards */}
         <div className="movies-cards cards">
           {movies.length !== 0 ? (
             movies.map((movie) => {
-              return <MoviesCard key={movie.id} movie={movie} />;
+              return (
+                <MoviesCard
+                  key={movie.id}
+                  movie={movie}
+                  watchlist={watchlist}
+                  inWatchlist={watchlist.some(({ id }) => id === movie.id)}
+                  setWatchlist={setWatchlist}
+                  setUnreadList={setUnreadList}
+                />
+              );
             })
           ) : (
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
