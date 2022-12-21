@@ -88,7 +88,7 @@ export function removeDuplicate(arr, key) {
  * * 取得當月首日~當月最後一天的日期
  * @returns
  */
-export function getFirstDayAndLastDayOfMonth() {
+export function getFirstDayAndLastDay() {
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);

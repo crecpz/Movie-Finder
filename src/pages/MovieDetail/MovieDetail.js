@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Link, useParams,useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import MovieSwiper from "../../components/MovieSwiper/MovieSwiper";
 // Swiper styles
 import "swiper/css";
@@ -177,7 +177,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
   return (
     <>
-    {/* full screen spinner */}
+      {/* full screen spinner */}
       <div className={`spinner-full-screen${!imgIsLoaded ? " active" : ""}`}>
         <PulseLoader color="#fff" cssOverride={spinnerStyle} />
       </div>
@@ -418,7 +418,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
           </AnimationOnScroll>
         </section>
       </div>
-
+      {/* ScrollToTop */}
       <ScrollToTop
         smooth
         className="scroll-to-top"

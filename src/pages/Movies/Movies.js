@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import {
   capitalize,
-  getFirstDayAndLastDayOfMonth,
+  getFirstDayAndLastDay,
   getMoreData,
 } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
@@ -13,7 +13,7 @@ import GenresSwiper from "../../components/GenresSwiper/GenresSwiper";
 import MoviesCard from "../../components/MoviesCards/MoviesCards";
 import genresIconsData from "../../utils/genresIconsData";
 
-const Movies = ({ type }) => {
+const Movies = () => {
   const navigate = useNavigate();
   // intersection observer
   const { ref: loadMore, inView: isIntersecting } = useInView();
@@ -25,20 +25,15 @@ const Movies = ({ type }) => {
   const { genresId } = useParams();
   // 存放頁面數字
   const [pageNum, setPageNum] = useState(1);
+  // 網址參數: 從網址列判斷目前位於哪頁
+  const { type } = useParams();
 
-  useEffect(() => {
-    // 如果當前傳入 type(prop) 是 "genres"，且在 genresIconsData 找到相對應的 genres id 的話
-    // 跳轉到 notfound 頁面
-    if (type === "genres" && genresId && !genresIconsData[genresId]) {
-      navigate("/notfound", { replace: true });
-    }
-  }, [genresId]);
-
-  //* 根據目前傳入的 prop，來決定要 fetch 哪個 API_URL
+  // const type = ""
+  //* 根據目前 url :type，來決定 API_URL 為何
   switch (type) {
     case "new":
-      const firstDate = getFirstDayAndLastDayOfMonth()[0];
-      const lastDate = getFirstDayAndLastDayOfMonth()[1];
+      const firstDate = getFirstDayAndLastDay()[0];
+      const lastDate = getFirstDayAndLastDay()[1];
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=${firstDate}&primary_release_date.lte=${lastDate}&page=${pageNum}`;
       break;
     case "popular":
@@ -81,13 +76,20 @@ const Movies = ({ type }) => {
     };
   }, [pageNum]);
 
+  //* 如果當前所在的頁面為 "genres"，且在 genresIconsData.js 找不到相對應的 genres id...
+  useEffect(() => {
+    if (type === "genres" && genresId && !genresIconsData[genresId]) {
+      // 代表不存在此頁，跳轉到 notfound 頁面
+      navigate("/notfound", { replace: true });
+    }
+  }, [genresId]);
+
   return (
     <section className="movies">
       <div className="container">
         <h2 className="layout-title">{capitalize(type)}</h2>
         {/* 若為 Genres 頁面，則顯示 <GenresSwiper /> */}
         {type === "genres" && <GenresSwiper />}
-
         {/* MovieCards */}
         <div className="movies-cards cards">
           {movies.length !== 0 ? (
@@ -107,7 +109,7 @@ const Movies = ({ type }) => {
         )}
       </div>
 
-      
+      {/* 滾動到頂部 */}
       <ScrollToTop
         smooth
         className="scroll-to-top"

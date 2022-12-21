@@ -61,12 +61,8 @@ function App() {
 
             {/* Movies */}
             <Route path="/movies">
-              <Route path="new" element={<Movies type="new" />}></Route>
-              <Route path="popular" element={<Movies type="popular" />}></Route>
-              <Route path="genres" element={<Movies type="genres" />}>
-                <Route
-                  path=":genresId"
-                  element={<Movies type="genres" />}></Route>
+              <Route path=":type" element={<Movies />}>
+                <Route path=":genresId" element={<Movies />}></Route>
               </Route>
             </Route>
 

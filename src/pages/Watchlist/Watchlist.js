@@ -34,7 +34,7 @@ const Watchlist = ({ setUnreadList }) => {
         </div>
         <Outlet />
       </div>
-
+      {/* ScrollToTop */}
       <ScrollToTop
         smooth
         className="scroll-to-top"

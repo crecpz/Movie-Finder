@@ -259,6 +259,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
             )
           : ""}
       </div>
+      {/* ScrollToTop */}
       <ScrollToTop
         smooth
         className="scroll-to-top"
