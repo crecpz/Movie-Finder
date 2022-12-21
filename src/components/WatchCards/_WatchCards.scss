@@ -70,13 +70,13 @@ $watchcards-gap-amount: (
                visibility: visible;
                opacity: 1;
                & > :nth-child(1) {
-                  transform: translateX(-150%);
+                  transform: translateX(-150%) scale(1);
                }
                & > :nth-child(2) {
-                  transform: translate(-125%, 125%);
+                  transform: translate(-125%, 125%) scale(1);
                }
                & > :nth-child(3) {
-                  transform: translateY(150%);
+                  transform: translateY(150%) scale(1);
                }
             }
             // 開啟暗色遮蓋
@@ -204,7 +204,7 @@ $watchcards-gap-amount: (
       @include text(xs);
       padding: 0.5rem;
       flex: 1 0 auto;
-      width: 33.3%;
+      width: 33.33%;
       color: map-get($color, secondary);
       transition: map-get($transition, 300);
       transition-property: color, background-color;
@@ -212,11 +212,14 @@ $watchcards-gap-amount: (
          @include rounded-full;
          @include flex($jc: center, $ai: center);
          position: absolute;
+         z-index: -10;
          right: 0;
+         padding: 0;
          width: 2.8125rem;
          height: 2.8125rem;
          font-size: 0;
          background-color: map-get($color, tertiary);
+         transform: translate(0) scale(0);
          transition: map-get($transition, 300);
          transition-property: transform, opacity, visibility;
       }
