@@ -251,8 +251,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
         </ul>
         {/* loadMore spinner */}
         {searchResult.results && searchResult.total_pages
-          ? searchResult.results.length !== 0 &&
-            pageNum !== searchResult.total_pages && (
+          ? pageNum !== searchResult.total_pages && (
               <div ref={loadMore} className="spinner">
                 <PulseLoader color="#fff" cssOverride={spinnerStyle} />
               </div>

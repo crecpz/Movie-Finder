@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import { changeWatchlist } from "../../utils/function";
 
 const MoviesCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
-  // 確保電影有圖片跟標題，若不存在的就不顯示在此
-  return movie.poster_path && (movie.title || movie.original_title) ? (
+  return (
     <Link to={`/movie/${movie.id}`} className="movies-card-link card">
       <div className="movies-card">
         <img
@@ -20,7 +19,7 @@ const MoviesCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
           }}>
           <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
         </button>
-
+        {/* 文字部分 */}
         <div className="movies-card__text">
           <h3 className="movies-card__title">{movie.title}</h3>
           <div className="movies-card__info">
@@ -37,8 +36,6 @@ const MoviesCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
         </div>
       </div>
     </Link>
-  ) : (
-    ""
   );
 };
 

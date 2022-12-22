@@ -6,7 +6,9 @@ import { useInView } from "react-intersection-observer";
 import {
   capitalize,
   getFirstDayAndLastDay,
-  getMoreData,
+  // getMoreData,
+  removeDuplicate,
+  getData,
 } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
 import GenresSwiper from "../../components/GenresSwiper/GenresSwiper";
@@ -28,14 +30,12 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   // 網址參數: 從網址列判斷目前位於哪頁
   const { type } = useParams();
 
-  // const type = ""
   //* 根據目前 url :type，來決定 API_URL 為何
   switch (type) {
     case "new":
       const firstDate = getFirstDayAndLastDay()[0];
       const lastDate = getFirstDayAndLastDay()[1];
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=${firstDate}&primary_release_date.lte=${lastDate}&page=${pageNum}`;
-      console.log(API_URL);
       break;
     case "popular":
       API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800&page=${pageNum}`;
@@ -48,31 +48,48 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
       break;
   }
 
-  //* 切換頁面
+  // 取得更多的搜尋結果
+  const getMoreData = async (API_URL, setState) => {
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) {
+        throw new Error("Error");
+      }
+      const data = await res.json();
+      setState((prev) => {
+        return {
+          ...prev,
+          results: removeDuplicate([...prev.results, ...data.results], "id"),
+        };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //* 頁面切換
   useEffect(() => {
     let subscribed = true;
     // 清空目前存放的 movies state 內容
     setMovies([]);
-    // 設定目前頁面為 1
+    // 設定 pageNum 為 1
     setPageNum(1);
-    // 按下切換類別(type)之後，等到 pageNum 確實變成 1 之後才獲取該頁資料
-    if (pageNum === 1 && subscribed) getMoreData(API_URL, setMovies);
+    // 獲取初始資料(前 20 項)
+    if (subscribed) getData(API_URL, setMovies);
     return () => {
       subscribed = false;
     };
   }, [type, genresId]);
 
-  //* 當指定的 Ref 進入畫面中
+  //* 當指定的 Ref 進入畫面中將 pageNum + 1
   useEffect(() => {
-    // 將 pageNum + 1
     if (isIntersecting) setPageNum((prev) => prev + 1);
   }, [isIntersecting]);
 
   //* 偵測 pageNum 變化
   useEffect(() => {
     let subscribed = true;
-    if (subscribed) getMoreData(API_URL, setMovies);
-    // console.log(movies.filter(({ genre_ids }) => genre_ids.length > 5));
+    if (subscribed && pageNum > 1) getMoreData(API_URL, setMovies);
     return () => {
       subscribed = false;
     };
@@ -92,12 +109,13 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
         <h2 className="layout-title">{capitalize(type)}</h2>
         {/* 若為 Genres 頁面，則顯示 <GenresSwiper /> */}
         {type === "genres" && <GenresSwiper />}
-
         {/* MovieCards */}
         <div className="movies-cards cards">
-          {movies.length !== 0 ? (
-            movies.map((movie) => {
-              return (
+          {movies.results && movies.results.length !== 0 ? (
+            movies.results.map((movie) => {
+              // 確保電影有圖片跟標題，若不存在的就不顯示
+              return movie.poster_path &&
+                (movie.title || movie.original_title) ? (
                 <MoviesCard
                   key={movie.id}
                   movie={movie}
@@ -106,15 +124,16 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
                   setWatchlist={setWatchlist}
                   setUnreadList={setUnreadList}
                 />
+              ) : (
+                ""
               );
             })
           ) : (
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           )}
         </div>
-
         {/* load more spinner */}
-        {movies.length !== 0 && (
+        {movies.results && movies.results.length !== 0 && (
           <div ref={loadMore} className="spinner spinner--full-screen">
             <PulseLoader color="#fff" cssOverride={spinnerStyle} />
           </div>
