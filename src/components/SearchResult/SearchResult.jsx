@@ -91,7 +91,9 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
         </div>
         {/* add watlist 按鈕 */}
         <button
-          className="search-result__btn btn btn--sm btn--transparent"
+          className={`search-result__btn btn btn--sm btn--transparent ${
+            inWatchlist ? "active" : ""
+          }`}
           onClick={() => {
             changeWatchlist(movie.id, inWatchlist, setWatchlist, setUnreadList);
           }}>

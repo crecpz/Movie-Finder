@@ -17,10 +17,11 @@ html {
 body {
     color: deep-map-get($color, primary);
     background-color: black;
-    font-family: "Nunito Sans", sans-serif;
+    font-family: $primary-font;
     height: 100%;
     overflow-y: scroll;
 
+    // 在行動裝置上，將 window.innerHeight 作為視窗高度，詳見 App.jsx > appHeight() 函式
     @media not all and (hover: hover) {
         height: var(--app-height);
     }

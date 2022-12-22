@@ -35,6 +35,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
       const firstDate = getFirstDayAndLastDay()[0];
       const lastDate = getFirstDayAndLastDay()[1];
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=${firstDate}&primary_release_date.lte=${lastDate}&page=${pageNum}`;
+      console.log(API_URL);
       break;
     case "popular":
       API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800&page=${pageNum}`;
@@ -71,6 +72,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   useEffect(() => {
     let subscribed = true;
     if (subscribed) getMoreData(API_URL, setMovies);
+    // console.log(movies.filter(({ genre_ids }) => genre_ids.length > 5));
     return () => {
       subscribed = false;
     };

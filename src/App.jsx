@@ -31,6 +31,7 @@ function App() {
   }, [unreadList]);
 
   useEffect(() => {
+    //* 以 window.innnerHeight 作為視窗的高度，css 相關設定於 _global-style.scss body 中
     function appHeight() {
       const doc = document.documentElement;
       doc.style.setProperty("--app-height", `${window.innerHeight}px`);

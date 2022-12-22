@@ -45,12 +45,12 @@
   }
 }
 
-//* 放入基本顏色，並以該顏色為基礎，將其暗化 20%，若其已經是最暗，則亮化 20%
+//* 放入基本顏色，並以該顏色為基礎，將其暗化 25%，若其已經是最暗，則亮化 25%
 @mixin hover-color($current-color) {
-  @if (darken($current-color, 20) == $current-color) {
-    color: lighten($current-color, 20);
+  @if (darken($current-color, 25) == $current-color) {
+    color: lighten($current-color, 25);
   } @else {
-    color: darken($current-color, 20);
+    color: darken($current-color, 25);
   }
 }
 
@@ -186,15 +186,25 @@
   height: 2.1875rem;
   color: map-get($color, secondary);
   background-color: map-get($color, primary);
-  box-shadow: 0 0 10px 0 #00000085;
+  box-shadow: 0 0 15px 0 rgb(0 0 0 / 80%);
   transition: map-get($transition, 150);
-  transition-property: color, background-color;
+  transition-property: color, background-color, box-shadow;
   @include hover-query {
     &:hover {
-      background-color: map-get($color, tertiary);
+      @include hover-bg-color(map-get($color, primary));
+      // > i {
+      // }
     }
   }
+
+  &.active {
+    background-color: map-get($color, tertiary);
+  }
+
   & > i {
     @include text(lg);
+    // +++
+    // transition: map-get($transition, 150);
+    // transition-property: color;
   }
 }

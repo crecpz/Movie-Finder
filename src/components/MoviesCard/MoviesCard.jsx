@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { changeWatchlist } from "../../utils/function";
 
@@ -14,13 +13,10 @@ const MoviesCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
         />
         {/* add watlist 按鈕 */}
         <button
-          className="movies-card__btn btn btn--sm btn--transparent"
+          className={`movies-card__btn btn ${inWatchlist ? "active" : ""}`}
           onClick={(e) => {
-            e.stopPropagation();
             e.preventDefault();
             changeWatchlist(movie.id, inWatchlist, setWatchlist, setUnreadList);
-            console.log("e.target:", e.target);
-            console.log("currentTarget:", e.currentTarget);
           }}>
           <i className={`fa-solid ${inWatchlist ? "fa-check" : "fa-plus"}`}></i>
         </button>

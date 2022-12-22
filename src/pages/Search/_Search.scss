@@ -27,6 +27,7 @@
       background-color: map-get($color, tertiary);
       border-radius: map-get($border-radius, base);
       border: 0;
+      font-family: $primary-font;
       outline: none;
       @include sm {
         @include text(lg);

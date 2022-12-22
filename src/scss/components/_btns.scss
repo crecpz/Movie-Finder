@@ -2,6 +2,7 @@
 
 .btn {
   @include button-reset;
+  font-family: $primary-font;
   font-weight: bold;
   transition: map-get($transition, 150);
   transition-property: color, background-color;
@@ -11,15 +12,10 @@
     padding: 0.75em 1em;
     border-radius: map-get($border-radius, base);
     @include lg {
-      @include text(base);
-    }
-    @include md {
       @include text(sm);
     }
-    @include sm {
-      @include text(sm);
-    }
-    i {
+    // icon
+    & > i {
       margin-right: 1rem;
       @include sm {
         margin-right: 0.25rem;
@@ -33,16 +29,6 @@
     border-radius: map-get($border-radius, base);
     @include sm {
       @include text(sm);
-    }
-  }
-
-  &--black {
-    background-color: map-get($color, secondary);
-    color: map-get($color, primary);
-    @include hover-query {
-      &:hover {
-        @include hover-bg-color(map-get($color, secondary));
-      }
     }
   }
 
@@ -62,7 +48,7 @@
     color: map-get($color, primary);
     @include hover-query {
       &:hover {
-        @include hover-bg-color(map-get($color, tertiary));
+        @include hover-bg-color(red);
       }
     }
   }

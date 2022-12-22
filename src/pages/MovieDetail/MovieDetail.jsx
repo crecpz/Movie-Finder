@@ -1,10 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import MovieSwiper from "../../components/MovieSwiper/MovieSwiper";
-// Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import {
   changeWatchlist,
   convertTime,
@@ -39,7 +35,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const [video, setVideo] = useState({});
   // 當前電影是否已經加進 watchlist
   const [inWatchlist, setInWatchlist] = useState(
-    watchlist.find((movie) => movie.id === currentMovieId) !== undefined
+    watchlist.some(({ id }) => id === currentMovieId)
   );
   // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
@@ -71,11 +67,8 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
       getData(VIDEO_URL, setVideo); // Video
       getData(SIMILAR_URL, setSimilarMovies); // 相似電影推薦
     }
-    // 更新目前的 watchlist 按鈕狀態(樣式)
-    // (如果在 watchlist 中 find() 的結果為 undefined 就設為 false，否則設為 true)
-    setInWatchlist(
-      watchlist.find((movie) => movie.id === currentMovieId) !== undefined
-    );
+    // 更新目前電影的 InWatchlist 狀態
+    setInWatchlist(watchlist.some(({ id }) => id === currentMovieId));
     // 換頁後滾動到頂部
     window.scrollTo(0, 0);
     // cleanup function
@@ -86,9 +79,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
 
   useEffect(() => {
     // 更新目前的 inWatchlist 狀態
-    setInWatchlist(
-      watchlist.find((movie) => movie.id === currentMovieId) !== undefined
-    );
+    setInWatchlist(watchlist.some(({ id }) => id === currentMovieId));
     // 存至 localStorage
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
@@ -185,6 +176,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
       <div className="movie-detail">
         {/* intro */}
         <section className="movie-detail__intro">
+          {/* intro backdrop */}
           <div className="movie-detail__backdrop">
             <img
               src={`https://image.tmdb.org/t/p/original/${currentMovie.backdrop_path}`}
@@ -210,7 +202,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
               <h3 className="movie-detail__title">
                 {currentMovie.title ? currentMovie.title : ""}
               </h3>
-              {/* 類別標籤 */}
+              {/* genres 標籤 */}
               {currentMovie.genres ? (
                 <div className="movie-detail__genres-tags genres-tags">
                   {removeDuplicate(currentMovie.genres, "id").map((genres) => {
@@ -418,6 +410,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
           </AnimationOnScroll>
         </section>
       </div>
+
       {/* ScrollToTop */}
       <ScrollToTop
         smooth
