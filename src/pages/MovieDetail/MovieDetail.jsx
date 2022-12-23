@@ -166,6 +166,8 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
     navigate("/notfound", { replace: true });
   }
 
+  console.log(currentMovie.backdrop_path);
+
   return (
     <>
       {/* full screen spinner */}
@@ -178,23 +180,35 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
         <section className="movie-detail__intro">
           {/* intro backdrop */}
           <div className="movie-detail__backdrop">
-            <img
-              src={`https://image.tmdb.org/t/p/original/${currentMovie.backdrop_path}`}
-              onError={noBackdrop}
-              onLoad={(e) => changeImgStatus(e)}
-              alt="backdrop"
-            />
+            <picture>
+              <source
+                srcSet={`https://image.tmdb.org/t/p/w500${currentMovie.backdrop_path}`}
+                media="(max-width: 576px)"
+              />
+              <img
+                src={`https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`}
+                onError={noBackdrop}
+                onLoad={(e) => changeImgStatus(e)}
+                alt="backdrop"
+              />
+            </picture>
           </div>
           <div className="container">
             {currentMovie.poster_path !== null && (
-              <img
-                className="movie-detail__poster"
-                src={`https://image.tmdb.org/t/p/original/${
-                  currentMovie ? currentMovie.poster_path : ""
-                }`}
-                onLoad={(e) => changeImgStatus(e)}
-                alt="poster"
-              />
+              <picture>
+                <source
+                  srcSet={`https://image.tmdb.org/t/p/w300${currentMovie.poster_path}`}
+                  media="(max-width: 576px)"
+                />
+                <img
+                  className="movie-detail__poster"
+                  src={`https://image.tmdb.org/t/p/original/${
+                    currentMovie ? currentMovie.poster_path : ""
+                  }`}
+                  onLoad={(e) => changeImgStatus(e)}
+                  alt="poster"
+                />
+              </picture>
             )}
             {/* intro 文字部分 */}
             <div className={`movie-detail__texts ${imgIsLoaded ? "show" : ""}`}>
