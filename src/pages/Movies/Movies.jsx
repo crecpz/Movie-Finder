@@ -6,8 +6,7 @@ import { useInView } from "react-intersection-observer";
 import {
   capitalize,
   getFirstDayAndLastDay,
-  // getMoreData,
-  removeDuplicate,
+  getMoreData,
   getData,
 } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
@@ -48,25 +47,6 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
       break;
   }
 
-  // 取得更多的搜尋結果
-  const getMoreData = async (API_URL, setState) => {
-    try {
-      const res = await fetch(API_URL);
-      if (!res.ok) {
-        throw new Error("Error");
-      }
-      const data = await res.json();
-      setState((prev) => {
-        return {
-          ...prev,
-          results: removeDuplicate([...prev.results, ...data.results], "id"),
-        };
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   //* 頁面切換
   useEffect(() => {
     let subscribed = true;
@@ -103,6 +83,8 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
     }
   }, [genresId]);
 
+  console.log(movies);
+
   return (
     <section className="movies">
       <div className="container">
@@ -113,7 +95,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
         <div className="movies-cards cards">
           {movies.results && movies.results.length !== 0 ? (
             movies.results.map((movie) => {
-              // 確保電影有圖片跟標題，若不存在的就不顯示
+              // 確保該有圖片跟標題，若不存在的就不顯示
               return movie.poster_path &&
                 (movie.title || movie.original_title) ? (
                 <MoviesCard
@@ -133,13 +115,14 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
           )}
         </div>
         {/* load more spinner */}
-        {movies.results && movies.results.length !== 0 && (
-          <div ref={loadMore} className="spinner spinner--full-screen">
-            <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-          </div>
-        )}
+        {movies.results &&
+          movies.results.length !== 0 &&
+          pageNum < movies.total_pages && (
+            <div ref={loadMore} className="spinner spinner--full-screen">
+              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+            </div>
+          )}
       </div>
-
       {/* 滾動到頂部 */}
       <ScrollToTop
         smooth

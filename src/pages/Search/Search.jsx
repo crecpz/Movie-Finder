@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import SearchResult from "../../components/SearchResult/SearchResult";
-import { getData, removeDuplicate } from "../../utils/function";
+import { getData, getMoreData, removeDuplicate } from "../../utils/function";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../../utils/components-styles";
 import ScrollToTop from "react-scroll-to-top";
@@ -72,24 +72,6 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
 
   //* pageNum 改變後的行為
   useEffect(() => {
-    // 取得更多的搜尋結果
-    const getMoreData = async (API_URL, setState) => {
-      try {
-        const res = await fetch(API_URL);
-        if (!res.ok) {
-          throw new Error("Error");
-        }
-        const data = await res.json();
-        setState((prev) => {
-          return {
-            ...prev,
-            results: removeDuplicate([...prev.results, ...data.results], "id"),
-          };
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
     let subscribed = true;
     // 獲取更多資料的行為只發生在 pageNum > 1
     if (pageNum > 1 && subscribed) {

@@ -1,5 +1,5 @@
 /**
- * * 獲取單項資料(指的是後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
+ * * 獲取單項資料(後續不會需要再獲取更多的資料，ex: 一部電影的詳細資訊)
  * @param {*} `url` fetch url
  * @param {*} `setState` 資料儲存的 state
  * @param {*} `handleError` 錯誤處理 callback
@@ -18,10 +18,11 @@ export const getData = async (url, setState, handleError) => {
   }
 };
 
+//
 /**
- * * 獲取更多的資料(在原來的基礎上獲取更多)
- * @param {*} `API_URL` url fetch url
- * @param {*} `setState` setState 資料儲存的 state
+ * * 取得更多的資料加入原來的 state 當中，並在過程中去除重複的資料(如果有重複)
+ * @param {*} `url` fetch url
+ * @param {*} `setState` 資料儲存的 state
  */
 export const getMoreData = async (API_URL, setState) => {
   try {
@@ -31,7 +32,10 @@ export const getMoreData = async (API_URL, setState) => {
     }
     const data = await res.json();
     setState((prev) => {
-      return removeDuplicate([...prev, ...data.results], "id");
+      return {
+        ...prev,
+        results: removeDuplicate([...prev.results, ...data.results], "id"),
+      };
     });
   } catch (err) {
     console.log(err);
