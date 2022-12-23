@@ -167,6 +167,7 @@ $watchcards-gap-amount: (
       transition-property: transform;
       @include md {
          @include text(base);
+         @include ellipsis-text(2);
          margin-top: 1rem;
          padding: 0;
          transform: none;

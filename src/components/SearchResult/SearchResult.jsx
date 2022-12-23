@@ -13,6 +13,8 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
   const DETAIL_URL = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=e86818f56e7d92f357708ecb03052800`;
   // 存放獲取到的當前電影細節資料
   const [currentMovie, setCurrentMovie] = useState({});
+  // 當前電影圖片載入狀態(載入後才顯示卡片上的文字與按鈕)
+  const [imgOnload, setImgOnload] = useState(false);
 
   useEffect(() => {
     let subscribed = true;
@@ -26,22 +28,19 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
   return (
     <li className="search-result">
       {/* 圖片區域(帶有連結) */}
-      <Link
-        to={`/movie/${movie && movie.id}`}
-        className="search-result__img-link">
+      <Link to={`/movie/${movie.id}`} className="search-result__img-link">
         <img
-          src={`https://image.tmdb.org/t/p/w300/${movie && movie.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
           className="search-result__poster"
           onError={noPoster}
+          onLoad={() => setImgOnload(true)}
           alt="search-result-img"
         />
       </Link>
       {/* 文字區域 */}
-      <div className="search-result__texts">
+      <div className={`search-result__texts ${imgOnload ? "" : "hide"}`}>
         {/* 標題(帶有連結) */}
-        <Link
-          to={`/movie/${movie && movie.id}`}
-          className="search-result__title">
+        <Link to={`/movie/${movie.id}`} className="search-result__title">
           {movie.title ? <h3>{movie.title}</h3> : ""}
         </Link>
         {/* 電影資訊 */}
@@ -65,7 +64,7 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
             ""
           )}
           {/* 時長 */}
-          {currentMovie.runtime ? (
+          {currentMovie && currentMovie.runtime ? (
             <p className="search-result__runtime">
               <i className="fa-regular fa-clock"></i>
               {convertTime(currentMovie.runtime)}
@@ -93,7 +92,7 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
         <button
           className={`search-result__btn btn btn--sm btn--transparent ${
             inWatchlist ? "active" : ""
-          }`}
+          } ${imgOnload ? "" : "hide"}`}
           onClick={() => {
             changeWatchlist(movie.id, inWatchlist, setWatchlist, setUnreadList);
           }}>

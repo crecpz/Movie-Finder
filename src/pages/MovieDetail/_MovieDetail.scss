@@ -40,6 +40,10 @@
   &__intro {
     display: grid;
     min-height: 100vh;
+    @include md {
+      // 斷點低於 md 後不限制 min-height
+      min-height: auto;
+    }
     // intro 內容器
     .container {
       @include flex($ai: center);

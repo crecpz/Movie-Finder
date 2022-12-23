@@ -92,7 +92,7 @@ main {
 // genres 容器
 .genres-tags {
     @include flex($wrap: wrap);
-    row-gap: 0.75rem;
+    row-gap: 0.625rem;
     column-gap: 0.75rem;
 }
 

@@ -21,27 +21,30 @@ $movie-cards-gap-amount: (
   sm: 1,
 );
 
+//* MoviesCard 容器
 .movies-cards {
   @include cards($movie-cards-column-gap);
 }
 
+//* MoviesCard 連結
 .movies-card-link {
   @include card($movie-cards-column-gap, $movie-cards-card-amount, $movie-cards-gap-amount);
   animation: scale map-get($transition, 500);
 }
 
+//* MoviesCard 項目
 .movies-card {
   $block: &;
   position: relative;
   transition: map-get($transition, 300);
   transition-property: transform, box-shadow;
   border-radius: 1rem;
-  overflow: hidden;
+  // hover 狀態
   @include hover-query {
     &:hover {
       position: relative;
       z-index: 20;
-      transform: scale(1.25);
+      transform: scale(1.15);
       box-shadow: map-get($box-shadow, base);
       @include md {
         transform: none;
@@ -58,14 +61,14 @@ $movie-cards-gap-amount: (
     }
   }
 
-  // 卡片暗色遮蓋
+  //* 卡片暗色遮蓋
   &::before {
     content: "";
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: map-get($color, overlay);
     opacity: 0;
     transition: map-get($transition, 300);
     transition-property: opacity;
@@ -75,19 +78,24 @@ $movie-cards-gap-amount: (
     }
   }
 
-  // .movies-card__img
+  //* .movies-card__img
   &__img {
     width: 100%;
     border-radius: map-get($border-radius, md);
   }
 
-  // movies-card__btn
+  //* movies-card__btn
   &__btn {
-    
     @include card-btn;
+    transition: map-get($transition, 150);
+    transition-property: transform;
+    &.hide {
+      // 預設會先套用 hide class，確保圖片 onload 後才顯示
+      transform: scale(0);
+    }
   }
 
-  // movies-card__text
+  //* movies-card__text
   &__text {
     position: absolute;
     z-index: 5;
@@ -106,15 +114,25 @@ $movie-cards-gap-amount: (
       padding-left: 0;
       padding-right: 0;
       margin-top: 1rem;
+      transition: map-get($transition, 300);
+      // 預設會先套用 hide class，確保圖片 onload 後才顯示
+      &.hide {
+        visibility: hidden;
+        opacity: 0;
+      }
     }
   }
 
-  // movies-card__title
+  //* movies-card__title
   &__title {
     @include text(base);
+    // 斷點 < md 以下開始限制行數
+    @include md {
+      @include ellipsis-text(2);
+    }
   }
 
-  // movies-card__info
+  //* movies-card__info
   &__info {
     @include flex($wrap: wrap);
     @include text(xs);

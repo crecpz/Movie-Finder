@@ -24,12 +24,9 @@
   }
 
   &--sm {
-    @include text(base);
+    @include text(sm);
     padding: 0.75em 1em;
     border-radius: map-get($border-radius, base);
-    @include sm {
-      @include text(sm);
-    }
   }
 
   &--transparent {

@@ -13,7 +13,7 @@ $search-results-gap-amount: (
   sm: 1,
 );
 
-//* 卡片容器
+//* 搜尋結果容器
 .search-results {
   margin-top: 3rem;
   @include md {
@@ -23,7 +23,7 @@ $search-results-gap-amount: (
   }
 }
 
-//* 卡片
+//* 搜尋結果項目
 .search-result {
   $block: &;
   @include flex;
@@ -41,6 +41,7 @@ $search-results-gap-amount: (
       (100% / map-get($search-results-amount, md)) -
         ($search-results-column-gap * map-get($search-results-gap-amount, md) / map-get($search-results-amount, md))
     );
+    animation: scale map-get($transition, 500);
   }
   @include sm {
     max-width: calc(
@@ -56,25 +57,30 @@ $search-results-gap-amount: (
     }
   }
 
-  //* 電影海報
+  //* 電影圖片(poster)
   &__poster {
-    width: 100%;
-    max-width: 9.375rem;
-    border-radius: map-get($border-radius, base);
+    width: 10.3125rem;
     align-self: start;
     @include md {
-      max-width: none;
+      border-radius: map-get($border-radius, base);
+      width: 100%;
     }
   }
 
   //* 文字部分
   &__texts {
     @include flex($dir: column);
+    row-gap: 1rem;
     margin-left: 2rem;
     @include md {
-      row-gap: 1.25rem;
       margin-left: 0;
       margin-top: 1.5rem;
+      transition: map-get($transition, 300);
+      // 預設會先套用 hide class，確保圖片 onload 後才顯示
+      &.hide {
+        visibility: hidden;
+        opacity: 0;
+      }
     }
     #{$block}__link {
       align-self: flex-start;
@@ -89,7 +95,11 @@ $search-results-gap-amount: (
   //* 電影名稱
   &__title {
     h3 {
-      @include text(3xl);
+      @include text(2xl);
+      @include ellipsis-text(2);
+      @include lg {
+        @include text(xl);
+      }
       @include md {
         @include text(base);
       }
@@ -98,7 +108,6 @@ $search-results-gap-amount: (
 
   //* genres-tag 容器
   &__genres-tags {
-    margin-top: 1rem;
     @include md {
       display: none;
     }
@@ -107,7 +116,6 @@ $search-results-gap-amount: (
   //* 電影資訊(上映日期、評等、時長)
   &__info {
     @include flex;
-    margin-top: 0.5rem;
     @include md {
       display: none;
     }
@@ -132,16 +140,22 @@ $search-results-gap-amount: (
   //* 按鈕(add watchlist 按鈕)
   &__btn {
     @include text(sm);
-    margin-top: 2rem;
+    margin-top: auto;
     align-self: flex-start;
     @include md {
-      // 斷點在 md 以下套用 card-btn 樣式
+      // 斷點在 md 以下才套用 card-btn 樣式
       @include card-btn;
       margin-top: 0;
       font-size: 0; // 隱藏 .detail-card__btn 的文字部分
+      transition: map-get($transition, 150);
+      transition-property: transform;
+      &.hide {
+        // 預設會先套用 hide class，確保圖片 onload 後才顯示
+        transform: scale(0);
+      }
     }
     // +號 icon
-    i {
+    & > i {
       margin-right: 0.75rem;
       @include md {
         font-size: initial; // 在 .detail-card__btn 內的 md 斷點有將 font-size 變為 0，但仍需要保留此 icon，故設定成 initial

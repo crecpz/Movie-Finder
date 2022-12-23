@@ -192,19 +192,25 @@
   @include hover-query {
     &:hover {
       @include hover-bg-color(map-get($color, primary));
-      // > i {
-      // }
     }
   }
-
+  // 用來表示已經被加入 watchlist 
   &.active {
     background-color: map-get($color, tertiary);
   }
-
+  // btn icon
   & > i {
     @include text(lg);
-    // +++
-    // transition: map-get($transition, 150);
-    // transition-property: color;
   }
+}
+
+//* 限制文字行數
+// @ $line-clamp 要顯示的行數
+@mixin ellipsis-text($line-clamp){
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: $line-clamp; /* 行數 */
+    -webkit-box-orient: vertical;
+    white-space: normal;
 }
