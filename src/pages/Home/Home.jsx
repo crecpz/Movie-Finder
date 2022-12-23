@@ -81,7 +81,7 @@ const Home = () => {
                   className="hero__slide-img hero__slide-img--poster"
                   alt="movie-poster"
                   onLoad={() => {
-                    // 同上方式
+                    // 同上(.hero__slide-img--backdrop)方式
                     index === 0 && handleImgLoaded();
                   }}
                 />
