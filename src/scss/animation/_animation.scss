@@ -1,3 +1,4 @@
+// 元素橫向左右移動
 @keyframes x-moving {
   from {
     transform: translateX(0%);
@@ -7,7 +8,7 @@
   }
 }
 
-// 目前用於 MovieCard 卡片出現的效果
+// 用於 MovieCard 卡片出現的效果
 @keyframes scale {
   from {
     opacity: 0.3;
@@ -15,18 +16,15 @@
   }
 }
 
-@keyframes in-view {
-  0% {
-    opacity: 0;
-    transform: translateY(1.875rem);
-  }
-
-  30% {
-    transform: translateY(1.875rem);
-  }
-
-  100% {
+// 讓元素以淡出下滑的方式顯示
+@keyframes show {
+  50% {
     transform: translateY(0);
+  }
+  
+  100%{
+    transform: translateY(0);
+    visibility: visible;
     opacity: 1;
   }
 }

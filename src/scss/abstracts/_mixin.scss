@@ -74,25 +74,29 @@
 
 //* 將某一個元素的所有直接子元素出現時加上淡入效果
 //- 需將 class `show` 來加進該元素當中來觸發效果
-@mixin transition-show($amount) {
+@mixin transition-show($child-amount) {
   // 選中元素的所有的子層
   & > :nth-child(n) {
     opacity: 0;
+    visibility: hidden;
     transform: translateY(-1.25rem);
-    transition: map-get($transition, 800), map-get($transition, 1000);
-    transition-property: transform, opacity;
+    animation: map-get($transition, 2000);
+    // transition: map-get($transition, 800), map-get($transition, 1000);
+    // transition-property: transform, opacity;
   }
   // 按照子層數量 $i，依序增加 transition-delay
-  @for $i from 1 through $amount {
+  @for $i from 1 through $child-amount {
     & > :nth-child(#{$i}) {
-      transition-delay: $i * 150ms, $i * 200ms;
+      animation-delay: $i * 150ms, $i * 200ms;
+      // transition-delay: $i * 150ms, $i * 200ms;
     }
   }
+
   // 出現時樣式
   &.show {
     & > :nth-child(n) {
-      opacity: 1;
-      transform: translateY(0);
+      animation-name: show;
+      animation-fill-mode: forwards;
     }
   }
 }
@@ -194,7 +198,7 @@
       @include hover-bg-color(map-get($color, primary));
     }
   }
-  // 用來表示已經被加入 watchlist 
+  // 用來表示已經被加入 watchlist
   &.active {
     background-color: map-get($color, tertiary);
   }
@@ -206,11 +210,11 @@
 
 //* 限制文字行數
 // @ $line-clamp 要顯示的行數
-@mixin ellipsis-text($line-clamp){
-    overflow: hidden;
-    display: -webkit-box;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: $line-clamp; /* 行數 */
-    -webkit-box-orient: vertical;
-    white-space: normal;
+@mixin ellipsis-text($line-clamp) {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $line-clamp; /* 行數 */
+  -webkit-box-orient: vertical;
+  white-space: normal;
 }
