@@ -166,8 +166,6 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
     navigate("/notfound", { replace: true });
   }
 
-  console.log(currentMovie.backdrop_path);
-
   return (
     <>
       {/* full screen spinner */}
@@ -195,13 +193,14 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
           </div>
           <div className="container">
             {currentMovie.poster_path !== null && (
-              <picture>
+              <picture
+                className={`movie-detail__poster ${imgIsLoaded ? "show" : ""}`}>
                 <source
                   srcSet={`https://image.tmdb.org/t/p/w300${currentMovie.poster_path}`}
                   media="(max-width: 576px)"
                 />
                 <img
-                  className="movie-detail__poster"
+                  className="movie-detail__poster-img"
                   src={`https://image.tmdb.org/t/p/original${
                     currentMovie ? currentMovie.poster_path : ""
                   }`}

@@ -18,7 +18,6 @@ export const getData = async (url, setState, handleError) => {
   }
 };
 
-//
 /**
  * * 取得更多的資料加入原來的 state 當中，並在過程中去除重複的資料(如果有重複)
  * @param {*} `url` fetch url

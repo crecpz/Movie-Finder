@@ -97,9 +97,6 @@ $search-results-gap-amount: (
     h3 {
       @include text(2xl);
       @include ellipsis-text(2);
-      @include lg {
-        @include text(xl);
-      }
       @include md {
         @include text(base);
       }
@@ -116,6 +113,7 @@ $search-results-gap-amount: (
   //* 電影資訊(上映日期、評等、時長)
   &__info {
     @include flex;
+    @include text(sm);
     @include md {
       display: none;
     }

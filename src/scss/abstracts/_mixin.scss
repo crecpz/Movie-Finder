@@ -72,23 +72,21 @@
   padding-bottom: 3rem;
 }
 
-//* 將某一個元素的所有直接子元素出現時加上淡入效果
-//- 需將 class `show` 來加進該元素當中來觸發效果
-@mixin transition-show($child-amount) {
+//* 將某一個元素的所有直接子元素以「淡出+下滑」的方式顯示
+//- 在元素中加入 `show` class，子元素將會套用效果
+// @mixin slow-show($child-amount) {
+@mixin slow-show($child-amount, $duration: 1200ms ,$timing-func: ease-in-out) {
   // 選中元素的所有的子層
   & > :nth-child(n) {
     opacity: 0;
     visibility: hidden;
     transform: translateY(-1.25rem);
-    animation: map-get($transition, 2000);
-    // transition: map-get($transition, 800), map-get($transition, 1000);
-    // transition-property: transform, opacity;
+    animation: $duration $timing-func;
   }
   // 按照子層數量 $i，依序增加 transition-delay
   @for $i from 1 through $child-amount {
     & > :nth-child(#{$i}) {
-      animation-delay: $i * 150ms, $i * 200ms;
-      // transition-delay: $i * 150ms, $i * 200ms;
+      animation-delay: $i * 150ms;
     }
   }
 

@@ -13,13 +13,13 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
   const [searchText, setSearchText] = useState("");
   // 存放搜尋結果
   const [searchResult, setSearchResult] = useState({});
-  // 搜尋結果頁數
+  // 當前載入頁數
   const [pageNum, setPageNum] = useState(1);
   // 存放使用者在 input 輸入的過程中 fetch 到的 autoComplete 選項
   const [autoComplete, setAutoComplete] = useState([]);
-  // autoComplete ui 顯示狀態
+  // autoComplete ui 顯示狀態(true:顯示, false: 隱藏)
   const [showAutoComplete, setShowAutoComplete] = useState(false);
-  // 表示目前是否開始進行搜尋(透過鍵盤按下 Enter 或是 click autoCompleteItems)
+  // 表示目前是否開始進行搜尋(當「鍵盤按下 Enter」 或是 「click 任一 autoCompleteItems」將會變成 true)
   const [startSearching, setStartSearching] = useState(false);
   // 存放 input ref
   const inputRef = useRef(null);
@@ -41,12 +41,13 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
         setShowAutoComplete(true);
       }
     }
+    // cleanup function
     return () => {
       subscribed = false;
     };
   }, [searchText]);
 
-  //* 偵測目前是否為 startSearching 狀態(開始進行搜尋)
+  //* 偵測目前是否為 startSearching 狀態，若為 true 則開始進行搜尋
   useEffect(() => {
     if (startSearching) {
       getData(API_URL, setSearchResult);
@@ -57,6 +58,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
     setPageNum(1);
     // 隱藏 autoComplete
     setShowAutoComplete(false);
+    // cleanup function
     return () => setStartSearching(false);
   }, [startSearching]);
 
@@ -69,17 +71,17 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
       setPageNum((prev) => prev + 1);
     }
   }, [isIntersecting]);
+  // }, [isIntersecting, pageNum, searchResult]);
 
   //* pageNum 改變後的行為
   useEffect(() => {
     let subscribed = true;
     // 獲取更多資料的行為只發生在 pageNum > 1
-    if (pageNum > 1 && subscribed) {
+    if (subscribed && pageNum > 1) {
       getMoreData(API_URL, setSearchResult);
     }
-    return () => {
-      subscribed = false;
-    };
+    // cleanup function
+    return () => (subscribed = false);
   }, [pageNum]);
 
   //* 當 watchlist 改變，更新 localStorage 值
@@ -99,9 +101,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
     };
     window.addEventListener("click", hideAutoComplete);
     // cleanup function
-    return () => {
-      window.removeEventListener("click", hideAutoComplete);
-    };
+    return () => window.removeEventListener("click", hideAutoComplete);
   }, []);
 
   //* autoComplete elements
@@ -124,7 +124,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
             key={movie.id}
             movie={movie}
             inWatchlist={watchlist.some(
-              (watchlistData) => watchlistData.id === movie.id 
+              (watchlistData) => watchlistData.id === movie.id
             )}
             setWatchlist={setWatchlist}
             setUnreadList={setUnreadList}
@@ -192,12 +192,12 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
               showAutoComplete ? "auto-complete--show" : ""
             }`}>
             {autoComplete.results
-              ? [searchText, ...autoCompleteItems].map((res, index) => {
+              ? [searchText, ...autoCompleteItems].map((result, index) => {
                   if (index === 0) {
                     return (
                       <li
-                        key={res.id}
-                        id={res.id}
+                        key={result.id}
+                        id={result.id}
                         className="auto-complete__item"
                         onClick={() => setStartSearching(true)}>
                         <i className="fa-solid fa-magnifying-glass"></i>
@@ -207,14 +207,14 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
                   }
                   return (
                     <li
-                      key={res.id}
-                      id={res.id}
+                      key={result.id}
+                      id={result.id}
                       className="auto-complete__item"
                       onClick={() =>
-                        handleAutoCompleteClick(res.id, res.title)
+                        handleAutoCompleteClick(result.id, result.title)
                       }>
                       <i className="fa-solid fa-magnifying-glass"></i>
-                      {res.title}
+                      {result.title}
                     </li>
                   );
                 })
@@ -223,12 +223,13 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
         </div>
 
         <ul className="search-results">
-          {/* ! spinner
-          {startSearching && !searchResult.results && (
+          {/* ! spinner */}
+          {/* {searchResult.results && searchResult.results.length === 0 && (
             <div className="spinner">
               <PulseLoader color="#fff" cssOverride={spinnerStyle} />
             </div>
           )} */}
+
           {searchResultElements}
         </ul>
         {/* loadMore spinner */}

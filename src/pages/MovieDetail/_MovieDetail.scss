@@ -12,12 +12,12 @@
     }
   }
 
-  // .movie-detail 內所有 .container 套用 padding mixin
   .container {
+    // .movie-detail 內所有 .container 套用 padding mixin
     @include x-spacing;
   }
 
-  // 各區塊標題
+  //* 各區塊標題
   .layout-title {
     @include flex;
     padding-bottom: 1.5rem;
@@ -31,7 +31,7 @@
     }
   }
 
-  // 各區塊內容區
+  //* 各區塊內容區
   &__layout-content {
     margin-top: 1.5rem;
   }
@@ -71,7 +71,6 @@
     @include lg {
       align-self: flex-start;
     }
-
     // backdrop img tag
     img {
       width: 100%;
@@ -79,7 +78,6 @@
       object-fit: cover;
       object-position: top;
     }
-
     // backdrop 遮蓋層
     &::before {
       content: "";
@@ -93,22 +91,28 @@
     }
   }
 
-  //* 電影海報
+  //* 電影海報 <picture> tag
   &__poster {
-    border-radius: 0.9375rem;
-    width: 100%;
-    max-width: 16.875rem;
-    border-radius: map-get($border-radius, base);
-    box-shadow: map-get($box-shadow, base);
-    @include md {
-      max-width: 12.5rem;
+    @include slow-show(1);
+    // visibility: hidden;
+    // opacity: 0;
+    
+    // <img /> tag
+    &-img {
+      width: 100%;
+      max-width: 16.875rem;
+      border-radius: map-get($border-radius, base);
+      box-shadow: map-get($box-shadow, base);
+      @include md {
+        max-width: 12.5rem;
+      }
     }
   }
 
   //* 文字區域
   &__texts {
     @include flex($dir: column, $jc: center);
-    @include transition-show(5);
+    @include slow-show(5);
     row-gap: 1rem;
     margin-left: 4rem;
     width: 100%;
@@ -127,7 +131,7 @@
     }
   }
 
-  // 電影名稱(標題)
+  //* 電影名稱(標題)
   &__title {
     @include text(5xl);
     @include lg {
@@ -138,7 +142,7 @@
     }
   }
 
-  // 文字介紹
+  //* 文字介紹
   &__overview {
     @include text(lg);
     @include lg {
@@ -150,7 +154,7 @@
     }
   }
 
-  // 按鈕 (Watch Video & Add Watchlist)
+  //* 按鈕容器 (Watch Video & Add Watchlist)
   &__btns {
     @include flex;
     @include lg {
@@ -162,7 +166,7 @@
     }
   }
 
-  // 單一按鈕
+  //* 按鈕
   &__btn {
     align-self: flex-start;
     @include sm {
@@ -208,7 +212,7 @@
       }
     }
 
-    // 收合列表 btn(checkbox)
+    //* 收合列表按鈕(實際上是用 checkbox 做的)
     &-btn {
       // 收合列表只發生在 breakpoint md 以下
       @include md {
@@ -230,7 +234,7 @@
       }
     }
 
-    // 演員列表卡片容器
+    //* 演員列表卡片容器
     &-cards {
       @include flex($wrap: wrap);
       row-gap: 2rem;
@@ -255,7 +259,7 @@
       }
     }
 
-    // 演員列表卡片
+    //* 演員列表卡片
     &-card {
       @include flex($ai: center);
       width: 100%;
@@ -267,7 +271,7 @@
         max-width: 100%; // 1 欄
       }
     }
-
+    //* 演員頭像
     &-img {
       width: 6.25rem;
       height: 6.25rem;
@@ -280,7 +284,7 @@
       }
     }
 
-    // cast 文字區
+    //* cast 文字區
     &-text {
       @include flex($dir: column);
       padding-left: 1.5rem;
@@ -304,7 +308,7 @@
     }
   }
 
-  // video 嵌入內容區
+  //* video 嵌入區
   &__iframe-content {
     position: relative;
     width: 100%;
@@ -314,7 +318,7 @@
       padding-bottom: 0;
     }
   }
-
+  // movie-detail__iframe
   &__iframe {
     position: absolute;
     top: 0;
@@ -324,12 +328,11 @@
     border: 0;
   }
 
-  //* Related Links
+  //* Related Links (相關連結)
   &__related-links-content {
     @include flex;
   }
-
-  // <a> 連結
+  // <a>
   &__related-link {
     @include flex($ai: center);
     @include text(lg);
@@ -343,12 +346,11 @@
         color: map-get($color, tertiary);
       }
     }
-
-    // 連結內首個 icon (home icon)
-    i:nth-child(1) {
+    // home icon
+    .fa-house {
       margin-right: 10px;
     }
-
+    // link icon
     .fa-link {
       @include text(sm);
       margin-left: 5px;
