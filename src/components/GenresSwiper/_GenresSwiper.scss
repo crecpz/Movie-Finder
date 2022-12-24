@@ -48,14 +48,14 @@
     &:hover {
       #{$bolck}__icon,
       #{$bolck}__name {
-        color: map-get($color, active);
+        color: map-get($color, tertiary);
       }
     }
   }
 
   // active 樣式
   &.active {
-    color: map-get($color, active);
+    color: map-get($color, tertiary);
   }
 
   // 類別 icon
