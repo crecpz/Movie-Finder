@@ -37,6 +37,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
       setPageNum(1);
     } else {
       if (subscribed) {
+        const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}`;
         getData(API_URL, setAutoComplete);
         setShowAutoComplete(true);
       }
@@ -50,17 +51,18 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
   //* 偵測目前是否為 startSearching 狀態，若為 true 則開始進行搜尋
   useEffect(() => {
     if (startSearching) {
+      const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}`;
       getData(API_URL, setSearchResult);
+      // 新的搜尋產生後，滾動到頂部
+      window.scrollTo(0, 0);
+      // 將 pageNum 回歸 1
+      setPageNum(1);
+      // 隱藏 autoComplete
+      setShowAutoComplete(false);
     }
-    // 新的搜尋產生後，滾動到頂部
-    window.scrollTo(0, 0);
-    // 將 pageNum 回歸 1
-    setPageNum(1);
-    // 隱藏 autoComplete
-    setShowAutoComplete(false);
     // cleanup function
     return () => setStartSearching(false);
-  }, [startSearching]);
+  }, [startSearching, searchText]);
 
   //* 偵測 loadMore 是否進入 intersection observer
   useEffect(() => {
@@ -71,7 +73,6 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
       setPageNum((prev) => prev + 1);
     }
   }, [isIntersecting]);
-  // }, [isIntersecting, pageNum, searchResult]);
 
   //* pageNum 改變後的行為
   useEffect(() => {

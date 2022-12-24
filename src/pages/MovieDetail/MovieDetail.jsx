@@ -34,9 +34,10 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   // 存放 video 資料
   const [video, setVideo] = useState({});
   // 當前電影是否已經加進 watchlist
-  const [inWatchlist, setInWatchlist] = useState(
+  const [inWatchlist, setInWatchlist] = useState(() =>
     watchlist.some(({ id }) => id === currentMovieId)
   );
+
   // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
   // 存放目前電影 poster 與 backdrop 載入狀態
@@ -46,43 +47,55 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   ]);
   // 指向 video 區塊的 ref
   const videoRef = useRef();
-  // API URLs
-  const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
-  const CURRENT_DETAIL_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=e86818f56e7d92f357708ecb03052800`;
-  const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
-  const CREDITS_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/credits?api_key=e86818f56e7d92f357708ecb03052800`;
 
   useEffect(() => {
-    // 換頁後，恢復 poster & backdrop 的狀態
+    // API URLs
+    // 當前電影資料
+    const CURRENT_MOVIE_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=e86818f56e7d92f357708ecb03052800`;
+    // 相似電影
+    const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/similar?api_key=e86818f56e7d92f357708ecb03052800&page=1`;
+    // Video
+    const VIDEO_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/videos?api_key=e86818f56e7d92f357708ecb03052800`;
+    // 演員資料
+    const CREDITS_URL = `https://api.themoviedb.org/3/movie/${currentMovieId}/credits?api_key=e86818f56e7d92f357708ecb03052800`;
+
+    // 換頁後，恢復 poster & backdrop 的載入狀態
     setImgIsLoaded(false);
     setImgLoadStatus([
       { type: "backdrop", isLoaded: false },
       { type: "poster", isLoaded: false },
     ]);
+
     // 取得 API 資料
     let subscribed = true;
     if (subscribed) {
-      getData(CURRENT_DETAIL_URL, setCurrentMovie, handleError); // 當前電影資料
+      getData(CURRENT_MOVIE_URL, setCurrentMovie, handleError); // 當前電影資料
       getData(CREDITS_URL, setCredits); // 演員資料
       getData(VIDEO_URL, setVideo); // Video
-      getData(SIMILAR_URL, setSimilarMovies); // 相似電影推薦
+      getData(SIMILAR_URL, setSimilarMovies); // 相似電影
     }
     // 更新目前電影的 InWatchlist 狀態
     setInWatchlist(watchlist.some(({ id }) => id === currentMovieId));
     // 換頁後滾動到頂部
     window.scrollTo(0, 0);
+
+    //* 前往一個不存在的網址時，導向 notfound 頁面
+    function handleError() {
+      navigate("/notfound", { replace: true });
+    }
+
     // cleanup function
     return () => {
       subscribed = false;
     };
-  }, [currentMovieId]);
+  }, [currentMovieId, navigate]);
 
   useEffect(() => {
     // 更新目前的 inWatchlist 狀態
     setInWatchlist(watchlist.some(({ id }) => id === currentMovieId));
     // 存至 localStorage
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
+  }, [watchlist, currentMovieId]);
 
   useEffect(() => {
     // 當 imgLoadStatus 內所有的元素的 isLoaded 屬性皆為 true 時
@@ -159,11 +172,6 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
         }
       });
     });
-  }
-
-  //* 前往一個不存在的網址時，導向 notfound 頁面
-  function handleError() {
-    navigate("/notfound", { replace: true });
   }
 
   return (
