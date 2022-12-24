@@ -149,7 +149,7 @@
   .hamburger {
     @include flex($dir: column, $ai: center, $jc: center);
     row-gap: $line-gap;
-
+    // 三條線
     &__line {
       width: $width;
       height: $line-thickness;
@@ -158,7 +158,7 @@
       background-color: $line-color;
       pointer-events: none;
     }
-
+    // active 狀態下線條的變化
     &.active .hamburger__line {
       &:nth-child(1) {
         transform: translateY($line-thickness + $line-gap) rotate(45deg);

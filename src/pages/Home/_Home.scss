@@ -7,8 +7,10 @@
   &__genres-list {
     @include flex($dir: column);
     @include x-spacing;
-    row-gap: 2rem;
     margin-top: 4rem;
+    @include md {
+      row-gap: 2rem;
+    }
   }
 
   //* genres item
