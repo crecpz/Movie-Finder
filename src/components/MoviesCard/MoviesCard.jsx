@@ -11,7 +11,7 @@ const MoviesCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
       <div className="movies-card">
         <img
           className="movies-card__img"
-          src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
           onLoad={() => setImgOnload(true)}
           alt="movie-card-img"
         />

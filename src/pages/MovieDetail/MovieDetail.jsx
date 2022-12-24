@@ -132,7 +132,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
           <div className="movie-detail__cast-card">
             <img
               className="movie-detail__cast-img"
-              src={`https://image.tmdb.org/t/p/w500/${profile_path}`}
+              src={`https://image.tmdb.org/t/p/w500${profile_path}`}
               onError={(e) => noAvatar(e)}
               alt="profilie_path"
             />
@@ -202,7 +202,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
                 />
                 <img
                   className="movie-detail__poster"
-                  src={`https://image.tmdb.org/t/p/original/${
+                  src={`https://image.tmdb.org/t/p/original${
                     currentMovie ? currentMovie.poster_path : ""
                   }`}
                   onLoad={(e) => changeImgStatus(e)}

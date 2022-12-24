@@ -30,7 +30,7 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
       {/* 圖片區域(帶有連結) */}
       <Link to={`/movie/${movie.id}`} className="search-result__img-link">
         <img
-          src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
           className="search-result__poster"
           onError={noPoster}
           onLoad={() => setImgOnload(true)}

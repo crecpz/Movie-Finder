@@ -83,8 +83,6 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
     }
   }, [genresId]);
 
-  console.log(movies);
-
   return (
     <section className="movies">
       <div className="container">

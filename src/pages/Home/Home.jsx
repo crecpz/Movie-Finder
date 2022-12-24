@@ -65,27 +65,30 @@ const Home = () => {
           <SwiperSlide key={movie.id}>
             <Link to={`/movie/${movie.id}`} className="hero__slide-link">
               {/* hero__slide 圖片部分 */}
-              <div className="hero__slide-imgs">
-                <img
-                  src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-                  className="hero__slide-img hero__slide-img--backdrop"
-                  alt="movie-backdrop"
-                  onLoad={() => {
-                    // 如果 onLoad 觸發的對象 index === 0 ，代表第一張電影圖已被載入
-                    // 調用 handleImgLoaded() 將 imgIsLoaded state 設為 true，下方 poster 也是一樣的方式
-                    index === 0 && handleImgLoaded();
-                  }}
-                />
-                <img
-                  src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                  className="hero__slide-img hero__slide-img--poster"
-                  alt="movie-poster"
-                  onLoad={() => {
-                    // 同上(.hero__slide-img--backdrop)方式
-                    index === 0 && handleImgLoaded();
-                  }}
-                />
+              <div className="hero__slide-img-wrapper">
+                <picture>
+                  <source
+                    srcSet={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    media="(max-width: 576px)"
+                  />
+                  <source
+                    srcSet={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                    media="(max-width: 768px)"
+                  />
+                  <img
+                    src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                    // className="hero__slide-img hero__slide-img--backdrop"
+                    className="hero__slide-img hero__slide-img--backdrop"
+                    alt="hero__slide-img"
+                    onLoad={() => {
+                      // 如果 onLoad 觸發的對象 index === 0 ，代表第一張電影圖已被載入
+                      // 調用 handleImgLoaded() 將 imgIsLoaded state 設為 true，下方 poster 也是一樣的方式
+                      index === 0 && handleImgLoaded();
+                    }}
+                  />
+                </picture>     
               </div>
+
               {/* hero__slide 文字部分 */}
               <div className="hero__slide-text">
                 {/* 電影標題 */}
@@ -156,7 +159,7 @@ const Home = () => {
           }}
           centeredSlides={true}
           autoplay={{
-            delay: 5000,
+            delay: 500000,
             disableOnInteraction: false,
           }}
           modules={[Autoplay, Pagination]}

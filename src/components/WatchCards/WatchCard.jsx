@@ -72,7 +72,7 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
       <div className="watchcard__img">
         <img
           className="watchcard__movie-poster"
-          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
           onError={noPoster}
           alt="watchcard-poster"
         />

@@ -13,16 +13,17 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
         return movie.backdrop_path && movie.title ? (
           <SwiperSlide key={movie.id} className="movie-slide">
             <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
-              <img
-                src={`https://image.tmdb.org/t/p/w300/${movie.backdrop_path}`}
-                className="movie-slide__img movie-slide__img--backdrop"
-                alt="movie-backdrop"
-              />
-              <img
-                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-                className="movie-slide__img movie-slide__img--poster"
-                alt="movie-poster"
-              />
+              <picture>
+                <source
+                  srcSet={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                  media="(max-width: 768px)"
+                />
+                <img
+                  src={`https://image.tmdb.org/t/p/w300${movie.backdrop_path}`}
+                  className="movie-slide__img"
+                  alt="movie-slide__img"
+                />
+              </picture>
               <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </Link>
             <Link to={`/movie/${movie.id}`} className="movie-slide__title-link">
