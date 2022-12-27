@@ -19,7 +19,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
   const [autoComplete, setAutoComplete] = useState([]);
   // autoComplete ui 顯示狀態(true:顯示, false: 隱藏)
   const [showAutoComplete, setShowAutoComplete] = useState(false);
-  // 表示目前是否開始進行搜尋(當「鍵盤按下 Enter」 或是 「click 任一 autoCompleteItems」將會變成 true)
+  // 表示目前是否開始進行搜尋(當「鍵盤按下 Enter」 或是 「click 首項 autoCompleteItems」，將會變成 true)
   const [startSearching, setStartSearching] = useState(false);
   // 存放 input ref
   const inputRef = useRef(null);
@@ -38,7 +38,9 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
     } else {
       if (subscribed) {
         const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=e86818f56e7d92f357708ecb03052800&query=${searchText}`;
+        // 利用使用者輸入的文字內容進行搜尋，獲取 autoComplete 資料，存入 autoComplete state
         getData(API_URL, setAutoComplete);
+        // 允許顯示 autoComplete ui
         setShowAutoComplete(true);
       }
     }
@@ -108,7 +110,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
   //* autoComplete elements
   const autoCompleteItems = autoComplete.results
     ? removeDuplicate(autoComplete.results, "title")
-        .filter(({ title }) => title !== searchText)
+        .filter(({ original_title }) => original_title !== searchText)
         .slice(0, 8)
     : [];
 
@@ -151,14 +153,18 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
     }
   }
 
-  //* 處理 autoComplete 選項的點擊行為(使用者過 click auto-complete__item 來搜尋)
+  /**
+   ** 處理 autoComplete 選項的點擊行為(使用者過 click auto-complete__item 來搜尋)
+   * @param {*} resultId 點擊元素的 id
+   * @param {*} resultTitle 點擊元素的電影名稱
+   */
   function handleAutoCompleteClick(resultId, resultTitle) {
+    // 將 input 文字改成點擊到的字
+    setSearchText(resultTitle);
     // 從 autoComplete state 當中，找出目前點擊到的 autoCompleteItems 物件
     const result = autoComplete.results.find(({ id }) => id === resultId);
     // 加入到 searchResult state 中
     setSearchResult({ results: [result] });
-    // 將 input 文字改成點擊到的字
-    setSearchText(resultTitle);
   }
 
   return (
@@ -194,6 +200,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
             }`}>
             {autoComplete.results
               ? [searchText, ...autoCompleteItems].map((result, index) => {
+                  // 首項為使用者輸入的內容
                   if (index === 0) {
                     return (
                       <li
@@ -206,16 +213,20 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
                       </li>
                     );
                   }
+                  // 其餘選項使用使用者輸入的內容來獲取電影，並呈現該電影的「 original_title 」
                   return (
                     <li
                       key={result.id}
                       id={result.id}
                       className="auto-complete__item"
                       onClick={() =>
-                        handleAutoCompleteClick(result.id, result.title)
+                        handleAutoCompleteClick(
+                          result.id,
+                          result.original_title
+                        )
                       }>
                       <i className="fa-solid fa-magnifying-glass"></i>
-                      {result.title}
+                      {result.original_title}
                     </li>
                   );
                 })

@@ -41,7 +41,7 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
       <div className={`search-result__texts ${imgOnload ? "" : "hide"}`}>
         {/* 標題(帶有連結) */}
         <Link to={`/movie/${movie.id}`} className="search-result__title">
-          {movie.title ? <h3>{movie.title}</h3> : ""}
+          {movie.original_title ? <h3>{movie.original_title}</h3> : ""}
         </Link>
         {/* 電影資訊 */}
         <div className="search-result__info info">

@@ -22,7 +22,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   const [movies, setMovies] = useState([]);
   // 根據目前頁面參數來決定 URL 內容(下面使用 switch 判斷)
   let API_URL = "";
-  // 在網址中取得 genresId
+  // 取得 genresId 網址參數
   const { genresId } = useParams();
   // 存放頁面數字
   const [pageNum, setPageNum] = useState(1);
@@ -40,11 +40,14 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
       API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=e86818f56e7d92f357708ecb03052800&page=${pageNum}`;
       break;
     case "genres":
-      // 注意: 會先檢查網址，如果網址是 undefined，就給他預設值 28 (Action 類別的代號)
+      // 會先檢查網址，如果網址是 undefined，則將其設定為 28 (「Action」 類別的代號)
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&sort_by=popularity.desc&page=1&with_genres=${
-        genresId || 28
+        genresId ?? 28
       }&page=${pageNum}`;
       break;
+    // 若目前的 type 不符上述任一，則導向到 notfound
+    default:
+      navigate("/notfound", { replace: true });
   }
 
   //* 頁面切換
@@ -75,7 +78,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
     };
   }, [pageNum]);
 
-  //* 如果當前所在的頁面為 "genres"，且在 genresIconsData.js 找不到相對應的 genres id...
+  //* 如果當前所在的頁面為 "genres"，且在 genresIconsData.js 找不到相對應的 genres id:
   useEffect(() => {
     if (type === "genres" && genresId && !genresIconsData[genresId]) {
       // 代表不存在此頁，跳轉到 notfound 頁面
@@ -94,8 +97,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
           {movies.results && movies.results.length !== 0 ? (
             movies.results.map((movie) => {
               // 確保該有圖片跟標題，若不存在的就不顯示
-              return movie.poster_path &&
-                (movie.title || movie.original_title) ? (
+              return movie.poster_path && movie.original_title ? (
                 <MoviesCard
                   key={movie.id}
                   movie={movie}

@@ -2,7 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { noPoster } from "../../utils/function";
 
-const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
+const WatchCard = ({
+  id,
+  poster_path,
+  original_title,
+  watchlist,
+  setWatchlist,
+}) => {
   // 確認目前位於 Unwatched 還是 Watched
   const { watchStatusTag = "unwatched" } = useParams();
   // watchcards 選項的開啟狀態
@@ -79,7 +85,8 @@ const WatchCard = ({ id, poster_path, title, watchlist, setWatchlist }) => {
       </div>
       {/* 內容區 */}
       <div className="watchcard__content">
-        {title ? <h3 className="watchcard__title">{title}</h3> : ""}
+        {/* 電影名稱 */}
+        <h3 className="watchcard__title">{original_title}</h3>
         {/* 三個按鈕 */}
         <div className="watchcard__btns">
           {/* 觀看狀態切換 */}

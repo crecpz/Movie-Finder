@@ -220,9 +220,13 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
             {/* intro 文字部分 */}
             <div className={`movie-detail__texts ${imgIsLoaded ? "show" : ""}`}>
               {/* 電影標題 */}
-              <h3 className="movie-detail__title">
-                {currentMovie.title ? currentMovie.title : ""}
-              </h3>
+              {currentMovie.original_title ? (
+                <h3 className="movie-detail__title">
+                  {currentMovie.original_title}
+                </h3>
+              ) : (
+                ""
+              )}
               {/* genres 標籤 */}
               {currentMovie.genres ? (
                 <div className="movie-detail__genres-tags genres-tags">

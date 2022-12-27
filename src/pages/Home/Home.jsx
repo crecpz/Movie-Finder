@@ -86,15 +86,17 @@ const Home = () => {
                       index === 0 && handleImgLoaded();
                     }}
                   />
-                </picture>     
+                </picture>
               </div>
 
               {/* hero__slide 文字部分 */}
               <div className="hero__slide-text">
                 {/* 電影標題 */}
-                <h3 className="hero__slide-title">
-                  {movie.title ? movie.title : ""}
-                </h3>
+                {movie.original_title ? (
+                  <h3 className="hero__slide-title">{movie.original_title}</h3>
+                ) : (
+                  ""
+                )}
                 {/* 電影資訊 */}
                 <div className="hero__slide-info info">
                   {/* 上映日期 */}

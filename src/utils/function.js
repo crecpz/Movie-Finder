@@ -74,7 +74,7 @@ export function changeWatchlist(id, inWatchlist, setWatchlist, setUnreadList) {
 
 /**
  * * 防止獲取到重複項目(資料庫內有發現重複項目)
- * @param {*} `arr` 接收一個陣列作為參數，在該陣列中檢查是否有重複
+ * @param {*} `arr` 接收一個陣列作為參數，在該陣列中檢查是否有重複項目
  * @param {*} `key` 要檢查的鍵
  * @returns 返回去除重複後的結果(Array)
  */

@@ -94,10 +94,7 @@
   //* 電影海報 <picture> tag
   &__poster {
     @include slow-show(1);
-    // visibility: hidden;
-    // opacity: 0;
-    
-    // <img /> tag
+    // img tag
     &-img {
       width: 100%;
       max-width: 16.875rem;
@@ -134,8 +131,11 @@
   //* 電影名稱(標題)
   &__title {
     @include text(5xl);
-    @include lg {
+    @include xl {
       @include text(4xl);
+    }
+    @include lg {
+      // @include text(4xl);
     }
     @include md {
       @include text(3xl);

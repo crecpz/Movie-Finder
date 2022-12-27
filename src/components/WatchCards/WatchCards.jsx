@@ -29,12 +29,12 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
             results.map((result) => result.json())
           );
           setWatchcards(
-            finalData.map(({ id, poster_path, title }) => {
+            finalData.map(({ id, poster_path, original_title }) => {
               const watchData = watchlist.find((i) => i.id === id);
               return {
                 ...watchData,
                 poster_path: poster_path,
-                title: title,
+                original_title: original_title,
               };
             })
           );
@@ -56,18 +56,18 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
   );
 
   return (
-    <AnimationOnScroll animateIn="animate__fadeIn" >
+    <AnimationOnScroll animateIn="animate__fadeIn">
       {/* animateOnce={true} */}
       <div className="watchcards cards">
         {watchlist.some(({ status }) => status === watchStatusTag) ? (
           currentList.length ? (
-            currentList.map(({ id, poster_path, title }) => {
+            currentList.map(({ id, poster_path, original_title }) => {
               return (
                 <WatchCard
                   key={id}
                   id={id}
                   poster_path={poster_path}
-                  title={title}
+                  original_title={original_title}
                   watchlist={watchlist}
                   setWatchlist={setWatchlist}
                 />
