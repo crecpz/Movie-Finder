@@ -57,6 +57,8 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
     setMovies([]);
     // 設定 pageNum 為 1
     setPageNum(1);
+    // 換頁後滾動到頂部
+    window.scrollTo(0, 0);
     // 獲取初始資料(前 20 項)
     if (subscribed) getData(API_URL, setMovies);
     return () => {

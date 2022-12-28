@@ -75,7 +75,7 @@
 //* 將某一個元素的所有直接子元素以「淡出+下滑」的方式顯示
 //- 在元素中加入 `show` class，子元素將會套用效果
 // @mixin slow-show($child-amount) {
-@mixin slow-show($child-amount, $duration: 1200ms ,$timing-func: ease-in-out) {
+@mixin slow-show($child-amount, $duration: 1200ms, $timing-func: ease-in-out) {
   // 選中元素的所有的子層
   & > :nth-child(n) {
     opacity: 0;
@@ -209,10 +209,19 @@
 //* 限制文字行數
 // @ $line-clamp 要顯示的行數
 @mixin ellipsis-text($line-clamp) {
-  overflow: hidden;
-  display: -webkit-box;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: $line-clamp; /* 行數 */
-  -webkit-box-orient: vertical;
-  white-space: normal;
+  @if ($line-clamp == none) {
+    overflow: visible;
+    display: inline;
+    -webkit-line-clamp: $line-clamp; /* 行數 */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    text-overflow: clip;
+  } @else {
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: $line-clamp; /* 行數 */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
 }

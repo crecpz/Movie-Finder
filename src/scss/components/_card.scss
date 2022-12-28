@@ -3,10 +3,13 @@
 //@ 使用於 New, Popular, Genres, watchlist 的共通設定
 
 .cards {
+  row-gap: 3rem;
   margin-top: 4rem;
-  row-gap: 1.5rem;
-  @include md {
-    row-gap: 2rem;
+  @include hover-query {
+    row-gap: 1.5rem;
+    @include md {
+      row-gap: 2rem;
+    }
   }
 }
 

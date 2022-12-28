@@ -36,6 +36,8 @@ $movie-cards-gap-amount: (
 .movies-card {
   $block: &;
   position: relative;
+  @include flex($dir: column);
+  height: 100%;
   transition: map-get($transition, 300);
   transition-property: transform, box-shadow;
   border-radius: 1rem;
@@ -81,6 +83,7 @@ $movie-cards-gap-amount: (
   //* .movies-card__img
   &__img {
     width: 100%;
+    height: 100%;
     border-radius: map-get($border-radius, md);
   }
 
@@ -97,38 +100,76 @@ $movie-cards-gap-amount: (
 
   //* movies-card__text
   &__text {
-    position: absolute;
-    z-index: 5;
-    bottom: 25%;
-    left: 0;
-    width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    transition: all ease-in-out 300ms;
-    visibility: hidden;
-    opacity: 0;
-    @include md {
-      position: static;
-      visibility: visible;
-      opacity: 1;
-      padding-left: 0;
-      padding-right: 0;
-      margin-top: 1rem;
+    margin-top: 1rem;
+    // 若裝置支援 hover 則套用以下設定:
+    @include hover-query {
+      margin-top: 0;
+      position: absolute;
+      z-index: 5;
+      bottom: 25%;
+      left: 0;
+      width: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      visibility: hidden;
+      opacity: 0;
       transition: map-get($transition, 300);
-      // 預設會先套用 hide class，確保圖片 onload 後才顯示
-      &.hide {
-        visibility: hidden;
-        opacity: 0;
+      transition-property: opacity, visibility;
+      @include md {
+        visibility: visible;
+        opacity: 1;
+        position: static;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 1rem;
       }
     }
+    // 預設會先套用 hide class，確保圖片 onload 後才顯示
+    &.hide {
+      visibility: hidden;
+      opacity: 0;
+    }
   }
+
+  //? 以下輩分
+  // //* movies-card__text
+  // &__text {
+  //   position: absolute;
+  //   z-index: 5;
+  //   bottom: 25%;
+  //   left: 0;
+  //   width: 100%;
+  //   padding-left: 1rem;
+  //   padding-right: 1rem;
+  //   visibility: hidden;
+  //   opacity: 0;
+  //   transition: map-get($transition, 300);
+  //   transition-property: opacity, visibility;
+  //   @include md {
+  //     position: static;
+  //     visibility: visible;
+  //     opacity: 1;
+  //     padding-left: 0;
+  //     padding-right: 0;
+  //     margin-top: 1rem;
+  //     // 預設會先套用 hide class，確保圖片 onload 後才顯示
+  //     &.hide {
+  //       visibility: hidden;
+  //       opacity: 0;
+  //     }
+  //   }
+  // }
 
   //* movies-card__title
   &__title {
     @include text(base);
-    // 斷點 < md 以下開始限制行數
-    @include md {
-      @include ellipsis-text(2);
+    @include ellipsis-text(1);
+    // 若裝置支援 hover 則套用以下設定:
+    @include hover-query {
+      @include ellipsis-text(5);
+      @include md {
+        @include ellipsis-text(1);
+      }
     }
   }
 
@@ -139,10 +180,6 @@ $movie-cards-gap-amount: (
     column-gap: 0.5rem;
     margin-top: 0.5rem;
     font-weight: bold;
-    @include md {
-      // 斷點 md 以下隱藏
-      display: none;
-    }
     // 日期
     & > :nth-child(1) {
       margin-right: 0.5rem;
