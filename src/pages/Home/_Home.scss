@@ -125,10 +125,7 @@
     @include md {
     }
     @include sm {
-      // position: static;
-      // justify-content: flex-start;
       width: auto;
-      // flex: 1 1 auto;
       margin-top: 2rem;
     }
     // 選中所有的直接子層

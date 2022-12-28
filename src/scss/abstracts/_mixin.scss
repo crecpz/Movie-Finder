@@ -151,7 +151,7 @@
   .hamburger {
     @include flex($dir: column, $ai: center, $jc: center);
     row-gap: $line-gap;
-    // 三條線
+    // 內部線條(共三條)
     &__line {
       width: $width;
       height: $line-thickness;
@@ -176,7 +176,7 @@
   }
 }
 
-//* 電影卡片右上角上的按鈕(目前用於 add watchlist)
+//* 電影卡片右上角上的按鈕(目前用於 watchCard.jsx、 MoviesCard.jsx)
 @mixin card-btn {
   @include button-reset;
   @include rounded-full;
@@ -191,6 +191,7 @@
   box-shadow: 0 0 15px 0 rgb(0 0 0 / 80%);
   transition: map-get($transition, 150);
   transition-property: color, background-color, box-shadow;
+  // 針對還未加上 .active 的按鈕做 hover 時的顏色變化
   @include hover-query {
     &:hover {
       @include hover-bg-color(map-get($color, primary));
@@ -199,6 +200,12 @@
   // 用來表示已經被加入 watchlist
   &.active {
     background-color: map-get($color, tertiary);
+    // 針對已經加上 .active 的按鈕做 hover 時的顏色變化
+    @include hover-query {
+      &:hover {
+        @include hover-bg-color(map-get($color, tertiary));
+      }
+    }
   }
   // btn icon
   & > i {

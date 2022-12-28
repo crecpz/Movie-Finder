@@ -3,18 +3,18 @@
 .watchlist {
   @include main-layout;
 
-  // watchlist__header
+  //* watchlist__header(watchlist 頂部區域)
   &__header {
     @include flex($ai: center, $jc: space-between);
   }
 
-  // 切換觀看狀態按鈕(按鈕容器)
+  //* 觀看狀態切換按鈕(容器)
   &__status-btns {
     @include flex($jc: center);
     border-radius: 0.3125rem;
   }
 
-  // 切換觀看狀態按鈕(按鈕)
+  //* 觀看狀態切換按鈕(子項目)
   &__status-btn {
     padding: 0.5em 1.2em;
     font-weight: bold;

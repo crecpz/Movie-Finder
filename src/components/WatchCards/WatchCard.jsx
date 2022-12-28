@@ -74,6 +74,32 @@ const WatchCard = ({
         <div className="hamburger__line"></div>
         <div className="hamburger__line"></div>
       </button>
+      {/* 三個按鈕 */}
+      <div className="watchcard__btns">
+        {/* 按鈕 - 觀看狀態切換 */}
+        <button
+          className="btn btn-transparent watchcard__btn"
+          onClick={() => changeStatus(id)}>
+          {watchStatusTag === "unwatched" ? (
+            <i className="fa-regular fa-eye"></i>
+          ) : (
+            <i className="fa-solid fa-eye-slash"></i>
+          )}
+          {/* {`${watchStatusTag === "unwatched" ? "Watched" : "Unwatched"}`} */}
+        </button>
+        {/* 按鈕 - 更多資訊 */}
+        <Link
+          to={`/movie/${id}`}
+          className="btn btn-transparent watchcard__btn">
+          <i className="fa-solid fa-info"></i>
+        </Link>
+        {/* 按鈕 - 自 watchlist 移除 */}
+        <button
+          className="btn btn-transparent watchcard__btn"
+          onClick={() => removeWatchcard(id)}>
+          <i className="fa-regular fa-trash-can"></i>
+        </button>
+      </div>
       {/* 圖片 */}
       <div className="watchcard__img">
         <img
@@ -83,39 +109,8 @@ const WatchCard = ({
           alt="watchcard-poster"
         />
       </div>
-      {/* 內容區 */}
-      <div className="watchcard__content">
-        {/* 電影名稱 */}
-        <h3 className="watchcard__title">{original_title}</h3>
-        {/* 三個按鈕 */}
-        <div className="watchcard__btns">
-          {/* 觀看狀態切換 */}
-          <button
-            className="btn btn-transparent watchcard__btn"
-            onClick={() => changeStatus(id)}>
-            {watchStatusTag === "unwatched" ? (
-              <i className="fa-regular fa-eye"></i>
-            ) : (
-              <i className="fa-solid fa-eye-slash"></i>
-            )}
-            {`${watchStatusTag === "unwatched" ? "Watched" : "Unwatched"}`}
-          </button>
-          {/* 更多資訊 */}
-          <Link
-            to={`/movie/${id}`}
-            className="btn btn-transparent watchcard__btn">
-            <i className="fa-solid fa-info"></i>
-            More
-          </Link>
-          {/* 自 watchlist 移除 */}
-          <button
-            className="btn btn-transparent watchcard__btn"
-            onClick={() => removeWatchcard(id)}>
-            <i className="fa-regular fa-trash-can"></i>
-            Remove
-          </button>
-        </div>
-      </div>
+      {/* 電影名稱 */}
+      <h3 className="watchcard__title">{original_title}</h3>
     </div>
   );
 };

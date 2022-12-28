@@ -14,7 +14,7 @@
   background-image: linear-gradient(to bottom, rgb(0 0 0 / 60%), transparent);
   color: transparent;
   outline: 1px solid transparent;
-  // .header 背景
+  //* .header 背景設定
   &--black {
     background-color: map-get($color, secondary);
     outline: 1px solid map-get($color, tertiary);
@@ -33,7 +33,8 @@
   @include sm {
     height: deep-map-get($height, header, sm);
   }
-  // logo
+
+  //* header__logo
   &__logo {
     @include text(2xl);
     white-space: nowrap;
@@ -46,23 +47,18 @@
       margin-right: 0.5rem;
     }
   }
-  // header__menu-btn
+
+  //* header__menu-btn
   &__menu-btn {
     display: none;
     @include button-reset;
     width: 1.75rem;
-
     @include md {
       @include text(2xl);
       @include flex($dir: column);
       color: map-get($color, primary);
     }
   }
-}
-
-.test {
-  transition: map-get($transition, 500);
-  transition-property: visibility, opacity;
 }
 
 //* nav
@@ -89,7 +85,6 @@
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(0, 0, 0, 0.8);
-
     // 將 nav 的所有直接子層(.nav__link) 設定 nav 開啟前的樣式
     @for $i from 1 through 6 {
       & > :nth-child(#{$i}) {
@@ -101,7 +96,7 @@
     }
   }
 
-  // nav 開啟狀態 class
+  //* nav--open(nav 開啟狀態 class)
   &--open {
     @include md {
       opacity: 1;
@@ -116,6 +111,7 @@
     }
   }
 
+  //* nav__link
   &__link {
     @include text(base);
     position: relative;
@@ -142,7 +138,6 @@
       @include text(xl);
       opacity: 0;
     }
-    // .nav__link hover 狀態
     @include hover-query() {
       &:hover {
         color: map-get($color, tertiary);

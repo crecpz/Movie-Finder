@@ -1,15 +1,15 @@
 @use "../../scss/abstracts" as *;
 
 .movie-swiper {
-  // 底部分頁 bullet
+  //* 底部分頁 bullet
   .swiper-pagination {
     bottom: -0.5rem;
     @include md {
       display: none;
     }
   }
-  // 使 .movie-swiper 下方的 bullets 跟其上方文字產生間隔
   .swiper-wrapper {
+    // 使 .movie-swiper 下方的 bullets 跟其上方文字產生間隔
     padding-bottom: 1.5rem;
     @include md {
       padding-bottom: 0;
@@ -18,19 +18,19 @@
 }
 
 .movie-slide {
-  // swiper 電影圖片連結
+  //* movie-slide__img(電影圖片連結)
   &__img-link {
     display: inline-block;
     overflow: hidden;
     border-radius: map-get($border-radius, base);
   }
 
-  // swiper 電影圖片
+  //* movie-slide__img(電影圖片)
   &__img {
     width: 100%;
   }
 
-  // swiper 電影名稱連結
+  //* movie-slide__title-link(電影名稱連結)
   &__title-link {
     display: inline-block;
     margin-top: 0.5rem;
@@ -40,7 +40,7 @@
     }
   }
 
-  // swiper 電影名稱
+  //* movie-slide__title(電影名稱)
   &__title {
     @include text(base);
     font-weight: 900;

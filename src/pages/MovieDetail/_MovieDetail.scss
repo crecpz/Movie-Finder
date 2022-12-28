@@ -36,7 +36,7 @@
     margin-top: 1.5rem;
   }
 
-  //* 頂部介紹區塊
+  //* movie-detail__intro(頂部介紹區塊)
   &__intro {
     display: grid;
     min-height: 100vh;
@@ -59,7 +59,7 @@
     }
   }
 
-  //* 電影 backdrop
+  //* movie-detail__backdrop(電影 backdrop)
   &__backdrop {
     overflow: hidden;
     grid-row: 1/2;
@@ -91,7 +91,7 @@
     }
   }
 
-  //* 電影海報 <picture> tag
+  //* movie-detail__poster(電影海報 <picture> tag)
   &__poster {
     @include slow-show(1);
     // img tag
@@ -106,7 +106,7 @@
     }
   }
 
-  //* 文字區域
+  //* movie-detail__texts(文字區域)
   &__texts {
     @include flex($dir: column, $jc: center);
     @include slow-show(5);
@@ -128,7 +128,7 @@
     }
   }
 
-  //* 電影名稱(標題)
+  //* movie-detail__title(電影名稱)
   &__title {
     @include text(5xl);
     @include xl {
@@ -142,7 +142,7 @@
     }
   }
 
-  //* 文字介紹
+  //* movie-detail__overview(文字介紹)
   &__overview {
     @include text(lg);
     @include lg {
@@ -271,6 +271,7 @@
         max-width: 100%; // 1 欄
       }
     }
+    
     //* 演員頭像
     &-img {
       width: 6.25rem;

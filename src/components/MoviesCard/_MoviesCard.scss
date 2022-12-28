@@ -1,6 +1,6 @@
+//@ 此處放置 .movies-cards、.movies-card 卡片佈局設定
 @use "../../scss/abstracts" as *;
 
-//* 此處放置 .movies-cards、.movies-card 卡片佈局設定
 
 // 卡片之間的 column-gap
 $movie-cards-column-gap: 1.25rem;
@@ -130,35 +130,6 @@ $movie-cards-gap-amount: (
       opacity: 0;
     }
   }
-
-  //? 以下輩分
-  // //* movies-card__text
-  // &__text {
-  //   position: absolute;
-  //   z-index: 5;
-  //   bottom: 25%;
-  //   left: 0;
-  //   width: 100%;
-  //   padding-left: 1rem;
-  //   padding-right: 1rem;
-  //   visibility: hidden;
-  //   opacity: 0;
-  //   transition: map-get($transition, 300);
-  //   transition-property: opacity, visibility;
-  //   @include md {
-  //     position: static;
-  //     visibility: visible;
-  //     opacity: 1;
-  //     padding-left: 0;
-  //     padding-right: 0;
-  //     margin-top: 1rem;
-  //     // 預設會先套用 hide class，確保圖片 onload 後才顯示
-  //     &.hide {
-  //       visibility: hidden;
-  //       opacity: 0;
-  //     }
-  //   }
-  // }
 
   //* movies-card__title
   &__title {

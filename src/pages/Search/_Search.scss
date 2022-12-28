@@ -2,7 +2,7 @@
 
 .search {
   @include x-spacing;
-  // .search-bar
+  //* search-bar(搜尋輸入框主體)
   &-bar {
     position: sticky;
     top: 0;
@@ -13,12 +13,12 @@
     max-width: 82.5rem;
     margin: 0 auto;
 
-    // search-bar__input-wrapper
+    //* search-bar__input-wrapper(input 容器)
     &__input-wrapper {
       position: relative;
     }
 
-    // .search-bar__input
+    //* search-bar__input(input tag)
     &__input {
       @include flex;
       @include text(xl);
@@ -37,7 +37,7 @@
       }
     }
 
-    // 清除 input 內文字 btn
+    //* search-bar__clear-btn(清除文字 btn)
     &__clear-btn {
       @include text(xl);
       position: absolute;
@@ -61,6 +61,7 @@
     }
   }
 
+  //* 自動完成 
   .auto-complete {
     display: none;
     position: absolute;
