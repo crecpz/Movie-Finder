@@ -52,6 +52,7 @@ $search-results-gap-amount: (
 
   //* 圖片連結
   &__img-link {
+    height: 100%;
     @include md {
       position: relative;
     }
@@ -60,6 +61,7 @@ $search-results-gap-amount: (
   //* 電影圖片(poster)
   &__poster {
     width: 10.3125rem;
+    height: 100%;
     align-self: start;
     @include md {
       border-radius: map-get($border-radius, base);
@@ -96,7 +98,7 @@ $search-results-gap-amount: (
   &__title {
     h3 {
       @include text(2xl);
-      @include ellipsis-text(2);
+      @include ellipsis-text(1);
       @include md {
         @include text(base);
       }

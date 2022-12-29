@@ -287,7 +287,9 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
                 {/* Watch Video */}
                 <button
                   className="movie-detail__btn btn btn--red btn--lg"
-                  onClick={() => scrollDownTo(videoRef)}>
+                  onClick={() => scrollDownTo(videoRef)}
+                  onTouchEnd={() => scrollDownTo(videoRef)}
+                  >
                   <i className="fa-solid fa-play"></i>Watch Video
                 </button>
                 {/* Add Watchlist */}

@@ -11,7 +11,6 @@ const Header = ({ unreadList }) => {
     window.addEventListener("scroll", handleScroll);
     // 監聽 resize 事件
     window.addEventListener("resize", handleResize);
-
     //* 控制 header 顏色，當 scrollY === 0 加上 header 的底色
     function handleScroll() {
       let currentScrollY = window.scrollY;
@@ -21,17 +20,16 @@ const Header = ({ unreadList }) => {
         headerRef.current.classList.add("header--black");
       }
     }
-
     //* 在 resize 將 nav 關閉
     function handleResize() {
-      if (navIsOpen) setNavIsOpen(false);
+      setNavIsOpen((prev) => (prev ? false : prev));
     }
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
 
   useEffect(() => {
     //* 當 nav 打開時禁止頁面滾動，並調整 header padding-right

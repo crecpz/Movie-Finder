@@ -61,13 +61,13 @@
 
   //* movie-detail__backdrop(電影 backdrop)
   &__backdrop {
-    overflow: hidden;
+    // overflow: hidden;
     grid-row: 1/2;
     grid-column: 1/2;
     position: relative;
     z-index: -1;
     width: 100%;
-    max-height: 85vh;
+    max-height: 100vh;
     @include lg {
       align-self: flex-start;
     }
@@ -97,7 +97,7 @@
     // img tag
     &-img {
       width: 100%;
-      max-width: 16.875rem;
+      max-width: 18.75rem;
       border-radius: map-get($border-radius, base);
       box-shadow: map-get($box-shadow, base);
       @include md {
@@ -130,12 +130,9 @@
 
   //* movie-detail__title(電影名稱)
   &__title {
-    @include text(5xl);
+    @include text(4xl);
     @include xl {
       @include text(4xl);
-    }
-    @include lg {
-      // @include text(4xl);
     }
     @include md {
       @include text(3xl);
@@ -144,12 +141,11 @@
 
   //* movie-detail__overview(文字介紹)
   &__overview {
-    @include text(lg);
+    @include text(base);
     @include lg {
       order: 5;
     }
     @include sm {
-      @include text(lg);
       margin-top: 0.5em;
     }
   }
@@ -212,7 +208,7 @@
       }
     }
 
-    //* 收合列表按鈕(實際上是用 checkbox 做的)
+    //* movie-detail__cast-btn(收合列表按鈕，實際上是用 checkbox 做的)
     &-btn {
       // 收合列表只發生在 breakpoint md 以下
       @include md {
@@ -234,7 +230,7 @@
       }
     }
 
-    //* 演員列表卡片容器
+    //* movie-detail__cast-cards(演員列表卡片容器)
     &-cards {
       @include flex($wrap: wrap);
       row-gap: 2rem;
@@ -259,7 +255,7 @@
       }
     }
 
-    //* 演員列表卡片
+    //* movie-detail__cast-card(演員列表卡片)
     &-card {
       @include flex($ai: center);
       width: 100%;
@@ -271,8 +267,8 @@
         max-width: 100%; // 1 欄
       }
     }
-    
-    //* 演員頭像
+
+    //* movie-detail__cast-img(演員頭像)
     &-img {
       width: 6.25rem;
       height: 6.25rem;
@@ -285,7 +281,7 @@
       }
     }
 
-    //* cast 文字區
+    //* movie-detail__cast-text(cast 文字區)
     &-text {
       @include flex($dir: column);
       padding-left: 1.5rem;
@@ -293,23 +289,17 @@
       // 演員名
       span:nth-child(1) {
         font-weight: bold;
-        @include text(2xl);
-        @include lg {
-          @include text(xl);
-        }
+        @include text(xl);
       }
       // 擔任角色名
       span:nth-child(2) {
-        @include text(xl);
+        @include text(lg);
         color: map-get($color, primary-dark);
-        @include lg {
-          @include text(lg);
-        }
       }
     }
   }
 
-  //* video 嵌入區
+  //* movie-detail__iframe-content(video 嵌入區)
   &__iframe-content {
     position: relative;
     width: 100%;
