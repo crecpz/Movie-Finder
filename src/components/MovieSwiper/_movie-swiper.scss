@@ -3,7 +3,7 @@
 .movie-swiper {
   //* 底部分頁 bullet
   .swiper-pagination {
-    bottom: -0.5rem;
+    bottom: -0.375rem;
     @include md {
       display: none;
     }
@@ -32,7 +32,7 @@
 
   //* movie-slide__title-link(電影名稱連結)
   &__title-link {
-    display: inline-block;
+    display: block;
     margin-top: 0.5rem;
     // breakpoint <= 768 隱藏標題連結文字
     @include md {
@@ -43,6 +43,7 @@
   //* movie-slide__title(電影名稱)
   &__title {
     @include text(base);
+    @include ellipsis-text(1);
     font-weight: 900;
   }
 }

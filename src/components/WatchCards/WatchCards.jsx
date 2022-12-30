@@ -56,31 +56,28 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
   );
 
   return (
-    <AnimationOnScroll animateIn="animate__fadeIn">
-      {/* animateOnce={true} */}
-      <div className="watchcards cards">
-        {watchlist.some(({ status }) => status === watchStatusTag) ? (
-          currentList.length ? (
-            currentList.map(({ id, poster_path, original_title }) => {
-              return (
-                <WatchCard
-                  key={id}
-                  id={id}
-                  poster_path={poster_path}
-                  original_title={original_title}
-                  watchlist={watchlist}
-                  setWatchlist={setWatchlist}
-                />
-              );
-            })
-          ) : (
-            <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-          )
+    <div className="watchcards cards">
+      {watchlist.some(({ status }) => status === watchStatusTag) ? (
+        currentList.length ? (
+          currentList.map(({ id, poster_path, original_title }) => {
+            return (
+              <WatchCard
+                key={id}
+                id={id}
+                poster_path={poster_path}
+                original_title={original_title}
+                watchlist={watchlist}
+                setWatchlist={setWatchlist}
+              />
+            );
+          })
         ) : (
-          <p className="empty-msg">No movies in your list, add some!</p>
-        )}
-      </div>
-    </AnimationOnScroll>
+          <PulseLoader color="#fff" cssOverride={spinnerStyle} />
+        )
+      ) : (
+        <p className="empty-msg">No movies in your list, add some!</p>
+      )}
+    </div>
   );
 };
 

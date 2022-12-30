@@ -6,10 +6,7 @@
   row-gap: 3rem;
   margin-top: 4rem;
   @include hover-query {
-    row-gap: 1.5rem;
-    @include md {
-      row-gap: 2rem;
-    }
+    row-gap: 2rem;
   }
 }
 

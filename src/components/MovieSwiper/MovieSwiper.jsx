@@ -14,12 +14,14 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
           <SwiperSlide key={movie.id} className="movie-slide">
             <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
               <picture>
+                {/* 螢幕寬度 < 768px 使用 w500 的 poster_path */}
                 <source
-                  srcSet={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                  srcSet={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   media="(max-width: 768px)"
                 />
+                {/* 預設(螢幕寬度 > 768px)使用 w500 的 backdrop_path */}
                 <img
-                  src={`https://image.tmdb.org/t/p/w300${movie.backdrop_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
                   className="movie-slide__img"
                   alt="movie-slide__img"
                 />

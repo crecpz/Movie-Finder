@@ -32,7 +32,6 @@ $watchcards-gap-amount: (
    position: relative;
    overflow: hidden;
    background-color: map-get($color, secondary);
-   animation: scale map-get($transition, 500);
    // 螢幕 < md 時套用 hamburger bar @mixin
    @include hamburger(
       $width: 0.875rem,
@@ -40,7 +39,6 @@ $watchcards-gap-amount: (
       $line-gap: 0.1875rem,
       $line-color: map-get($color, secondary)
    );
-
    //* watchcard__option-btn
    &__option-btn {
       @include text(base);

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getData } from "../../utils/function";
 import { Link } from "react-router-dom";
 import MovieSwiper from "../MovieSwiper/MovieSwiper";
-
 import { AnimationOnScroll } from "react-animation-on-scroll";
 import "animate.css/animate.min.css";
 

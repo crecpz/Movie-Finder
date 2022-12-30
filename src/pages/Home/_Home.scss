@@ -8,8 +8,8 @@
     @include flex($dir: column);
     @include x-spacing;
     margin-top: 4rem;
+    row-gap: 2rem;
     @include md {
-      row-gap: 2rem;
     }
   }
 
@@ -154,7 +154,7 @@
   // 電影標題
   &__slide-title {
     @include text(5xl);
-    @include lg {
+    @include xl {
       @include text(4xl);
     }
     @include sm {
@@ -178,7 +178,7 @@
   &__slide-overview {
     max-width: 43.75rem;
     @include text(xl);
-    @include lg {
+    @include xl {
       @include text(lg);
     }
     @include sm {

@@ -2,7 +2,6 @@
 
 .genres-swiper {
   margin-top: 1rem;
-
   @include hover-query {
     &:hover {
       .swiper-scrollbar {

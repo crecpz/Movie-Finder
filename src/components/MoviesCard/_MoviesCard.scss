@@ -1,7 +1,6 @@
 //@ 此處放置 .movies-cards、.movies-card 卡片佈局設定
 @use "../../scss/abstracts" as *;
 
-
 // 卡片之間的 column-gap
 $movie-cards-column-gap: 1.25rem;
 // 每列在特定斷點分別要容納幾張卡片?
@@ -135,6 +134,7 @@ $movie-cards-gap-amount: (
   &__title {
     @include text(base);
     @include ellipsis-text(1);
+
     // 若裝置支援 hover 則套用以下設定:
     @include hover-query {
       @include ellipsis-text(5);

@@ -67,14 +67,17 @@ const Home = () => {
               {/* hero__slide 圖片部分 */}
               <div className="hero__slide-img-wrapper">
                 <picture>
+                  {/* 螢幕寬度 < 576px 使用 w500 的 poster_path */}
                   <source
                     srcSet={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     media="(max-width: 576px)"
                   />
+                  {/* 螢幕寬度 < 768px 使用 original 的 poster_path */}
                   <source
                     srcSet={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                     media="(max-width: 768px)"
                   />
+                  {/* 預設(螢幕寬度 > 768px) 使用 original 的 backdrop_path */}
                   <img
                     src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                     // className="hero__slide-img hero__slide-img--backdrop"
