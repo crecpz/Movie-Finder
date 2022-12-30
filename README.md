@@ -2,7 +2,7 @@
 電影資訊瀏覽網站，使用 React.js 開發。
 
 ## Demo
----------link----------
+https://crecpz.github.io/Movie-Finder/
 <br />
 
 ## 介紹
