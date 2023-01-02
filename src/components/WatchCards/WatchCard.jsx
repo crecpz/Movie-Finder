@@ -35,7 +35,8 @@ const WatchCard = ({
   }, []);
 
   //* 切換觀看狀態 (Unwatched <---> Watched)
-  function changeStatus(id) {
+  function changeWatchStatus(id) {
+    console.log("end");
     setWatchlist((prev) => {
       return prev.map((movie) => {
         if (movie.id === id) {
@@ -62,7 +63,9 @@ const WatchCard = ({
   }
 
   return (
-    <div className="watchcard card">
+    <div
+      className="watchcard card"
+      onAnimationEnd={() => changeWatchStatus(id)}>
       {/* 選單按鈕 */}
       <button
         ref={optionBtnRef}
@@ -79,13 +82,14 @@ const WatchCard = ({
         {/* 按鈕 - 觀看狀態切換 */}
         <button
           className="btn btn-transparent watchcard__btn"
-          onClick={() => changeStatus(id)}>
+          onClick={(e) =>
+            e.target.closest(".watchcard").classList.add("removing-animation")
+          }>
           {watchStatusTag === "unwatched" ? (
             <i className="fa-regular fa-eye"></i>
           ) : (
             <i className="fa-solid fa-eye-slash"></i>
           )}
-          {/* {`${watchStatusTag === "unwatched" ? "Watched" : "Unwatched"}`} */}
         </button>
         {/* 按鈕 - 更多資訊 */}
         <Link
