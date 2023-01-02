@@ -74,7 +74,9 @@ const WatchCard = ({
   }
 
   return (
-    <div className="watchcard card">
+    <div
+      className="watchcard card"
+      onAnimationEnd={() => changeWatchStatus(id)}>
       {/* 選單按鈕 */}
       <button
         ref={optionBtnRef}
