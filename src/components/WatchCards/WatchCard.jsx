@@ -1,26 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { noPoster } from "../../utils/function";
+import { useOutletContext } from "react-router-dom";
 
-const WatchCard = ({
-  id,
-  poster_path,
-  original_title,
-  watchlist,
-  setWatchlist,
-}) => {
-  // 確認目前位於 Unwatched 還是 Watched
-  const { watchStatusTag = "unwatched" } = useParams();
+const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
+  // 網址參數(用於確認目前位於 Unwatched 還是 Watched
+  const { currentWatchStatus = "unwatched" } = useParams();
   // watchcards 選項的開啟狀態
   const [optionIsOpen, setOptionIsOpen] = useState(false);
   // watchcards optionBtnRef
   const optionBtnRef = useRef();
-
-  //* 一旦 watchlist 改變，一併更新 localStorage
-  useEffect(() => {
-    console.log("watchlist(in useEffect)", watchlist);
-    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
+  // 設定 watchlist__status-btn 的閃爍狀態(來自 Watchlist.jsx 的 <Outlet /> context)
+  const [statusBtnFlashing, setStatusBtnFlashing] = useOutletContext();
 
   //* 點擊任何處關閉 watchcard option
   useEffect(() => {
@@ -41,10 +32,16 @@ const WatchCard = ({
     setOptionIsOpen((prev) => !prev);
   }
 
-  //* 切換觀看狀態 (Unwatched <---> Watched)
+  //* 切換觀看狀態
   function changeWatchStatus(e, id) {
     // 將 watchcard 新增動畫
     e.target.closest(".watchcard").classList.add("removing-animation");
+    // 將 watchlist__status-btn 新增閃爍動畫
+    setStatusBtnFlashing(true);
+    // 於指定時間到後，恢復 statusBtnFlashing false
+    setTimeout(() => {
+      setStatusBtnFlashing(false);
+    }, 1200);
     // 於指定時間到後，改變觀看狀態(註：300ms 為 `removing-animation` class 的 animation-duration)
     setTimeout(() => {
       setWatchlist((prev) => {
@@ -65,24 +62,17 @@ const WatchCard = ({
   //* 刪除 watchcard
   function removeWatchcard(e, id) {
     // 將 watchcard 新增動畫
-    // e.target.closest(".watchcard").classList.add("removing-animation");
+    e.target.closest(".watchcard").classList.add("removing-animation");
     // 於指定時間到後，刪除 watchcard 資料(註：300ms 為 `removing-animation` class 的 animation-duration)
-    // setTimeout(() => {
-    //   setWatchlist((prev) => {
-    //     return prev.filter((i) => i.id !== id);
-    //   });
-    // }, 300);
-    setWatchlist((prev) => {
-      console.log(prev.filter((i) => i.id !== id));
-      return prev.filter((i) => i.id !== id);
-    });
+    setTimeout(() => {
+      setWatchlist((prev) => {
+        return prev.filter((i) => i.id !== id);
+      });
+    }, 300);
   }
-  // console.log("watchlist-outside", watchlist);
 
   return (
-    <div
-      className="watchcard card"
-      onAnimationEnd={() => changeWatchStatus(id)}>
+    <div className="watchcard card">
       {/* 選單按鈕 */}
       <button
         ref={optionBtnRef}
@@ -100,7 +90,7 @@ const WatchCard = ({
         <button
           className="btn btn-transparent watchcard__btn"
           onClick={(e) => changeWatchStatus(e, id)}>
-          {watchStatusTag === "unwatched" ? (
+          {currentWatchStatus === "unwatched" ? (
             <i className="fa-regular fa-eye"></i>
           ) : (
             <i className="fa-solid fa-eye-slash"></i>

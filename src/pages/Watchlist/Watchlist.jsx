@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { capitalize } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
 
 const Watchlist = ({ setUnreadList }) => {
-  const { watchStatusTag = "unwatched" } = useParams();
+  // 網址參數
+  const { currentWatchStatus = "unwatched" } = useParams();
+  // 設定 watchlist__status-btn 的閃爍狀態(在使用者改變觀看狀態時，閃爍按鈕)
+  const [statusBtnFlashing, setStatusBtnFlashing] = useState(false);
   useEffect(() => {
     // 進入 watchlist 頁面後，將 unreadList 清空
     setUnreadList([]);
@@ -21,18 +24,26 @@ const Watchlist = ({ setUnreadList }) => {
                 <NavLink
                   key={index}
                   to={`/watchlist/${listType}`}
-                  className={({ isActive }) =>
-                    isActive || listType === watchStatusTag
-                      ? "watchlist__status-btn active"
-                      : "watchlist__status-btn"
-                  }>
+                  className={({ isActive }) => {
+                    if (isActive || listType === currentWatchStatus) {
+                      return "watchlist__status-btn active";
+                    } else {
+                      // 根據 statusBtnFlashing 來控制按鈕閃爍(註:按鈕閃爍只會發生在非 active 的按鈕上)
+                      if (statusBtnFlashing) {
+                        return "watchlist__status-btn flashing-animation";
+                      } else {
+                        return "watchlist__status-btn";
+                      }
+                    }
+                  }}>
                   {capitalize(listType)}
                 </NavLink>
               );
             })}
           </div>
         </div>
-        <Outlet />
+
+        <Outlet context={[statusBtnFlashing, setStatusBtnFlashing]} />
       </div>
       {/* ScrollToTop */}
       <ScrollToTop
