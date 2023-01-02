@@ -6,7 +6,7 @@ import ScrollToTop from "react-scroll-to-top";
 const Watchlist = ({ setUnreadList }) => {
   const { watchStatusTag = "unwatched" } = useParams();
   useEffect(() => {
-    // 進入 watchlist 頁面後，將 unreadList 歸零
+    // 進入 watchlist 頁面後，將 unreadList 清空
     setUnreadList([]);
   }, []);
 
