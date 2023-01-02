@@ -16,14 +16,14 @@ const WatchCard = ({
   // watchcards optionBtnRef
   const optionBtnRef = useRef();
 
+  //* 一旦 watchlist 改變，一併更新 localStorage
   useEffect(() => {
-    console.log("watchlist changing");
-    //* 一旦 watchlist 改變，將新的資料存進 localStorage
+    console.log("watchlist(in useEffect)", watchlist);
     window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
+  //* 點擊任何處關閉 watchcard option
   useEffect(() => {
-    //* 點擊任何處關閉 watchcard option
     const handleWindowClick = (e) => {
       if (e.target !== optionBtnRef.current) {
         setOptionIsOpen(false);
@@ -65,16 +65,24 @@ const WatchCard = ({
   //* 刪除 watchcard
   function removeWatchcard(e, id) {
     // 將 watchcard 新增動畫
-    e.target.closest(".watchcard").classList.add("removing-animation");
+    // e.target.closest(".watchcard").classList.add("removing-animation");
     // 於指定時間到後，刪除 watchcard 資料(註：300ms 為 `removing-animation` class 的 animation-duration)
-    setTimeout(
-      () => setWatchlist((prev) => prev.filter((i) => i.id !== id)),
-      300
-    );
+    // setTimeout(() => {
+    //   setWatchlist((prev) => {
+    //     return prev.filter((i) => i.id !== id);
+    //   });
+    // }, 300);
+    setWatchlist((prev) => {
+      console.log(prev.filter((i) => i.id !== id));
+      return prev.filter((i) => i.id !== id);
+    });
   }
+  // console.log("watchlist-outside", watchlist);
 
   return (
-    <div className="watchcard card">
+    <div
+      className="watchcard card"
+      onAnimationEnd={() => changeWatchStatus(id)}>
       {/* 選單按鈕 */}
       <button
         ref={optionBtnRef}

@@ -3,9 +3,6 @@ import { useParams } from "react-router-dom";
 import WatchCard from "./WatchCard";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../../utils/components-styles";
-// AnimationOnScroll
-import { AnimationOnScroll } from "react-animation-on-scroll";
-import "animate.css/animate.min.css";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
   const { watchStatusTag = "unwatched" } = useParams();
