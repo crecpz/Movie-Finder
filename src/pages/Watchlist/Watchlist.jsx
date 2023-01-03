@@ -1,7 +1,8 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { capitalize } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
+import { useRef } from "react";
 
 const Watchlist = ({ setUnreadList }) => {
   // 網址參數
@@ -12,6 +13,26 @@ const Watchlist = ({ setUnreadList }) => {
     // 進入 watchlist 頁面後，將 unreadList 清空
     setUnreadList([]);
   }, []);
+
+  const statusBtnRefs = useRef([]);
+
+  useEffect(() => {
+    let animationId;
+    const handleFlashingAnimationClass = (idx) => {
+      statusBtnRefs.current[idx].classList.remove("flashing-animation");
+      animationId = window.requestAnimationFrame(() => {
+        statusBtnRefs.current[idx].classList.add("flashing-animation");
+      });
+    };
+    if (statusBtnFlashing) {
+      if (currentWatchStatus === "unwatched") {
+        handleFlashingAnimationClass(1);
+      } else {
+        handleFlashingAnimationClass(0);
+      }
+    }
+    return () => cancelAnimationFrame(animationId);
+  }, [statusBtnFlashing]);
 
   return (
     <section className="watchlist">
@@ -24,18 +45,12 @@ const Watchlist = ({ setUnreadList }) => {
                 <NavLink
                   key={index}
                   to={`/watchlist/${listType}`}
-                  className={({ isActive }) => {
-                    if (isActive || listType === currentWatchStatus) {
-                      return "watchlist__status-btn active";
-                    } else {
-                      // 根據 statusBtnFlashing 來控制按鈕閃爍(註:按鈕閃爍只會發生在非 active 的按鈕上)
-                      if (statusBtnFlashing) {
-                        return "watchlist__status-btn flashing-animation";
-                      } else {
-                        return "watchlist__status-btn";
-                      }
-                    }
-                  }}>
+                  ref={(el) => (statusBtnRefs.current[index] = el)}
+                  className={({ isActive }) =>
+                    isActive || listType === currentWatchStatus
+                      ? "watchlist__status-btn active"
+                      : "watchlist__status-btn"
+                  }>
                   {capitalize(listType)}
                 </NavLink>
               );
