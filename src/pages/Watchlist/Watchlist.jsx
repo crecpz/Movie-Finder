@@ -1,14 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { capitalize } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
+import { useRef } from "react";
 
 const Watchlist = ({ setUnreadList }) => {
-  const { watchStatusTag = "unwatched" } = useParams();
+  // 網址參數
+  const { currentWatchStatus = "unwatched" } = useParams();
+  // 設定 watchlist__status-btn 的閃爍狀態(在使用者改變觀看狀態時，閃爍按鈕)
+  const [statusBtnFlashing, setStatusBtnFlashing] = useState(false);
+  // 存放 2 個 statusBtn 的 DOM
+  const statusBtnRefs = useRef([]);
+
+  // 進入 watchlist 頁面後，將 unreadList 清空
   useEffect(() => {
-    // 進入 watchlist 頁面後，將 unreadList 清空
     setUnreadList([]);
   }, []);
+
+  useEffect(() => {
+    let animationId;
+    // 處理有關 `.flashing-animation` class 的新增
+    const handleFlashingAnimationClass = (idx) => {
+      statusBtnRefs.current[idx].classList.remove("flashing-animation");
+      animationId = window.requestAnimationFrame(() => {
+        statusBtnRefs.current[idx].classList.add("flashing-animation");
+      });
+    };
+    if (statusBtnFlashing) {
+      // 根據目前所在的頁面位置，來決定哪一個 watchlist__status-btn 要閃爍
+      if (currentWatchStatus === "unwatched") {
+        handleFlashingAnimationClass(1);
+      } else {
+        handleFlashingAnimationClass(0);
+      }
+    }
+    return () => cancelAnimationFrame(animationId);
+  }, [statusBtnFlashing, currentWatchStatus]);
 
   return (
     <section className="watchlist">
@@ -21,18 +48,22 @@ const Watchlist = ({ setUnreadList }) => {
                 <NavLink
                   key={index}
                   to={`/watchlist/${listType}`}
+                  ref={(el) => (statusBtnRefs.current[index] = el)}
                   className={({ isActive }) =>
-                    isActive || listType === watchStatusTag
+                    isActive || listType === currentWatchStatus
                       ? "watchlist__status-btn active"
                       : "watchlist__status-btn"
-                  }>
+                  }
+                  onAnimationEnd={() => {
+                    setStatusBtnFlashing(false);
+                  }}>
                   {capitalize(listType)}
                 </NavLink>
               );
             })}
           </div>
         </div>
-        <Outlet />
+        <Outlet context={[statusBtnFlashing, setStatusBtnFlashing]} />
       </div>
       {/* ScrollToTop */}
       <ScrollToTop

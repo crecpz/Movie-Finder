@@ -15,29 +15,33 @@ import Search from "./pages/Search/Search";
 import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
-  // watchlist
+  // 存放 watchlist 資料
   const [watchlist, setWatchlist] = useState(
     JSON.parse(window.localStorage.getItem("watchlist")) || []
   );
-
   // 存放新增至 watchlist 後，未讀取的電影(數量提示)
   const [unreadList, setUnreadList] = useState(
     JSON.parse(window.localStorage.getItem("unreadList")) || []
   );
 
   useEffect(() => {
-    // 更新 unreadList 至 localStorage
-    window.localStorage.setItem("unreadList", JSON.stringify(unreadList));
-  }, [unreadList]);
-
-  useEffect(() => {
-    //* 以 window.innnerHeight 作為視窗的高度，css 相關設定於 _global-style.scss body 中
+    // 以 window.innnerHeight 作為視窗的高度，css 相關設定於 _global-style.scss body 中
     function appHeight() {
       const doc = document.documentElement;
       doc.style.setProperty("--app-height", `${window.innerHeight}px`);
     }
     appHeight();
   }, []);
+
+  //* 更新 unreadList 至 localStorage
+  useEffect(() => {
+    window.localStorage.setItem("unreadList", JSON.stringify(unreadList));
+  }, [unreadList]);
+
+  //* 一旦 watchlist 改變，一併更新 localStorage
+  useEffect(() => {
+    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
 
   return (
     <div className="App">
@@ -48,7 +52,6 @@ function App() {
           <Routes>
             {/* Home */}
             <Route index path="/" element={<Home />}></Route>
-
             {/* MovieDetail */}
             <Route
               path="/movie/:id"
@@ -59,7 +62,6 @@ function App() {
                   setUnreadList={setUnreadList}
                 />
               }></Route>
-
             {/* Movies */}
             <Route path="/movies">
               <Route
@@ -82,7 +84,6 @@ function App() {
                   }></Route>
               </Route>
             </Route>
-
             {/* Watchlist */}
             <Route
               path="/watchlist"
@@ -96,7 +97,7 @@ function App() {
                   />
                 }></Route>
               <Route
-                path=":watchStatusTag"
+                path=":currentWatchStatus"
                 element={
                   <WatchCards
                     watchlist={watchlist}
@@ -104,7 +105,6 @@ function App() {
                   />
                 }></Route>
             </Route>
-
             {/* 搜尋頁面 */}
             <Route
               path="/search"
@@ -115,7 +115,6 @@ function App() {
                   setUnreadList={setUnreadList}
                 />
               }></Route>
-
             {/* NotFound */}
             <Route path="/notfound" element={<NotFound />}></Route>
             <Route
