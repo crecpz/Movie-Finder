@@ -30,6 +30,7 @@
     }
     // status-btn 的 active 狀態
     &.active {
+      animation: none ;
       background-color: map-get($color, tertiary);
     }
     // 閃爍
