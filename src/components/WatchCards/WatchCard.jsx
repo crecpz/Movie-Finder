@@ -21,9 +21,7 @@ const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
       }
     };
     window.addEventListener("click", handleWindowClick);
-    return () => {
-      window.removeEventListener("click", handleWindowClick);
-    };
+    return () => window.removeEventListener("click", handleWindowClick);
   }, []);
 
   //* 處理 watchcard option 點擊後行為
@@ -32,16 +30,12 @@ const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
     setOptionIsOpen((prev) => !prev);
   }
 
-  //* 切換觀看狀態
+  // //* 切換觀看狀態
   function changeWatchStatus(e, id) {
     // 將 watchcard 新增動畫
     e.target.closest(".watchcard").classList.add("removing-animation");
     // 將 watchlist__status-btn 新增閃爍動畫
     setStatusBtnFlashing(true);
-    // 於指定時間到後，恢復 statusBtnFlashing false
-    setTimeout(() => {
-      setStatusBtnFlashing(false);
-    }, 1200);
     // 於指定時間到後，改變觀看狀態(註：300ms 為 `removing-animation` class 的 animation-duration)
     setTimeout(() => {
       setWatchlist((prev) => {
@@ -59,10 +53,11 @@ const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
     }, 300);
   }
 
-  //* 刪除 watchcard
+  // //* 刪除 watchcard
   function removeWatchcard(e, id) {
     // 將 watchcard 新增動畫
     e.target.closest(".watchcard").classList.add("removing-animation");
+
     // 於指定時間到後，刪除 watchcard 資料(註：300ms 為 `removing-animation` class 的 animation-duration)
     setTimeout(() => {
       setWatchlist((prev) => {

@@ -11,8 +11,9 @@ const Watchlist = ({ setUnreadList }) => {
   const [statusBtnFlashing, setStatusBtnFlashing] = useState(false);
   // 存放 2 個 statusBtn 的 DOM
   const statusBtnRefs = useRef([]);
+
+  // 進入 watchlist 頁面後，將 unreadList 清空
   useEffect(() => {
-    // 進入 watchlist 頁面後，將 unreadList 清空
     setUnreadList([]);
   }, []);
 
@@ -34,7 +35,7 @@ const Watchlist = ({ setUnreadList }) => {
       }
     }
     return () => cancelAnimationFrame(animationId);
-  }, [statusBtnFlashing]);
+  }, [statusBtnFlashing, currentWatchStatus]);
 
   return (
     <section className="watchlist">
@@ -52,7 +53,10 @@ const Watchlist = ({ setUnreadList }) => {
                     isActive || listType === currentWatchStatus
                       ? "watchlist__status-btn active"
                       : "watchlist__status-btn"
-                  }>
+                  }
+                  onAnimationEnd={() => {
+                    setStatusBtnFlashing(false);
+                  }}>
                   {capitalize(listType)}
                 </NavLink>
               );
