@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import {
   capitalize,
-  getFirstDayAndLastDay,
+  getFirstDayLastDay,
   getMoreData,
   getData,
 } from "../../utils/function";
@@ -32,8 +32,8 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   //* 根據目前 url :type，來決定 API_URL 為何
   switch (type) {
     case "new":
-      const firstDate = getFirstDayAndLastDay()[0];
-      const lastDate = getFirstDayAndLastDay()[1];
+      // 獲取當月第一天與最後一天
+      const { firstDate, lastDate } = getFirstDayLastDay();
       API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=e86818f56e7d92f357708ecb03052800&primary_release_date.gte=${firstDate}&primary_release_date.lte=${lastDate}&page=${pageNum}`;
       break;
     case "popular":

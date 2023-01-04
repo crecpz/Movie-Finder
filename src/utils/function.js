@@ -73,37 +73,41 @@ export function changeWatchlist(id, inWatchlist, setWatchlist, setUnreadList) {
 }
 
 /**
- * * 防止獲取到重複項目(資料庫內有發現重複項目)
- * @param {*} `arr` 接收一個陣列作為參數，在該陣列中檢查是否有重複項目
- * @param {*} `key` 要檢查的鍵
+ * * 防止在取得的資料中出現重複項目，若有重複項目，保留舊項目
+ * @param {*} `arr` 獲取到的資料陣列
+ * @param {*} `key` 根據 key 對應的 value 來檢查是否重複
  * @returns 返回去除重複後的結果(Array)
  */
 export function removeDuplicate(arr, key) {
   return arr.reduce((acc, cur) => {
-    if (acc.every((i) => i[key] !== cur[key])) {
+    if (acc.every((item) => item[key] !== cur[key])) {
       acc.push(cur);
     }
     return acc;
   }, []);
 }
 
+
 /**
  * * 取得當月首日~當月最後一天的日期
- * @returns
+ * @returns 返回一個有 firstDate, lastDate key 的物件
  */
-export function getFirstDayAndLastDay() {
+export function getFirstDayLastDay() {
   const now = new Date();
-  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
-  return [firstDayOfMonth, lastDayOfMonth].map((date) =>
-    date
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const format = (dateObj) => {
+    return dateObj
       .toLocaleString()
       .split(" ")[0]
       .split("/")
       .map((str) => (Number(str) < 10 ? "0" + str : str))
-      .join("-")
-  );
+      .join("-");
+  };
+  return {
+    firstDate: format(firstDay),
+    lastDate: format(lastDay),
+  };
 }
 
 /**\

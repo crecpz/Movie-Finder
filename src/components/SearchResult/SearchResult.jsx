@@ -18,7 +18,7 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
 
   useEffect(() => {
     let subscribed = true;
-    // 獲取電影更多細節，並存至 currentMovie
+    // 獲取此電影的更多細節，並存至 currentMovie
     if (subscribed) getData(DETAIL_URL, setCurrentMovie);
     return () => {
       subscribed = false;
@@ -74,20 +74,22 @@ const SearchResult = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
           )}
         </div>
         {/* 類別標籤 */}
-        <div className="search-result__genres-tags genres-tags">
-          {currentMovie && currentMovie.genres
-            ? removeDuplicate(currentMovie.genres, "id").map((genres) => {
-                return (
-                  <Link
-                    key={genres.id}
-                    to={`/movies/genres/${genres.id}`}
-                    className="search-result__genres-tag genres-tag">
-                    {genres.name}
-                  </Link>
-                );
-              })
-            : ""}
-        </div>
+        {currentMovie && currentMovie.genres && currentMovie.genres.length ? (
+          <div className="search-result__genres-tags genres-tags">
+            {removeDuplicate(currentMovie.genres, "id").map((genres) => {
+              return (
+                <Link
+                  key={genres.id}
+                  to={`/movies/genres/${genres.id}`}
+                  className="search-result__genres-tag genres-tag">
+                  {genres.name}
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          ""
+        )}
         {/* add watlist 按鈕 */}
         <button
           className={`search-result__btn btn btn--sm btn--transparent ${

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { capitalize } from "../../utils/function";
 import ScrollToTop from "react-scroll-to-top";
-import { useRef } from "react";
 
 const Watchlist = ({ setUnreadList }) => {
   // 網址參數
