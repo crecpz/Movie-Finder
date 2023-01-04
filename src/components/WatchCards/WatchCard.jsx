@@ -1,54 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { noPoster } from "../../utils/function";
+import { useOutletContext } from "react-router-dom";
 
-const WatchCard = ({
-  id,
-  poster_path,
-  original_title,
-  watchlist,
-  setWatchlist,
-}) => {
-  // 確認目前位於 Unwatched 還是 Watched
-  const { watchStatusTag = "unwatched" } = useParams();
+const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
+  // 網址參數(用於確認目前位於 Unwatched 還是 Watched
+  const { currentWatchStatus = "unwatched" } = useParams();
   // watchcards 選項的開啟狀態
   const [optionIsOpen, setOptionIsOpen] = useState(false);
   // watchcards optionBtnRef
   const optionBtnRef = useRef();
+  // 設定 watchlist__status-btn 的閃爍狀態(來自 Watchlist.jsx 的 <Outlet /> context)
+  const [statusBtnFlashing, setStatusBtnFlashing] = useOutletContext();
 
+  //* 點擊任何處關閉 watchcard option
   useEffect(() => {
-    //* 一旦 watchlist 改變，將新的資料存進 localStorage
-    window.localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
-
-  useEffect(() => {
-    //* 點擊任何處關閉 watchcard option
     const handleWindowClick = (e) => {
       if (e.target !== optionBtnRef.current) {
         setOptionIsOpen(false);
       }
     };
     window.addEventListener("click", handleWindowClick);
-    return () => {
-      window.removeEventListener("click", handleWindowClick);
-    };
+    return () => window.removeEventListener("click", handleWindowClick);
   }, []);
-
-  //* 切換觀看狀態 (Unwatched <---> Watched)
-  function changeStatus(id) {
-    setWatchlist((prev) => {
-      return prev.map((movie) => {
-        if (movie.id === id) {
-          return {
-            ...movie,
-            status: movie.status === "unwatched" ? "watched" : "unwatched",
-          };
-        } else {
-          return movie;
-        }
-      });
-    });
-  }
 
   //* 處理 watchcard option 點擊後行為
   function handleOptionBtnClick() {
@@ -56,9 +30,40 @@ const WatchCard = ({
     setOptionIsOpen((prev) => !prev);
   }
 
-  //* 刪除 watchcard
-  function removeWatchcard(id) {
-    setWatchlist((prev) => prev.filter((i) => i.id !== id));
+  // //* 切換觀看狀態
+  function changeWatchStatus(e, id) {
+    // 將 watchcard 新增動畫
+    e.target.closest(".watchcard").classList.add("removing-animation");
+    // 將 watchlist__status-btn 新增閃爍動畫
+    setStatusBtnFlashing(true);
+    // 於指定時間到後，改變觀看狀態(註：300ms 為 `removing-animation` class 的 animation-duration)
+    setTimeout(() => {
+      setWatchlist((prev) => {
+        return prev.map((movie) => {
+          if (movie.id === id) {
+            return {
+              ...movie,
+              status: movie.status === "unwatched" ? "watched" : "unwatched",
+            };
+          } else {
+            return movie;
+          }
+        });
+      });
+    }, 300);
+  }
+
+  // //* 刪除 watchcard
+  function removeWatchcard(e, id) {
+    // 將 watchcard 新增動畫
+    e.target.closest(".watchcard").classList.add("removing-animation");
+
+    // 於指定時間到後，刪除 watchcard 資料(註：300ms 為 `removing-animation` class 的 animation-duration)
+    setTimeout(() => {
+      setWatchlist((prev) => {
+        return prev.filter((i) => i.id !== id);
+      });
+    }, 300);
   }
 
   return (
@@ -76,27 +81,26 @@ const WatchCard = ({
       </button>
       {/* 三個按鈕 */}
       <div className="watchcard__btns">
-        {/* 按鈕 - 觀看狀態切換 */}
+        {/* 按鈕-觀看狀態切換 */}
         <button
           className="btn btn-transparent watchcard__btn"
-          onClick={() => changeStatus(id)}>
-          {watchStatusTag === "unwatched" ? (
+          onClick={(e) => changeWatchStatus(e, id)}>
+          {currentWatchStatus === "unwatched" ? (
             <i className="fa-regular fa-eye"></i>
           ) : (
             <i className="fa-solid fa-eye-slash"></i>
           )}
-          {/* {`${watchStatusTag === "unwatched" ? "Watched" : "Unwatched"}`} */}
         </button>
-        {/* 按鈕 - 更多資訊 */}
+        {/* 按鈕-更多資訊 */}
         <Link
           to={`/movie/${id}`}
           className="btn btn-transparent watchcard__btn">
           <i className="fa-solid fa-info"></i>
         </Link>
-        {/* 按鈕 - 自 watchlist 移除 */}
+        {/* 按鈕-自 watchlist 移除 */}
         <button
           className="btn btn-transparent watchcard__btn"
-          onClick={() => removeWatchcard(id)}>
+          onClick={(e) => removeWatchcard(e, id)}>
           <i className="fa-regular fa-trash-can"></i>
         </button>
       </div>

@@ -2,17 +2,4 @@
 
 .movies {
   @include main-layout;
-  // visibility: hidden;
-  // opacity: 0;
-  // transition: map-get($transition, 1000);
-  // transition-property: visibility, opacity;
-  // animation: fade-in map-get($transition, 1000) forwards;
-
-  &.fade-in {
-    // visibility: visible;
-    // opacity: 1;
-    // animation: fade-in map-get($transition, 1000) forwards;
-    animation: fade-in map-get($transition, 1000) forwards alternate ;
-    // animation: fade-in 3000ms forwards;
-  }
 }

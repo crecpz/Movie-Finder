@@ -3,12 +3,10 @@ import { useParams } from "react-router-dom";
 import WatchCard from "./WatchCard";
 import PulseLoader from "react-spinners/PulseLoader";
 import { spinnerStyle } from "../../utils/components-styles";
-// AnimationOnScroll
-import { AnimationOnScroll } from "react-animation-on-scroll";
-import "animate.css/animate.min.css";
 
 const WatchCards = ({ watchlist, setWatchlist }) => {
-  const { watchStatusTag = "unwatched" } = useParams();
+  // 網址參數
+  const { currentWatchStatus = "unwatched" } = useParams();
   // 利用 watchlist 內的資料來 fetch，將 fetch 到的資料存放到 watchcards 中
   const [watchcards, setWatchcards] = useState([]);
 
@@ -52,12 +50,12 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
 
   //* 根據目前所在的位置(Unwatched or Watched)來決定 currentList 內容
   const currentList = watchcards.filter(
-    ({ status }) => status === watchStatusTag
+    ({ status }) => status === currentWatchStatus
   );
 
   return (
     <div className="watchcards cards">
-      {watchlist.some(({ status }) => status === watchStatusTag) ? (
+      {watchlist.some(({ status }) => status === currentWatchStatus) ? (
         currentList.length ? (
           currentList.map(({ id, poster_path, original_title }) => {
             return (

@@ -30,7 +30,12 @@
     }
     // status-btn 的 active 狀態
     &.active {
+      animation: none ;
       background-color: map-get($color, tertiary);
+    }
+    // 閃爍
+    &.flashing-animation {
+      animation: flashing map-get($transition, 1200);
     }
     // 最後一個 status-btn
     &:last-child {

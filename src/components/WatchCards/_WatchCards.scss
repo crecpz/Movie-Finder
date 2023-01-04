@@ -39,6 +39,10 @@ $watchcards-gap-amount: (
       $line-gap: 0.1875rem,
       $line-color: map-get($color, secondary)
    );
+   //* 移除卡片動畫
+   &.removing-animation {
+      animation: scale-down map-get($transition, 300) forwards;
+   }
    //* watchcard__option-btn
    &__option-btn {
       @include text(base);
