@@ -94,10 +94,11 @@
   //* movie-detail__poster(電影海報 <picture> tag)
   &__poster {
     @include slow-show(1);
+    flex: 1 0 auto;
     // img tag
     &-img {
       width: 100%;
-      max-width: 18.75rem;
+      max-width: 15.625rem;
       border-radius: map-get($border-radius, base);
       box-shadow: map-get($box-shadow, base);
       @include md {
@@ -110,12 +111,13 @@
   &__texts {
     @include flex($dir: column, $jc: center);
     @include slow-show(5);
+    flex: 1 1 100%;
     row-gap: 1rem;
     margin-left: 4rem;
     width: 100%;
-    max-width: 56.25rem;
-    height: 100%;
+    max-width: 46.875rem;
     @include lg {
+      max-width: none;
       margin-left: 0rem;
       margin-top: 3rem;
     }
@@ -153,11 +155,15 @@
   //* 按鈕容器 (Watch Video & Add Watchlist)
   &__btns {
     @include flex;
+    column-gap: 1.75rem;
     @include lg {
       order: 4;
+      column-gap: 1rem;
     }
     @include sm {
       margin-top: 1rem;
+      column-gap: 0;
+      row-gap: 1rem;
       flex-direction: column;
     }
   }
@@ -167,17 +173,6 @@
     align-self: flex-start;
     @include sm {
       width: 100%;
-    }
-    // 除了第一個 btn
-    &:not(:first-child) {
-      margin-left: 2.5rem;
-      @include lg {
-        margin-left: 1rem;
-      }
-      @include sm {
-        margin-left: 0;
-        margin-top: 1rem;
-      }
     }
     //@ 統一設定 Add Watchlist 的 icon 大小(因為打勾與加號的 icon 大小不一)
     i {

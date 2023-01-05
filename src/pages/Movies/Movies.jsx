@@ -12,7 +12,7 @@ import {
 import ScrollToTop from "react-scroll-to-top";
 import GenresSwiper from "../../components/GenresSwiper/GenresSwiper";
 import MoviesCard from "../../components/MoviesCard/MoviesCard";
-import genresIconsData from "../../utils/genresIconsData";
+import genresData from "../../utils/genresData";
 
 const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   const navigate = useNavigate();
@@ -60,13 +60,11 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
     // 換頁後滾動到頂部
     window.scrollTo(0, 0);
     // 獲取初始資料(前 20 項)
-    if (subscribed) getData(API_URL, setMovies);
-    return () => {
-      subscribed = false;
-    };
+    if (subscribed && pageNum === 1) getData(API_URL, setMovies);
+    return () => (subscribed = false);
   }, [type, genresId]);
 
-  //* 當指定的 Ref 進入畫面中將 pageNum + 1
+  //* 當 `loadMore` Ref 進入畫面中，將 pageNum + 1
   useEffect(() => {
     if (isIntersecting) setPageNum((prev) => prev + 1);
   }, [isIntersecting]);
@@ -74,15 +72,24 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   //* 偵測 pageNum 變化
   useEffect(() => {
     let subscribed = true;
-    if (subscribed && pageNum > 1) getMoreData(API_URL, setMovies);
-    return () => {
-      subscribed = false;
-    };
+
+    if (subscribed) {
+      if (pageNum === 1) {
+        getData(API_URL, setMovies);
+      } else if (pageNum > 1) {
+        getMoreData(API_URL, setMovies);
+      }
+    }
+    return () => (subscribed = false);
   }, [pageNum]);
 
   //* 如果當前所在的頁面為 "genres"，且在 genresIconsData.js 找不到相對應的 genres id:
   useEffect(() => {
-    if (type === "genres" && genresId && !genresIconsData[genresId]) {
+    if (
+      type === "genres" &&
+      genresId &&
+      !genresData.find(({ id }) => genresId === id)
+    ) {
       // 代表不存在此頁，跳轉到 notfound 頁面
       navigate("/notfound", { replace: true });
     }
@@ -118,7 +125,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
         </div>
         {/* load more spinner */}
         {movies.results &&
-          movies.results.length !== 0 &&
+          movies.results.length >= 20 &&
           pageNum < movies.total_pages && (
             <div ref={loadMore} className="spinner spinner--full-screen">
               <PulseLoader color="#fff" cssOverride={spinnerStyle} />

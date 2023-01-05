@@ -7,67 +7,43 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 // import required modules
 import { Scrollbar } from "swiper";
-import { getData } from "../../utils/function";
-import genresIconsData from "../../utils/genresIconsData";
 import { NavLink, useParams } from "react-router-dom";
+import genresData from "../../utils/genresData";
 
 const GenresSwiper = () => {
-  // 取得類別 id 與對應的名稱
-  const GENRES_URL =
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=e86818f56e7d92f357708ecb03052800";
   // 存放類別資料(TMDB 提供的 19 個類別)
-  const [genresData, setGenresData] = useState([]);
+  const [genres, setGenres] = useState(genresData);
   // 取得 url params
-  const { genresId } = useParams();
+  const { genresId = "28" } = useParams();
   // swiper Ref
   const swiperRef = useRef(null);
 
+  //* 若使用者是從其他頁面點擊 genres tag 的方式連結進此頁，則將對應的 genres icon 滾動到正確的位置
   useEffect(() => {
-    let subscribed = true;
-    // 取得類別資料
-    if (subscribed) getData(GENRES_URL, setGenresData);
-    return () => {
-      subscribed = false;
-    };
-  }, []);
-
-  //* 從其他頁面的 <Link> 連結進此頁後，將 swiper 滾動到正確的位置
-  useEffect(() => {
-    // 如果目前存在來自 useParams() 所獲得的 genresId，且目前 genresData 內已有資料:
-    if (genresId && genresData.genres) {
-      // 找出目前 slide 所在的 index
-      const currentSlide = genresData.genres.findIndex(({ id }) => {
-        return String(id) === genresId;
-      });
-      // 移動到指定的位置
-      swiperRef.current.swiper.slideTo(currentSlide);
-    }
-  }, [genresData]);
+    // 找出目前 slide 所在的 index
+    const currentSlide = genres.findIndex(({ id }) => String(id) === genresId);
+    // 使用 swiper 提供的方法，將 slide 移動到指定的位置
+    swiperRef.current.swiper.slideTo(currentSlide);
+  }, [genres]);
 
   //* slideElements
-  const slideElements = genresData.genres
-    ? genresData.genres.map((genres) => {
-        return (
-          <SwiperSlide key={genres.id}>
-            <NavLink
-              to={`${genres ? genres.id : ""}`}
-              className={({ isActive }) =>
-                isActive || (genresId === undefined && genres.id === 28)
-                  ? "slide-link active"
-                  : "slide-link"
-              }>
-              <i
-                className={`slide-link__icon ${
-                  genresIconsData[genres.id]
-                }`}></i>
-              <span className="slide-link__name">{`${
-                genres.name === "Science Fiction" ? "Sci-Fi" : genres.name
-              }`}</span>
-            </NavLink>
-          </SwiperSlide>
-        );
-      })
-    : "";
+  const slideElements = genres.map(({ id, name, icon }) => {
+    return (
+      <SwiperSlide key={id}>
+        <NavLink
+          to={id}
+          className={({ isActive }) =>
+            // 註: genresId === genre.id
+            isActive || genresId === id ? "slide-link active" : "slide-link"
+          }>
+          <i className={`slide-link__icon ${icon}`}></i>
+          <span className="slide-link__name">
+            {`${name === "Science Fiction" ? "Sci-Fi" : name}`}
+          </span>
+        </NavLink>
+      </SwiperSlide>
+    );
+  });
 
   return (
     <div className="genres-swiper">
