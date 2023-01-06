@@ -45,9 +45,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
       }
     }
     // cleanup function
-    return () => {
-      subscribed = false;
-    };
+    return () => subscribed = false;
   }, [searchText]);
 
   //* 偵測目前是否為 startSearching 狀態，若為 true 則開始進行搜尋
@@ -110,7 +108,7 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
   //* autoComplete elements
   const autoCompleteItems = autoComplete.results
     ? removeDuplicate(autoComplete.results, "title")
-        .filter(({ original_title }) => original_title !== searchText)
+        .filter(({ title }) => title !== searchText)
         .slice(0, 8)
     : [];
 
@@ -192,7 +190,6 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
               <i className="fa-solid fa-circle-xmark"></i>
             </button>
           </div>
-
           {/* auto-complete */}
           <ul
             className={`auto-complete ${
@@ -213,37 +210,24 @@ const Search = ({ watchlist, setWatchlist, setUnreadList }) => {
                       </li>
                     );
                   }
-                  // 其餘選項使用使用者輸入的內容來獲取電影，並呈現該電影的「 original_title 」
+                  // 其餘選項使用使用者輸入的內容來獲取電影，並呈現該電影的「 title 」
                   return (
                     <li
                       key={result.id}
                       id={result.id}
                       className="auto-complete__item"
                       onClick={() =>
-                        handleAutoCompleteClick(
-                          result.id,
-                          result.original_title
-                        )
+                        handleAutoCompleteClick(result.id, result.title)
                       }>
                       <i className="fa-solid fa-magnifying-glass"></i>
-                      {result.original_title}
+                      {result.title}
                     </li>
                   );
                 })
               : ""}
           </ul>
         </div>
-
-        <ul className="search-results">
-          {/* ! spinner */}
-          {/* {searchResult.results && searchResult.results.length === 0 && (
-            <div className="spinner">
-              <PulseLoader color="#fff" cssOverride={spinnerStyle} />
-            </div>
-          )} */}
-
-          {searchResultElements}
-        </ul>
+        <ul className="search-results">{searchResultElements}</ul>
         {/* loadMore spinner */}
         {searchResult.results && searchResult.total_pages
           ? pageNum !== searchResult.total_pages && (

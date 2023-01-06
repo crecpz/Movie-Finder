@@ -28,7 +28,7 @@ const MoviesCard = ({ movie, inWatchlist, setWatchlist, setUnreadList }) => {
         </button>
         {/* 文字部分 */}
         <div className={`movies-card__text ${imgOnload ? "" : "hide"}`}>
-          <h3 className="movies-card__title">{movie.original_title}</h3>
+          <h3 className="movies-card__title">{movie.title}</h3>
           <div className="movies-card__info">
             {movie.release_date ? <p>{movie.release_date}</p> : ""}
             {movie.vote_average ? (

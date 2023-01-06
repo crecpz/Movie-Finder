@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useOutletContext } from "react-router-dom";
 import { noPoster } from "../../utils/function";
-import { useOutletContext } from "react-router-dom";
 
-const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
+const WatchCard = ({ id, poster_path, title, setWatchlist }) => {
   // 網址參數(用於確認目前位於 Unwatched 還是 Watched
   const { currentWatchStatus = "unwatched" } = useParams();
   // watchcards 選項的開啟狀態
@@ -53,11 +52,10 @@ const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
     }, 300);
   }
 
-  // //* 刪除 watchcard
+  //* 刪除 watchcard
   function removeWatchcard(e, id) {
     // 將 watchcard 新增動畫
     e.target.closest(".watchcard").classList.add("removing-animation");
-
     // 於指定時間到後，刪除 watchcard 資料(註：300ms 為 `removing-animation` class 的 animation-duration)
     setTimeout(() => {
       setWatchlist((prev) => {
@@ -114,7 +112,7 @@ const WatchCard = ({ id, poster_path, original_title, setWatchlist }) => {
         />
       </div>
       {/* 電影名稱 */}
-      <h3 className="watchcard__title">{original_title}</h3>
+      <h3 className="watchcard__title">{title}</h3>
     </div>
   );
 };

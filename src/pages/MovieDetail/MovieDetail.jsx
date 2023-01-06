@@ -37,7 +37,6 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
   const [inWatchlist, setInWatchlist] = useState(() =>
     watchlist.some(({ id }) => id === currentMovieId)
   );
-
   // 目前的電影的 poster 與 backdrop 是否都已經載入完畢
   const [imgIsLoaded, setImgIsLoaded] = useState(false);
   // 存放目前電影 poster 與 backdrop 載入狀態
@@ -83,11 +82,8 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
     function handleError() {
       navigate("/notfound", { replace: true });
     }
-
     // cleanup function
-    return () => {
-      subscribed = false;
-    };
+    return () => (subscribed = false);
   }, [currentMovieId, navigate]);
 
   useEffect(() => {
@@ -220,10 +216,8 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
             {/* intro 文字部分 */}
             <div className={`movie-detail__texts ${imgIsLoaded ? "show" : ""}`}>
               {/* 電影標題 */}
-              {currentMovie.original_title ? (
-                <h3 className="movie-detail__title">
-                  {currentMovie.original_title}
-                </h3>
+              {currentMovie.title ? (
+                <h3 className="movie-detail__title">{currentMovie.title}</h3>
               ) : (
                 ""
               )}
@@ -288,8 +282,7 @@ const MovieDetail = ({ watchlist, setWatchlist, setUnreadList }) => {
                 <button
                   className="movie-detail__btn btn btn--red btn--lg"
                   onClick={() => scrollDownTo(videoRef)}
-                  onTouchEnd={() => scrollDownTo(videoRef)}
-                  >
+                  onTouchEnd={() => scrollDownTo(videoRef)}>
                   <i className="fa-solid fa-play"></i>Watch Video
                 </button>
                 {/* Add Watchlist */}

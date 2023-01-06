@@ -95,8 +95,8 @@ const Home = () => {
               {/* hero__slide 文字部分 */}
               <div className="hero__slide-text">
                 {/* 電影標題 */}
-                {movie.original_title ? (
-                  <h3 className="hero__slide-title">{movie.original_title}</h3>
+                {movie.title ? (
+                  <h3 className="hero__slide-title">{movie.title}</h3>
                 ) : (
                   ""
                 )}
@@ -172,7 +172,7 @@ const Home = () => {
           {heroSlideElements}
         </Swiper>
       </section>
-
+      {/* genres list */}
       <ul className="home__genres-list">
         {HomeGenresSwiperElements}
         {genresData.genres && showSwiperAmount <= genresData.genres.length && (
@@ -181,7 +181,6 @@ const Home = () => {
           </div>
         )}
       </ul>
-
       {/* ScrollToTop */}
       <ScrollToTop
         smooth

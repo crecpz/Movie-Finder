@@ -72,7 +72,6 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
   //* 偵測 pageNum 變化
   useEffect(() => {
     let subscribed = true;
-
     if (subscribed) {
       if (pageNum === 1) {
         getData(API_URL, setMovies);
@@ -106,7 +105,7 @@ const Movies = ({ watchlist, setWatchlist, setUnreadList }) => {
           {movies.results && movies.results.length !== 0 ? (
             movies.results.map((movie) => {
               // 確保該有圖片跟標題，若不存在的就不顯示
-              return movie.poster_path && movie.original_title ? (
+              return movie.poster_path && movie.title ? (
                 <MoviesCard
                   key={movie.id}
                   movie={movie}

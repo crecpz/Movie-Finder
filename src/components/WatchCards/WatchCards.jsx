@@ -16,6 +16,7 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
     if (subscribed) {
       const getData = async () => {
         try {
+          // 從 watchlist 內每一項 item 中的 id 屬性獲取 watchlist 電影的資料，集成 Promise Array
           const results = await Promise.all(
             watchlist.map(({ id }) =>
               fetch(
@@ -23,16 +24,23 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
               )
             )
           );
+          // Promise Array 轉為 JSON 格式
           const finalData = await Promise.all(
             results.map((result) => result.json())
           );
+          // 將結果存至 watchcards state 中
           setWatchcards(
-            finalData.map(({ id, poster_path, original_title }) => {
-              const watchData = watchlist.find((i) => i.id === id);
+            // 從 finalData 提取需要的資料: id, poster_path, title
+            finalData.map(({ id, poster_path, title }) => {
+              // 在 watchlist 中尋找跟當前 map 到的 id 相符的 watchlistItem
+              const watchData = watchlist.find(
+                (watchlistItem) => watchlistItem.id === id
+              );
+              // 返回一個物件，內容包含「原有的 watchlist 資料(id, status)」 + 「上面獲取到的 poster_path, title 屬性」
               return {
                 ...watchData,
-                poster_path: poster_path,
-                original_title: original_title,
+                poster_path,
+                title,
               };
             })
           );
@@ -43,9 +51,7 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
       getData();
     }
     // cleanup function
-    return () => {
-      subscribed = false;
-    };
+    return () => (subscribed = false);
   }, [watchlist]);
 
   //* 根據目前所在的位置(Unwatched or Watched)來決定 currentList 內容
@@ -57,13 +63,13 @@ const WatchCards = ({ watchlist, setWatchlist }) => {
     <div className="watchcards cards">
       {watchlist.some(({ status }) => status === currentWatchStatus) ? (
         currentList.length ? (
-          currentList.map(({ id, poster_path, original_title }) => {
+          currentList.map(({ id, poster_path, title }) => {
             return (
               <WatchCard
                 key={id}
                 id={id}
                 poster_path={poster_path}
-                original_title={original_title}
+                title={title}
                 watchlist={watchlist}
                 setWatchlist={setWatchlist}
               />

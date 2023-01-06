@@ -10,7 +10,7 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
   //* slideElements
   const slideElements = movies.results
     ? movies.results.map((movie) => {
-        return movie.backdrop_path && movie.original_title ? (
+        return movie.backdrop_path && movie.title ? (
           <SwiperSlide key={movie.id} className="movie-slide">
             <Link to={`/movie/${movie.id}`} className="movie-slide__img-link">
               <picture>
@@ -29,7 +29,7 @@ const MovieSwiper = ({ movies, swiperBreakpoints }) => {
               <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </Link>
             <Link to={`/movie/${movie.id}`} className="movie-slide__title-link">
-              <h2 className="movie-slide__title">{movie.original_title}</h2>
+              <h2 className="movie-slide__title">{movie.title}</h2>
             </Link>
           </SwiperSlide>
         ) : (

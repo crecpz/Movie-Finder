@@ -11,6 +11,7 @@ const HomeGenresSwiper = ({ id, name, show }) => {
   // 存放特定類別的電影資料
   const [genresContent, setGenresContent] = useState([]);
 
+  // 取得資料
   useEffect(() => {
     let subscribed = true;
     if (subscribed) getData(DISCOVER_GENRES_URL, setGenresContent);
