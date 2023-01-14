@@ -22,14 +22,15 @@ const Header = ({ unreadList }) => {
     }
     //* 在 resize 將 nav 關閉
     function handleResize() {
-      setNavIsOpen((prev) => (prev ? false : prev));
+      if(window.innerWidth > 768) {
+        setNavIsOpen((prev) => (prev ? false : prev));
+      }
     }
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
 
   useEffect(() => {
     //* 當 nav 打開時禁止頁面滾動，並調整 header padding-right
@@ -43,6 +44,7 @@ const Header = ({ unreadList }) => {
     // 如果 nav 目前是開啟狀態
     if (navIsOpen) {
       body.style.overflowY = "hidden";
+      body.style.touchAction = "none";
       headerRef.current.style.paddingRight = `${
         parseInt(headerPaddingRight) + scrollBarWidth
       }px`;
@@ -52,6 +54,7 @@ const Header = ({ unreadList }) => {
       navRef.current.style.transitionProperty = "opacity, visibility";
     } else {
       body.style.overflowY = "";
+      body.style.touchAction = "";
       headerRef.current.style.paddingRight = "";
     }
     // 1000ms 後，清除 navRef 的 transition inline-style

@@ -24,6 +24,7 @@ function App() {
     JSON.parse(window.localStorage.getItem("unreadList")) || []
   );
 
+
   useEffect(() => {
     // 以 window.innnerHeight 作為視窗的高度，css 相關設定於 _global-style.scss body 中
     function appHeight() {
@@ -47,7 +48,10 @@ function App() {
     <div className="App">
       <Router>
         {/* Header */}
-        <Header watchlist={watchlist} unreadList={unreadList} />
+        <Header
+          watchlist={watchlist}
+          unreadList={unreadList}
+        />
         <main>
           <Routes>
             {/* Home */}
