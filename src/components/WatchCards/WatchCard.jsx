@@ -9,7 +9,7 @@ const WatchCard = ({ id, poster_path, title, setWatchlist }) => {
   const [optionIsOpen, setOptionIsOpen] = useState(false);
   // watchcards optionBtnRef
   const optionBtnRef = useRef();
-  // 設定 watchlist__status-btn 的閃爍狀態(來自 Watchlist.jsx 的 <Outlet /> context)
+  // 設定 watchlist__status-btn 的閃爍狀態(此為來自 Watchlist.jsx 的 <Outlet /> context)
   const [statusBtnFlashing, setStatusBtnFlashing] = useOutletContext();
 
   //* 點擊任何處關閉 watchcard option
